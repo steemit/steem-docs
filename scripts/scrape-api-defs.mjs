@@ -18,10 +18,10 @@
 // checked and reported. (Existing files only; a brand-new API namespace
 // would need a new file and is only reported.)
 //
-// TEST_NODE (honored by test-curl.mjs) deliberately does NOT apply here: this
-// script writes to the data files, so its target node must be given explicitly
-// via --node and is never inherited from the environment - an intentional
-// asymmetry between the read-only tool and the writing one.
+// TEST_NODE (honored by test-curl.mjs) deliberately does NOT apply here:
+// this script never reads it from the environment — use --node to override
+// the built-in default (https://api.steem.fans). Intentional asymmetry
+// between the read-only tool and the writing one.
 //
 // Legacy data quirk (repair shared via scripts/lib/yaml-lenient.mjs):
 // block_api.yml and condenser_api.yml each close one multi-line single-quoted
@@ -382,7 +382,9 @@ function renderEntry(name, itemIndent) {
 // self-check, moved in front of the write so a bad merge can never reach
 // disk: the merged text must (a) parse strictly (zero parseDocument errors -
 // the legacy-quote repair is already baked into the in-memory base text) and
-// (b) hold at least as many method entries as before plus the NEW ones.
+// (b) contain every NEW method by name and at least before+NEW entries, so a
+// mis-aligned text surgery that duplicated an existing entry while dropping a
+// new one cannot slip through a pure count check.
 // A failure in one file is logged and the loop moves on, so every file gets
 // checked and the summary names all failures at once.
 const mergedFiles = []; // { file, text, before, added }
@@ -451,6 +453,15 @@ for (const [api, b] of writable) {
   if (afterMethods.length < before + b.newNode.length) {
     console.error(
       `  PRE-CHECK FAILED for ${b.file}: merged YAML holds ${afterMethods.length} method(s), expected >= ${before + b.newNode.length} (${before} existing + ${b.newNode.length} new)`
+    );
+    preCheckFailures++;
+    continue;
+  }
+  const mergedNames = new Set(afterMethods.map((m) => m.api_method));
+  const missingNew = b.newNode.filter((name) => !mergedNames.has(name));
+  if (missingNew.length > 0) {
+    console.error(
+      `  PRE-CHECK FAILED for ${b.file}: new method(s) not found in merged text: ${missingNew.join(', ')}`
     );
     preCheckFailures++;
     continue;

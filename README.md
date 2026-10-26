@@ -93,5 +93,5 @@ summary table and failure list are the artifact, not a pass/fail gate: the
 YAML snapshot dates to 2020 and drift against today's nodes is expected, not
 an error. Exit code 1 means usage errors or unrecoverable YAML parse
 failures; an unknown `--api` stem only prints a warning. (`TEST_NODE` applies
-to this tool only — `scrape:api-defs` deliberately ignores it and always
-requires an explicit `--node`.)
+to this tool only — `scrape:api-defs` deliberately ignores it; use `--node`
+there, which overrides its built-in default.)
