@@ -7,15 +7,15 @@ addressable reference for every `condenser_api` and appbase JSON-RPC method.
 
 ## Commands
 
-| Command               | Description                                              |
-| --------------------- | -------------------------------------------------------- |
-| `pnpm i`              | Install dependencies                                     |
-| `pnpm dev`            | Generate docs data, then start the dev server            |
-| `pnpm build`          | Generate docs data, then build the production site       |
-| `pnpm preview`        | Preview the production build locally                     |
-| `pnpm validate:data`  | Validate the YAML API definitions                        |
-| `pnpm scrape:api-defs`| Compare the YAML API definitions against a live node     |
-| `pnpm test:curl`      | Live-test documented methods against a node              |
+| Command                | Description                                              |
+| ---------------------- | -------------------------------------------------------- |
+| `pnpm i`               | Install dependencies                                     |
+| `pnpm dev`             | Generate docs data, then start the dev server            |
+| `pnpm build`           | Generate docs data, then build the production site       |
+| `pnpm preview`         | Preview the production build locally                     |
+| `pnpm validate:data`   | Validate the YAML API definitions                        |
+| `pnpm scrape:api-defs` | Compare the YAML API definitions against a live node     |
+| `pnpm test:curl`       | Live-test documented methods against a node              |
 
 ## Data pipeline
 
@@ -49,10 +49,16 @@ pnpm scrape:api-defs -- --node https://api.steemit.com
 ```
 
 **Report-only vs `--write`:** without `--write` nothing on disk changes —
-the diff summary is the whole output. With `--write`, NEW methods are merged
+the diff summary is the whole output (exit 0 whenever the comparison
+completed — drift is informational; exit 1 on usage errors, network
+failures, or YAML parse failures). With `--write`, NEW methods are merged
 into the *existing* YAML file for their API (appended to the matching group's
-`methods`, keeping all existing fields and order untouched) and each written
-file is re-validated in-process (method count must not shrink). Two limits
+`methods`, keeping all existing fields and order untouched). The write is
+two-phase and atomic: every merged file is first validated in memory (strict
+YAML parse plus a method-count pre-check — the count must not shrink and
+every NEW method must land), and only when ALL files pass are they written,
+each via a `.tmp` file + atomic rename. Any pre-check failure aborts the
+whole run with exit 1 and leaves every file untouched. Two limits
 are deliberate:
 
 - A node namespace with **no** YAML file yet is only *reported* — new data
@@ -82,6 +88,10 @@ TEST_NODE=https://api.steem.fans pnpm test:curl -- --api condenser_api --limit 5
 ```
 
 `TEST_NODE` selects the endpoint (default `https://api.steem.fans`); `--node`
-overrides it for one run. The command always exits 0 — the summary table and
-failure list are the artifact, not a pass/fail gate: the YAML snapshot dates
-to 2020 and drift against today's nodes is expected, not an error.
+overrides it for one run. Once the report completes, the command exits 0 — the
+summary table and failure list are the artifact, not a pass/fail gate: the
+YAML snapshot dates to 2020 and drift against today's nodes is expected, not
+an error. Exit code 1 means usage errors or unrecoverable YAML parse
+failures; an unknown `--api` stem only prints a warning. (`TEST_NODE` applies
+to this tool only — `scrape:api-defs` deliberately ignores it and always
+requires an explicit `--node`.)

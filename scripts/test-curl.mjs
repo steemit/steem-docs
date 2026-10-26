@@ -13,10 +13,12 @@
 //                 invalid request, parse error): the method is not callable.
 //   HTTP_FAIL   - non-200 status, or a 200 with a non-JSON body.
 //   NETWORK_FAIL- the request never completed (DNS, refused, timeout).
-// This is a report tool: it always exits 0 and prints a summary table plus a
-// failure list; drift against the 2020-era YAML is expected and is the point.
+// This is a report tool: it prints a summary table plus a failure list; drift
+// against the 2020-era YAML is expected and is the point.
 //
-// Exit code: always 0 (the report is the artifact); 1 on usage errors only.
+// Exit code: 0 once the report completed (the report is the artifact, the
+// failure list is not a pass/fail gate); 1 on usage errors and on
+// unrecoverable YAML parse failures (no report is possible then).
 
 import { parseDocument } from 'yaml';
 import { readdirSync, readFileSync } from 'node:fs';
@@ -94,10 +96,12 @@ function loadMethods(file) {
 const files = readdirSync(DATA_DIR).filter((f) => f.endsWith('.yml')).sort();
 const entries = []; // { api_method, file, params }
 let parseFailures = 0;
+let apiMatched = false;
 
 for (const file of files) {
   const stem = file.replace(/\.yml$/, '');
   if (ONLY_API && stem !== ONLY_API) continue;
+  apiMatched = true;
   let data;
   try {
     data = loadMethods(file);
@@ -114,6 +118,15 @@ for (const file of files) {
     if (!hasCurl && !hasParams) continue; // nothing documented to exercise
     entries.push({ api_method: String(m.api_method), file, method: m });
   }
+}
+
+// Unknown --api stem: warn (probably a typo) but keep going - this stays a
+// report tool, the empty scope is reported below and the exit code stays 0.
+if (ONLY_API && !apiMatched) {
+  console.warn(
+    `test-curl: warning: unknown --api stem "${ONLY_API}" - no data/apidefinitions/${ONLY_API}.yml exists ` +
+      `(known stems: ${files.map((f) => f.replace(/\.yml$/, '')).join(', ')})`
+  );
 }
 
 if (parseFailures > 0) process.exit(1);

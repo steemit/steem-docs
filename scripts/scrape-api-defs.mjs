@@ -9,19 +9,32 @@
 //   NEW     - method exists on the node but not in the YAML data
 //   MISSING - method exists in the YAML data but not on the node
 //   SIGDIFF - both exist but the node's `args` differ from `parameter_json`
-// Pass --write to merge NEW methods back into the YAML files (existing files
-// only; a brand-new API namespace would need a new file and is only reported).
+// Pass --write to merge NEW methods back into the YAML files. The write is
+// two-phase and all-or-nothing: every merged file is first built in memory
+// and strictly validated (yaml parseDocument + method-count pre-check), and
+// only when ALL files pass are they written, each via <file>.tmp + renameSync
+// so no reader ever sees a half-written file. One file failing the pre-check
+// aborts the whole write, but never prevents the other files from being
+// checked and reported. (Existing files only; a brand-new API namespace
+// would need a new file and is only reported.)
 //
-// Legacy data quirk (mirrors scripts/validate-data.mjs): block_api.yml and
-// condenser_api.yml each close one multi-line single-quoted scalar with a
-// quote at column 1 (YAML 1.1 ok, YAML 1.2 not). The repair is applied to the
-// in-memory copy before parsing/serializing, so --write never corrupts those
-// files - the closing quote simply lands re-indented on write-back.
+// TEST_NODE (honored by test-curl.mjs) deliberately does NOT apply here: this
+// script writes to the data files, so its target node must be given explicitly
+// via --node and is never inherited from the environment - an intentional
+// asymmetry between the read-only tool and the writing one.
 //
-// Exit code: 0 on success (diffs are informational), 1 on usage/network errors.
+// Legacy data quirk (repair shared via scripts/lib/yaml-lenient.mjs):
+// block_api.yml and condenser_api.yml each close one multi-line single-quoted
+// scalar with a quote at column 1 (YAML 1.1 ok, YAML 1.2 not). The repair is
+// applied to the in-memory copy before parsing/serializing, so --write never
+// corrupts those files - the closing quote simply lands re-indented on
+// write-back.
+//
+// Exit code: 0 on success (diffs are informational); 1 on usage errors,
+// network errors, YAML parse failures, or --write pre-check/disk failures.
 
 import { parseDocument } from 'yaml';
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import process from 'node:process';
@@ -208,7 +221,6 @@ const inScope = nodeMethods.filter((m) => !apiPrefix || m.startsWith(apiPrefix))
 const yamlNames = new Set(methodToFiles.keys());
 const nodeSet = new Set(inScope);
 const newNodeNames = inScope.filter((m) => !yamlNames.has(m));
-const missingNames = [...yamlNames].filter((m) => !nodeSet.has(m));
 
 // get_signature for every method in the union (YAML-known + node-only).
 const sigTargets = [...yamlNames].filter((m) => !apiPrefix || m.startsWith(apiPrefix)).concat(newNodeNames);
@@ -349,7 +361,6 @@ if (writable.length === 0) {
 }
 
 console.log('');
-let selfCheckFailures = 0;
 const host = new URL(NODE_URL).host;
 
 /** YAML single-quoted scalar, safe for any JSON text. */
@@ -365,6 +376,17 @@ function renderEntry(name, itemIndent) {
     `${itemIndent}  expected_response_json: ${yq(JSON.stringify(sig?.ret ?? {}))}`,
   ].join('\n');
 }
+
+// Phase 1 - build every merged file in memory and pre-check it. Nothing is
+// written until ALL files pass. The pre-check is the former post-write
+// self-check, moved in front of the write so a bad merge can never reach
+// disk: the merged text must (a) parse strictly (zero parseDocument errors -
+// the legacy-quote repair is already baked into the in-memory base text) and
+// (b) hold at least as many method entries as before plus the NEW ones.
+// A failure in one file is logged and the loop moves on, so every file gets
+// checked and the summary names all failures at once.
+const mergedFiles = []; // { file, text, before, added }
+let preCheckFailures = 0;
 
 for (const [api, b] of writable) {
   const { doc, methods } = yamls.get(b.file);
@@ -385,6 +407,7 @@ for (const [api, b] of writable) {
   }
   if (targetIdx === -1) {
     console.log(`  ${b.file}: no group with a "methods" array - skipped (${b.newNode.length} new method(s) not merged)`);
+    preCheckFailures++;
     continue;
   }
 
@@ -398,6 +421,7 @@ for (const [api, b] of writable) {
   const last = seq?.items?.[seq.items.length - 1];
   if (!seq || !last || !Array.isArray(seq.range)) {
     console.log(`  ${b.file}: groups[${targetIdx}].methods is empty or unlocatable - skipped`);
+    preCheckFailures++;
     continue;
   }
   const itemLineStart = raw.lastIndexOf('\n', last.range[0] - 1) + 1;
@@ -412,30 +436,62 @@ for (const [api, b] of writable) {
   const merged =
     raw.slice(0, insertAt) + (needsLeadNl ? '\n' : '') + block + (atEof ? '\n' : '') + raw.slice(insertAt);
 
-  const before = methods.length;
-  writeFileSync(join(DATA_DIR, b.file), merged);
-  console.log(`  ${b.file}: appended ${b.newNode.length} method(s) to groups[${targetIdx}].methods`);
-
-  // Self-check: the written file must re-parse (leniently) and hold at least
-  // as many methods as before the merge.
-  const check = loadDoc(b.file);
-  if (check.error) {
-    console.error(`  SELF-CHECK FAILED for ${b.file}: ${check.error}`);
-    selfCheckFailures++;
+  // Pre-check (former post-write self-check), strictly, before any write.
+  const checkDoc = parseDocument(merged, { uniqueKeys: false });
+  if (checkDoc.errors.length > 0) {
+    const line = checkDoc.errors[0].linePos?.[0]?.line ?? '?';
+    const msg = String(checkDoc.errors[0].message).split('\n')[0];
+    console.error(`  PRE-CHECK FAILED for ${b.file}: merged YAML does not parse (line ${line}): ${msg}`);
+    preCheckFailures++;
     continue;
   }
   const afterMethods = [];
-  walkMethods(check.doc.toJS(), afterMethods);
-  if (afterMethods.length < before) {
-    console.error(`  SELF-CHECK FAILED for ${b.file}: ${afterMethods.length} methods after write, expected >= ${before}`);
-    selfCheckFailures++;
-  } else {
-    console.log(`  self-check OK: ${afterMethods.length} methods (was ${before}, +${afterMethods.length - before})`);
+  walkMethods(checkDoc.toJS(), afterMethods);
+  const before = methods.length;
+  if (afterMethods.length < before + b.newNode.length) {
+    console.error(
+      `  PRE-CHECK FAILED for ${b.file}: merged YAML holds ${afterMethods.length} method(s), expected >= ${before + b.newNode.length} (${before} existing + ${b.newNode.length} new)`
+    );
+    preCheckFailures++;
+    continue;
   }
+  console.log(`  ${b.file}: pre-check OK (${afterMethods.length} methods, was ${before}, +${b.newNode.length})`);
+  mergedFiles.push({ file: b.file, text: merged, before, added: b.newNode.length });
 }
 
-if (selfCheckFailures > 0) {
-  console.error(`\nwrite finished with ${selfCheckFailures} self-check failure(s) - inspect the files before committing.`);
+if (preCheckFailures > 0) {
+  console.error(
+    `\nwrite aborted: ${preCheckFailures} pre-check failure(s) - NOTHING was written` +
+      (mergedFiles.length > 0 ? ` (${mergedFiles.length} checked file(s) held back)` : '') +
+      '.'
+  );
+  process.exit(1);
+}
+
+// Phase 2 - all files validated: write them, each as <file>.tmp + renameSync
+// so the target path only ever appears fully-formed (rename is atomic).
+let writeFailures = 0;
+for (const { file, text, before, added } of mergedFiles) {
+  const target = join(DATA_DIR, file);
+  const tmp = `${target}.tmp`;
+  try {
+    writeFileSync(tmp, text);
+    renameSync(tmp, target);
+  } catch (e) {
+    console.error(`  WRITE FAILED for ${file}: ${e.message}`);
+    try {
+      rmSync(tmp, { force: true });
+    } catch {
+      /* best-effort cleanup */
+    }
+    writeFailures++;
+    continue;
+  }
+  console.log(`  ${file}: appended ${added} method(s) to groups[].methods (atomic write, ${before} -> ${before + added} methods)`);
+}
+
+if (writeFailures > 0) {
+  console.error(`\nwrite finished with ${writeFailures} disk-write failure(s) - inspect the files before committing.`);
   process.exit(1);
 }
 console.log('\nwrite: done. Run `pnpm validate:data` to confirm schema validity.');
