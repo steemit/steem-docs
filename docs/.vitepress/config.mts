@@ -97,6 +97,7 @@ function apiSidebar() {
 //
 //        locales: {
 //          root: {
+//            label: 'English', // required: the switcher renders nothing without it
 //            lang: 'en',
 //            themeConfig: {
 //              nav: [
