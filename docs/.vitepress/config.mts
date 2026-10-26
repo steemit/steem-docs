@@ -30,7 +30,9 @@ function apiSidebar() {
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
     return manifest.apis.map((api) => {
       const children = (api.methods ?? []).map((m) => ({
-        text: m.full,
+        // v-html surface: default theme renders sidebar text as HTML, so
+        // every text we emit must be escaped (same as the group label).
+        text: escapeHtml(m.full),
         link: `/api/${api.stem}/${m.short}`
       }))
       return {

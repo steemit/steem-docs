@@ -3,7 +3,7 @@
  * theme via docs/.vitepress/theme/index.ts).
  *
  * Sections:
- *   1. Badge chips (method/overview pages)
+ *   1. Shared palette (badge chips + code-card accents)
  *   2. Overview card grid (/api/)
  *   3. Code cards (Parameters / Response / ops params & examples)
  *   4. Table polish (method index tables)
