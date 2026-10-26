@@ -1,0 +1,238 @@
+/* -------------------------------------------------------------------------
+ * Steem Developer Docs — custom theme layer (loaded on top of the default
+ * theme via docs/.vitepress/theme/index.ts).
+ *
+ * Sections:
+ *   1. Badge chips (method/overview pages)
+ *   2. Overview card grid (/api/)
+ *   3. Code cards (Parameters / Response / ops params & examples)
+ *   4. Table polish (method index tables)
+ * ------------------------------------------------------------------------- */
+
+/* --- 1. Badge chips ------------------------------------------------------ */
+
+:root {
+  --badge-red-fg: #b91c1c;
+  --badge-red-bg: rgba(220, 38, 38, 0.12);
+  --badge-orange-fg: #b45309;
+  --badge-orange-bg: rgba(245, 158, 11, 0.16);
+  --badge-blue-fg: #1d4ed8;
+  --badge-blue-bg: rgba(59, 130, 246, 0.12);
+  --badge-purple-fg: #6d28d9;
+  --badge-purple-bg: rgba(124, 58, 237, 0.12);
+  --badge-gray-fg: var(--vp-c-text-2);
+  --badge-gray-bg: var(--vp-c-bg-soft);
+}
+
+.dark {
+  --badge-red-fg: #f87171;
+  --badge-red-bg: rgba(248, 113, 113, 0.14);
+  --badge-orange-fg: #fbbf24;
+  --badge-orange-bg: rgba(251, 191, 36, 0.14);
+  --badge-blue-fg: #93c5fd;
+  --badge-blue-bg: rgba(96, 165, 250, 0.16);
+  --badge-purple-fg: #c4b5fd;
+  --badge-purple-bg: rgba(167, 139, 250, 0.16);
+}
+
+.badge {
+  display: inline-block;
+  padding: 1px 9px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.badge-deprecated {
+  color: var(--badge-red-fg);
+  background: var(--badge-red-bg);
+}
+
+.badge-disabled {
+  color: var(--badge-orange-fg);
+  background: var(--badge-orange-bg);
+}
+
+.badge-since {
+  color: var(--badge-blue-fg);
+  background: var(--badge-blue-bg);
+}
+
+.badge-virtual {
+  color: var(--badge-purple-fg);
+  background: var(--badge-purple-bg);
+}
+
+.badge-count {
+  color: var(--vp-c-brand-1);
+  background: var(--vp-c-bg-soft);
+  border-color: var(--vp-c-divider);
+}
+
+.badge-net {
+  color: var(--badge-gray-fg);
+  background: var(--badge-gray-bg);
+  border-color: var(--vp-c-divider);
+  /* Long availability details must wrap inside the content column instead of
+   * pushing a nowrap pill under the "On this page" aside. */
+  white-space: normal;
+}
+
+/* Method/op badge row emitted by the generator. */
+.api-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 0 12px;
+}
+
+/* --- 2. Overview card grid (/api/) --------------------------------------- */
+
+.api-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+  margin: 20px 0 24px;
+}
+
+.api-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px 12px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background: var(--vp-c-bg);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.api-card:hover {
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+/* Header row: name link + count badge (generator emits <p><a/> <span/></p>). */
+.api-card > p:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+.api-card > p:first-child a {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.api-card-summary {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--vp-c-text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- 3. Code cards (Parameters / Response / ops params & examples) ------- */
+
+.code-card {
+  margin: 16px 0;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.code-card-title {
+  display: flex;
+  align-items: center;
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg-soft);
+  border-left: 3px solid var(--vp-c-divider);
+  font-family: var(--vp-font-family-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--vp-c-text-2);
+}
+
+.code-card-params > .code-card-title {
+  border-left-color: #3b82f6;
+  color: var(--badge-blue-fg);
+}
+
+.code-card-response > .code-card-title {
+  border-left-color: #10b981;
+  color: #047857;
+}
+
+.dark .code-card-response > .code-card-title {
+  color: #6ee7b7;
+}
+
+.code-card-example > .code-card-title {
+  border-left-color: #f59e0b;
+  color: var(--badge-orange-fg);
+}
+
+/* Nested VitePress code block: glue it to the card shell. */
+.code-card div[class*='language-'] {
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* The card title replaces the built-in language label. */
+.code-card .lang {
+  display: none;
+}
+
+/* Navbar logo: the brand SVG ships white (for the old dark header). In light
+ * mode recolor it dark so it is visible on the default navbar. */
+html:not(.dark) .VPNavBarTitle img.logo {
+  filter: brightness(0);
+}
+
+/* --- 4. Table polish (method index tables) -------------------------------- */
+
+.vp-doc table {
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 16px 0;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.vp-doc th,
+.vp-doc td {
+  border: none;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.vp-doc thead th {
+  background: var(--vp-c-bg-soft);
+}
+
+.vp-doc tbody tr:nth-child(2n) {
+  background: var(--vp-c-bg-soft);
+}
+
+.vp-doc tbody tr {
+  transition: background-color 0.2s;
+}
+
+.vp-doc tbody tr:hover {
+  background: var(--badge-blue-bg);
+}
+
+.vp-doc tbody tr:last-child td {
+  border-bottom: none;
+}

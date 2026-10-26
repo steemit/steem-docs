@@ -203,6 +203,24 @@ const fence = (lang, content) => `\`\`\`${lang}\n${content}\n\`\`\``;
 /** Escape a value for a markdown table cell ('|' is the column separator). */
 const tableCell = (text) => String(text).replace(/\|/g, '\\|');
 
+/** Escape text for embedding as raw HTML text content (summaries, badges). */
+const escapeHtml = (text) =>
+  String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+/**
+ * Wrap a fenced block (or several) in a titled card container. Blank lines
+ * around the fence keep markdown processing active inside the raw HTML div.
+ */
+const codeCard = (title, variant, inner) =>
+  [
+    `<div class="code-card code-card-${variant}">`,
+    `<div class="code-card-title">${title}</div>`,
+    '',
+    inner,
+    '',
+    '</div>',
+  ].join('\n');
+
 /**
  * Fence language for a curl example: a few legacy entries store a bare
  * JSON-RPC body (condenser_api.get_block, database_api.find_savings_withdrawals)
@@ -225,10 +243,10 @@ function frontmatter({ title, description, outline = true }) {
 
 function badgeLine(m) {
   const parts = [];
-  if (!isMissing(m.since)) parts.push(`**since: ${String(m.since)}**`);
-  if (m.deprecated === true) parts.push('**deprecated**');
-  if (m.disabled === true) parts.push('**disabled**');
-  return parts.join(' · ');
+  if (!isMissing(m.since)) parts.push(`<span class="badge badge-since">since ${escapeHtml(String(m.since))}</span>`);
+  if (m.deprecated === true) parts.push('<span class="badge badge-deprecated">deprecated</span>');
+  if (m.disabled === true) parts.push('<span class="badge badge-disabled">disabled</span>');
+  return parts.join(' ');
 }
 
 /** testnet/mainnet availability notes (objects of { working, detail }). */
@@ -239,9 +257,12 @@ function networkLine(m) {
     if (!isObject(v)) continue;
     const state = v.working === true ? 'working' : 'not working';
     const detail = typeof v.detail === 'string' && v.detail.trim() ? ` — ${cleanLiquid(v.detail, '', '').trim()}` : '';
-    parts.push(`**${key}: ${state}${detail}**`);
+    // Inline-code leftovers from Liquid cleanup render as real <code> here.
+    const detailHtml = escapeHtml(detail)
+      .replace(/`([^`]*)`/g, '<code>$1</code>');
+    parts.push(`<span class="badge badge-net">${key}: ${state}${detailHtml}</span>`);
   }
-  return parts.join(' · ');
+  return parts.join(' ');
 }
 
 function syntheticCurl(apiMethod, parameterJson) {
@@ -281,7 +302,7 @@ function methodPage(m, file) {
   const parts = [frontmatter({ title: apiMethod, description: firstPlainLine(purpose) })];
 
   const badges = [badgeLine(m), networkLine(m)].filter(Boolean);
-  if (badges.length) parts.push(badges.join('  \n'), '');
+  if (badges.length) parts.push(`<p class="api-badges">${badges.join(' ')}</p>`, '');
 
   if (purpose.trim()) {
     parts.push('## Purpose', '', purpose.trim(), '');
@@ -289,7 +310,7 @@ function methodPage(m, file) {
 
   const params = jsonBlock(m.parameter_json);
   if (params !== null) {
-    parts.push('## Parameters', '', fence('json', params), '');
+    parts.push('## Parameters', '', codeCard('PARAMETERS', 'params', fence('json', params)), '');
   }
 
   const curlExample = Array.isArray(m.curl_examples)
@@ -300,7 +321,7 @@ function methodPage(m, file) {
 
   const response = jsonBlock(m.expected_response_json, { omitEmptyArray: true });
   if (response !== null) {
-    parts.push('## Response', '', fence('json', response), '');
+    parts.push('## Response', '', codeCard('RESPONSE', 'response', fence('json', response)), '');
   }
 
   const ecr = expectedCurlResponsesSection(m.expected_curl_responses, file, where);
@@ -349,10 +370,10 @@ function opsIndexPage(stem, displayName, description, ops, file) {
     parts.push(`## ${name}`, '');
 
     const badges = [];
-    if (op.virtual === true) badges.push('**virtual**');
+    if (op.virtual === true) badges.push('<span class="badge badge-virtual">virtual</span>');
     badges.push(badgeLine(op));
-    const badgeRow = badges.filter(Boolean).join(' · ');
-    if (badgeRow) parts.push(badgeRow, '');
+    const badgeRow = badges.filter(Boolean).join(' ');
+    if (badgeRow) parts.push(`<p class="api-badges">${badgeRow}</p>`, '');
 
     const purpose = cleanLiquid(op.purpose, file, where);
     if (typeof purpose === 'string' && purpose.trim()) parts.push(purpose.trim(), '');
@@ -368,7 +389,7 @@ function opsIndexPage(stem, displayName, description, ops, file) {
 
     const params = jsonBlock(splitFoldedList(op.params));
     if (params !== null) {
-      parts.push('**Params:**', '', fence('json', params), '');
+      parts.push(codeCard('PARAMS', 'params', fence('json', params)), '');
     }
 
     if (Array.isArray(op.json_examples)) {
@@ -378,7 +399,8 @@ function opsIndexPage(stem, displayName, description, ops, file) {
         if (pretty !== null) blocks.push(fence('json', pretty));
       }
       if (blocks.length) {
-        parts.push(...(blocks.length === 1 ? ['**Example:**', '', blocks[0], ''] : ['**Examples:**', '', blocks.join('\n\n'), '']));
+        const title = blocks.length === 1 ? 'EXAMPLE' : 'EXAMPLES';
+        parts.push(codeCard(title, 'example', blocks.join('\n\n')), '');
       }
     }
   }
@@ -394,14 +416,31 @@ function overviewPage(apis) {
     }),
     'The JSON-RPC API reference below is generated from `data/apidefinitions/*.yml`.',
     '',
-    '| API | Methods / Ops | Description |',
-    '| --- | --- | --- |',
+    '<div class="api-cards">',
+    '',
   ];
   for (const api of apis) {
-    const count = api.type === 'ops' ? `${api.opCount} ops` : String(api.methodCount);
-    parts.push(`| [${tableCell(api.displayName)}](/api/${api.stem}/) | ${tableCell(count)} | ${tableCell(api.summary)} |`);
+    const isOps = api.type === 'ops';
+    const n = isOps ? api.opCount : api.methodCount;
+    const unit = isOps ? 'op' : 'method';
+    const count = `${n} ${unit}${n === 1 ? '' : 's'}`;
+    // Summary goes into a raw single-line HTML block (escaped), so legacy text
+    // can never be re-interpreted as markdown (lists, emphasis, ...).
+    const summary = escapeHtml(api.summary ?? '');
+    // The API name stays a real markdown link so strict dead-link checking
+    // still covers every card (raw <a href> would bypass it).
+    parts.push(
+      '<div class="api-card">',
+      '',
+      `[${api.displayName}](/api/${api.stem}/) <span class="badge badge-count">${count}</span>`,
+      '',
+      `<p class="api-card-summary">${summary}</p>`,
+      '',
+      '</div>',
+      '',
+    );
   }
-  parts.push('');
+  parts.push('</div>', '');
   return parts.join('\n');
 }
 

@@ -31,6 +31,9 @@ export default defineConfig({
   base,
   head: [['link', { rel: 'icon', type: 'image/png', href: `${base}favicon.png` }]],
   themeConfig: {
+    // VitePress applies withBase() to themeConfig.logo itself — passing
+    // `${base}logo.svg` would double the prefix (/steem-docs/steem-docs/...).
+    logo: '/logo.svg',
     nav: [
       { text: 'Home', link: '/' },
       { text: 'API', link: '/api/' }
