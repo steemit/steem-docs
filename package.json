@@ -11,7 +11,9 @@
     "build": "pnpm docs:gen && vitepress build docs",
     "preview": "vitepress preview docs",
     "docs:gen": "node scripts/gen-api-docs.mjs",
-    "validate:data": "node scripts/validate-data.mjs"
+    "validate:data": "node scripts/validate-data.mjs",
+    "scrape:api-defs": "node scripts/scrape-api-defs.mjs",
+    "test:curl": "node scripts/test-curl.mjs"
   },
   "devDependencies": {
     "vitepress": "^1.6.4",

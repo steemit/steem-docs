@@ -20,6 +20,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import process from 'node:process';
+import { isObject, repairLegacyQuotesCounted, walkMethods } from './lib/yaml-lenient.mjs';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const DATA_DIR = join(ROOT, 'data/apidefinitions');
@@ -29,23 +30,6 @@ const MANIFEST_PATH = join(GEN_DIR, 'api-manifest.json');
 const LIQUID_LOG_PATH = join(GEN_DIR, 'liquid-warnings.txt');
 const API_URL = 'https://api.steem.fans';
 
-// Fields with defined meaning on a method entry (same set as the validator);
-// any other array-valued key is recursed into as a potential sub-group.
-const METHOD_FIELDS = new Set([
-  'api_method',
-  'purpose',
-  'parameter_json',
-  'expected_response_json',
-  'curl_examples',
-  'expected_curl_responses',
-  'since',
-  'disabled',
-  'deprecated',
-  'testnet',
-  'mainnet',
-]);
-
-const isObject = (v) => typeof v === 'object' && v !== null && !Array.isArray(v);
 const isMissing = (v) => v === undefined || v === null || v === '';
 
 // ---------------------------------------------------------------------------
@@ -58,38 +42,13 @@ function loadYaml(file) {
   if (doc.errors.length > 0) {
     // Legacy quirk: some files close a multi-line single-quoted scalar with a
     // quote at column 1 (YAML 1.1 ok, YAML 1.2 not). Repair in memory only.
-    const lines = raw.split('\n');
-    for (let i = 0; i < lines.length; i++) {
-      if (/^'\r?$/.test(lines[i])) {
-        let j = i - 1;
-        while (j >= 0 && lines[j].trim() === '') j--;
-        const indent = j >= 0 ? (/^[ \t]*/.exec(lines[j])?.[0] ?? '') + '  ' : '  ';
-        lines[i] = indent + lines[i];
-      }
-    }
-    doc = parseDocument(lines.join('\n'), { uniqueKeys: false });
+    const { text: repairedRaw, repaired } = repairLegacyQuotesCounted(raw);
+    if (repaired > 0) doc = parseDocument(repairedRaw, { uniqueKeys: false });
   }
   if (doc.errors.length > 0) {
     throw new Error(`${file}: unrecoverable YAML parse error: ${doc.errors[0].message}`);
   }
   return doc.toJS();
-}
-
-/** Recursively collect method entries, mirroring the validator's walk. */
-function walkMethods(node, out) {
-  if (!isObject(node)) return;
-  if (node.api_method === undefined) {
-    if (Array.isArray(node.methods)) {
-      node.methods.forEach((el) => walkMethods(el, out));
-    }
-    return;
-  }
-  out.push(node);
-  for (const [key, value] of Object.entries(node)) {
-    if (Array.isArray(value) && !METHOD_FIELDS.has(key)) {
-      value.forEach((el) => walkMethods(el, out));
-    }
-  }
 }
 
 // ---------------------------------------------------------------------------
