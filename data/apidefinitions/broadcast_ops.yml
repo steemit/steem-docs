@@ -1,0 +1,1633 @@
+- name: broadcast_ops
+  description: |
+    An operation on Steem is a way of expressing intention on the blockchain.
+    They are also known as Broadcast Operations.  They have types, like `vote`
+    or `comment`.  They pass parameters like `author` and `permlink`, depending
+    on what their purpose is.
+    
+    Operations are grouped into transactions and passed as parameters to
+    methods like `network_broadcast_api.broadcast_transaction`, in
+    the `operations` array.  Transactions must be signed in order for the
+    blockchain to accept them.  Here is an example of a transaction that
+    contains one operation (shown without signatures).
+    
+    ```json
+    {
+       "jsonrpc":"2.0",
+       "method":"condenser_api.broadcast_transaction",
+       "params":{
+          "trx":{
+             "ref_block_num":1097,
+             "ref_block_prefix":2181793527,
+             "expiration":"2016-03-24T18:00:21",
+             "operations":[
+                [
+                   "vote",
+                   {
+                      "voter":"steemit",
+                      "author":"alice",
+                      "permlink":"a-post-by-alice",
+                      "weight":10000
+                   }
+                ]
+             ],
+             "extensions":[],
+             "signatures":[]
+          }
+       },
+       "id":1
+    }
+    ```
+    
+    Also see: [Broadcast Transaction]({{ '/apidefinitions/#condenser_api.broadcast_transaction' | relative_url }})
+  ops:
+    - name: vote
+      virtual: false
+      purpose: |
+        This operation is used to cast a vote on a post/comment.  The primary
+        purpose of voting is to express Proof-of-Brain about content to the
+        blockchain.  When a vote is cast, the content is considered in the
+        consensus rules involving author and curation rewards.
+        
+        An upvote can be cast from the point in time that the content is created
+        up to 6.5 days.  The remaining 12 hours are locked out of upvotes at
+        which time only downvotes may be cast.
+        
+        A secondary aspect to voting involves reputation, which is not part of
+        consensus.
+        
+        *Reputation Rules:*
+        1. Must have non-negative reputation to effect another user's reputation.
+        2. If you are down voting another user, you must have more reputation than them to impact their reputation.
+
+        **Notes:**
+        * `voter`: must be a valid account name
+        * `author`: must be a valid account name
+        * `permlink`: must be content created by `author`
+        * `weight`: absolute value must not be more than 10000 (100.00 %).
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - voter
+          author
+          permlink
+          weight
+      json_examples:
+        - '["vote", {"voter":"steemit","author":"alice","permlink":"a-post-by-alice","weight":10000}]'
+    - name: comment
+      virtual: false
+      purpose: |
+        Creates a post/comment.
+        
+        **Parameters:**
+          - `parent_author` - the author that comment is being submitted to, when posting a new blog this is an empty string
+          - `parent_permlink` - specific post that comment is being submitted to, when posting a new blog this is an empty string
+          - `author` - author of the post/comment being submitted (account name)
+          - `permlink` - unique string identifier for the post, linked to the author of the post
+          - `title` - human readable title of the post being submitted, this is often blank when commenting
+          - `body` - body of the post/comment being submitted, or `diff-match-patch` when updating
+          - `json_metadata` - JSON object string
+        
+        **Rules:**
+          - The "title" must not be longer than 256 bytes
+          - The "title" must be UTF-8
+          - The "body" must be larger than 0 bytes
+          - The "body" much also be UTF-8
+        
+        **Additional Parameter Definitions:**
+          - `permlink` - Two authors may have the same permlink as it's unique to the author only. For example, there could be two authors, alice and bob, and both could have a permlink of `firstpost`
+          - `json_metadata` - There is no blockchain enforced validation on `json_metadata`, but the community has adopted a particular structure.  It should contain a JSON object with the following keys:
+            - `tags` - An array of up to 5 strings. Although the blockchain will accept more than 5, the tags plugin only looks at the first five
+            - `app` - A user agent style application identifier. Typically `app_name/version`, e.g. `steemit/0.1`
+            - `format` - The format of the body, e.g. markdown
+            - In addition to the above keys, application developers are free to add any other keys they want to help manage the content they broadcast.
+        
+        A typical `comment` operation would look similar to the below:
+        
+        ```json
+        {
+          "author": "Joe",
+          "title": "A post by Joe",
+          "body": "Look at my awesome post",
+          "parent_author": "",
+          "parent_permlink": "steem",
+          "permlink": "a-post-by-joe",
+          "json_metadata": "{\"tags\":[\"steemit\",\"example\",\"tags\"]}"
+        }
+        ```
+        
+        #### Create vs. Update
+        
+        When a comment is first broadcast, the `permlink` must be unique for the `author`.  Otherwise, it is interpreted as an update operation. Updating will either replace the entire body with the latest operation or patch the body if using [`diff-match-patch`](https://github.com/google/diff-match-patch).
+      
+        For example, if we have a paragraph that has already been broadcast:
+          
+        > "It's been quite a lot of fun working with these wonderful folk at Steemit, Inc"
+      
+        And we want to change it to:
+          
+        > "It's been quite a lot of fun working with these wonderful people at Steemit, Inc"
+      
+        We can broadcast the `comment` operation with the following `body`:
+          
+        ```diff
+        - "@@ -406,12 +406,14 @@"
+        - ful
+        - -folk
+        - +people
+        - at
+        ```
+        
+        The blockchain will know that this means we have changed the word 'folk' to 'people' within that paragraph so when fetching this content, this diff will be applied.
+        
+        In addition to body, the `title` and `json_metadata` fields will also be replaced by the latest operation.
+        
+        See: [`comment_options`]({{ '/apidefinitions/#broadcast_ops_comment_options' | relative_url }}), [`vote`]({{ '/apidefinitions/#broadcast_ops_vote' | relative_url }}), [`custom_json`]({{ '/apidefinitions/#broadcast_ops_custom_json' | relative_url }})
+        
+        It should also be noted that a `vote` operation can accompany a `comment` and `comment_options` in the same transaction when the author self votes.
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - parent_author
+          parent_permlink
+          author
+          permlink
+          title
+          body
+          json_metadata
+      json_examples:
+        - '["comment",{"parent_author":"","parent_permlink":"steem","author":"alice","permlink":"a-post-by-alice","title":"A Post By Alice","body":"This is my post.","json_metadata":"{\"tags\":[\"steemit\",\"example\",\"tags\"]}"}]'
+    - name: transfer
+      virtual: false
+      purpose: |
+        Transfers asset from one account to another.  The memo is plain-text,
+        any encryption on the memo is up to a higher level protocol.
+        
+        **Notes:**
+        * Transferring of Steem Power (VESTS) is not allowed.
+        * Cannot transfer a negative amount (aka: stealing).
+        * Memo must be less than 2048 bytes.
+        * Memo must be UTF-8.
+      roles:
+        - active
+          owner
+      params:
+        - from
+          to
+          amount
+          memo
+      json_examples:
+        - '["transfer",{"from":"steemit","to":"alice","amount":{"amount":"10","precision":3,"nai":"@@000000021"},"memo":"Thanks for all the fish."}]'
+    - name: transfer_to_vesting
+      virtual: false
+      purpose: |
+        This operation converts STEEM into VFS (Vesting Fund Shares) at the
+        current exchange rate. With this operation it is possible to give
+        another account vesting shares so that faucets can pre-fund new accounts
+        with vesting shares.
+        
+        **Notes:**
+        * Amount must be in STEEM.
+        * Must transfer a nonzero amount.
+      roles:
+        - active
+          owner
+      params:
+        - from
+          to
+          amount
+      json_examples:
+        - '["transfer_to_vesting",{"from":"alice","to":"","amount":{"amount":"357000","precision":3,"nai":"@@000000021"}}]'
+    - name: withdraw_vesting
+      virtual: false
+      purpose: |
+        At any given point in time an account can be withdrawing from their
+        vesting shares. A user may change the number of shares they wish to
+        cash out at any time between 0 and their total vesting stake.
+        
+        After applying this operation, vesting_shares will be withdrawn
+        at a rate of vesting_shares/13 per week for 13 weeks starting
+        one week after this operation is included in the blockchain.
+        
+        This operation is not valid if the user has no vesting shares.
+        
+        **Notes:**
+        * Amount must be VESTS.
+      roles:
+        - active
+          owner
+      params:
+        - account
+          vesting_shares
+      json_examples:
+        - '["withdraw_vesting",{"account":"steemit","vesting_shares":{"amount":"200000000000","precision":6,"nai":"@@000000037"}}]'
+    - name: limit_order_create
+      virtual: false
+      purpose: |
+        This operation creates a limit order and matches it against existing
+        open orders. The maximum expiration time for any limit order is 28 days from `head_block_time()`.
+      roles:
+        - active
+          owner
+      params:
+        - owner
+          orderid
+          amount_to_sell
+          min_to_receive
+          fill_or_kill
+          expiration
+      json_examples:
+        - '["limit_order_create",{"owner":"steemit","orderid":10,"amount_to_sell":{"amount":"9950","precision":3,"nai":"@@000000021"},"min_to_receive":{"amount":"3500","precision":3,"nai":"@@000000013"},"fill_or_kill":false,"expiration":"2035-10-29T06:32:22"}]'
+    - name: limit_order_cancel
+      virtual: false
+      purpose: |
+        Cancels an order and returns the balance to owner.
+      roles:
+        - active
+          owner
+      params:
+        - owner
+          orderid
+      json_examples:
+        - '["limit_order_cancel",{"owner":"steemit","orderid":10}]'
+    - name: price
+      virtual: false
+      purpose:
+      roles:
+        - active
+          owner
+      params:
+        - base
+          quote
+    - name: feed_publish
+      virtual: false
+      purpose: |
+        Feeds can only be published by the top N witnesses which are included in
+        every round and are used to define the exchange rate between steem and
+        the dollar.
+      roles:
+        - active
+          owner
+      params:
+        - publisher
+          exchange_rate
+      json_examples:
+        - '["feed_publish",{"publisher":"alice","exchange_rate":{"base":{"amount":"1000","precision":3,"nai":"@@000000013"},"quote":{"amount":"1000000","precision":3,"nai":"@@000000021"}}}]'
+    - name: convert
+      virtual: false
+      purpose: |
+        This operation instructs the blockchain to start a conversion between
+        STEEM and SBD, the funds are deposited after 3.5 days.
+      roles:
+        - active
+          owner
+      params:
+        - owner
+          requestid
+          amount
+      json_examples:
+        - '["convert",{"owner":"steemit","requestid":1467592156,"amount":{"amount":"5000","precision":3,"nai":"@@000000013"}}]'
+    - name: account_create
+      virtual: false
+      purpose:
+      roles:
+        - active
+          owner
+      params:
+        - fee
+          creator
+          new_account_name
+          owner
+          active
+          posting
+          memo_key
+          json_metadata
+      json_examples:
+        - '["account_create",{"fee":{"amount":"0","precision":3,"nai":"@@000000021"},"creator":"steemit","new_account_name":"alice","owner":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM5b4i9gBqvh4sbgrooXPu2dbGLewNPZkXeuNeBjyiswnu2szgXx",1]]},"active":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM7ko5nzqaYfjbD4tKWGmiy3xtT9eQFZ3Pcmq5JmygTRptWSiVQy",1]]},"posting":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM5xAKxnMT2y9VoVJdF63K8xRQAohsiQy9bA33aHeyMB5vgkzaay",1]]},"memo_key":"STM8ZSyzjPm48GmUuMSRufkVYkwYbZzbxeMysAVp7KFQwbTf98TcG","json_metadata":"{}"}]'
+    - name: create_claimed_account
+      since: HF20
+      virtual: false
+      purpose: |
+        When used with `claim_account`, works identically to `account_create`.  See: [Steem 0.20.2 Release Notes](https://github.com/steemit/steem/releases/tag/v0.20.2)
+      roles:
+        - active
+          owner
+      params:
+        - creator
+          new_account_name
+          owner
+          active
+          posting
+          memo_key
+          json_metadata
+      json_examples:
+        - '["create_claimed_account",{"creator":"steemit","new_account_name":"alice","owner":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM5b4i9gBqvh4sbgrooXPu2dbGLewNPZkXeuNeBjyiswnu2szgXx",1]]},"active":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM7ko5nzqaYfjbD4tKWGmiy3xtT9eQFZ3Pcmq5JmygTRptWSiVQy",1]]},"posting":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM5xAKxnMT2y9VoVJdF63K8xRQAohsiQy9bA33aHeyMB5vgkzaay",1]]},"memo_key":"STM8ZSyzjPm48GmUuMSRufkVYkwYbZzbxeMysAVp7KFQwbTf98TcG","json_metadata":"{}"}]'
+    - name: claim_account
+      since: HF20
+      virtual: false
+      purpose: |
+        When used with `create_claimed_account`, works identically to `account_create`.  See: [Steem 0.20.2 Release Notes](https://github.com/steemit/steem/releases/tag/v0.20.2)
+      roles:
+        - active
+          owner
+      params:
+        - fee
+          creator
+          extensions
+      json_examples:
+        - '["claim_account",{"fee":{"amount":"0","precision":3,"nai":"@@000000021"},"creator":"steemit","extensions":[]}]'
+    - name: witness_set_properties
+      since: HF20
+      virtual: false
+      purpose: |
+        Added in HF20 to replace the `witness_update` which was not easily extendable.  While it is recommended to use `witness_set_properties`, `witness_update` will continue to work.  See: [Witness Parameters](https://github.com/steemit/steem/blob/master/doc/witness_parameters.md)
+      roles:
+        - block_signing
+          active
+          owner
+      params:
+        - owner
+          props
+          extensions
+      json_examples:
+        - '["witness_set_properties",{"owner":"alice", "props":{"account_creation_fee":"0.000 STEEM","account_subsidy_budget":10000,"account_subsidy_decay":330782,"maximum_block_size":65536,"sbd_interest_rate": "0.000 STEEM","sbd_exchange_rate":{"base": "0.000 SBD", "quote": "0.000 STEEM"}, "url": "68747470733A2F2F737465656D69742E636F6D", "new_signing_key": "25688bbe7b1204f26e40be054c8b2ff1997eec6d4e7be6a105aab8a0e6f11c616d7cb6066"}, "extensions": []}]'
+    - name: account_update
+      virtual: false
+      purpose:
+      roles:
+        - active
+          owner
+      params:
+        - account
+          owner
+          active
+          posting
+          memo_key
+          json_metadata
+      json_examples:
+        - '["account_update",{"account":"steemit","posting":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM6FATHLohxTN8RWWkU9ZZwVywXo6MEDjHHui1jEBYkG2tTdvMYo",1],["STM76EQNV2RTA6yF9TnBvGSV71mW7eW36MM7XQp24JxdoArTfKA76",1]]},"memo_key":"STM6FATHLohxTN8RWWkU9ZZwVywXo6MEDjHHui1jEBYkG2tTdvMYo","json_metadata":""}]'
+    - name: report_over_production
+      disabled: true
+      purpose: |
+        Disabled in HF4
+        
+        This operation is used to report a miner who signs two blocks
+        at the same time. To be valid, the violation must be reported within
+        STEEM_MAX_WITNESSES blocks of the head block (1 round) and the
+        producer must be in the ACTIVE witness set.
+        
+        Users not in the ACTIVE witness set should not have to worry about their
+        key getting compromised and being used to produced multiple blocks so
+        the attacker can report it and steel their vesting steem.
+        
+        The result of the operation is to transfer the full VESTING STEEM balance
+        of the block producer to the reporter.
+      roles:
+        - active
+          owner
+      params:
+        - reporter
+          first_block
+          second_block
+    - name: witness_update
+      virtual: false
+      purpose: |
+        Users who wish to become a witness must pay a fee acceptable to
+        the current witnesses to apply for the position and allow voting
+        to begin.
+        
+        If the owner isn't a witness they will become a witness.  Witnesses
+        are charged a fee equal to 1 weeks worth of witness pay which in
+        turn is derived from the current share supply.  The fee is
+        only applied if the owner is not already a witness.
+        
+        If the block_signing_key is null then the witness is removed from
+        contention.  The network will pick the top 21 witnesses for
+        producing blocks.
+        
+        **Notes:**
+        * The fee paid to register a new witness, should be 10x current
+        block production pay.
+        * `url` cannot be more than 2048 bytes.
+        * `url` must be UTF-8.
+        * `fee` cannot be negative.
+      roles:
+        - active
+          owner
+      params:
+        - owner
+          url
+          block_signing_key
+          props
+          fee
+      json_examples:
+        - '["witness_update",{"owner":"alice","url":"witness-category/my-witness","block_signing_key":"STM8LoQjQqJHvotqBo7HjnqmUbFW9oJ2theyqonzUd9DdJ7YYHsvD","props":{"account_creation_fee":{"amount":"100000","precision":3,"nai":"@@000000021"},"maximum_block_size":131072,"sbd_interest_rate":1000},"fee":{"amount":"0","precision":3,"nai":"@@000000021"}}]'
+    - name: account_witness_vote
+      virtual: false
+      purpose: |
+        All accounts with a VFS (Vesting Fund Shares) can vote for or against
+        any witness.  See: [`STEEM_MAX_ACCOUNT_WITNESS_VOTES`]({{ '/tutorials-recipes/understanding-configuration-values#STEEM_MAX_ACCOUNT_WITNESS_VOTES' | relative_url }})
+        
+        If a proxy is specified then all existing votes are removed.
+      roles:
+        - active
+          owner
+      params:
+        - account
+          witness
+          approve
+      json_examples:
+        - '["account_witness_vote",{"account":"alice","witness":"bob","approve":true}]'
+    - name: account_witness_proxy
+      virtual: false
+      purpose: |
+        Allows one account to delegate witness votes to another account.
+        
+        If a proxy is specified then all existing witness votes are removed.
+      
+        Note, as of HF21, setting a witness proxy also applies to Steem.DAO
+        proposal approval.  If you trust someone to cast your witness votes, it
+        is assumed that you would also trust them to cast your proposal votes.
+      roles:
+        - active
+          owner
+      params:
+        - account
+          proxy
+      json_examples:
+        - '["account_witness_proxy",{"account":"alice","proxy":"bob"}]'
+    - name: pow
+      disabled: true
+      virtual: false
+      purpose: |
+        Disabled in HF14.
+      roles:
+        - active
+          owner
+      params:
+        - worker
+          input
+          signature
+          work
+      json_examples:
+        - '["pow",{"worker_account":"admin","block_id":"000004433bd4602cf5f74dbb564183837df9cef8","nonce":82,"work":{"worker":"STM65wH1LZ7BfSHcK69SShnqCAH5xdoSZpGkUjmzHJ5GCuxEK9V5G","input":"59b009f89477919f95914151cef06f28bf344dd6fb7670aca1c1f4323c80446b","signature":"1f3f83209097efcd01b7d6f27ce726164323d503d6fcf4d55bfb7cb3032796f6766738b36062b5850d69447fdf9c091cbc70825df5eeacc4710a0b11ffdbf0912a","work":"0b62f4837801cd857f01d6a541faeb13d6bb95f1c36c6b4b14a47df632aa6c92"},"props":{"account_creation_fee":{"amount":"100000","precision":3,"nai":"@@000000021"},"maximum_block_size":131072,"sbd_interest_rate":1000}}]'
+    - name: custom
+      virtual: false
+      purpose: |
+        Provides a generic way to add higher level protocols on top of witness
+        consensus.
+        
+        There is no validation for this operation other than that required auths
+        are valid.
+      roles:
+        - active
+          owner
+      params:
+        - required_auths
+          id
+          data
+      json_examples:
+        - '["custom",{"required_auths":["bytemaster"],"id":777,"data":"0a627974656d617374657207737465656d697402a3d13897d82114466ad87a74b73a53292d8331d1bd1d3082da6bfbcff19ed097029db013797711c88cccca3692407f9ff9b9ce7221aaa2d797f1692be2215d0a5f6d2a8cab6832050078bc5729201e3ea24ea9f7873e6dbdc65a6bd9899053b9acda876dc69f11a13df9ca8b26b6"}]'
+    - name: delete_comment
+      virtual: false
+      purpose:
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - author
+          permlink
+      json_examples:
+        - '["delete_comment",{"author":"alice","permlink":"a-post-by-alice"}]'
+    - name: custom_json
+      virtual: false
+      purpose: |
+        Serves the same purpose as `custom` but also supports required posting
+        authorities. Unlike `custom`, this operation is designed to be human
+        readable/developer friendly.
+        
+        ##### `follow`
+        
+        As of HF9, the follow plugin will track follow/unfollow/ignore events.
+        
+        ##### `reblog`
+        
+        As of HF14, allows users to share blogs they find with those who follow
+        them. This change implemented entirely outside the blockchain consensus
+        which means that reblogging does not create a new post, it merely shares
+        an existing post with people who follow you.
+        
+        ##### `witness`
+        
+        As of HF18, the witness plugin has a custom operation called
+        `enable_content_editing` that allows a user to signal they want to edit
+        their content. By consensus, content is editable indefinitely, but is
+        soft forked to be frozen after payout. This operation requires an
+        `active` key and is designed to prevent vandalism if a posting key is
+        compromised. [#1017](https://github.com/steemit/steem/issues/1017)
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - required_auths
+          required_posting_auths
+          id
+          json
+      json_examples:
+        - '["custom_json",{"required_auths":[],"required_posting_auths":["steemit"],"id":"follow","json":"[\"follow\",{\"follower\":\"steemit\",\"following\":\"alice\",\"what\":[\"blog\"]}]"}]'
+        - '["custom_json",{"required_auths":[],"required_posting_auths":["alice"],"id":"follow","json":"[\"follow\",{\"follower\":\"alice\",\"following\":\"eve\",\"what\":[\"ignore\"]}]"}]'
+        - '["custom_json",{"required_auths":[],"required_posting_auths":["bob"],"id":"reblog","json":"{\"account\":\"bob\",\"author\":\"alice\",\"permlink\":\"a-post-by-alice\"}"}]'
+        - '["custom_json",{"required_auths":["alice"],"required_posting_auths":[],"id":"witness","json":"[\"enable_content_editing\", {\"account\": \"alice\", \"relock_time\": \"2100-01-01T12:00:00\"}]"}]'
+    - name: comment_options
+      virtual: false
+      purpose: |
+        Authors of posts may not want all of the benefits that come from creating a post. This
+        operation allows authors to update properties associated with their post.
+        
+        Typically, these options will accompany a `comment` operation in the same transaction.
+        
+        As of HF17, content can specify beneficiaries to receive a part of
+        their author rewards. The beneficiaries are specified in the extension
+        field of the `comment_options_operation` and is a sorted vector (by
+        account name) of account name, weight pairs. The beneficiaries can only
+        be specified once and must be specified before any votes are cast on the
+        comment. Most apps are already adding a `comment_options` in the
+        transaction that creates the comment, so this should not be much of a
+        challenge to add to existing apps.
+        
+        **Notes:**
+        
+        * The max_accepted_payout may be decreased, but never increased.
+        * The percent_steem_dollars may be decreased, but never increased.
+        * Part of `comment_option` validation process, to be called when
+        `allowed_vote_assets` object has been added as comment option extension are:
+          * When votable assets are greater than maximum votable assets: *"Too much votable assets specified"*
+          * When the symbol is not allowed in the list for votable assets: *"STEEM can not be explicitly specified as one of allowed_vote_assets"*
+        * `max_accepted_payout`: SBD value of the maximum payout this post will receive
+        * `percent_steem_dollars`: the percent of Steem Dollars to key, unkept amounts will be received as Steem Power
+        * `allow_votes`: allows/disallows a post to receive votes;
+        * `allow_curation_rewards`: allows/disllows voters to recieve curation rewards. Rewards return to reward fund.
+        * `beneficiaries`
+          * Must have at least one (empty `beneficiaries` not allowed).
+          * Cannot have more than 127 (witness currently only allow up to 8).
+          * Cannot allocate more than 100% of rewards to one account.
+          * Cannot allocate more than 100% of rewards to a comment.
+          * Must be specified in sorted order (account ascending; no duplicates).
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - author
+          permlink
+          max_accepted_payout
+          percent_steem_dollars
+          allow_votes
+          allow_curation_rewards
+          extensions
+      json_examples:
+        - '["comment_options",{"author":"alice","permlink":"a-post-by-alice","max_accepted_payout":{"amount":"1000000","precision":3,"nai":"@@000000013"},"percent_steem_dollars":5000,"allow_votes":true,"allow_curation_rewards":true,"extensions":[]}]'
+        - '["comment_options",{"author":"bob","permlink":"a-post-with-a-beneficiary","max_accepted_payout":{"amount":"1000000","precision":3,"nai":"@@000000013"},"percent_steem_dollars":63,"allow_votes":true,"allow_curation_rewards":true,"extensions":[[0,{"beneficiaries":[{"account":"charlie","weight":1000}]}]]}]'
+        - '["comment_options",{"author":"charlie","permlink":"a-post-with-multiple-beneficiaries","max_accepted_payout":{"amount":"1000000","precision":3,"nai":"@@000000013"},"percent_steem_dollars":62688,"allow_votes":true,"allow_curation_rewards":true,"extensions":[[0,{"beneficiaries":[{"account":"david","weight":500},{"account":"erin","weight":500},{"account":"faythe","weight":1000},{"account":"frank","weight":500}]}]]}]'
+    - name: set_withdraw_vesting_route
+      virtual: false
+      purpose: |
+        Allows an account to setup a vesting withdraw but with the additional
+        request for the funds to be transferred directly to another account's
+        balance rather than the withdrawing account. In addition, those funds
+        can be immediately vested again, circumventing the conversion from
+        vests to steem and back, guaranteeing they maintain their value.
+        
+        **Notes:**
+        * Percent must be valid steem percent.
+      roles:
+        - active
+          owner
+      params:
+        - from_account
+          to_account
+          percent
+          auto_vest
+      json_examples:
+        - '["set_withdraw_vesting_route",{"from_account":"alice","to_account":"bob","percent":10000,"auto_vest":true}]'
+    - name: limit_order_create2
+      virtual: false
+      purpose: |
+        This operation is identical to `limit_order_create` except it serializes
+        the price rather than calculating it from other fields. The maximum expiration time for any limit order is 28 days from `head_block_time()`.
+      roles:
+        - active
+          owner
+      params:
+        - owner
+          orderid
+          amount_to_sell
+          exchange_rate
+          fill_or_kill
+          expiration
+      json_examples:
+        - '["limit_order_create2",{"owner":"alice","orderid":492991,"amount_to_sell":{"amount":"1","precision":3,"nai":"@@000000013"},"exchange_rate":{"base":{"amount":"1","precision":3,"nai":"@@000000013"},"quote":{"amount":"10","precision":3,"nai":"@@000000021"}},"fill_or_kill":false,"expiration":"2017-05-12T23:11:13"}]'
+    - name: challenge_authority
+      disabled: true
+      virtual: false
+      purpose: |
+        Disabled in HF14.
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - challenger
+          challenged
+          require_owner
+    - name: prove_authority
+      virtual: false
+      purpose:
+      roles:
+        - active
+          owner
+      params:
+        - challenged
+          require_owner
+    - name: request_account_recovery
+      since: HF11
+      virtual: false
+      purpose: |
+        All account recovery requests come from a listed recovery account. This
+        is secure based on the assumption that only a trusted account should be
+        a recovery account. It is the responsibility of the recovery account to
+        verify the identity of the account holder of the account to recover by
+        whichever means they have agreed upon. The blockchain assumes identity
+        has been verified when this operation is broadcast.
+        
+        This operation creates an account recovery request which the account to
+        recover has 24 hours to respond to before the request expires and is
+        invalidated.
+        
+        There can only be one active recovery request per account at any one time.
+        Pushing this operation for an account to recover when it already has
+        an active request will either update the request to a new new owner authority
+        and extend the request expiration to 24 hours from the current head block
+        time or it will delete the request. To cancel a request, simply set the
+        weight threshold of the new owner authority to 0, making it an open authority.
+        
+        Additionally, the new owner authority must be satisfiable. In other words,
+        the sum of the key weights must be greater than or equal to the weight
+        threshold.
+        
+        This operation only needs to be signed by the the recovery account.
+        The account to recover confirms its identity to the blockchain in
+        the recover account operation.
+        
+        **Notes:**
+        
+        * `recovery_account`: The recovery account is listed as the recovery account
+          on the account to recover.
+        * `account_to_recover`: The account to recover. This is likely due to a
+          compromised owner authority.
+        * `new_owner_authority`: The new owner authority the account to recover
+          wishes to have. This is secret known by the account to recover and
+          will be confirmed in a `recover_account`.
+        
+        See: [#169](https://github.com/steemit/steem/issues/169)
+      roles:
+        - active
+          owner
+      params:
+        - recovery_account
+          account_to_recover
+          new_owner_authority
+          extensions
+      json_examples:
+        - '["request_account_recovery",{"recovery_account":"steem","account_to_recover":"alice","new_owner_authority":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM6LYxj96zdypHYqgDdD6Nyh2NxerN3P1Mp3ddNm7gci63nfrSuZ",1]]},"extensions":[]}]'
+    - name: recover_account
+      since: HF11
+      virtual: false
+      purpose:
+      roles:
+        - owner
+      params:
+        - account_to_recover
+          new_owner_authority
+          recent_owner_authority
+          extensions
+      json_examples:
+        - '["recover_account",{"account_to_recover":"alice","new_owner_authority":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM7j3nhkhHTpXqLEvdx2yEGhQeeorTcxSV6WDL2DZGxwUxYGrHvh",1]]},"recent_owner_authority":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM78Xth94gNxp8nmByFV2vNAhg9bsSdviJ6fQXUTFikySLK3uTxC",1]]},"extensions":[]}]'
+    - name: change_recovery_account
+      since: HF11
+      virtual: false
+      purpose: |
+        Each account lists another account as their recovery account.
+        The recovery account has the ability to create `account_recovery_requests`
+        for the account to recover. An account can change their recovery account
+        at any time with a 30 day delay. This delay is to prevent
+        an attacker from changing the recovery account to a malicious account
+        during an attack. These 30 days match the 30 days that an
+        owner authority is valid for recovery purposes.
+        
+        On account creation the recovery account is set either to the creator of
+        the account (The account that pays the creation fee and is a signer on the transaction)
+        or to the empty string if the account was mined. An account with no recovery
+        has the top voted witness as a recovery account, at the time the recover
+        request is created. Note: This does mean the effective recovery account
+        of an account with no listed recovery account can change at any time as
+        witness vote weights. The top voted witness is explicitly the most trusted
+        witness according to stake.
+        
+        See: [#169](https://github.com/steemit/steem/issues/169)
+      roles: 
+        - owner
+      params:
+        - account_to_recover
+          new_recovery_account
+          extensions
+      json_examples:
+        - '["change_recovery_account",{"account_to_recover":"alice","new_recovery_account":"bob","extensions":[]}]'
+    - name: escrow_transfer
+      since: HF14
+      virtual: false
+      purpose: |
+        The purpose of this operation is to enable someone to send money
+        contingently to another individual. The funds leave the *from* account
+        and go into a temporary balance where they are held until *from*
+        releases it to *to* or *to* refunds it to *from*.
+        
+        In the event of a dispute the *agent* can divide the funds between the
+        to/from account. Disputes can be raised any time before or on the
+        dispute deadline time, after the escrow has been approved by all
+        parties.
+        
+        This operation only creates a proposed escrow transfer. Both the *agent*
+        and *to* must agree to the terms of the arrangement by approving the
+        escrow.
+        
+        The escrow agent is paid the fee on approval of all parties. It is up to
+        the escrow agent to determine the fee.
+        
+        Escrow transactions are uniquely identified by `from` and `escrow_id`,
+        the `escrow_id` is defined by the sender.
+        
+        See: [steem_operations.hpp:229](https://github.com/steemit/steem/blob/86ec544b731680eaba3808cc7a41e8ea73d89701/libraries/chain/include/steemit/chain/protocol/steem_operations.hpp#L229-L322)
+      roles:
+        - active
+          owner
+      params:
+        - from
+          to
+          agent
+          escrow_id
+          sbd_amount
+          steem_amount
+          fee
+          ratification_deadline
+          escrow_expiration
+          json_meta
+      json_examples:
+        - '["escrow_transfer",{"from":"alice","to":"bob","sbd_amount":{"amount":"1000","precision":3,"nai":"@@000000013"},"steem_amount":{"amount":"0","precision":3,"nai":"@@000000021"},"escrow_id":23456789,"agent":"charlie","fee":{"amount":"100","precision":3,"nai":"@@000000013"},"json_meta":"{}","ratification_deadline":"2017-02-26T11:22:39","escrow_expiration":"2017-02-28T11:22:39"}]'
+    - name: escrow_dispute
+      since: HF14
+      virtual: false
+      purpose: |
+        If either the sender or receiver of an escrow payment has an issue, they
+        can raise it for dispute. Once a payment is in dispute, the agent has
+        authority over who gets what.
+        
+        See: [steem_operations.hpp:229](https://github.com/steemit/steem/blob/86ec544b731680eaba3808cc7a41e8ea73d89701/libraries/chain/include/steemit/chain/protocol/steem_operations.hpp#L229-L322)
+      roles:
+        - active
+          owner
+      params:
+        - from
+          to
+          agent
+          who
+          escrow_id
+      json_examples:
+        - '["escrow_dispute",{"from":"alice","to":"bob","agent":"charlie","who":"alice","escrow_id":72526562}]'
+    - name: escrow_release
+      since: HF14
+      virtual: false
+      purpose: |
+        This operation can be used by anyone associated with the escrow transfer
+        to release funds if they have permission.
+        
+        The permission scheme is as follows:
+          * If there is no dispute and escrow has not expired, either party can
+            release funds to the other.
+          * If escrow expires and there is no dispute, either party can release
+            funds to either party.
+          * If there is a dispute regardless of expiration, the agent can
+            release funds to either party following whichever agreement was in place between the parties.
+        
+        See: [steem_operations.hpp:229](https://github.com/steemit/steem/blob/86ec544b731680eaba3808cc7a41e8ea73d89701/libraries/chain/include/steemit/chain/protocol/steem_operations.hpp#L229-L322)
+      roles:
+        - active
+          owner
+      params:
+        - from
+          to
+          agent
+          who
+          receiver
+          escrow_id
+          sbd_amount
+          steem_amount
+      json_examples:
+        - '["escrow_release",{"from":"alice","to":"bob","agent":"charlie","who":"charlie","receiver":"bob","escrow_id":72526562,"sbd_amount":{"amount":"5000","precision":3,"nai":"@@000000013"},"steem_amount":{"amount":"0","precision":3,"nai":"@@000000021"}}]'
+    - name: pow2
+      disabled: true
+      virtual: false
+      purpose:
+        Disabled in HF17.
+      roles:
+        - active
+          owner
+      params:
+        - input
+          pow_summary
+      json_examples:
+        - '["pow2",{"work":[0,{"input":{"worker_account":"alice","prev_block":"003ea604345523c344fbadab605073ea712dd76f","nonce":"1052853013628665497"},"pow_summary":3817904373}],"props":{"account_creation_fee":{"amount":"1","precision":3,"nai":"@@000000021"},"maximum_block_size":131072,"sbd_interest_rate":1000}}]'
+    - name: escrow_approve
+      since: HF14
+      virtual: false
+      purpose: |
+        The agent and to accounts must approve an escrow transaction for it to
+        be valid on the blockchain. Once a party approves the escrow, they
+        cannot revoke their approval. Subsequent escrow approve operations,
+        regardless of the approval, will be rejected.
+        
+        See: [steem_operations.hpp:229](https://github.com/steemit/steem/blob/86ec544b731680eaba3808cc7a41e8ea73d89701/libraries/chain/include/steemit/chain/protocol/steem_operations.hpp#L229-L322)
+      roles:
+        - active
+          owner
+      params:
+        - from
+          to
+          agent
+          who
+          escrow_id
+          approve
+      json_examples:
+        - '["escrow_approve",{"from":"alice","to":"bob","agent":"charlie","who":"charlie","escrow_id":59102208,"approve":true}]'
+    - name: transfer_to_savings
+      since: HF14
+      virtual: false
+      purpose: |
+        For time locked savings accounts. A user can place Steem and Steem
+        Dollars into time locked savings balances. Funds can be withdrawn from
+        these balances after a three day delay. The point of this addition is to
+        mitigate loss from hacked and compromised account. The max a user can
+        lose instantaneously is the sum of what the hold in liquid balances.
+        Assuming an account can be recovered quickly, loss in such situations
+        can be kept to a minimum.
+        
+        See: [steem_operations.hpp:868](https://github.com/steemit/steem/blob/86ec544b731680eaba3808cc7a41e8ea73d89701/libraries/chain/include/steemit/chain/protocol/steem_operations.hpp#L868-L895)
+      roles:
+        - active
+          owner
+      params:
+        - from
+          to
+          amount
+          memo
+      json_examples:
+        - '["transfer_to_savings",{"from":"alice","to":"alice","amount":{"amount":"1000","precision":3,"nai":"@@000000013"},"memo":""}]'
+    - name: transfer_from_savings
+      since: HF14
+      virtual: false
+      purpose:
+      roles:
+        - active
+          owner
+      params:
+        - from
+          request_id
+          to
+          amount
+          memo
+      json_examples:
+        - '["transfer_from_savings",{"from":"alice","request_id":101,"to":"alice","amount":{"amount":"1000","precision":3,"nai":"@@000000013"},"memo":""}]'
+    - name: cancel_transfer_from_savings
+      since: HF14
+      virtual: false
+      purpose:
+      roles:
+        - active
+          owner
+      params:
+        - from
+          request_id
+      json_examples:
+        - '["cancel_transfer_from_savings",{"from":"alice","request_id":1}]'
+    - name: custom_binary
+      since: HF14
+      virtual: false
+      purpose: |
+        The semmantics for this operation are the same as the `custom_json`
+        operation, but with a binary payload. The json deserialization has a
+        non-trivial cost associated with it. This operation will allow for
+        binary deserialization of plugin operations and should improve overall
+        performance of plugins that chose to use it.
+        
+        See: [steem_operations.hpp:491](https://github.com/steemit/steem/blob/86ec544b731680eaba3808cc7a41e8ea73d89701/libraries/chain/include/steemit/chain/protocol/steem_operations.hpp#L491-L506)
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - id
+          data
+    - name: decline_voting_rights
+      since: HF14
+      virtual: false
+      purpose: |
+        An account can chose to decline their voting rights after a 30 day
+        delay. This includes voting on content and witnesses. The voting rights
+        cannot be acquired again once they have been declined. This is only to
+        formalize a smart contract between certain accounts and the community
+        that currently only exists as a social contract.
+        
+        See: [steem_operations.hpp:897](https://github.com/steemit/steem/blob/86ec544b731680eaba3808cc7a41e8ea73d89701/libraries/chain/include/steemit/chain/protocol/steem_operations.hpp#L897-L905)
+      roles:
+        - owner
+      params:
+        - account
+          decline
+      json_examples:
+        - '["decline_voting_rights",{"account":"judy","decline":true}]'
+    - name: reset_account
+      disabled: true
+      since: HF11
+      virtual: false
+      purpose: |
+        This operation allows `recovery_account` to change `account_to_reset`'s
+        owner authority to `new_owner_authority` after 60 days of inactivity.
+        
+        See: [#169](https://github.com/steemit/steem/issues/169)
+      roles:
+        - active
+          owner
+      params:
+        - reset_account
+          account_to_reset
+          new_owner_authority
+    - name: set_reset_account
+      disabled: true
+      since: HF11
+      virtual: false
+      purpose: |
+        This operation allows `account` owner to control which account has the
+        power to execute the `reset_account` operation after 60 days.
+        
+        See: [#169](https://github.com/steemit/steem/issues/169)
+      roles:
+        - owner
+          posting
+      params:
+        - account
+          current_reset_account
+          reset_account
+    - name: claim_reward_balance
+      virtual: false
+      purpose:
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - account
+          reward_steem
+          reward_sbd
+          reward_vests
+      json_examples:
+        - '["claim_reward_balance",{"account":"alice","reward_steem":{"amount":"17","precision":3,"nai":"@@000000021"},"reward_sbd":{"amount":"11","precision":3,"nai":"@@000000013"},"reward_vests":{"amount":"185025103","precision":6,"nai":"@@000000037"}}]'
+    - name: delegate_vesting_shares
+      since: HF17
+      virtual: false
+      purpose: |
+        Delegate vesting shares from one account to the other. The vesting
+        shares are still owned by the original account, but content voting
+        rights and resource credit are transferred to the receiving
+        account. This sets the delegation to `vesting_shares`, increasing it or
+        decreasing it as needed (i.e. a delegation of 0 removes the delegation).
+        
+        When a delegation is removed the shares are placed in limbo for a week
+        to prevent a satoshi of VESTS from voting on the same content twice.
+        
+        Also see:
+          * [steem_evaluator.cpp:2309](https://github.com/steemit/steem/blob/4b19e00dd6a76699aa4de1c0d50aad392cd2d0b6/libraries/chain/steem_evaluator.cpp#L2309)
+      roles:
+        - active
+          owner
+      params:
+        - delegator
+          delegatee
+          vesting_shares
+      json_examples:
+        - '["delegate_vesting_shares",{"delegator":"alice","delegatee":"bob","vesting_shares":{"amount":"94599167138276","precision":6,"nai":"@@000000037"}}]'
+    - name: account_create_with_delegation
+      since: HF17
+      deprecated: true
+      virtual: false
+      purpose: |
+        **Deprecated as of HF20** If an account creation service would still like to provide a delegation of Steem Power
+        to the accounts they create, they can still follow the account creation operation with an additional call to
+        `delegate_vesting_shares` to add a delegation of SP to the account.
+
+        >Instead of paying the entire account creation fee with Steem, creators
+        can now pay a smaller fee (30x less) and delegate some Steem Power for
+        30 days. The exact amount is 5 * min_fee + STEEM_POWER == 150 * min_fee.
+        You can pay any combination of STEEM and Steem Power along that curve
+        (so long as the minimum fee is paid).
+
+        >*The witness voted STEEM fee is now the minimum required STEEM fee for
+        delegation. Witnesses should reduce their fee by 30x when the hardfork
+        goes live to preserve the same required fee for an all STEEM account
+        creation.*
+        
+        Also see:
+          * [config.hpp:145](https://github.com/steemit/steem/blob/65c58af34971416057e142ac1332421e2228749b/libraries/protocol/include/steem/protocol/config.hpp#L145)
+          * [steem_evaluator.cpp:400](https://github.com/steemit/steem/blob/4b19e00dd6a76699aa4de1c0d50aad392cd2d0b6/libraries/chain/steem_evaluator.cpp#L400)
+      roles:
+        - active
+          owner
+      params:
+        - fee
+          delegation
+          creator
+          new_account_name
+          owner
+          active
+          posting
+          memo_key
+          json_metadata
+          extensions
+      json_examples:
+        - '["account_create_with_delegation",{"fee":{"amount":"3000","precision":3,"nai":"@@000000021"},"delegation":{"amount":"0","precision":6,"nai":"@@000000037"},"creator":"steemit","new_account_name":"alice","owner":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM5Tki3ecCdCCHCjhhwvQvXuKryL2s34Ma6CXsRzntSUTYVYxCQ9",1]]},"active":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM6LUoAA8gCL9tHRz7v9xcwR4ZWD3KDRHP5t1U7UAZHdfanLxyBE",1]]},"posting":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM8anmpHdfVE4AmwsDpcSXpRsydHysEbv6vGJkRQy1d1CC83zeTA",1]]},"memo_key":"STM67RYDyEkP1Ja1jFehJ45BFGA9oHHUnRnYbxKJEtMhVQiHW3S3k","json_metadata":"{}","extensions":[]}]'
+    - name: create_proposal
+      since: HF21
+      deprecated: false
+      virtual: false
+      purpose: |
+        Creates a new proposal.
+      roles:
+        - posting
+        - active
+          owner
+      params:
+        - creator
+          receiver
+          start_date
+          end_date
+          daily_pay
+          subject
+          permlink
+      json_examples:
+        - '["create_proposal",{"creator":"alice","receiver":"bob","start_date":"2019-08-26T11:22:39","end_date":"2019-08-26T11:22:39","daily_pay":{"amount":"3000","precision":3,"nai":"@@000000013"},"subject":"subject","permlink":"creator-proposal-permlink"}]'
+    - name: remove_proposal
+      since: HF21
+      deprecated: false
+      virtual: false
+      purpose: |
+        Removes proposal using `proposal.id` of a given proposal.
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - creator
+          proposal_ids
+      json_examples:
+        - '["remove_proposal",{"creator":"alice","proposal_ids":[0]}]'
+    - name: update_proposal_votes
+      since: HF21
+      deprecated: false
+      virtual: false
+      purpose: |
+        Update proposal votes by `proposal.id`.
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - voter
+          proposal_ids
+          approve
+      json_examples:
+        - '["update_proposal_votes",{"voter":"alice","proposal_ids":[0],"approve":true}]'
+    - name: claim_reward_balance2
+      since: HF23
+      virtual: false
+      purpose: |
+        Differs with original operation with extensions field and a container of tokens that will be rewarded to an account.
+        
+        Note: The reward tokens are required to be unique and sorted (both by asset symbol) in ascending order.  Otherwise operation validation will fail.
+       
+        See: [#1859](https://github.com/steemit/steem/issues/1859)
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - account
+          reward_tokens
+          extensions
+      json_examples:
+        - '["claim_reward_balance2",{"account":"alice","reward_tokens":[{"amount":"1","precision":0,"nai":"@@904705667"}],"extensions":[]}]'
+    - name: vote2
+      since: HF23
+      virtual: false
+      purpose: |
+        This operation is used to cast a vote on a post/comment using multiple votable assets.
+        
+        See: [#2748](https://github.com/steemit/steem/issues/2748), [SMT Voting Mana Deep Dive](https://steemit.com/smt/@vandeberg/smt-voting-mana-deep-dive)
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - voter
+          author
+          permlink
+          weight
+          extensions
+      json_examples:
+        - '["vote2",{"voter":"steemit","author":"alice","permlink":"a-post-by-alice","rshares":[[{"nai":"@@904705667","decimals":0},0]],"extensions":[]}]'
+    - name: smt_setup
+      since: HF23
+      virtual: false
+      purpose: |
+        Setup a Smart Media Token.  Each SMT has an associated descriptor object which has *permanent* configuration data. This data cannot be changed after launch.
+        
+        **Parameters:**
+        * `control_account` - The name of the controlling account.
+        * `symbol` - The asset symbol of the created token.
+        * `max_supply` - The maximum supply of a smart media token.
+        * `contribution_begin_time` - The start time of the ICO contribution process.
+        * `contribution_end_time` - The end time of the ICO contribution process.
+        * `launch_time` - The time in which a token should launch.
+        * `steem_units_min` - The minimum steem units required for a successful ICO.
+        * `steem_units_soft_cap` - The steem unit cap in which the pre_soft_cap_unit generation policy applies.
+        * `steem_units_hard_cap` - The steem unit cap in which the post_soft_cap_unit generation policy applies.
+        * `initial_generation_policy` - A JSON string of the STEEM and token destination routes of the ICO process.
+       
+        **Example Initial Generation Policy JSON:**
+        
+        ```json
+        {"type": "smt_capped_generation_policy", "value": {
+          "pre_soft_cap_unit": {
+            "steem_unit": [["alice", 100]],
+            "token_unit": [["$from", 5], ["alice", 1]]
+          },
+          "post_soft_cap_unit": {
+            "steem_unit": [["alice", 100]],
+            "token_unit": [["$from", 5], ["alice", 1]]
+          },
+          "min_steem_units_commitment": {
+            "lower_bound": 1,
+            "upper_bound": 1,
+            "hash": "32edb6022c0921d99aa347e9cda5dc2db413f5574eebaaa8592234308ffebd2b"
+          },
+          "hard_cap_steem_units_commitment": {
+            "lower_bound": "166666666666",
+            "upper_bound": "166666666666",
+            "hash": "93c5a6b892de788c5b54b63b91c4b692e36099b05d3af0d16d01c854723dda21"
+          },
+          "soft_cap_percent": 10000,
+          "min_unit_ratio": 1000,
+          "max_unit_ratio": 1000,
+          "extensions": []
+        }}
+        ```
+       
+        See [#3455](https://github.com/steemit/steem/issues/3455), [SMT Setup](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#smt-setup)
+        
+        <sup>[Structure](https://github.com/steemit/steem/blob/e134c404b67fae7dba439162344332e369a4c269/libraries/protocol/include/steem/protocol/smt_operations.hpp#L67-L90)</sup>
+      roles:
+        - active
+          owner
+      params:
+        - control_account
+          symbol
+          contribution_begin_time
+          contribution_end_time
+          launch_time
+          max_supply
+          steem_units_hard_cap
+          steem_units_soft_cap
+          steem_units_min
+          initial_generation_policy
+          extensions
+      json_examples:
+        - '["smt_setup",{"control_account":"alice","symbol":{"nai": "@@000000000", "decimals": 0},"contribution_begin_time":"2019-08-26T11:22:39","contribution_end_time":"2019-08-26T11:22:39","launch_time":"2019-09-26T11:22:39","max_supply":1000000000000000,"steem_units_hard_cap":10000,"steem_units_soft_cap":1000,"steem_units_min":0,"initial_generation_policy":"{\"type\":\"smt_capped_generation_policy\",\"value\":{\"pre_soft_cap_unit\":{\"steem_unit\":[[\"alice\",100]],\"token_unit\":[[\"$from\",5],[\"alice\",1]]},\"post_soft_cap_unit\":{\"steem_unit\":[[\"alice\",100]],\"token_unit\":[[\"$from\",5],[\"alice\",1]]},\"min_steem_units_commitment\":{\"lower_bound\":1,\"upper_bound\":1,\"hash\":\"32edb6022c0921d99aa347e9cda5dc2db413f5574eebaaa8592234308ffebd2b\"},\"hard_cap_steem_units_commitment\":{\"lower_bound\":\"166666666666\",\"upper_bound\":\"166666666666\",\"hash\":\"93c5a6b892de788c5b54b63b91c4b692e36099b05d3af0d16d01c854723dda21\"},\"soft_cap_percent\":10000,\"min_unit_ratio\":1000,\"max_unit_ratio\":1000,\"extensions\":[]}}","extensions":[]}]'
+    - name: smt_setup_emissions
+      since: HF23
+      virtual: false
+      purpose: |
+        Create Smart Media Token emissions (inflation).
+        
+        **Parameters:**
+        * `control_account` - The name of the controlling account.
+        * `symbol` - The asset symbol of the created token.
+        * `schedule_time` - The time the token is applicable.
+        * `emissions_unit` - The emissions unit.
+        * `interval_seconds` - The seconds between intervals.
+        * `interval_count` - The number of intervals.
+        * `lep_time` - The time of the left endpoint.
+        * `rep_time` - The time of the right endpoint.
+        * `lep_abs_amount` - The absolute emission amount of the left endpoint.
+        * `rep_abs_amount` - The absolute emission amount of the right endpoint.
+        * `lep_rel_amount_numerator` - The relative emission numerator of the left endpoint.
+        * `rep_rel_amount_numerator` - The relative emission numerator of the right endpoint.
+        * `rel_amount_denom_bits` - The about of bits to shift for the relative denominator.
+        * `remove` - Indicates whether an emission should be added or removed.
+        * `floor_emissions` - Indicates whether we should consider the lowest or highest value with regards to relative and absolute emissions.
+
+        See: [#1513](https://github.com/steemit/steem/issues/1513), [#2738](https://github.com/steemit/steem/issues/2738), [SMT Pre-Setup](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#smt-pre-setup), [Inflation Operations](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#inflation-operations), [Full JSON Examples](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#full-json-examples), [Inflation FAQ](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#inflation-faq)
+        
+        <sup>[Structure](https://github.com/steemit/steem/blob/e134c404b67fae7dba439162344332e369a4c269/libraries/protocol/include/steem/protocol/smt_operations.hpp#L100-L129)</sup>
+      roles:
+        - active
+          owner
+      params:
+        - control_account
+          symbol
+          emissions_unit
+          interval_seconds
+          interval_count
+          lep_time
+          rep_time
+          lep_abs_amount
+          rep_abs_amount
+          lep_rel_amount_numerator
+          rep_rel_amount_numerator
+          rel_amount_denom_bits
+          remove
+          floor_emissions
+      json_examples:
+        - '["smt_setup_emissions",{"control_account":"alice","symbol":{"nai":"@@904705667","decimals":0},"schedule_time":"2019-08-26T11:22:39","emissions_unit":{"token_unit":[["alice",1]]},"interval_seconds":21600,"interval_count":1,"lep_time":"2019-08-26T11:22:39","rep_time":"2019-08-26T11:22:39","lep_abs_amount":{"amount":"1","precision":0,"nai":"@@904705667"},"rep_abs_amount":{"amount":"1","precision":0,"nai":"@@904705667"},"lep_rel_amount_numerator":0,"rep_rel_amount_numerator":0,"rel_amount_denom_bits":0,"remove":false,"floor_emissions":false,"extensions":[]}]'
+    - name: smt_set_setup_parameters
+      since: HF23
+      virtual: false
+      purpose: |
+        Creates Smart Media Token setup parameters.
+       
+        **Parameters:**
+        * `control_account` - The name of the controlling account.
+        * `symbol` - The asset symbol of the created token.
+        * `setup_parameters` - The SMT setup parameters
+        
+        See: [#2727](https://github.com/steemit/steem/issues/2727), [Named Token Parameters](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#named-token-parameters)
+
+        
+        <sup>[Structure](https://github.com/steemit/steem/blob/e134c404b67fae7dba439162344332e369a4c269/libraries/protocol/include/steem/protocol/smt_operations.hpp#L172-L183)</sup>
+      roles:
+        - active
+          owner
+      params:
+        - control_account
+          symbol
+          setup_parameters
+      json_examples:
+        - '["smt_set_setup_parameters",{"control_account":"alice","symbol":{"nai": "@@000000000", "decimals": 0},"setup_parameters":[{"type":"smt_param_allow_voting","value":{"value":true}}],"extensions":[]}]'
+    - name: smt_set_runtime_parameters
+      since: HF23
+      virtual: false
+      purpose: |
+        Creates Smart Media Token runtime parameters.
+        
+        **Parameters:**
+        * `control_account` - The name of the controlling account.
+        * `symbol` - The asset symbol of the created token.
+        * `runtime_parameters` - The SMT runtime parameters.
+       
+        **Allowed Author Reward Curves:**
+        * `linear`
+        * `quadratic`
+        
+        **Allowed Curation Reward Curves:**
+        * `linear`
+        * `square_root`
+        * `bounded_curation`
+        
+        See: [Named Token Parameters](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#named-token-parameters)
+        
+        <sup>[Structure](https://github.com/steemit/steem/blob/e134c404b67fae7dba439162344332e369a4c269/libraries/protocol/include/steem/protocol/smt_operations.hpp#L185-L196)</sup>
+      roles:
+        - active
+          owner
+      params:
+        - control_account
+          symbol
+          runtime_parameters
+      json_examples:
+        - '["smt_set_runtime_parameters",{"control_account":"alice","symbol":{"nai": "@@000000000", "decimals": 0},"runtime_parameters":[{"type":"smt_param_windows_v1","value":{"cashout_window_seconds":90001,"reverse_auction_window_seconds":110}},{"type":"smt_param_vote_regeneration_period_seconds_v1","value":{"vote_regeneration_period_seconds":7000,"votes_per_regeneration_period":1}},{"type":"smt_param_rewards_v1","value":{"content_constant":9005,"percent_curation_rewards":9006,"author_reward_curve":"quadratic","curation_reward_curve":"bounded_curation"}},{"type":"smt_param_allow_downvotes","value":{"value":true}}],"extensions":[]}]'
+    - name: smt_create
+      since: HF23
+      virtual: false
+      purpose: |
+        Create a Smart Media Token.
+        
+        This operation introduces new SMT into blockchain as identified by Numerical Asset Identifier (NAI). Also the SMT precision (decimal points) is explicitly provided.
+        
+        #### Initial Case
+        
+        The first operation to be executed is an `smt_create` operation.  This operation creates an SMT object in the blockchain state.  After executing this operation, the newly created SMT object is not yet fully configured.
+        
+        Most of the configuration occurs in subsequent operations (`smt_set_setup_parameters`, `smt_setup_inflation`, and `smt_setup`). These later operations may occur in the same transaction, but they may also occur at any later point in time.
+        
+        #### Reset Case
+        
+        Re-issuing `smt_create` with zero `smt_creation_fee` and the NAI of a token in the initial setup will reset emmisions and setup state.  This is useful for token creators who have put their token in an unlaunchable state.
+        
+        This will allow deleting of emission schedules with and changing of precision if there are no emission objects already created.
+        
+        **Parameters:**
+        * `control_account` - The name of the controlling account.
+        * `symbol` - The asset symbol of the created token.
+        * `smt_creation_fee` - The amount to be transfered from @account to null account as elevation fee.  The amount required is set by the `smt_creation_fee` field of the `dynamic_global_properties` object.  This field may contain a value in STEEM or SBD.
+        * `precision` - Separately provided precision for clarity and redundancy.
+        
+        See: [SMT Object Creation](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#smt-object-creation)
+        
+        <sup>[Structure](https://github.com/steemit/steem/blob/e134c404b67fae7dba439162344332e369a4c269/libraries/protocol/include/steem/protocol/smt_operations.hpp#L16-L37)</sup>
+      roles:
+        - active
+          owner
+      params:
+        - control_account
+          symbol
+          smt_creation_fee
+          precision
+      json_examples:
+        - '["smt_create",{"control_account":"alice","symbol":{"nai": "@@000000000", "decimals": 0},"smt_creation_fee":{"amount":"3000","precision":3,"nai":"@@000000013"},"precision":0,"extensions":[]}]'
+    - name: smt_contribute
+      since: HF23
+      virtual: false
+      purpose: |
+        Contribute to a token ICO.
+        
+        **Parameters:**
+        * `contributor` The name of the contributor
+        * `symbol` The asset symbol of the SMT
+        * `contribution_id` A unique contribution ID number
+        * `contribution` The contribution (in STEEM)
+        
+        See: [#2730](https://github.com/steemit/steem/issues/2730), [Token Units](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#token-units)
+        
+        <sup>[Structure](https://github.com/steemit/steem/blob/e134c404b67fae7dba439162344332e369a4c269/libraries/protocol/include/steem/protocol/smt_operations.hpp#L198-L209)</sup>
+      roles:
+        - active
+          owner
+      params:
+        - contributor
+          symbol
+          contribution_id
+          contribution
+      json_examples:
+        - '["smt_contribute",{"contributor":"alice","symbol":{"nai":"@@422838704","decimals":0},"contribution_id":0,"contribution":{"amount":"1000","precision":3,"nai":"@@000000021"},"extensions":[]}]'
+    - name: clear_null_account_balance
+      since: HF20
+      virtual: true
+      deprecated: true
+      purpose: |
+         Deprecated as of HF23, see: [#3556](https://github.com/steemit/steem/issues/3556).
+         
+         For per-block processing that clears null account balances (prior to HF23).
+         
+         See: [#2627](https://github.com/steemit/steem/issues/2627)
+      roles:
+        - active
+          owner
+      params:
+        - total_cleared
+    - name: proposal_pay
+      since: HF21
+      virtual: true
+      purpose: |
+        Dedicated operation to be generated during proposal payment phase to provide info in Account History related to funds transfer.
+      roles:
+        - active
+          owner
+      params:
+        - receiver
+          payment
+          trx_id
+          op_in_trx
+      json_examples:
+        - '["proposal_pay",{"receiver":"steem.dao","payment":"1.637 SBD","trx_id":"0000000000000000000000000000000000000000","op_in_trx":0}]'
+    - name: sps_fund
+      since: HF21
+      virtual: true
+      purpose: |
+         Created once per maintenance interval to document how much SBD was
+         added to the threasury from inflation in that maintenance interval
+         (i.e., to track the funding of the SPS).
+      roles:
+        - active
+          owner
+      params:
+        - additional_funds
+      json_examples:
+        - '["sps_fund",{"additional_funds":"71.460 SBD"}]'
+    - name: fill_convert_request
+      virtual: true
+      purpose: |
+        Fills when conversion requests with a conversion date before the head
+        block time and then converts them to/from steem/sbd at the current
+        median price feed history price times the premium.
+      roles:
+        - active
+          owner
+      params:
+        - owner
+          requestid
+          amount_in
+          amount_out
+    - name: author_reward
+      virtual: true
+      purpose:
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - author
+          permlink
+          sbd_payout
+          steem_payout
+          vesting_payout
+    - name: curation_reward
+      virtual: true
+      purpose:
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - curator
+          reward
+          comment_author
+          comment_permlink
+    - name: comment_reward
+      since: HF17
+      virtual: true
+      purpose: |
+        See: [#774](https://github.com/steemit/steem/issues/774)
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - author
+          permlink
+          payout
+    - name: liquidity_reward
+      disabled: true
+      virtual: true
+      purpose: |
+        Deprecated as of HF12, see: [#178](https://github.com/steemit/steem/issues/178).
+      roles:
+        - active
+          owner
+      params:
+        - owner
+          payout
+    - name: interest
+      virtual: true
+      purpose:
+      roles:
+        - active
+          owner
+      params:
+        - owner
+          interest
+      json_examples:
+        - '["interest",{"owner":"alice","interest":"0.001 SBD"}]'
+    - name: fill_vesting_withdraw
+      since: HF6
+      virtual: true
+      purpose: |
+        See: [#78](https://github.com/steemit/steem/issues/78)
+      roles:
+        - active
+          owner
+      params:
+        - from_account
+          to_account
+          withdrawn
+          deposited
+      json_examples:
+        - '["fill_vesting_withdraw",{"from_account":"alice","to_account":"alice","withdrawn":"0.026475 VESTS","deposited":"0.710 STEEM"}]'
+    - name: fill_order
+      virtual: true
+      purpose:
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - current_owner
+          current_orderid
+          current_pays
+          open_owner
+          open_orderid
+          open_pays
+      json_examples:
+        - '["fill_order",{"current_owner":"alice","current_orderid":42896,"current_pays":"94.999 SBD","open_owner":"bob","open_orderid":10001,"open_pays":"500.000 STEEM"}]'
+    - name: shutdown_witness
+      since: HF14
+      virtual: true
+      purpose: |
+        When a witness goes offline.
+        
+        See: [#278](https://github.com/steemit/steem/issues/278)
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - owner
+      json_examples:
+        - '["shutdown_witness",{"owner":"alice"}]'
+    - name: fill_transfer_from_savings
+      since: HF14
+      virtual: true
+      purpose:
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - from
+          to
+          amount
+          request_id
+          memo
+    - name: hardfork
+      since: HF9
+      virtual: true
+      purpose:
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - hardfork_id
+    - name: comment_payout_update
+      virtual: true
+      purpose:
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - author
+          permlink
+    - name: return_vesting_delegation
+      since: HF17
+      virtual: true
+      purpose:
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - account
+          vesting_shares
+    - name: comment_benefactor_reward
+      since: HF17
+      virtual: true
+      purpose:
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - benefactor
+          author
+          permlink
+          reward
+    - name: producer_reward
+      since: HF17
+      virtual: true
+      purpose: |
+        Witness rewards for block signing are hard to account for. Making these
+        rewards visible will help witnesses and prospective witnesses by
+        providing them with more complete and accurate information to guide
+        their decisions to invest in the platform.
+      roles:
+        - posting
+          active
+          owner
+      params:
+        - producer
+          vesting_shares
+      json_examples:
+        - '["producer_reward", {"producer":"alice","vesting_shares":"14403.626449 VESTS"}]'
