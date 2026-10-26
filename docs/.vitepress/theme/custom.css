@@ -9,7 +9,10 @@
  *   4. Table polish (method index tables)
  * ------------------------------------------------------------------------- */
 
-/* --- 1. Badge chips ------------------------------------------------------ */
+/* --- 1. Shared palette (badge chips + code-card accents) ------------------
+ * Single source of truth: badge chips and the code-card title accents both
+ * reference these tokens, so light/dark stays in sync in one place.
+ * -------------------------------------------------------------------------- */
 
 :root {
   --badge-red-fg: #b91c1c;
@@ -20,8 +23,14 @@
   --badge-blue-bg: rgba(59, 130, 246, 0.12);
   --badge-purple-fg: #6d28d9;
   --badge-purple-bg: rgba(124, 58, 237, 0.12);
+  --badge-green-fg: #047857;
+  --badge-green-bg: rgba(16, 185, 129, 0.12);
   --badge-gray-fg: var(--vp-c-text-2);
   --badge-gray-bg: var(--vp-c-bg-soft);
+  /* Code-card accent bars (border-left on titles). */
+  --accent-blue: #3b82f6;
+  --accent-green: #10b981;
+  --accent-orange: #f59e0b;
 }
 
 .dark {
@@ -33,6 +42,11 @@
   --badge-blue-bg: rgba(96, 165, 250, 0.16);
   --badge-purple-fg: #c4b5fd;
   --badge-purple-bg: rgba(167, 139, 250, 0.16);
+  --badge-green-fg: #6ee7b7;
+  --badge-green-bg: rgba(110, 231, 183, 0.14);
+  --accent-blue: #60a5fa;
+  --accent-green: #34d399;
+  --accent-orange: #fbbf24;
 }
 
 .badge {
@@ -82,6 +96,16 @@
   white-space: normal;
 }
 
+/* Inline code inside a badge keeps the pill's palette: the default theme's
+ * inline-code chrome (padding, border-radius, background) would break it. */
+.vp-doc .badge code {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+}
+
 /* Method/op badge row emitted by the generator. */
 .api-badges {
   display: flex;
@@ -114,6 +138,10 @@
 .api-card:hover {
   border-color: var(--vp-c-brand-1);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+.dark .api-card:hover {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
 }
 
 /* Header row: name link + count badge (generator emits <p><a/> <span/></p>). */
@@ -165,21 +193,17 @@
 }
 
 .code-card-params > .code-card-title {
-  border-left-color: #3b82f6;
+  border-left-color: var(--accent-blue);
   color: var(--badge-blue-fg);
 }
 
 .code-card-response > .code-card-title {
-  border-left-color: #10b981;
-  color: #047857;
-}
-
-.dark .code-card-response > .code-card-title {
-  color: #6ee7b7;
+  border-left-color: var(--accent-green);
+  color: var(--badge-green-fg);
 }
 
 .code-card-example > .code-card-title {
-  border-left-color: #f59e0b;
+  border-left-color: var(--accent-orange);
   color: var(--badge-orange-fg);
 }
 
@@ -208,7 +232,10 @@ html:not(.dark) .VPNavBarTitle img.logo {
   margin: 16px 0;
   border: 1px solid var(--vp-c-divider);
   border-radius: 10px;
-  overflow: hidden;
+  /* Restore the default theme's horizontal scrolling (the table itself is the
+   * scroll container): border + radius stay on the box, content scrolls under
+   * them instead of being clipped off-canvas. */
+  overflow-x: auto;
 }
 
 .vp-doc th,

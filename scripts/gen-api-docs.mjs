@@ -208,6 +208,14 @@ const escapeHtml = (text) =>
   String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 /**
+ * Escape a value for use as markdown link text: HTML entities first (& < >),
+ * then the markdown-significant characters [ ] | backslash-escaped, so the
+ * text survives link parsing and still renders literally (e.g. "&" -> "&amp;").
+ */
+const escapeLinkText = (text) =>
+  escapeHtml(text).replace(/[[\]|]/g, (ch) => `\\${ch}`);
+
+/**
  * Wrap a fenced block (or several) in a titled card container. Blank lines
  * around the fence keep markdown processing active inside the raw HTML div.
  */
@@ -285,7 +293,11 @@ function expectedCurlResponsesSection(value, file, where) {
     }
   }
   if (blocks.length === 0) return null;
-  return [`## Expected curl responses`, '', blocks.join('\n\n')].join('\n');
+  return [
+    `## Expected curl responses`,
+    '',
+    codeCard('EXPECTED RESPONSES', 'response', blocks.join('\n\n')),
+  ].join('\n');
 }
 
 // ---------------------------------------------------------------------------
@@ -317,7 +329,12 @@ function methodPage(m, file) {
     ? m.curl_examples.find((e) => typeof e === 'string' && e.trim())
     : undefined;
   const curlBody = curlExample ?? syntheticCurl(apiMethod, m.parameter_json);
-  parts.push('## Example curl', '', fence(curlExampleLang(curlBody), curlBody), '');
+  parts.push(
+    '## Example curl',
+    '',
+    codeCard('CURL', 'example', fence(curlExampleLang(curlBody), curlBody)),
+    ''
+  );
 
   const response = jsonBlock(m.expected_response_json, { omitEmptyArray: true });
   if (response !== null) {
@@ -428,11 +445,13 @@ function overviewPage(apis) {
     // can never be re-interpreted as markdown (lists, emphasis, ...).
     const summary = escapeHtml(api.summary ?? '');
     // The API name stays a real markdown link so strict dead-link checking
-    // still covers every card (raw <a href> would bypass it).
+    // still covers every card (raw <a href> would bypass it). Link text is
+    // escaped so legacy names with markdown-significant characters cannot
+    // break the link or inject markup.
     parts.push(
       '<div class="api-card">',
       '',
-      `[${api.displayName}](/api/${api.stem}/) <span class="badge badge-count">${count}</span>`,
+      `[${escapeLinkText(api.displayName)}](/api/${api.stem}/) <span class="badge badge-count">${count}</span>`,
       '',
       `<p class="api-card-summary">${summary}</p>`,
       '',

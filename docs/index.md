@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "Steem Developer Documentation"
   text: "The modern JSON-RPC reference for Steem"
-  tagline: "All 215 API methods and 85 broadcast operations, generated at build time from a single YAML source of truth — individually addressable and fully searchable."
+  tagline: "Every API method and broadcast operation, generated at build time from a single YAML source of truth — individually addressable and fully searchable."
   actions:
     - theme: brand
       text: API Reference
