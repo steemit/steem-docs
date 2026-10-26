@@ -74,6 +74,58 @@ function apiSidebar() {
   }
 }
 
+// ---------------------------------------------------------------------------
+// i18n scaffold — NOT active. The site ships English-only: the root locale is
+// the top-level `lang: 'en'` below, and no `locales` block is registered yet.
+// Registering an empty locale is forbidden — it renders a language switcher
+// that points at pages that don't exist (empty nav).
+//
+// Directory convention: the root locale stays at docs/; every added language
+// gets its own mirrored subtree:
+//   docs/             -> en (root, existing content)
+//   docs/zh/index.md  -> zh homepage
+//   docs/zh/api/...   -> zh API pages (per-locale generation is a separate
+//                        project — do NOT copy generated files into a locale)
+//
+// How to add a language (zh shown; repeat for ru / fr / de / it / es):
+//
+//   1. Create the content tree under docs/zh/, mirroring docs/.
+//   2. Register a `locales` block inside defineConfig (merge it with the
+//      existing keys — `themeConfig` deep-merges over the root's, so only
+//      per-locale overrides belong here; the sidebar reuses apiSidebar(),
+//      which is locale-independent because it reads the same manifest):
+//
+//        locales: {
+//          root: {
+//            lang: 'en',
+//            themeConfig: {
+//              nav: [
+//                { text: 'Home', link: '/' },
+//                { text: 'API', link: '/api/' }
+//              ],
+//              sidebar: [{ text: 'API Reference', items: apiSidebar() }]
+//            }
+//          },
+//          zh: {
+//            label: '简体中文',
+//            lang: 'zh-Hans',
+//            link: '/zh/',
+//            themeConfig: {
+//              nav: [
+//                { text: '首页', link: '/zh/' },
+//                { text: 'API', link: '/zh/api/' }
+//              ],
+//              sidebar: [{ text: 'API 参考', items: apiSidebar() }]
+//            }
+//          }
+//        },
+//
+//   3. Translate in two passes: theme chrome first (nav/sidebar labels in
+//      themeConfig), then hand-written content pages top-down.
+//   4. `pnpm build` — the switcher appears once a second locale exists;
+//      verify every /zh/ page has nav + sidebar before merging.
+// ---------------------------------------------------------------------------
+
 export default defineConfig({
   lang: 'en',
   title: 'Steem Developer Docs',
