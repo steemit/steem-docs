@@ -3,6 +3,13 @@ name: PR Build
 on:
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,10 +24,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        # single logical command; YAML folds the wrapped lines back together
-        run: >-
-          pnpm
-          install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build docs
         run: pnpm build
