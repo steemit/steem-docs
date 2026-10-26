@@ -5,6 +5,11 @@ import { fileURLToPath } from 'node:url'
 
 const base = process.env.VITEPRESS_BASE || '/steem-docs/'
 
+// Canonical production URL. VitePress passes sitemap.hostname straight to the
+// `sitemap` package, which prepends it to page paths that do NOT include
+// `base`, so the base path must already be part of the hostname here.
+const hostname = 'https://steemit.github.io/steem-docs/'
+
 // The API sidebar is assembled from the manifest emitted by `pnpm docs:gen`
 // (scripts/gen-api-docs.mjs -> docs/.vitepress/gen/api-manifest.json). When the
 // manifest is missing (e.g. generator not run yet) degrade to an empty sidebar
@@ -55,7 +60,21 @@ export default defineConfig({
   title: 'Steem Developer Docs',
   description: 'JSON-RPC API reference for the Steem blockchain, rebuilt with VitePress.',
   base,
-  head: [['link', { rel: 'icon', type: 'image/png', href: `${base}favicon.png` }]],
+  // Content pages carry no meaningful git timestamps (the YAML data files are
+  // the source of truth), so the "Last updated" footer is disabled.
+  lastUpdated: false,
+  sitemap: { hostname },
+  head: [
+    ['link', { rel: 'icon', type: 'image/png', href: `${base}favicon.png` }],
+    // Open Graph / Twitter card basics. og:* tags use property="", twitter:*
+    // uses name="" (per the respective specs). og:url / og:image are absolute
+    // so crawlers resolve them regardless of the page they arrive from.
+    ['meta', { property: 'og:site_name', content: 'Steem Developer Docs' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:url', content: hostname }],
+    ['meta', { property: 'og:image', content: `${hostname}logo.svg` }],
+    ['meta', { name: 'twitter:card', content: 'summary' }]
+  ],
   themeConfig: {
     // VitePress applies withBase() to themeConfig.logo itself — passing
     // `${base}logo.svg` would double the prefix (/steem-docs/steem-docs/...).
