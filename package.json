@@ -10,7 +10,7 @@
     "dev": "pnpm docs:gen && vitepress dev docs",
     "build": "pnpm docs:gen && vitepress build docs",
     "preview": "vitepress preview docs",
-    "docs:gen": "echo \"placeholder: generator lands in T3\"",
+    "docs:gen": "node scripts/gen-api-docs.mjs",
     "validate:data": "node scripts/validate-data.mjs"
   },
   "devDependencies": {
