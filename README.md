@@ -95,3 +95,44 @@ an error. Exit code 1 means usage errors or unrecoverable YAML parse
 failures; an unknown `--api` stem only prints a warning. (`TEST_NODE` applies
 to this tool only — `scrape:api-defs` deliberately ignores it; use `--node`
 there, which overrides its built-in default.)
+
+## Internationalization (i18n)
+
+The site ships English-only. The multi-language layout is scaffolded in
+`docs/.vitepress/config.mts` (a commented template above `defineConfig`) but
+no second locale is registered — an empty locale would render a language
+switcher pointing at pages that don't exist.
+
+### Directory convention
+
+The root locale stays at `docs/`; every additional language gets its own
+mirrored subtree:
+
+```
+docs/             # en — root locale (existing content)
+docs/zh/          # zh — index.md, api/… mirror the root structure
+```
+
+### Adding a language (e.g. `zh`)
+
+1. Create the content tree `docs/zh/`, mirroring `docs/`.
+2. Register the locale in `docs/.vitepress/config.mts`, following the
+   commented template above `defineConfig` — it shows the `locales` block
+   (root + `zh`), how `themeConfig` deep-merges over the root's, and how the
+   sidebar reuses `apiSidebar()` for the generated API pages.
+3. `pnpm build`, then confirm the language switcher appears and every
+   translated page has nav + sidebar. Never stage a half-registered locale.
+
+### Translation scope
+
+Translate in two passes:
+
+1. **Theme chrome first** — nav labels, sidebar group titles, search
+   placeholders: everything in the locale's `themeConfig`.
+2. **Content second** — hand-written pages top-down. Pages under `docs/api/`
+   are generated from the YAML data at build time; per-locale generation is
+   a separate project — do not copy generated files into a locale tree.
+
+The authoritative copy of the template is the comment block in
+`docs/.vitepress/config.mts` — keep the two in sync when the scaffold is
+extended.

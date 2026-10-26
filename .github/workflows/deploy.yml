@@ -1,0 +1,65 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Minimal per the official Pages template: the deploy-pages action exchanges
+# an OIDC token (id-token) for a short-lived Pages deployment credential.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Pages deployments are serialized: never cancel an in-flight deployment and
+# never run two concurrently (they would race for the environment).
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate data
+        run: pnpm validate:data
+
+      - name: Build docs
+        # No VITEPRESS_BASE needed: config.mts defaults the base to
+        # /steem-docs/ — the github.io project-pages path.
+        run: pnpm build
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          # MUST be explicit: this action's default path is `_site/` (Jekyll
+          # convention), which does not exist for a VitePress build. Without
+          # this line the first deploy fails with an empty-artifact error.
+          path: docs/.vitepress/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
