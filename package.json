@@ -10,9 +10,11 @@
     "dev": "pnpm docs:gen && vitepress dev docs",
     "build": "pnpm docs:gen && vitepress build docs",
     "preview": "vitepress preview docs",
-    "docs:gen": "echo \"placeholder: generator lands in T3\""
+    "docs:gen": "echo \"placeholder: generator lands in T3\"",
+    "validate:data": "node scripts/validate-data.mjs"
   },
   "devDependencies": {
-    "vitepress": "^1.6.4"
+    "vitepress": "^1.6.4",
+    "yaml": "^2.9.1"
   }
 }
