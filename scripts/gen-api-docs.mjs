@@ -200,6 +200,19 @@ function splitFoldedList(value) {
 
 const fence = (lang, content) => `\`\`\`${lang}\n${content}\n\`\`\``;
 
+/** Escape a value for a markdown table cell ('|' is the column separator). */
+const tableCell = (text) => String(text).replace(/\|/g, '\\|');
+
+/**
+ * Fence language for a curl example: a few legacy entries store a bare
+ * JSON-RPC body (condenser_api.get_block, database_api.find_savings_withdrawals)
+ * — those render as json; anything else stays a bash line.
+ */
+function curlExampleLang(text) {
+  const s = String(text).trimStart();
+  return s.startsWith('{') || s.startsWith('[') ? 'json' : 'bash';
+}
+
 function frontmatter({ title, description, outline = true }) {
   const lines = ['---', `title: ${JSON.stringify(title)}`];
   if (description) lines.push(`description: ${JSON.stringify(description)}`);
@@ -232,7 +245,9 @@ function networkLine(m) {
 }
 
 function syntheticCurl(apiMethod, parameterJson) {
-  return `curl -s ${API_URL} --data '{"jsonrpc":"2.0","method":"${apiMethod}","params":${compactJson(parameterJson)},"id":1}'`;
+  // The body is a single-quoted shell string: escape embedded single quotes.
+  const params = compactJson(parameterJson).replace(/'/g, `'\\''`);
+  return `curl -s ${API_URL} --data '{"jsonrpc":"2.0","method":"${apiMethod}","params":${params},"id":1}'`;
 }
 
 function expectedCurlResponsesSection(value, file, where) {
@@ -280,12 +295,8 @@ function methodPage(m, file) {
   const curlExample = Array.isArray(m.curl_examples)
     ? m.curl_examples.find((e) => typeof e === 'string' && e.trim())
     : undefined;
-  parts.push(
-    '## Example curl',
-    '',
-    fence('bash', curlExample ?? syntheticCurl(apiMethod, m.parameter_json)),
-    ''
-  );
+  const curlBody = curlExample ?? syntheticCurl(apiMethod, m.parameter_json);
+  parts.push('## Example curl', '', fence(curlExampleLang(curlBody), curlBody), '');
 
   const response = jsonBlock(m.expected_response_json, { omitEmptyArray: true });
   if (response !== null) {
@@ -317,7 +328,7 @@ function methodsIndexPage(stem, displayName, description, methods, file) {
       .filter(Boolean)
       .join(', ');
     const since = isMissing(m.since) ? '' : String(m.since);
-    parts.push(`| [${short}](${short}) | ${since} | ${flags} |`);
+    parts.push(`| [${tableCell(short)}](${tableCell(short)}) | ${tableCell(since)} | ${tableCell(flags)} |`);
   }
   parts.push('');
   return parts.join('\n');
@@ -388,7 +399,7 @@ function overviewPage(apis) {
   ];
   for (const api of apis) {
     const count = api.type === 'ops' ? `${api.opCount} ops` : String(api.methodCount);
-    parts.push(`| [${api.displayName}](/api/${api.stem}/) | ${count} | ${api.summary} |`);
+    parts.push(`| [${tableCell(api.displayName)}](/api/${api.stem}/) | ${tableCell(count)} | ${tableCell(api.summary)} |`);
   }
   parts.push('');
   return parts.join('\n');
@@ -422,7 +433,9 @@ function main() {
     let description = '';
     for (const group of data) {
       if (!isObject(group)) continue;
-      if (!isMissing(group.name)) displayName = String(group.name);
+      // One-line normalize: several legacy files carry a leading colon
+      // (':block_api') that must never leak into sidebar/titles/h1/overview.
+      if (!isMissing(group.name)) displayName = String(group.name).replace(/^:+/, '').trim();
       if (!isMissing(group.description)) description = cleanLiquid(group.description, file, `description of group ${displayName}`);
       if (Array.isArray(group.methods)) {
         for (const el of group.methods) walkMethods(el, methods);
@@ -439,6 +452,18 @@ function main() {
       const dot = apiMethod.indexOf('.');
       return { m, short: dot === -1 ? apiMethod : apiMethod.slice(dot + 1), full: apiMethod };
     });
+    // Uniqueness safety net for standalone `pnpm docs:gen` runs: two methods
+    // sharing one short name would silently overwrite the same .md file.
+    const seenShort = new Map();
+    for (const { short, full } of decorated) {
+      if (seenShort.has(short)) {
+        throw new Error(
+          `${file}: duplicate method short name '${short}' in API '${displayName}' — ` +
+            `'${seenShort.get(short)}' and '${full}' both render to ${stem}/${short}.md`
+        );
+      }
+      seenShort.set(short, full);
+    }
 
     let indexContent;
     if (methods.length > 0) {
@@ -459,23 +484,25 @@ function main() {
       stem,
       displayName,
       summary,
-      methodCount: methods.length > 0 ? methods.length : ops.length,
+      // Strict semantics: methodCount counts method pages only (0 for ops
+      // APIs); opCount carries the op entries. Overview/index render the
+      // opCount for ops APIs.
+      methodCount: methods.length,
+      opCount: ops.length,
       methods: decorated.map(({ short, full, m }) => ({
         short,
         full,
         deprecated: m.deprecated === true,
       })),
       type: methods.length > 0 ? 'methods' : 'ops',
-      opCount: ops.length,
     });
   }
 
   // Overview page + manifest: ops APIs (broadcast_ops*) sort last.
   manifestApis.sort((a, b) => (a.type === 'ops' ? 1 : 0) - (b.type === 'ops' ? 1 : 0) || a.stem.localeCompare(b.stem));
   const manifest = {
-    apis: manifestApis.map(({ type, opCount, ...spec }) => {
-      void type;
-      void opCount;
+    apis: manifestApis.map(({ type, ...spec }) => {
+      void type; // internal sort key; consumers use methodCount/opCount
       return spec;
     }),
   };
