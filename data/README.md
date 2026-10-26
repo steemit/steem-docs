@@ -8,9 +8,10 @@ generated from it at build time and the files are never hand-edited here.
 
 ## Layout
 
-- `apidefinitions/*.yml` — 19 files, one per API (plus the two broadcast
-  operation reference files). The file name (without `.yml`) is the API's URL
-  slug (e.g. `bridge.yml` → `/api/bridge/`).
+- `apidefinitions/*.yml` — 19 files: 17 API definition files (one per API) plus
+  2 broadcast operation reference files (`broadcast_ops.yml`,
+  `broadcast_ops_communities.yml`). The file name (without `.yml`) is the API's
+  URL slug (e.g. `bridge.yml` → `/api/bridge/`).
 
 ## File schema
 
@@ -42,8 +43,8 @@ nesting may be deeper, so consumers must recurse.
 | `since`                   | no       | Hardfork / version the method appeared in (e.g. `HF14`).                                        |
 | `disabled`                | no       | `true` when the method is disabled on public nodes.                                             |
 | `deprecated`              | no       | `true` when the method is deprecated.                                                           |
-| `testnet`                 | no       | Testnet-specific note / availability.                                                           |
-| `mainnet`                 | no       | Mainnet-specific note / availability.                                                           |
+| `testnet`                 | no       | Testnet availability status: object `{ working: boolean, detail: string }` (every occurrence in the data set uses this shape). |
+| `mainnet`                 | no       | Mainnet availability status: object `{ working: boolean, detail: string }` (every occurrence in the data set uses this shape). |
 
 ### Op entry (`broadcast_ops.yml`, `broadcast_ops_communities.yml`)
 

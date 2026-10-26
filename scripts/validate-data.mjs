@@ -46,13 +46,13 @@ const warnings = []; // { category, message }
 // Aggregates
 let totalGroups = 0;
 let totalMethods = 0;
+const methodsPerFile = {};
 const opsPerFile = {};
 const missingPurpose = [];
 const missingResponse = [];
 const missingCurl = [];
-const shortsByFile = new Map(); // file -> Map(short -> first api_method)
 const shortsAcrossApis = new Map(); // short -> Set(files)
-const filesWithOps = [];
+const filesWithOps = new Set();
 
 function warn(category, message) {
   warnings.push({ category, message });
@@ -63,26 +63,47 @@ function error(message) {
 }
 
 /** Detect duplicate mapping keys by walking the yaml AST. */
-function collectDuplicateKeys(node, path, file) {
+function collectDuplicateKeys(node, path, file, methodCtx) {
   if (node instanceof YAMLMap) {
+    // If this mapping is a method entry, remember its api_method + display
+    // path so duplicate-key warnings inside it can name the offending method.
+    let ctx = methodCtx;
+    for (const pair of node.items) {
+      const key = String(pair.key?.value ?? pair.key);
+      if (key === 'api_method' && pair.value?.value != null) {
+        ctx = { apiMethod: String(pair.value.value), displayPath: stripGroupPrefix(path) };
+      }
+    }
     const seen = new Set();
     for (const pair of node.items) {
       const key = String(pair.key?.value ?? pair.key);
       if (seen.has(key)) {
-        warn('duplicate-key', `${file}:${path || '<root>'} has duplicate key "${key}" (last value silently wins for consumers)`);
+        if (ctx) {
+          warn('duplicate-key', `${file}: ${ctx.displayPath} (${ctx.apiMethod}) has duplicate key "${key}"`);
+        } else {
+          warn('duplicate-key', `${file}:${path || '<root>'} has duplicate key "${key}" (last value silently wins for consumers)`);
+        }
       }
       seen.add(key);
-      collectDuplicateKeys(pair.value, path ? `${path}.${key}` : key, file);
+      collectDuplicateKeys(pair.value, path ? `${path}.${key}` : key, file, ctx);
     }
   } else if (node instanceof YAMLSeq) {
-    node.items.forEach((item, i) => collectDuplicateKeys(item, `${path}[${i}]`, file));
+    node.items.forEach((item, i) => collectDuplicateKeys(item, `${path}[${i}]`, file, methodCtx));
   }
+}
+
+/** `[0].methods[8]` -> `methods[8]` (drop the top-level group index). */
+function stripGroupPrefix(path) {
+  return path.replace(/^\[\d+\]\./, '');
 }
 
 /**
  * Recursively walk method entries. Handles arbitrarily deep nesting (objects
  * without `api_method` but with nested `methods` arrays are treated as
  * sub-groups; any other shape without `api_method` is an error).
+ *
+ * `shorts` is the per-file method_short registry: one Map per file, shared
+ * across all groups in that file (duplicates within a file are errors).
  */
 function walkMethodEntry(node, path, file, shorts) {
   if (!isObject(node)) {
@@ -103,18 +124,18 @@ function walkMethodEntry(node, path, file, shorts) {
   const dot = apiMethod.indexOf('.');
   const short = dot === -1 ? apiMethod : apiMethod.slice(dot + 1);
 
-  const shortsForFile = shorts ?? new Map();
-  if (shortsForFile.has(short)) {
+  if (shorts.has(short)) {
     error(
-      `${file}: duplicate method_short "${short}" within API (${shortsForFile.get(short)} and ${apiMethod})`
+      `${file}: duplicate method_short "${short}" within API (${shorts.get(short)} and ${apiMethod})`
     );
   } else {
-    shortsForFile.set(short, apiMethod);
+    shorts.set(short, apiMethod);
   }
   const filesWithShort = shortsAcrossApis.get(short) ?? new Set();
   filesWithShort.add(file);
   shortsAcrossApis.set(short, filesWithShort);
   totalMethods++;
+  methodsPerFile[file] = (methodsPerFile[file] ?? 0) + 1;
 
   if (isMissing(node.purpose)) missingPurpose.push(apiMethod);
   if (isMissing(node.expected_response_json)) missingResponse.push(apiMethod);
@@ -124,7 +145,7 @@ function walkMethodEntry(node, path, file, shorts) {
   // of the documented method schema (known list fields hold scalars).
   for (const [key, value] of Object.entries(node)) {
     if (Array.isArray(value) && !METHOD_FIELDS.has(key)) {
-      value.forEach((el, i) => walkMethodEntry(el, `${path}.${key}[${i}]`, file, shortsForFile));
+      value.forEach((el, i) => walkMethodEntry(el, `${path}.${key}[${i}]`, file, shorts));
     }
   }
 }
@@ -134,6 +155,9 @@ const files = readdirSync(DATA_DIR).filter((f) => f.endsWith('.yml')).sort();
 for (const file of files) {
   const raw = readFileSync(join(DATA_DIR, file), 'utf8');
 
+  // One method_short registry per file, shared across all of the file's
+  // groups: a duplicate short anywhere in the file is an error.
+  const fileShorts = new Map();
   let doc = parseDocument(raw, { uniqueKeys: false });
 
   // Legacy quirk: the 2019-era Ruby scraper emitted the closing quote of some
@@ -195,10 +219,8 @@ for (const file of files) {
     if (group.methods !== undefined && !Array.isArray(group.methods)) {
       error(`${groupPath}: "methods" must be an array when present`);
     } else if (Array.isArray(group.methods)) {
-      const shorts = new Map();
-      shortsByFile.set(file, shorts);
       group.methods.forEach((el, mi) =>
-        walkMethodEntry(el, `${groupPath}.methods[${mi}]`, file, shorts)
+        walkMethodEntry(el, `${groupPath}.methods[${mi}]`, file, fileShorts)
       );
     }
 
@@ -206,8 +228,8 @@ for (const file of files) {
       if (!Array.isArray(group.ops)) {
         error(`${groupPath}: "ops" must be an array when present`);
       } else {
-        filesWithOps.push(file);
-        opsPerFile[file] = group.ops.length;
+        filesWithOps.add(file);
+        opsPerFile[file] = (opsPerFile[file] ?? 0) + group.ops.length;
         group.ops.forEach((op, oi) => {
           if (!isObject(op)) {
             error(`${groupPath}:ops[${oi}]: op must be a mapping`);
@@ -252,11 +274,18 @@ const warningsTotal =
 console.log('  files                              : ' + files.length);
 console.log('  groups                             : ' + totalGroups);
 console.log('  methods                            : ' + totalMethods);
+console.log('  methods per file                   :');
+const fileCol = Math.max(...files.map((f) => f.length));
+for (const f of files) {
+  const m = methodsPerFile[f] ?? 0;
+  const o = opsPerFile[f];
+  console.log(`    ${f.padEnd(fileCol)} : ${m} methods${o !== undefined ? `, ${o} ops` : ''}`);
+}
 console.log(
   '  ops                                : ' +
     totalOps +
-    (filesWithOps.length
-      ? ' (' + filesWithOps.map((f) => `${f}: ${opsPerFile[f]}`).join(', ') + ')'
+    (filesWithOps.size
+      ? ' (' + [...filesWithOps].map((f) => `${f}: ${opsPerFile[f]}`).join(', ') + ')'
       : '')
 );
 console.log('  warnings                           : ' + warningsTotal);
