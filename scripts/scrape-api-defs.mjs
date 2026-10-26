@@ -25,29 +25,12 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import process from 'node:process';
+import { isObject, repairLegacyQuotes, walkMethods } from './lib/yaml-lenient.mjs';
 
 const DATA_DIR = fileURLToPath(new URL('../data/apidefinitions/', import.meta.url));
 const DEFAULT_NODE = 'https://api.steem.fans';
 const CONCURRENCY = 4;
 const TIMEOUT_MS = 15_000;
-
-// Fields with defined meaning on a method entry (same set as the validator);
-// any other array-valued key is recursed into as a potential sub-group.
-const METHOD_FIELDS = new Set([
-  'api_method',
-  'purpose',
-  'parameter_json',
-  'expected_response_json',
-  'curl_examples',
-  'expected_curl_responses',
-  'since',
-  'disabled',
-  'deprecated',
-  'testnet',
-  'mainnet',
-]);
-
-const isObject = (v) => typeof v === 'object' && v !== null && !Array.isArray(v);
 
 // ---------------------------------------------------------------------------
 // CLI
@@ -82,22 +65,6 @@ if (!/^https?:\/\//.test(NODE_URL)) {
 // YAML loading (lenient, mirrors scripts/validate-data.mjs)
 // ---------------------------------------------------------------------------
 
-function repairLegacyQuotes(raw) {
-  if (!/^'$/m.test(raw)) return raw;
-  const lines = raw.split('\n');
-  let repaired = 0;
-  for (let i = 0; i < lines.length; i++) {
-    if (/^'\r?$/.test(lines[i])) {
-      let j = i - 1;
-      while (j >= 0 && lines[j].trim() === '') j--;
-      const indent = j >= 0 ? (/^[ \t]*/.exec(lines[j])?.[0] ?? '') + '  ' : '  ';
-      lines[i] = indent + lines[i];
-      repaired++;
-    }
-  }
-  return repaired > 0 ? lines.join('\n') : raw;
-}
-
 /**
  * Parse one data file into a yaml Document. Returns { doc, repaired } or
  * { error } when the file is unparseable even after the legacy-quote repair.
@@ -111,27 +78,6 @@ function loadDoc(file) {
     return { error: `YAML parse error at line ${line}: ${String(doc.errors[0].message).split('\n')[0]}` };
   }
   return { doc, repaired: repairedRaw !== raw };
-}
-
-/** Recursively collect method entries, mirroring the validator's walk. */
-function walkMethods(node, out) {
-  if (Array.isArray(node)) {
-    node.forEach((el) => walkMethods(el, out));
-    return;
-  }
-  if (!isObject(node)) return;
-  if (node.api_method === undefined) {
-    if (Array.isArray(node.methods)) {
-      node.methods.forEach((el) => walkMethods(el, out));
-    }
-    return; // ops entries (broadcast op docs) never carry api_method: skipped
-  }
-  out.push(node);
-  for (const [key, value] of Object.entries(node)) {
-    if (Array.isArray(value) && !METHOD_FIELDS.has(key)) {
-      value.forEach((el) => walkMethods(el, out));
-    }
-  }
 }
 
 // ---------------------------------------------------------------------------

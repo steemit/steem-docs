@@ -14,26 +14,10 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import process from 'node:process';
+import { METHOD_FIELDS, isObject, repairLegacyQuotesCounted } from './lib/yaml-lenient.mjs';
 
 const DATA_DIR = fileURLToPath(new URL('../data/apidefinitions/', import.meta.url));
 
-// Fields with well-defined meaning on a method entry. Array-valued keys outside
-// this set are treated as deeper nesting containers and recursed into.
-const METHOD_FIELDS = new Set([
-  'api_method',
-  'purpose',
-  'parameter_json',
-  'expected_response_json',
-  'curl_examples',
-  'expected_curl_responses',
-  'since',
-  'disabled',
-  'deprecated',
-  'testnet',
-  'mainnet',
-]);
-
-const isObject = (v) => typeof v === 'object' && v !== null && !Array.isArray(v);
 // "Missing" = absent, null or empty string. An empty array is *not* missing:
 // `expected_response_json: []` is a real example value (35 condenser methods
 // use it). List fields additionally treat an empty array as missing.
@@ -166,19 +150,9 @@ for (const file of files) {
   // byte-identical, so repair in memory only: re-indent the lone closing quote
   // line to the previous content line's indentation + 2.
   if (doc.errors.length > 0) {
-    const lines = raw.split('\n');
-    let repairedLines = 0;
-    for (let i = 0; i < lines.length; i++) {
-      if (/^'\r?$/.test(lines[i])) {
-        let j = i - 1;
-        while (j >= 0 && lines[j].trim() === '') j--;
-        const indent = j >= 0 ? (/^[ \t]*/.exec(lines[j])?.[0] ?? '') + '  ' : '  ';
-        lines[i] = indent + lines[i];
-        repairedLines++;
-      }
-    }
+    const { text: repairedRaw, repaired: repairedLines } = repairLegacyQuotesCounted(raw);
     if (repairedLines > 0) {
-      doc = parseDocument(lines.join('\n'), { uniqueKeys: false });
+      doc = parseDocument(repairedRaw, { uniqueKeys: false });
       warn(
         'lenient-parse',
         `${file}: applied in-memory re-indent to ${repairedLines} legacy unindented closing quote line(s); source file untouched`
