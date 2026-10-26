@@ -3,7 +3,11 @@ import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const base = process.env.VITEPRESS_BASE || '/steem-docs/'
+// Normalize: VITEPRESS_BASE must start AND end with '/' — every downstream
+// consumer (links, hostname, sitemap, og tags) assumes the trailing slash.
+const _rawBase = process.env.VITEPRESS_BASE || '/steem-docs/'
+const _clean = _rawBase.replace(/^\/+|\/+$/g, '')
+const base = _clean ? `/${_clean}/` : '/'
 
 // Canonical production origin + base. VitePress passes sitemap.hostname straight to the
 // `sitemap` package, which prepends it to page paths that do NOT include
