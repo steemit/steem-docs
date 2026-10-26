@@ -435,7 +435,7 @@ function main() {
       if (!isObject(group)) continue;
       // One-line normalize: several legacy files carry a leading colon
       // (':block_api') that must never leak into sidebar/titles/h1/overview.
-      if (!isMissing(group.name)) displayName = String(group.name).replace(/^:+/, '').trim();
+      if (!isMissing(group.name)) displayName = String(group.name).replace(/^:+/, '').trim() || stem;
       if (!isMissing(group.description)) description = cleanLiquid(group.description, file, `description of group ${displayName}`);
       if (Array.isArray(group.methods)) {
         for (const el of group.methods) walkMethods(el, methods);
