@@ -39,7 +39,7 @@
     }
     ```
     
-    Also see: [Broadcast Transaction]({{ '/apidefinitions/#condenser_api.broadcast_transaction' | relative_url }})
+    Also see: Broadcast Transaction
   ops:
     - name: vote
       virtual: false
@@ -144,7 +144,7 @@
         
         In addition to body, the `title` and `json_metadata` fields will also be replaced by the latest operation.
         
-        See: [`comment_options`]({{ '/apidefinitions/#broadcast_ops_comment_options' | relative_url }}), [`vote`]({{ '/apidefinitions/#broadcast_ops_vote' | relative_url }}), [`custom_json`]({{ '/apidefinitions/#broadcast_ops_custom_json' | relative_url }})
+        See: `comment_options`, `vote`, `custom_json`
         
         It should also be noted that a `vote` operation can accompany a `comment` and `comment_options` in the same transaction when the author self votes.
       roles:
@@ -430,7 +430,7 @@
       virtual: false
       purpose: |
         All accounts with a VFS (Vesting Fund Shares) can vote for or against
-        any witness.  See: [`STEEM_MAX_ACCOUNT_WITNESS_VOTES`]({{ '/tutorials-recipes/understanding-configuration-values#STEEM_MAX_ACCOUNT_WITNESS_VOTES' | relative_url }})
+        any witness.  See: `STEEM_MAX_ACCOUNT_WITNESS_VOTES`
         
         If a proxy is specified then all existing votes are removed.
       roles:

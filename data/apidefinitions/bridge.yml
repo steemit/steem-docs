@@ -3,7 +3,7 @@
   description: |
     Presents data interpreted by the hivemind database as JSON-RPC.
     
-    Also see: [Communities Broadcast Ops]({{ '/apidefinitions/#apidefinitions-broadcast-ops-communities' | relative_url }})
+    Also see: Communities Broadcast Ops
   methods:
   - api_method: bridge.get_ranked_posts
     purpose: |

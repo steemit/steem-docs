@@ -62,7 +62,7 @@
     purpose: |
       Returns a list of discussions based on author before date.
       
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#tags_apiget_discussions_by_author_before_date' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"author":"steemit","start_permlink":"firstpost","before_date":"2016-04-19T22:49:43","limit":1}'
     expected_response_json: '{"discussions":[]}'
     curl_examples:
@@ -188,7 +188,7 @@
     purpose: |
       Returns a list of replies by last update.
       
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#tags_apiget_replies_by_last_update' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start_parent_author":"","start_permlink":"","limit":100}'
     expected_response_json: '{"discussions":[]}'
     curl_examples:
@@ -209,7 +209,7 @@
     purpose: |
       Returns the list of trending tags.
       
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#tags_apiget_trending_tags' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start_tag":"","limit":100}'
     expected_response_json: '{"tags":[]}'
     curl_examples:

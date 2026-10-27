@@ -286,7 +286,6 @@
       | `account` (string) | |
       |--------------------|-|
       | `"steemit"` | Queries the savings withdraw for account named "steemit". |
-    parameter_json: '{"start":null,"limit":0,"order":"by_name"}'
     parameter_json: '{"account":""}'
     expected_response_json: '{"withdrawals":[]}'
     curl_examples:
@@ -482,7 +481,7 @@
   - api_method: database_api.get_config
     purpose: |
       Returns information about compile-time constants. Some properties may
-      not be present.  See: [Understanding Configuration Values]({{ '/tutorials-recipes/understanding-configuration-values' | relative_url}})
+      not be present.  See: Understanding Configuration Values
     parameter_json: "{}"
     expected_response_json: |
       {
@@ -717,8 +716,8 @@
     - '{"jsonrpc":"2.0", "method":"database_api.get_current_price_feed", "id":1}'
   - api_method: database_api.get_dynamic_global_properties
     purpose: |
-      Returns the current dynamic global properties.  See: [Understanding
-      Dynamic Global Properties]({{ '/tutorials-recipes/understanding-dynamic-global-properties' | relative_url }})
+      Returns the current dynamic global properties.  See: Understanding
+      Dynamic Global Properties
     parameter_json: "{}"
     expected_response_json: '{"id":0,"head_block_number":0,"head_block_id":"0000000000000000000000000000000000000000","time":"1970-01-01T00:00:00","current_witness":"","total_pow":"18446744073709551615","num_pow_witnesses":0,"virtual_supply":{"amount":"0","precision":3,"nai":"@@000000021"},"current_supply":{"amount":"0","precision":3,"nai":"@@000000021"},"confidential_supply":{"amount":"0","precision":3,"nai":"@@000000021"},"init_sbd_supply":{"amount":"0","precision":3,"nai":"@@000000013"},"current_sbd_supply":{"amount":"0","precision":3,"nai":"@@000000013"},"confidential_sbd_supply":{"amount":"0","precision":3,"nai":"@@000000013"},"total_vesting_fund_steem":{"amount":"0","precision":3,"nai":"@@000000021"},"total_vesting_shares":{"amount":"0","precision":6,"nai":"@@000000037"},"total_reward_fund_steem":{"amount":"0","precision":3,"nai":"@@000000021"},"total_reward_shares2":"0","pending_rewarded_vesting_shares":{"amount":"0","precision":6,"nai":"@@000000037"},"pending_rewarded_vesting_steem":{"amount":"0","precision":3,"nai":"@@000000021"},"sbd_interest_rate":0,"sbd_print_rate":10000,"maximum_block_size":0,"required_actions_partition_percent":0,"current_aslot":0,"recent_slots_filled":"0","participation_count":0,"last_irreversible_block_num":0,"vote_power_reserve_rate":40,"delegation_return_period":3600,"reverse_auction_seconds":0,"available_account_subsidies":0,"sbd_stop_percent":0,"sbd_start_percent":0,"sbd_stop_adjust":0,"next_maintenance_time":"1970-01-01T00:00:00","last_budget_time":"1970-01-01T00:00:00","content_reward_percent":7500,"vesting_reward_percent":1500,"sps_fund_percent":0,"sps_interval_ledger":{"amount":"0","precision":3,"nai":"@@000000013"},"downvote_pool_percent":0,"smt_creation_fee":{"amount":"1000","precision":3,"nai":"@@000000013"}}'
     curl_examples:
@@ -828,7 +827,7 @@
       | `["", ""]` | `10` | `"by_proxy"` Queries for up to 10 accounts starting at the beginning, sorted by proxy. |
       | `["1960-01-01T00:00:00", ""]` | `10` | `"by_next_vesting_withdrawal"` Queries for up to 10 accounts starting at the beginning, sorted by next vesting withdrawl. |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_accounts' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name"}'
     expected_response_json: |
       {
@@ -995,7 +994,7 @@
       | `""` | 10 | `"by_account"` | Queries first 10 requests, sort by account |
       | `["1960-01-01T00:00:00", ""]` | 10 | `"by_effective_date"` | Queries first 10 requests, sort by effective date |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_change_recovery_account_requests' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name"}'
     expected_response_json: |
       {
@@ -1034,7 +1033,7 @@
       | `["steemit","firstpost", "", ""]` | 10 | `"by_root"` | Queries next 10 comments starting at @steemit/firstpost, sort by root |
       | `["steemit","firstpost", "", ""]` | 10 | `"by_parent"` | Queries next 10 comments starting at @steemit/firstpost, sort by parent |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_comments' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name"}'
     expected_response_json: |
       {
@@ -1113,7 +1112,7 @@
       | `""` | 10 | `"by_account"` | Queries first 10 requests, sort by account |
       | `["1960-01-01T00:00:00", ""]` | 10 | `"by_effective_date"` | Queries first 10 requests, sort by effective date |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_decline_voting_rights_requests' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name"}'
     expected_response_json: '{"requests":[]}'
     curl_examples:
@@ -1137,7 +1136,7 @@
       | `["alice", 99]` | 10 | `"by_from_id"` | Queries first 10 requests, sort by id |
       | `[true, "1960-01-01T00:00:00", 99]` | 10 | `"by_ratification_deadline"` | Queries first 10 requests, sort by ratification deadline |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_escrows' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name"}'
     expected_response_json: |
       {
@@ -1191,7 +1190,7 @@
       | `[{"base": {"amount": "85405", "precision": 3, "nai": "@@000000021"}, "quote": {"amount": "17192", "precision": 3, "nai": "@@000000013"}}, 0]` | 10 | `"by_price"` | Queries first 10 requests, sort by price |
       | `["alice", 0]` | 10 | `"by_effective_date"` | Queries first 10 requests, sort by account |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_limit_orders' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name"}'
     expected_response_json: |
       {
@@ -1230,7 +1229,7 @@
       | `["steemit", "1970-01-01T00:00:00"]` | 10 | Queries the owner history starting from account named "steemit" on "1970-01-01T00:00:00", limit 10 results. |
       | `["alice", "1970-01-01T00:00:00"]` | 10 | Queries the owner history starting from account named "alice", limit 10 results. |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_owner_histories' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0}'
     expected_response_json: |
       {
@@ -1275,7 +1274,7 @@
       | `["2018-12-07T16:54:03", "steemit", 0]` | `10` | `"by_complete_from_id"` | Queries the savings withdraw for id (completed). |
       | `["", "1970-01-01T00:00:00", 0]` | `10` | `"by_to_complete"` | Queries the savings withdraw completed. |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_savings_withdrawals' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name"}'
     expected_response_json: |
       {
@@ -1315,7 +1314,7 @@
       | `["steemit", 0]` | 10 | `by_account` | Queries a conversion request for steemit, limit to 10 results, order by account name. |
       | `["2018-12-07T16:54:03", 0]` | 10 | `by_conversion_date`| Queries a conversion request from this date, limit to 10 results, order by conversion date. |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_sbd_conversion_requests' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name"}'
     expected_response_json: |
       {
@@ -1353,7 +1352,7 @@
       | `["1970-01-01T00:00:00", 0]` | 10 | `by_expiration` | Queries delegations, limit to 10 results, order by expiration. |
       | `["alice", "1970-01-01T00:00:00", 0]` | 10 | `by_account_expiration`| Queries delegation from this date, limit to 10 results, order by account expiration. |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_vesting_delegation_expirations' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name"}'
     expected_response_json: |
       {
@@ -1387,7 +1386,7 @@
       |-------------------|-|-|-|
       | `["", ""]` | 10 | `by_delegation` | Queries delegations, limit to 10 results, order by delegations. |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_vesting_delegations' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name"}'
     expected_response_json: |
       {
@@ -1428,7 +1427,7 @@
       | `["xeroc", "vanteem-config", ""]` | 10 | `"by_comment_voter"` | Queries next 10 votes starting on the post `@xeroc/vanteem-config`, sort by comment voter |
       | `["alice", "xeroc", "vanteem-config"]` | 10 | `"by_voter_comment"` | Queries next 10 votes starting at alice on the post `@xeroc/vanteem-config`, sort by voter comment |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_votes' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":["","",""],"limit":10,"order":"by_comment_voter"}'
     expected_response_json: |
       {
@@ -1468,7 +1467,7 @@
       | `["temp", ""]` | 10 | `"by_withdraw_route"` | Queries first 10 routes, sort by withdraw route |
       | `["", 0]` | 10 | `"by_destination"` | Queries first 10 routes, sort by destination |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_withdraw_vesting_routes' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name"}'
     expected_response_json: |
       {
@@ -1502,7 +1501,7 @@
       | `["", ""]` | 10 | `"by_withdraw_route"` | Queries first 10 votes, sort by account witness |
       | `["", ""]` | 10 | `"by_destination"` | Queries first 10 votes, sort by witness account |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_witness_votes' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name"}'
     expected_response_json: |
       {
@@ -1537,7 +1536,7 @@
       | `[0, ""]` | 10 | `"by_vote_name"` | Queries first 10 witnesses, sort by votes |
       | `["473718186844702107410533306", "alice"]` | 10 | `"by_schedule_time"` | Queries first 10 witnesses, sort by schedule |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_witnesses' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name"}'
     expected_response_json: |
       {
@@ -1668,7 +1667,7 @@
       | `["alice"]` | 10 | `by_voter_proposal` | `ascending` | `active` | list 10 proposals with active status, ordered by voter, ascending |
       | `[10]` | 1000 | `by_proposal_voter` | `ascending` | `votable` | list 1000 votes on proposal 10, ordered by `proposal.id`, ascending |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_proposal_votes' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name","order_direction":"ascending","status":"all"}'
     expected_response_json: |
       {"proposal_votes":[{
@@ -1729,7 +1728,7 @@
       | `[""]` | 1000 | `by_creator` | `ascending` | `votable` | list 1000 votable proposals, ordered by creator, ascending |
       | `[10]` | 1000 | `by_total_votes` | `ascending` | `votable` | list 1000 votable proposals, ordered by creator, ascending, having at least 10 votes |
 
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_proposals' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_name","order_direction":"ascending","status":"all"}'
     expected_response_json: |
       {"proposals":[
@@ -1842,7 +1841,7 @@
       
       See: [Token Units](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#token-units), [Vesting Contributions](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#vesting-contributions)
       
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_smt_contributions' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_symbol_id"}'
     expected_response_json: |
       {"contributions": [
@@ -1882,7 +1881,7 @@
       
       See: [Content Rewards](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#content-rewards), [Qualitative Discussion](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#qualitative-discussion)
       
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_smt_token_emissions' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_symbol_time"}'
     expected_response_json: '{"token_emissions":[]}'
     curl_examples:
@@ -1908,7 +1907,7 @@
       
       See: [Smart Media Tokens (SMTs)](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#smart-media-tokens-smts)
       
-      Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_smt_tokens' | relative_url }})
+      Also see: Paginated API Methods
     parameter_json: '{"start":null,"limit":0,"order":"by_symbol"}'
     expected_response_json: |
       {"tokens": [
