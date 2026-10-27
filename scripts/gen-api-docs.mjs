@@ -213,7 +213,32 @@ function badgeLine(m) {
   if (!isMissing(m.since)) parts.push(`<span class="badge badge-since">since ${escapeHtml(String(m.since))}</span>`);
   if (m.deprecated === true) parts.push('<span class="badge badge-deprecated">deprecated</span>');
   if (m.disabled === true) parts.push('<span class="badge badge-disabled">disabled</span>');
+  if (m.removed === true) parts.push('<span class="badge badge-removed">removed</span>');
   return parts.join(' ');
+}
+
+/**
+ * Death-cause line: a `detail` string carried by a method with one of the
+ * death badges (deprecated / disabled / removed) explains why the method is
+ * gone. Rendered as its own paragraph right under the badge row.
+ */
+function detailLine(m, file, apiMethod) {
+  if (typeof m.detail !== 'string' || !m.detail.trim()) return '';
+  const detail = escapeHtml(cleanLiquid(m.detail, file, `detail of ${apiMethod}`).trim());
+  return `<p class="api-detail">${detail}</p>`;
+}
+
+/**
+ * True when the method carries a death badge together with a `detail` cause:
+ * the T9 drift baseline annotates every method that public nodes stopped
+ * serving with badge + detail. Legacy entries that carry a bare
+ * disabled/deprecated flag but are still dispatched (get_state,
+ * verify_account_authority, ...) have no detail and must NOT claim the method
+ * is "no longer provided".
+ */
+function isDeadWithCause(m) {
+  const deathBadge = m.removed === true || m.disabled === true || m.deprecated === true;
+  return deathBadge && typeof m.detail === 'string' && m.detail.trim() !== '';
 }
 
 /** testnet/mainnet availability notes (objects of { working, detail }). */
@@ -275,6 +300,9 @@ function methodPage(m, file) {
   const badges = [badgeLine(m), networkLine(m)].filter(Boolean);
   if (badges.length) parts.push(`<p class="api-badges">${badges.join(' ')}</p>`, '');
 
+  const detail = detailLine(m, file, apiMethod);
+  if (detail) parts.push(detail, '');
+
   if (purpose.trim()) {
     parts.push('## Purpose', '', purpose.trim(), '');
   }
@@ -288,6 +316,9 @@ function methodPage(m, file) {
     ? m.curl_examples.find((e) => typeof e === 'string' && e.trim())
     : undefined;
   const curlBody = curlExample ?? syntheticCurl(apiMethod, m.parameter_json);
+  if (isDeadWithCause(m)) {
+    parts.push('<p class="dead-note">⚠ This RPC method is no longer provided by public nodes.</p>', '');
+  }
   parts.push(
     '## Example curl',
     '',
@@ -321,7 +352,11 @@ function methodsIndexPage(stem, displayName, description, methods, file) {
   for (const entry of methods) {
     const m = entry.m ?? entry;
     const short = entry.short ?? String(entry.full ?? '');
-    const flags = [m.deprecated === true ? 'deprecated' : '', m.disabled === true ? 'disabled' : '']
+    const flags = [
+      m.deprecated === true ? 'deprecated' : '',
+      m.disabled === true ? 'disabled' : '',
+      m.removed === true ? 'removed' : '',
+    ]
       .filter(Boolean)
       .join(', ');
     const since = isMissing(m.since) ? '' : String(m.since);

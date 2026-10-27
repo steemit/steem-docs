@@ -43,6 +43,8 @@ nesting may be deeper, so consumers must recurse.
 | `since`                   | no       | Hardfork / version the method appeared in (e.g. `HF14`).                                        |
 | `disabled`                | no       | `true` when the method is disabled on public nodes.                                             |
 | `deprecated`              | no       | `true` when the method is deprecated.                                                           |
+| `removed`                 | no       | `true` when the method has been removed from public nodes (drift baseline 2026-10-27). Renders the `removed` badge. |
+| `detail`                  | no       | Death-cause note for a method carrying `deprecated`/`disabled`/`removed` (why it is no longer served). Rendered under the badge row; together with a death badge it also adds the "no longer provided by public nodes" warning above the Example curl card. |
 | `testnet`                 | no       | Testnet availability status: object `{ working: boolean, detail: string }` (every occurrence in the data set uses this shape). |
 | `mainnet`                 | no       | Mainnet availability status: object `{ working: boolean, detail: string }` (every occurrence in the data set uses this shape). |
 
