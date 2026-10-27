@@ -176,11 +176,14 @@ function zhQueryTokenize(text: string) {
 }
 
 // ---------------------------------------------------------------------------
-// i18n locales — zh pilot ACTIVE (T11). Structure:
+// i18n locales — zh pilot ACTIVE (T11) + ru rollout (T13). Structure:
 //   docs/             -> en (root locale, existing content)
 //   docs/zh/*.md      -> hand-written zh static pages (home, API overview)
 //   docs/zh/api/      -> GENERATED bridge index pages + zh method pages for
 //                        translated purposes (docs:gen --locale zh; T11+T12)
+//   docs/ru/*.md      -> hand-written ru static pages (home, API overview)
+//   docs/ru/api/      -> GENERATED bridge index pages (docs:gen --locale ru);
+//                        NO ru method pages this phase — all rows bridge en
 //
 // Merge semantics (official resolveSiteDataByRoute): each page's themeConfig
 // is `{ ...topLevel.themeConfig, ...locales[localeIndex].themeConfig }` — a
@@ -272,6 +275,38 @@ export default defineConfig({
         miniSearch: {
           options: {
             tokenize: buildSearchTokenize
+          }
+        },
+        // T13 — ru search-modal UI strings, keyed by locale index so only ru
+        // pages pick them up (en resolves no 'ru' key -> default English UI;
+        // zh replaces the whole search object below). NO tokenizer override
+        // anywhere for ru: Russian words are whitespace/punctuation-delimited,
+        // so the shared build tokenizer (which only special-cases CJK runs)
+        // indexes Cyrillic terms whole — identical to MiniSearch's default —
+        // and MiniSearch's default query tokenizer matches them as-is.
+        locales: {
+          ru: {
+            translations: {
+              button: {
+                buttonText: 'Поиск',
+                buttonAriaLabel: 'Поиск'
+              },
+              modal: {
+                displayDetails: 'Показать подробный список',
+                resetButtonTitle: 'Сбросить запрос',
+                backButtonTitle: 'Вернуться назад',
+                noResultsText: 'Результатов не найдено',
+                footer: {
+                  selectText: 'Выбрать',
+                  selectKeyAriaLabel: 'Выбрать',
+                  navigateText: 'Переключить',
+                  navigateUpKeyAriaLabel: 'Стрелка вверх',
+                  navigateDownKeyAriaLabel: 'Стрелка вниз',
+                  closeText: 'Закрыть',
+                  closeKeyAriaLabel: 'Закрыть'
+                }
+              }
+            }
           }
         }
       }
@@ -369,6 +404,43 @@ export default defineConfig({
             }
           }
         }
+      }
+    },
+    ru: {
+      label: 'Русский',
+      lang: 'ru',
+      // Switcher target while i18nRouting is off: always the ru homepage.
+      link: '/ru/',
+      themeConfig: {
+        nav: [
+          { text: 'Главная', link: '/ru/' },
+          { text: 'API', link: '/ru/api/' }
+        ],
+        // T13 partial locale: ru has NO method pages, so the collapsible
+        // GROUP nodes (API index pages) point into the ru tree while the
+        // method CHILDREN bridge to the en tree — the same mixed-prefix
+        // pattern the T11-era zh sidebar used before T12 filled it in.
+        sidebar: [
+          {
+            text: 'Справочник API',
+            items: apiSidebar({ indexPrefix: '/ru/api/', methodPrefix: '/api/' })
+          }
+        ],
+        // Default-theme UI strings (VitePress default theme overridables).
+        // No `lastUpdated` text override: the feature itself is off
+        // site-wide (`lastUpdated: false` above). Search modal strings for
+        // ru live in the TOP-LEVEL search block (see the locales key there) —
+        // ru deliberately sets no `search` here: MiniSearch's default
+        // tokenization already suits Cyrillic, and omitting the block lets
+        // ru pages reuse the shared provider/options configuration.
+        outline: { label: 'На этой странице' },
+        docFooter: { prev: 'Предыдущая', next: 'Следующая' },
+        returnToTopLabel: 'Вернуться к началу',
+        sidebarMenuLabel: 'Меню',
+        darkModeSwitchLabel: 'Оформление',
+        lightModeSwitchTitle: 'Переключить на светлую тему',
+        darkModeSwitchTitle: 'Переключить на тёмную тему',
+        skipToContentLabel: 'Перейти к содержимому'
       }
     }
   }
