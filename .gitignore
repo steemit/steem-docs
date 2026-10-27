@@ -3,6 +3,7 @@ docs/.vitepress/cache/
 docs/.vitepress/dist/
 docs/.vitepress/gen/
 docs/api/
+docs/zh/api/
 .DS_Store
 .idea/
 .vscode/

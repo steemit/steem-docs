@@ -28,6 +28,10 @@ const OUT_DIR = join(ROOT, 'docs/api');
 const GEN_DIR = join(ROOT, 'docs/.vitepress/gen');
 const MANIFEST_PATH = join(GEN_DIR, 'api-manifest.json');
 const LIQUID_LOG_PATH = join(GEN_DIR, 'liquid-warnings.txt');
+// zh locale pilot (T11): bridge index pages, generated --locale zh. Only the
+// <stem>/index.md subtrees are written; hand-written static pages under
+// docs/zh/ (home, API overview) are never touched by this script.
+const ZH_OUT_DIR = join(ROOT, 'docs/zh/api');
 const API_URL = 'https://api.steem.fans';
 
 const isMissing = (v) => v === undefined || v === null || v === '';
@@ -458,11 +462,154 @@ function overviewPage(apis) {
 }
 
 // ---------------------------------------------------------------------------
+// zh locale bridge pages (T11, hard spec ①)
+//
+// docs/zh/api/<stem>/index.md are the ONLY zh-generated pages. Method rows
+// MUST link to the English page by site-absolute path
+// (`/api/<stem>/<method>.html`): VitePress' dead-link checker resolves
+// site-absolute links from the site root, so they pass even from a /zh/ page,
+// while relative links would resolve into the non-existent zh method tree and
+// fail the zero-tolerance check. Method names, badges and purposes stay
+// English on purpose — translating them (and the 215 method pages) is T12.
+// ---------------------------------------------------------------------------
+
+const ZH_BRIDGE_NOTE =
+  '> 本页为中文索引页：方法名与说明保持英文原文（翻译将由后续批次补齐）。点击方法名跳转到对应的英文方法页。';
+
+const ZH_OPS_BRIDGE_NOTE =
+  '> 本页为中文索引页：该 API 的操作列表页暂未提供中文版。点击操作名跳转到英文页面的对应小节。';
+
+function zhFlags(m, includeVirtual = false) {
+  const flags = [
+    includeVirtual && m.virtual === true ? 'virtual' : '',
+    m.deprecated === true ? 'deprecated' : '',
+    m.disabled === true ? 'disabled' : '',
+    m.removed === true ? 'removed' : '',
+  ]
+    .filter(Boolean)
+    .join(', ');
+  return flags;
+}
+
+function zhMethodsIndexPage(stem, displayName, description, decorated) {
+  const parts = [
+    frontmatter({
+      title: displayName,
+      description: firstPlainLine(description),
+    }),
+    description.trim() ? description.trim() + '\n' : '',
+    ZH_BRIDGE_NOTE,
+    '',
+    `## 方法 (${decorated.length})`,
+    '',
+    '| 方法 | 起始版本 | 状态 |',
+    '| --- | --- | --- |',
+  ];
+  for (const { m, short } of decorated) {
+    const since = isMissing(m.since) ? '' : String(m.since);
+    const flags = zhFlags(m);
+    // Hard spec ①: bridge to the English page by absolute path. `.html` is
+    // kept so the href matches the public URL (cleanUrls is false).
+    parts.push(
+      `| [${tableCell(short)}](/api/${stem}/${tableCell(short)}.html) | ${tableCell(since)} | ${tableCell(flags)} |`
+    );
+  }
+  parts.push('');
+  return parts.join('\n');
+}
+
+function zhOpsIndexPage(stem, displayName, description, ops) {
+  const parts = [
+    frontmatter({
+      title: displayName,
+      description: firstPlainLine(description),
+      outline: false,
+    }),
+    description.trim() ? description.trim() + '\n' : '',
+    ZH_OPS_BRIDGE_NOTE,
+    '',
+    `## 操作 (${ops.length})`,
+    '',
+    '| 操作 | 状态 |',
+    '| --- | --- |',
+  ];
+  for (const op of ops) {
+    if (!isObject(op) || isMissing(op.name)) continue;
+    const name = String(op.name);
+    // Anchor deep-links into the English ops page (checker strips #hash, and
+    // the /api/<stem>/ page exists, so this passes the dead-link check).
+    parts.push(`| [${tableCell(name)}](/api/${stem}/#${tableCell(name)}) | ${tableCell(zhFlags(op, true))} |`);
+  }
+  parts.push('');
+  return parts.join('\n');
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
-function main() {
-  const files = readdirSync(DATA_DIR).filter((f) => f.endsWith('.yml')).sort();
+/** `--locale <code>` CLI flag; only the zh pilot exists so far. */
+function readLocaleArg(argv) {
+  const i = argv.indexOf('--locale');
+  if (i === -1) return undefined;
+  const value = argv[i + 1];
+  if (!value) throw new Error('--locale requires a value');
+  if (value !== 'zh') throw new Error(`unsupported --locale '${value}' (only 'zh' is implemented)`);
+  return value;
+}
+
+/**
+ * Parse one YAML data file and collect everything needed to render its pages.
+ * Pure (no writes) so the en and zh generators can both consume it.
+ */
+function collectApi(file) {
+  const stem = file.replace(/\.yml$/, '');
+  const data = loadYaml(file);
+  if (!Array.isArray(data)) {
+    console.warn(`! ${file}: top level is not an array, skipped`);
+    return null;
+  }
+
+  const methods = [];
+  const ops = [];
+  let displayName = stem;
+  let description = '';
+  for (const group of data) {
+    if (!isObject(group)) continue;
+    // One-line normalize: several legacy files carry a leading colon
+    // (':block_api') that must never leak into sidebar/titles/h1/overview.
+    if (!isMissing(group.name)) displayName = String(group.name).replace(/^:+/, '').trim() || stem;
+    if (!isMissing(group.description)) description = cleanLiquid(group.description, file, `description of group ${displayName}`);
+    if (Array.isArray(group.methods)) {
+      for (const el of group.methods) walkMethods(el, methods);
+    }
+    if (Array.isArray(group.ops)) ops.push(...group.ops.filter((op) => isObject(op) && !isMissing(op.name)));
+  }
+
+  const summary = firstPlainLine(description);
+  const decorated = methods.map((m) => {
+    const apiMethod = String(m.api_method);
+    const dot = apiMethod.indexOf('.');
+    return { m, short: dot === -1 ? apiMethod : apiMethod.slice(dot + 1), full: apiMethod };
+  });
+  // Uniqueness safety net for standalone `pnpm docs:gen` runs: two methods
+  // sharing one short name would silently overwrite the same .md file.
+  const seenShort = new Map();
+  for (const { short, full } of decorated) {
+    if (seenShort.has(short)) {
+      throw new Error(
+        `${file}: duplicate method short name '${short}' in API '${displayName}' — ` +
+          `'${seenShort.get(short)}' and '${full}' both render to ${stem}/${short}.md`
+      );
+    }
+    seenShort.set(short, full);
+  }
+
+  return { stem, displayName, description, summary, methods, ops, decorated };
+}
+
+/** en generation: verbatim behavior of the pre-T11 generator. */
+function generateEnApis(files, collected) {
   rmSync(OUT_DIR, { recursive: true, force: true });
   mkdirSync(OUT_DIR, { recursive: true });
   mkdirSync(GEN_DIR, { recursive: true });
@@ -472,50 +619,12 @@ function main() {
   const manifestApis = [];
 
   for (const file of files) {
-    const stem = file.replace(/\.yml$/, '');
-    const data = loadYaml(file);
-    if (!Array.isArray(data)) {
-      console.warn(`! ${file}: top level is not an array, skipped`);
-      continue;
-    }
-
-    const methods = [];
-    const ops = [];
-    let displayName = stem;
-    let description = '';
-    for (const group of data) {
-      if (!isObject(group)) continue;
-      // One-line normalize: several legacy files carry a leading colon
-      // (':block_api') that must never leak into sidebar/titles/h1/overview.
-      if (!isMissing(group.name)) displayName = String(group.name).replace(/^:+/, '').trim() || stem;
-      if (!isMissing(group.description)) description = cleanLiquid(group.description, file, `description of group ${displayName}`);
-      if (Array.isArray(group.methods)) {
-        for (const el of group.methods) walkMethods(el, methods);
-      }
-      if (Array.isArray(group.ops)) ops.push(...group.ops.filter((op) => isObject(op) && !isMissing(op.name)));
-    }
+    const api = collected.get(file);
+    if (!api) continue;
+    const { stem, displayName, description, summary, methods, ops, decorated } = api;
 
     const apiDir = join(OUT_DIR, stem);
     mkdirSync(apiDir, { recursive: true });
-
-    const summary = firstPlainLine(description);
-    const decorated = methods.map((m) => {
-      const apiMethod = String(m.api_method);
-      const dot = apiMethod.indexOf('.');
-      return { m, short: dot === -1 ? apiMethod : apiMethod.slice(dot + 1), full: apiMethod };
-    });
-    // Uniqueness safety net for standalone `pnpm docs:gen` runs: two methods
-    // sharing one short name would silently overwrite the same .md file.
-    const seenShort = new Map();
-    for (const { short, full } of decorated) {
-      if (seenShort.has(short)) {
-        throw new Error(
-          `${file}: duplicate method short name '${short}' in API '${displayName}' — ` +
-            `'${seenShort.get(short)}' and '${full}' both render to ${stem}/${short}.md`
-        );
-      }
-      seenShort.set(short, full);
-    }
 
     let indexContent;
     if (methods.length > 0) {
@@ -570,6 +679,52 @@ function main() {
   console.log(`  total pages          : ${totalPages} (1 overview + ${manifestApis.length} indexes + ${methodPages} methods)`);
   console.log(`  liquid cleanups      : ${liquidWarnings.length} -> ${LIQUID_LOG_PATH}`);
   console.log(`  manifest             : ${MANIFEST_PATH}`);
+}
+
+/**
+ * zh generation (T11): ONLY the 19 API bridge index pages under docs/zh/api/.
+ * Never touches hand-written docs/zh pages, and never writes the en-side
+ * artifacts (manifest / liquid log) — those belong to the en run.
+ */
+function generateZhIndexes(files, collected) {
+  rmSync(ZH_OUT_DIR, { recursive: true, force: true });
+  mkdirSync(ZH_OUT_DIR, { recursive: true });
+
+  let methodIndexes = 0;
+  let opsIndexes = 0;
+  for (const file of files) {
+    const api = collected.get(file);
+    if (!api) continue;
+    const { stem, displayName, description, methods, ops, decorated } = api;
+    mkdirSync(join(ZH_OUT_DIR, stem), { recursive: true });
+    const content =
+      methods.length > 0
+        ? zhMethodsIndexPage(stem, displayName, description, decorated)
+        : zhOpsIndexPage(stem, displayName, description, ops);
+    writeFileSync(join(ZH_OUT_DIR, stem, 'index.md'), content);
+    if (methods.length > 0) methodIndexes++;
+    else opsIndexes++;
+  }
+
+  console.log(`zh API index pages generated:`);
+  console.log(`  data files           : ${files.length}`);
+  console.log(`  zh index pages       : ${methodIndexes + opsIndexes} (${methodIndexes} methods + ${opsIndexes} ops bridges)`);
+  console.log(`  output               : ${ZH_OUT_DIR}/<stem>/index.md`);
+}
+
+function main() {
+  const locale = readLocaleArg(process.argv.slice(2));
+  const files = readdirSync(DATA_DIR).filter((f) => f.endsWith('.yml')).sort();
+  const collected = new Map();
+  for (const file of files) {
+    const api = collectApi(file);
+    if (api) collected.set(file, api);
+  }
+  if (locale === 'zh') {
+    generateZhIndexes(files, collected);
+    return;
+  }
+  generateEnApis(files, collected);
 }
 
 try {
