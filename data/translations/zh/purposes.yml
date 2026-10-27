@@ -20,7 +20,7 @@ purposes:
   account_by_key_api.get_key_references: |-
     返回所有在 owner 或 active 权限（authority）中关联了该密钥的账户。
   account_history_api.enum_virtual_ops: |-
-    返回指定区块（block）范围内的虚拟操作（virtual operation），可选择按账户与操作类型过滤。
+    返回区块（block）范围内的虚拟操作（virtual operation），可选择按账户与操作类型过滤。
   account_history_api.get_account_history: |-
     返回给定账户的全部操作历史。
 
@@ -255,7 +255,7 @@ purposes:
 
     另见：database_api.list_sbd_conversion_requests
   condenser_api.get_current_median_history_price: |-
-    返回当前的中间历史价格（median history price），即见证人（witness）喂价（feed price）得出的 STEEM:SBD 兑换汇率。
+    返回当前的中位历史价格（median history price），即见证人（witness）喂价（feed price）得出的 STEEM:SBD 兑换汇率。
   condenser_api.get_discussions_by_active: |-
     返回按 active 排序的讨论（discussion）列表。
 
