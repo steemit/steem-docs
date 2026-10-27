@@ -33,7 +33,7 @@
 //
 // Outputs (written into data/audit/):
 //   drift-<YYYY-MM-DD>.json - one record per method:
-//     { api_method, api, scrapeInNode, sigOk, consistency,
+//     { api_method, api, scrapeInNode, sigOk, sigUsable, consistency,
 //       curl: { <nodeLabel>: { classification, httpStatus, rpcErrorCode,
 //                               responseBytes }, ... },
 //       verdict, evidence: [...] }
@@ -166,6 +166,8 @@ function paramsFor(m) {
 
 // ---------------------------------------------------------------------------
 // JSON-RPC probe (same six-level classification as scripts/test-curl.mjs)
+// keep in sync with test-curl classifier — T9 machine-matching depends on
+// identical classification.
 // ---------------------------------------------------------------------------
 
 async function probe(nodeUrl, apiMethod, params) {
@@ -189,7 +191,14 @@ async function probe(nodeUrl, apiMethod, params) {
     };
   }
   const httpStatus = res.status;
-  const text = await res.text();
+  let text;
+  try {
+    text = await res.text();
+  } catch (e) {
+    // Body read died mid-stream: degrade this lane to NETWORK_FAIL instead of
+    // rejecting Promise.all and crashing the snapshot halfway.
+    return { classification: 'NETWORK_FAIL', httpStatus, rpcErrorCode: null, responseBytes: null, reason: `body read failed: ${e.cause?.code ?? e.message}` };
+  }
   const responseBytes = Buffer.byteLength(text, 'utf8');
   if (!res.ok) return { classification: 'HTTP_FAIL', httpStatus, rpcErrorCode: null, responseBytes, reason: `HTTP ${res.status} ${res.statusText}`.trim() };
   let parsed;
@@ -381,12 +390,20 @@ const lane = async () => {
     evidence.push(`curl ${LABEL1}: ${c1.classification}${c1.rpcErrorCode !== null ? ` (jsonrpc ${c1.rpcErrorCode})` : ''}, ${c1.responseBytes ?? '?'}B - ${c1.reason}`);
     evidence.push(`curl ${LABEL2}: ${c2.classification}${c2.rpcErrorCode !== null ? ` (jsonrpc ${c2.rpcErrorCode})` : ''}, ${c2.responseBytes ?? '?'}B - ${c2.reason}`);
 
+    // sigUsable: get_signature returned a non-empty schema — the only case
+    // where a rewrite can diff against the node. sigOk with args=[] (the
+    // condenser_api family convention) and unregistered signatures are both
+    // sigUsable=false; sigOk tells the two situations apart.
+    const sigUsable = sig.ok &&
+      (Array.isArray(sig.args) ? sig.args.length > 0 : isObject(sig.args) ? Object.keys(sig.args).length > 0 : false);
+
     records[i] = {
       api_method: e.api_method,
       api: e.api,
       file: e.file,
       scrapeInNode,
       sigOk: sig.ok,
+      sigUsable,
       consistency: d1 === d2 ? 'consistent' : 'divergent',
       curl: {
         [LABEL1]: { classification: c1.classification, httpStatus: c1.httpStatus, rpcErrorCode: c1.rpcErrorCode, responseBytes: c1.responseBytes },
@@ -528,12 +545,17 @@ if (aliveUncataloged.length > 0) {
   lines.push('');
 }
 if (paramRejected.length > 0) {
-  lines.push(`## Param-rejected, alive (-32602 on both nodes, ${paramRejected.length}) — rewrite parameter_json per node signature`);
+  const sigUsableN = paramRejected.filter((r) => r.sigUsable).length;
+  const emptyArgsN = paramRejected.filter((r) => r.sigOk && !r.sigUsable).length;
+  const noSigN = paramRejected.length - sigUsableN - emptyArgsN;
+  lines.push(`## Param-rejected, alive (-32602 on both nodes, ${paramRejected.length}) — recalibrate parameter values against node errors`);
   lines.push('');
-  lines.push('| api_method | ' + LABEL1 + ' B | ' + LABEL2 + ' B | sigOk |');
+  lines.push(`No usable node schema for these rows: ${noSigN} method(s) have no registered get_signature schema and ${emptyArgsN} answer \`args=[]\` (the condenser_api family convention) — a per-signature rewrite is impossible. Disposal: recalibrate the documented parameter_json value-by-value from each node's actual -32602 error messages (every rejection names the offending argument).`);
+  lines.push('');
+  lines.push('| api_method | ' + LABEL1 + ' B | ' + LABEL2 + ' B | sigUsable |');
   lines.push('| --- | --- | --- | --- |');
   for (const r of paramRejected) {
-    lines.push(`| ${r.api_method} | ${r.curl[LABEL1].responseBytes ?? '?'} | ${r.curl[LABEL2].responseBytes ?? '?'} | ${r.sigOk ? 'yes' : 'no'} |`);
+    lines.push(`| ${r.api_method} | ${r.curl[LABEL1].responseBytes ?? '?'} | ${r.curl[LABEL2].responseBytes ?? '?'} | ${r.sigUsable ? 'yes' : r.sigOk ? 'no (args=[])' : 'no (unregistered)'} |`);
   }
   lines.push('');
 }

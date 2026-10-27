@@ -25,7 +25,14 @@
 //   { tool, node, generatedAt, scope, counts,
 //     methods: [{ api_method, classification, httpStatus, rpcErrorCode,
 //                 responseBytes, node }, ...] }
-// The text report on stdout is unchanged by --report.
+// --report is not output-silent, two deliberate effects on what you see:
+//   1. it appends one confirmation line to stdout ("report: wrote <path>
+//      (N method(s))");
+//   2. the six-level scheme intentionally reclassifies business-level server
+//      errors (-32000/-32002/-32003/-32603 ...) from the old single OK bucket
+//      into RPC_FAIL, so for identical input the summary counts and the
+//      Failures list composition shift versus the pre-report CLI. That shift
+//      is the planned reclassification, not a regression.
 //
 // Exit code: 0 once the report completed (the report is the artifact, the
 // failure list is not a pass/fail gate); 1 on usage errors and on
@@ -181,6 +188,8 @@ function paramsFor(entry) {
 console.log(`test-curl: ${entries.length} method(s) against ${NODE_URL}`);
 console.log(`  scope: ${ONLY_API ?? 'all files'} | concurrency: ${CONCURRENCY} | timeout: ${TIMEOUT_MS / 1000}s\n`);
 
+// keep in sync with scripts/audit-drift.mjs probe() — T9 machine-matching
+// depends on identical classification.
 /**
  * One probe → a six-level classification plus the machine fields for the JSON
  * report. `reason` is a human hint for the text report only.
@@ -206,7 +215,20 @@ async function classify(entry) {
     };
   }
   const httpStatus = res.status;
-  const text = await res.text(); // read as text: body size is report data too
+  let text;
+  try {
+    text = await res.text(); // read as text: body size is report data too
+  } catch (e) {
+    // Body read died mid-stream: degrade this lane to NETWORK_FAIL instead of
+    // rejecting Promise.all and crashing the whole run.
+    return {
+      status: 'NETWORK_FAIL',
+      reason: `body read failed: ${e.cause?.code ?? e.message}`,
+      httpStatus,
+      rpcErrorCode: null,
+      responseBytes: null,
+    };
+  }
   const responseBytes = Buffer.byteLength(text, 'utf8');
   if (!res.ok) return { status: 'HTTP_FAIL', reason: `HTTP ${res.status} ${res.statusText}`.trim(), httpStatus, rpcErrorCode: null, responseBytes };
   let parsed;
