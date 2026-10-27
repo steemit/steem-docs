@@ -15,6 +15,10 @@
 # ---------------------------------------------------------------------------
 schema: zh-method-purposes/v1
 locale: zh-Hans
+# batch 4+5（收尾批）= 第 151–215 个方法（database_api.list_votes 起、
+# witness_api.get_reserve_ratio 止）；C 序 #153/#154 的真分歧对
+# database_api.list_witness_votes↔list_witnesses 按 C 序归属本批。
+# 至此 215 条 purpose 全量覆盖，zh 索引表不再有桥接行。
 # batch 3 = 第 101–150 个方法（api_method 字典序，database_api.find_account_recovery_requests 起、
 # database_api.list_vesting_delegations 止；排序口径 LC_ALL=C（字节序），是唯一口径。
 # 全量 215 个方法在 C 与 UTF-8 collation 下共有 5 处顺序分歧（condenser_api.get_account_votes
@@ -24,7 +28,7 @@ locale: zh-Hans
 # list_witnesses（C 序 #153/#154）落在 batch4 窗口，batch4 起边界一律按本文件头注记的 C 序执行）；
 # batch 2 = 第 51–100 个方法（condenser_api.get_escrow 起）；
 # batch 1 = 第 1–50 个，条目保持原样。
-batch: 1-3
+batch: 1-5
 purposes:
   account_by_key_api.get_key_references: |-
     返回所有在 owner 或 active 权限（authority）中关联了该密钥的账户。
@@ -1100,3 +1104,255 @@ purposes:
     | `["", ""]` | 10 | `by_delegation` | 查询委托，限 10 条结果，按委托排序。 |
 
     另见：Paginated API Methods
+  database_api.list_votes: |-
+    返回全部投票（vote），从指定的投票者和/或作者与永久链接（permlink）开始。参数：`start:array`、`limit:int`、`order:string`
+
+    * `start` 取决于 `order`（见下文）
+      * `voter` 可选
+      * `author` 与 `permlink` 可选，但其中一个为空时，两者必须都为空
+    * `limit` 最大 1000。
+    * `order` 可取以下值：
+      * `by_comment_voter` - 按评论投票者排序
+        * `start` 为三个可选值组成的数组：`author`、`permlink`、`voter`
+      * `by_voter_comment` - 按投票者评论排序
+        * `start` 为三个可选值组成的数组：`voter`、`author`、`permlink`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["", "", ""]` | 10 | `"by_comment_voter"` | 查询前 10 条投票，按评论投票者排序 |
+    | `["", "", ""]` | 10 | `"by_voter_comment"` | 查询前 10 条投票，按投票者评论排序 |
+    | `["xeroc", "vanteem-config", ""]` | 10 | `"by_comment_voter"` | 查询从帖子 `@xeroc/vanteem-config` 起的下 10 条投票，按评论投票者排序 |
+    | `["alice", "xeroc", "vanteem-config"]` | 10 | `"by_voter_comment"` | 查询从帖子 `@xeroc/vanteem-config` 上 alice 起的下 10 条投票，按投票者评论排序 |
+
+    另见：Paginated API Methods
+  database_api.list_withdraw_vesting_routes: |-
+    返回权益份额提现路由（vesting withdraw route）列表。参数：`start:array`、`limit:int`、`order:string`
+
+    * `start` 取决于 `order`（见下文）
+    * `limit` 最大 1000。
+    * `order` 可取以下值：
+      * `by_withdraw_route` - 按提现路由排序
+        * `start` 为两个值组成的数组：`from_account`、`to_account`
+      * `by_destination` - 按目的地排序
+        * `start` 为两个值组成的数组：`to_account`、`route_id`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["temp", ""]` | 10 | `"by_withdraw_route"` | 查询前 10 条路由，按提现路由排序 |
+    | `["", 0]` | 10 | `"by_destination"` | 查询前 10 条路由，按目的地排序 |
+
+    另见：Paginated API Methods
+  database_api.list_witness_votes: |-
+    返回见证人（witness）投票列表。参数：`start:array`、`limit:int`、`order:string`
+
+    * `start` 取决于 `order`（见下文）
+    * `limit` 最大 1000。
+    * `order` 可取以下值：
+      * `by_account_witness` - 按账户与见证人排序
+        * `start` 为两个值组成的数组：`account`、`witness`
+      * `by_witness_account` - 按见证人与账户排序
+        * `start` 为两个值组成的数组：`witness`、`account`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["", ""]` | 10 | `"by_withdraw_route"` | 查询前 10 条投票，按账户与见证人排序 |
+    | `["", ""]` | 10 | `"by_destination"` | 查询前 10 条投票，按见证人与账户排序 |
+
+    另见：Paginated API Methods
+  database_api.list_witnesses: |-
+    返回见证人（witness）列表。参数：`start:object`、`limit:int`、`order:string`
+
+    * `start` 取决于 `order`（见下文）
+    * `limit` 最大 1000。
+    * `order` 可取以下值：
+      * `by_name` - 按名称排序
+        * `start` 为字符串值：`account`
+      * `by_vote_name` - 按投票、名称排序
+        * `start` 为两个值组成的数组：`votes`、`account`
+      * `by_schedule_time` - 按排期时间排序
+        * `start` 为两个值组成的数组：`virtual_scheduled_time`、`account`
+
+    | `start` (object) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `""` | 10 | `"by_name"` | 查询前 10 个见证人，按账户名排序 |
+    | `[0, ""]` | 10 | `"by_vote_name"` | 查询前 10 个见证人，按投票数排序 |
+    | `["473718186844702107410533306", "alice"]` | 10 | `"by_schedule_time"` | 查询前 10 个见证人，按排期排序 |
+
+    另见：Paginated API Methods
+  database_api.verify_account_authority: |-
+    **未实现**
+  database_api.verify_authority: |-
+    如果交易（transaction）具备全部所需签名（signature），则返回 true，否则抛出异常。
+  database_api.verify_signatures: |-
+    这是一个通用 API：使用现有的权限（authority）结构，针对任意 sha256 哈希校验签名与账户是否匹配。
+  debug_node_api.debug_generate_blocks: |-
+    在本地生成区块（block）。
+  debug_node_api.debug_generate_blocks_until: |-
+    在本地生成区块（block），直到指定的头区块（head block）时间。可稀疏生成。
+  debug_node_api.debug_get_hardfork_property_object: |-
+    返回硬分叉属性对象（hardfork property object），报告调试节点（debug node）上已应用的硬分叉（hardfork）。
+  debug_node_api.debug_get_json_schema: |-
+    返回调试节点（debug node）上用于校验操作（operation）JSON 的 JSON schema。
+  debug_node_api.debug_get_witness_schedule: |-
+    返回调试节点（debug node）当前的见证人排期（witness schedule）。
+  debug_node_api.debug_has_hardfork: |-
+    返回给定的硬分叉（hardfork）是否已应用在调试节点（debug node）上。
+  debug_node_api.debug_pop_block: |-
+    从区块链（blockchain）中弹出一个区块（block）并返回。
+  debug_node_api.debug_push_blocks: |-
+    从现有数据库推送区块（block）。
+  debug_node_api.debug_set_hardfork: |-
+    在调试节点（debug node）上应用某个硬分叉（hardfork），早于正常排期。
+  follow_api.get_account_reputations: |-
+    返回账户声誉（reputation）列表。
+
+    另见：Paginated API Methods
+  follow_api.get_blog: |-
+    返回某账户的博客（blog）条目列表。
+
+    另见：Paginated API Methods
+  follow_api.get_blog_authors: |-
+    返回其内容曾在给定博客（blog）账户上被转帖（reblog）的作者列表。
+
+    另见：Paginated API Methods
+  follow_api.get_blog_entries: |-
+    返回某账户的博客（blog）条目（entry）列表。
+
+    另见：Paginated API Methods
+  follow_api.get_feed: |-
+    返回某账户动态（feed）中的条目列表。
+
+    另见：Paginated API Methods
+  follow_api.get_feed_entries: |-
+    返回某账户动态（feed）中的条目（entry）列表。
+
+    另见：Paginated API Methods
+  follow_api.get_follow_count: |-
+    返回某账户的关注者（follower）数量。
+  follow_api.get_followers: |-
+    返回某账户的关注者（follower）列表。
+
+    另见：Paginated API Methods
+  follow_api.get_following: |-
+    返回正在关注（following）某账户的账户列表。
+
+    另见：Paginated API Methods
+  follow_api.get_reblogged_by: |-
+    返回转帖（reblog）过某篇帖子（post）的作者列表。
+  jsonrpc.get_methods: |-
+    返回 JSON RPC API 支持的方法列表。
+  jsonrpc.get_signature: |-
+    返回 JSON RPC 方法的签名（signature）信息，包括参数与预期响应 JSON。
+  market_history_api.get_market_history: |-
+    返回内部 SBD:STEEM 市场的行情历史（market history）。
+  market_history_api.get_market_history_buckets: |-
+    返回插件正在跟踪的 bucket 秒值（bucket seconds）。
+  market_history_api.get_order_book: |-
+    返回内部市场的订单簿（order book）。
+  market_history_api.get_recent_trades: |-
+    返回内部 SBD:STEEM 市场最近的成交（trade）记录。
+  market_history_api.get_ticker: |-
+    返回内部 SBD:STEEM 市场的行情（ticker）。
+  market_history_api.get_trade_history: |-
+    返回内部 SBD:STEEM 市场的成交历史（trade history）。
+  market_history_api.get_volume: |-
+    返回过去 24 小时的市场成交量（volume）。
+  network_broadcast_api.broadcast_block: |-
+    用于广播（broadcast）一个区块（block）。
+  network_broadcast_api.broadcast_transaction: |-
+    用于广播一笔交易（transaction）。
+  rc_api.find_rc_accounts: |-
+    返回账户的可用资源信用（RC）。参数：`accounts:string array`
+
+    | `accounts` (string) | |
+    |---------------------|-|
+    | `"steemit"` | 查询名为 "steemit" 的账户可用的资源信用。 |
+    | `"alice"` | 查询名为 "alice" 和 "bob" 的账户可用的资源信用。 |
+  rc_api.get_resource_params: |-
+    导出所有相关的资源大小常量，尤其是基于测量的执行时间参数。
+
+    参见：[#2980](https://github.com/steemit/steem/issues/2980)
+  rc_api.get_resource_pool: |-
+    开发中。参见：[#2563](https://github.com/steemit/steem/issues/2563)、[PR#2678](https://github.com/steemit/steem/pull/2678)
+  reputation_api.get_account_reputations: |-
+    返回账户的声誉（reputation）。参数：`account:string`；`limit:int`
+
+    * `limit` 最大 1000。
+
+    | `account` (string) | `limit` (int) | |
+    |--------------------|-|
+    | `"steemit"` | 10 | 查询名为 "steemit" 的账户的声誉。 |
+
+    参见 [#1425](https://github.com/steemit/steem/issues/1425)
+
+    另见：Paginated API Methods
+  rewards_api.simulate_curve_payouts: |-
+    按给定的收益发放曲线（payout curve）模拟奖励基金（reward fund）的收益发放，但不实际应用。
+  tags_api.get_active_votes: |-
+    返回给定帖子（post）收到的全部投票（vote）。
+  tags_api.get_comment_discussions_by_payout: |-
+    返回按 payout 排序的讨论（discussion）列表。
+  tags_api.get_content_replies: |-
+    返回回复（reply）列表。
+  tags_api.get_discussion: |-
+    根据作者与永久链接（permlink）返回讨论（discussion）。
+  tags_api.get_discussions_by_active: |-
+    返回按 active 排序的讨论（discussion）列表。
+  tags_api.get_discussions_by_author_before_date: |-
+    返回按 author before date 查询的讨论（discussion）列表。
+
+    另见：Paginated API Methods
+  tags_api.get_discussions_by_blog: |-
+    返回按 blog 排序的讨论（discussion）列表。
+  tags_api.get_discussions_by_cashout: |-
+    返回按 cashout 排序的讨论（discussion）列表。
+  tags_api.get_discussions_by_children: |-
+    返回按 children 排序的讨论（discussion）列表。
+  tags_api.get_discussions_by_comments: |-
+    返回按 comments 排序的讨论（discussion）列表。
+  tags_api.get_discussions_by_created: |-
+    返回按 created 排序的讨论（discussion）列表。
+  tags_api.get_discussions_by_feed: |-
+    返回按 feed 排序的讨论（discussion）列表。
+  tags_api.get_discussions_by_hot: |-
+    返回按 hot 排序的讨论（discussion）列表。
+  tags_api.get_discussions_by_promoted: |-
+    返回按 promoted 排序的讨论（discussion）列表。
+  tags_api.get_discussions_by_trending: |-
+    返回按 trending 排序的讨论（discussion）列表。
+  tags_api.get_discussions_by_votes: |-
+    返回按 votes 排序的讨论（discussion）列表。
+  tags_api.get_post_discussions_by_payout: |-
+    返回按 payout 排序的帖子（post）讨论（discussion）列表。
+  tags_api.get_replies_by_last_update: |-
+    返回按最后更新排序的回复（reply）列表。
+
+    另见：Paginated API Methods
+  tags_api.get_tags_used_by_author: |-
+    返回某作者使用过的标签（tag）列表。
+  tags_api.get_trending_tags: |-
+    返回趋势标签（trending tag）列表。
+
+    另见：Paginated API Methods
+  transaction_status_api.find_transaction: |-
+    返回给定交易 id（transaction id）的状态。参数：`trx_id:string`；`expiration:timestamp`（可选）
+
+    结果将包含以下 `status` 值之一：
+
+    | 状态 | 含义 |
+    |--------|---------|
+    | `unknown` | 到期时间在未来，交易未包含在区块或内存池中 |
+    | `within_mempool` | 交易位于内存池（mempool）中 |
+    | `within_reversible_block` | 交易已包含在区块中，但区块尚不可逆 |
+    | `within_irreversible_block` | 交易已包含在区块中，且区块不可逆 |
+    | `expired_reversible` | 交易已过期，交易并非不可逆（交易可能位于分叉中） |
+    | `expired_irreversible` | 交易已过期，交易不可逆（交易不可能位于分叉中） |
+    | `too_old` | 交易过于久远，节点对其一无所知 |
+  witness_api.get_account_bandwidth: |-
+    **自 0.20.6 起已禁用，参见：[#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
+
+    返回账户的可用带宽（bandwidth）。参见：Forum/Market Bandwidth
+  witness_api.get_reserve_ratio: |-
+    **自 0.20.6 起已禁用，参见：[#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
+
+    返回当前的准备金率（reserve ratio）。

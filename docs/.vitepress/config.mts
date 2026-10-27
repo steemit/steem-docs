@@ -45,13 +45,13 @@ function escapeHtml(text) {
 }
 
 // opts.indexPrefix  — where the collapsible GROUP (API index) links point.
-// opts.methodPrefix — where the method CHILDREN link point. The zh sidebar
-//                     still bridges method children to the English pages
-//                     (indexPrefix '/zh/api/', methodPrefix '/api/'): only
-//                     part of the 215 method pages have zh twins so far (T12
-//                     batches), and a per-method mixed sidebar is deferred
-//                     until full coverage. The zh index PAGES themselves link
-//                     translated methods to their zh pages.
+// opts.methodPrefix — where the method CHILDREN link point. Since T12 final
+//                     (all 215 method purposes translated) the zh sidebar
+//                     points BOTH groups and children into the zh tree
+//                     ('/zh/api/'): every manifest method now has a zh page.
+//                     This retires the T11-era per-method mixed sidebar
+//                     deferral; i18nRouting stays off until the T13 locales
+//                     (ru/fr/de/it/es, partial coverage) finish.
 function apiSidebar(opts: { indexPrefix?: string; methodPrefix?: string } = {}) {
   const indexPrefix = opts.indexPrefix ?? '/api/';
   const methodPrefix = opts.methodPrefix ?? '/api/';
@@ -248,10 +248,11 @@ export default defineConfig({
     // ...locales[route].themeConfig}` (shallow), so locales.root's copy would
     // never reach a zh page. With i18nRouting false the language switcher
     // navigates to the OTHER LOCALE'S HOME (locales.*.link) instead of
-    // 1:1-swapping the current path — which would 404 on every page that has
-    // no zh twin yet (all 215 method pages). Re-evaluate REMOVAL once zh
-    // method pages are fully covered (T12 final batch; tracked in the
-    // phase-2 plan, T13 acceptance references this trigger).
+    // 1:1-swapping the current path. T12 final evaluation (all 215 zh method
+    // pages exist): root↔zh 1:1 swapping WOULD now be safe, but T13 registers
+    // five more locales with partial coverage (no translated method pages),
+    // where 1:1 swaps would 404 again — so this stays off until those locales
+    // complete (tracked in the phase-2 plan, T13 acceptance).
     i18nRouting: false,
 
     // T11 hard spec ③ — local search, ROOT/en side + BUILD-TIME options.
@@ -306,13 +307,13 @@ export default defineConfig({
           { text: '首页', link: '/zh/' },
           { text: 'API', link: '/zh/api/' }
         ],
-        // zh index pages and translated method pages are generated; sidebar
-        // method children bridge to the English pages (see apiSidebar opts
-        // comment).
+        // zh index pages and all 215 translated method pages are generated;
+        // since T12 final the sidebar children point into the zh tree too
+        // (see apiSidebar opts comment).
         sidebar: [
           {
             text: 'API 参考',
-            items: apiSidebar({ indexPrefix: '/zh/api/', methodPrefix: '/api/' })
+            items: apiSidebar({ indexPrefix: '/zh/api/', methodPrefix: '/zh/api/' })
           }
         ],
         // Default-theme UI strings (VitePress default theme overridables).
