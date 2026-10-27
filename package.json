@@ -14,7 +14,8 @@
     "validate:data": "node scripts/validate-data.mjs",
     "scrape:api-defs": "node scripts/scrape-api-defs.mjs",
     "test:curl": "node scripts/test-curl.mjs",
-    "audit:drift": "node scripts/audit-drift.mjs"
+    "audit:drift": "node scripts/audit-drift.mjs",
+    "audit:coverage": "node scripts/coverage-sweep.mjs"
   },
   "devDependencies": {
     "vitepress": "^1.6.4",

@@ -17,6 +17,7 @@ addressable reference for every `condenser_api` and appbase JSON-RPC method.
 | `pnpm scrape:api-defs` | Compare the YAML API definitions against a live node     |
 | `pnpm test:curl`       | Live-test documented methods against a node              |
 | `pnpm audit:drift`     | Dual-node drift audit; writes a snapshot into data/audit |
+| `pnpm audit:coverage`  | Coverage sweep + dead-set regression; report-only unless `--write` |
 
 ## Data pipeline
 
@@ -141,6 +142,40 @@ pnpm audit:drift -- --node1 https://api.steem.fans --node2 https://api.steemit.c
 
 Exit code 0 once the snapshot is written; 1 on usage errors, YAML parse
 failures, or when the first node's `get_methods` cannot be fetched.
+
+### `pnpm audit:coverage` — three-source coverage sweep & dead-set regression
+
+Where `audit:drift` governs the life/death (and contract drift) of methods
+the docs already cover, `audit:coverage` governs the other direction: it
+answers "does a node serve anything the docs do not cover?" and re-confirms
+that the documented dead set is exactly the YAML-flagged dead set after each
+disposal round. Candidate method names are synthesized from three sources —
+the `get_methods` catalog from both nodes (one source only; the catalog is
+known to lag), a `get_signature` probe of every candidate on both nodes, and
+the repository manifest (every documented `api_method`) — with **no blind
+variant enumeration**. A catalog-only name enters the gaps list only after a
+live curl dispatches it on **both** nodes (false-positive protection);
+single-node or not-found outcomes are reported as divergent/phantom instead.
+The dead regression is structural, not a count comparison: every freshly-dead
+documented method must carry at least one YAML death flag
+(`removed`/`disabled`/`deprecated`), no `removed`-flagged method may be
+alive, and the fresh dead set is diffed against the latest committed
+`data/audit/drift-*.json` baseline.
+
+**Report-only by default:** without `--write` nothing is written — the
+summary is printed to stdout and `data/audit/` is untouched. `--write`
+persists `coverage-<YYYY-MM-DD>.json` (per-source detail, gaps list with
+curl evidence, dead-regression alignment matrix, one record per candidate)
+plus a human-readable `coverage-<YYYY-MM-DD>.md`.
+
+```sh
+pnpm audit:coverage                               # report-only, both defaults
+pnpm audit:coverage -- --node1 https://api.steem.fans --node2 https://api.steemit.com
+pnpm audit:coverage -- --write                    # persist into data/audit/
+```
+
+Exit code 0 once the sweep completed (findings are data, not failures — read
+the gaps/deadRegression sections); 1 on usage errors or YAML parse failures.
 
 ## Internationalization (i18n)
 
