@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# zh translations of API method purposes — batch 1 (phase2-plan §4-T12)
+# zh translations of API method purposes — batch 1-2 (phase2-plan §4-T12)
 #
 # api_method -> 简体中文 purpose 译文。原文以 data/apidefinitions/*.yml 中
 # 现有 en purpose 字段为准（含 T9 补写条目），不增不减不改语义；markdown
@@ -15,7 +15,9 @@
 # ---------------------------------------------------------------------------
 schema: zh-method-purposes/v1
 locale: zh-Hans
-batch: 1
+# batch 2 = 第 51–100 个方法（api_method 字典序，condenser_api.get_escrow 起）；
+# batch 1 = 第 1–50 个，条目保持原样。
+batch: 1-2
 purposes:
   account_by_key_api.get_key_references: |-
     返回所有在 owner 或 active 权限（authority）中关联了该密钥的账户。
@@ -308,3 +310,368 @@ purposes:
     返回当前的动态全局属性（dynamic global properties）。参见：Understanding Dynamic Global Properties
 
     另见：database_api.get_dynamic_global_properties
+
+  condenser_api.get_escrow: |-
+    按 id 返回特定账户的托管（escrow）。
+
+    另见：database_api.list_escrows
+  condenser_api.get_expiring_vesting_delegations: |-
+    返回某账户正在到期的权益份额委托（expiring vesting delegation）。参数：`account:string`；`after:timestamp`
+
+    | `account` (string) | `after` (timestamp) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"2018-01-01T00:00:00"` | 查询 2018 年 1 月 1 日之后到期的权益份额委托。 |
+    | `"alice"` | `"2017-12-01T00:00:00"` | 查询 2017 年 12 月 1 日之后到期的权益份额委托。 |
+  condenser_api.get_feed: |-
+    返回某账户动态（feed）中的条目列表。参数：`account:string`；`start_entry_id:int`；`limit:int` 最大 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|---------------|---------------|-|
+    | `"steemit"` | `0` | `1` | 查询名为 `steemit` 的账户，从第一条条目开始，最多一条结果。 |
+    | `"alice"` | `1` | `10` | 查询名为 `alice` 的账户，从第二条条目开始，最多 10 条结果。 |
+
+    另见：follow_api.get_feed、Paginated API Methods
+  condenser_api.get_feed_entries: |-
+    返回某账户动态（feed）中的条目（entry）列表。参数：`account:string`；`start_entry_id:int`；`limit:int` 最大 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|---------------|---------------|-|
+    | `"steemit"` | `0` | `1` | 查询名为 `steemit` 的账户，从第一条条目开始，最多一条结果。 |
+    | `"alice"` | `1` | `10` | 查询名为 `alice` 的账户，从第二条条目开始，最多 10 条结果。 |
+
+    另见：follow_api.get_feed_entries、Paginated API Methods
+  condenser_api.get_feed_history: |-
+    返回喂价（feed price）取值的历史记录。
+
+    另见：database_api.get_feed_history
+  condenser_api.get_follow_count: |-
+    返回某账户的关注者（follower）/正在关注（following）数量。参数：`account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | 查询名为 `steemit` 的账户。 |
+    | `"alice"` | 查询名为 `alice` 的账户。 |
+
+    另见：follow_api.get_follow_count
+  condenser_api.get_followers: |-
+    返回某账户的关注者（follower）列表。参数：`account:string`；`start:string`（起始账户）；`type:string`，例如：`blog`；`limit:int` 最大 1000
+
+    | `account` (string) | `start` (string) | `type` (string) | `limit` (int) | |
+    |--------------------|------------------|-----------------|---------------|-|
+    | `"steemit"` | `null` | `"blog"` | `10` | 查询名为 `steemit` 的账户的关注（follow）关系，最多 10 条结果。 |
+    | `"alice"` | `null` | `"ignore"` | `100` | 查询名为 `alice` 的账户的屏蔽（mute）关系，最多 100 条结果。 |
+
+    另见：follow_api.get_followers、Paginated API Methods
+  condenser_api.get_following: |-
+    返回正在关注某账户的账户列表。参数：`account:string`；`start:string`（起始账户）；`type:string`，例如：`blog`；`limit:int` 最大 1000
+
+    | `account` (string) | `start` (string) | `type` (string) | `limit` (int) | |
+    |--------------------|------------------|-----------------|---------------|-|
+    | `"steemit"` | `null` | `"blog"` | `10` | 查询名为 `steemit` 的账户的关注（follow）关系，最多 10 条结果。 |
+    | `"alice"` | `null` | `"ignore"` | `100` | 查询名为 `alice` 的账户的屏蔽（mute）关系，最多 100 条结果。 |
+
+    另见：follow_api.get_following、Paginated API Methods
+  condenser_api.get_hardfork_version: |-
+    返回当前硬分叉（hardfork）版本。
+
+    另见：database_api.get_hardfork_properties
+  condenser_api.get_key_references: |-
+    返回所有在 owner 或 active 权限（authority）中关联了该密钥的账户。
+
+    另见：account_by_key_api.get_key_references
+  condenser_api.get_market_history: |-
+    返回内部 SBD:STEEM 市场的行情历史（market history）。参数：`bucket_seconds:int`；`start:timestamp`；`end:timestamp`
+
+    | `bucket_seconds` (int) | `start` (timestamp) | `end` (timestamp) | |
+    |------------------------|---------------------|-------------------|-|
+    | `15` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | 查询 2018 年 1 月 1 日至 2018 年 1 月 2 日之间的行情历史，按 15 秒分段。 |
+    | `60` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | 查询 2018 年 1 月 1 日至 2018 年 1 月 2 日之间的行情历史，按 1 分钟分段。 |
+    | `300` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | 查询 2018 年 1 月 1 日至 2018 年 1 月 2 日之间的行情历史，按 5 分钟分段。 |
+    | `3600` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | 查询 2018 年 1 月 1 日至 2018 年 1 月 2 日之间的行情历史，按 1 小时分段。 |
+    | `86400` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | 查询 2018 年 1 月 1 日至 2018 年 1 月 2 日之间的行情历史，按 1 天分段。 |
+
+    另见：market_history_api.get_market_history
+  condenser_api.get_market_history_buckets: |-
+    返回插件正在跟踪的 bucket 秒值（bucket seconds）。
+
+    另见：market_history_api.get_market_history_buckets
+  condenser_api.get_next_scheduled_hardfork: |-
+    返回下一个计划进行的硬分叉（hardfork）。
+
+    另见：database_api.get_hardfork_properties
+  condenser_api.get_open_orders: |-
+    返回某账户的未结订单（open order）。`account:string`
+
+    另见：database_api.list_limit_orders
+  condenser_api.get_ops_in_block: |-
+    返回一个区块（block）中包含的全部操作。参数：`block_num:int`；`only_virtual:boolean`
+
+    | `block_num` (int) | `only_virtual` (boolean) | |
+    |-------------------|--------------------------|-|
+    | `1` | `false` | 查询区块 1 中的操作。 |
+    | `5443322` | `true` | 仅查询区块 5,443,322 中的虚拟操作（virtual operation）。 |
+
+    另见：account_history_api.get_ops_in_block
+  condenser_api.get_order_book: |-
+    返回内部市场的订单簿（order book）。参数：`limit:int` 最大 500
+
+    | `limit` (int) | |
+    |--------------------|-|
+    | `10` | 查询订单簿中最多 10 条条目。 |
+    | `500` | 查询订单簿中最多 500 条条目。 |
+
+    另见：database_api.get_order_book、market_history_api.get_order_book
+  condenser_api.get_owner_history: |-
+    返回某账户的所有者（owner）历史。参数：`account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | 查询名为 "steemit" 的账户的所有者历史。 |
+
+    另见：database_api.list_owner_histories
+  condenser_api.get_post_discussions_by_payout: |-
+    返回按 payout 排序的帖子（post）讨论（discussion）列表。
+
+    另见：tags_api.get_post_discussions_by_payout
+  condenser_api.get_potential_signatures: |-
+    该方法将返回可能为给定交易（transaction）签名的全部公钥（public key）集合。
+
+    另见：database_api.get_potential_signatures
+  condenser_api.get_reblogged_by: |-
+    返回转帖（reblog）过某篇帖子（post）的作者列表。参数：`author:string`；`permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | 查询 slug 为 `@steemit/firstpost` 的内容的转帖 |
+    | `"alice"` | `"a-post-by-alice"` | 查询 slug 为 `@alice/a-post-by-alice` 的内容的转帖 |
+
+    另见：follow_api.get_reblogged_by
+  condenser_api.get_recent_trades: |-
+    返回内部 SBD:STEEM 市场最近的成交（trade）记录。参数：`limit:int` 最大 1000
+
+    | `limit` (int) | |
+    |--------------------|-|
+    | `10` | 查询最近最多 10 条成交。 |
+    | `500` | 查询最近最多 500 条成交。 |
+
+    另见：market_history_api.get_recent_trades
+  condenser_api.get_recovery_request: |-
+    返回某账户的恢复请求（recovery request）。参数：`account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | 查询名为 "steemit" 的账户的恢复请求。 |
+
+    另见：database_api.list_account_recovery_requests
+  condenser_api.get_replies_by_last_update: |-
+    返回按最后更新排序的回复（reply）列表。`start_parent_author:string`、`start_permlink:string`、`limit:int` 最大 100
+
+    另见：tags_api.get_replies_by_last_update、Paginated API Methods
+  condenser_api.get_required_signatures: |-
+    该 API 将接收一笔部分签名的交易（transaction）以及一组所有者能够用以签名的公钥（public key），并返回应为该交易添加签名的最小公钥子集。参数：`trx:object`；`available_keys:[string]`
+
+    另见：database_api.get_required_signatures
+  condenser_api.get_reward_fund: |-
+    返回当前奖励基金（reward fund）的相关信息。
+
+    另见：database_api.get_reward_funds
+  condenser_api.get_savings_withdraw_from: |-
+    返回从某账户转出的储蓄提现（savings withdraw）。参数：`account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | 查询名为 "steemit" 的账户的储蓄提现。 |
+
+    另见：database_api.list_savings_withdrawals
+  condenser_api.get_savings_withdraw_to: |-
+    返回转入某账户的储蓄提现（savings withdraw）。参数：`account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | 查询名为 "steemit" 的账户的储蓄提现。 |
+
+    另见：database_api.list_savings_withdrawals
+  condenser_api.get_state: |-
+    返回路径（path）的状态。**已弃用。** 参数：`path:string`
+  condenser_api.get_tags_used_by_author: |-
+    返回某作者使用过的标签（tag）列表。参数：`author:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | 查询名为 "steemit" 的账户使用过的标签。 |
+
+    另见：tags_api.get_tags_used_by_author
+  condenser_api.get_ticker: |-
+    返回内部 SBD:STEEM 市场的行情（ticker）。
+
+    另见：market_history_api.get_ticker
+  condenser_api.get_trade_history: |-
+    返回内部 SBD:STEEM 市场的成交历史（trade history）。参数：`start:timestamp`；`end:timestamp`；`limit:int` 最大 1000
+
+    | `start` (timestamp) | `end` (timestamp) | `limit` (int) | |
+    |---------------------|-------------------|---------------|-|
+    | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | 10 | 查询 2018 年 1 月 1 日至 2018 年 1 月 2 日之间的成交，最多 10 条。 |
+
+    另见：market_history_api.get_trade_history
+  condenser_api.get_transaction: |-
+    根据交易 id（transaction id）返回对应交易（transaction）的详细信息。参数：`trx_id:string`
+
+    | `trx_id` (string) | |
+    |-------------------|-|
+    | `"6fde0190a97835ea6d9e651293e90c89911f933c"` | 查询这个确切的交易 id。 |
+
+    另见：account_history_api.get_transaction
+  condenser_api.get_transaction_hex: |-
+    返回交易（transaction）序列化二进制形式的十六进制转储（hexdump）。
+
+    另见：database_api.get_transaction_hex
+  condenser_api.get_trending_tags: |-
+    返回趋势标签（trending tag）列表。参数：`start_tag:string`；`limit:int` 最大 100
+
+    | `tag` (string) | `limit` (int) | |
+    |----------------|---------------|-|
+    | `null` | 100 | 查询前 100 个趋势标签。 |
+    | `"steem"` | 10 | 查询 "steem" 之后的标签，最多 10 个。 |
+
+    另见：tags_api.get_trending_tags、Paginated API Methods
+  condenser_api.get_version: |-
+    返回区块链（blockchain）、steem 与 FC 的版本。
+
+    另见：database_api.get_version、Paginated API Methods
+  condenser_api.get_vesting_delegations: |-
+    返回某账户作出的权益份额委托（vesting delegation）。参数：`delegator_account:string`；`start_account:string`；`limit:int` 最大 1000
+
+    | `delegator_account` (string) | `start_account` (string) | `limit` (int) | |
+    |------------------------------|--------------------------|---------------|-|
+    | `"steemit"` | `null` | `10` | 查询名为 "steemit" 的账户最多 10 条权益份额委托。 |
+
+    另见：database_api.list_vesting_delegations、Paginated API Methods、Paginated API Methods
+  condenser_api.get_volume: |-
+    返回过去 24 小时的市场成交量（volume）。
+
+    另见：market_history_api.get_volume
+  condenser_api.get_withdraw_routes: |-
+    返回某账户的提现路由（withdraw route）。参数：`account:string`；`type:string`
+
+    | `account` (string) | `type` (string) | |
+    |--------------------|-----------------|-|
+    | `"steemit"` | `"outgoing"` | 查询 "steemit" 的转出提现路由。 |
+    | `"steemit"` | `"incoming"` | 查询 "steemit" 的转入提现路由。 |
+    | `"steemit"` | `"all"` | 查询 "steemit" 的全部提现路由。 |
+
+    另见：database_api.list_withdraw_vesting_routes
+  condenser_api.get_witness_by_account: |-
+    返回某账户对应的见证人（witness）。参数：`account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | 查询 "steemit" 的见证人账户（不存在则为 `null`）。 |
+
+    另见：database_api.list_witnesses
+  condenser_api.get_witness_count: |-
+    返回见证人（witness）总数。
+  condenser_api.get_witness_schedule: |-
+    返回当前的见证人排期（witness schedule）。
+
+    另见：database_api.get_witness_schedule
+  condenser_api.get_witnesses: |-
+    返回当前见证人（witness）。
+
+    另见：database_api.list_witnesses
+  condenser_api.get_witnesses_by_vote: |-
+    返回按投票排序的当前见证人（witness）。参数：`start_name:string`；`limit:int` 最大 1000
+
+    | `account` (string) | `limit` (int) | |
+    |--------------------|---------------|-|
+    | `null` | `21` | 查询见证人得票前 21 名。 |
+    | `"a"` | `1` | 查询以 "a" 开头的见证人得票前 10 名。 |
+
+    另见：database_api.list_witnesses
+  condenser_api.list_proposal_votes: |-
+    返回全部提案（proposal）投票（vote），从指定的投票者或 `proposal.id` 开始。参数：`start:array`；`limit:int`；`order:string`；`order_direction:string`；`status:string`
+
+    * `start` 取决于 `order`（见下文）
+      * `voter` - 提案的投票者（账户名字符串）
+      * `proposal.id` - 提案的 id（int）
+    * `limit` 最大 1000。
+    * `order` 可取以下值：
+      * `by_voter_proposal` - 按提案投票者排序
+      * `by_proposal_voter` - 按 `proposal.id` 排序
+    * `order_direction` 可取以下值：
+      * `ascending`
+      * `descending`
+    * `status`
+      * `all`
+      * `inactive`
+      * `active`
+      * `expired`
+      * `votable`
+
+    | `start` (array) | `limit` (int) | `order` (string) | `order_direction` (string) | `status` (string) | |
+    |-------------------|-|-|-|-|-|
+    | `["alice"]` | 10 | `by_voter_proposal` | `ascending` | `active` | 列出 10 条 active 状态的提案，按投票者升序排列 |
+    | `[10]` | 1000 | `by_proposal_voter` | `ascending` | `votable` | 列出提案 10 的 1000 条投票，按 `proposal.id` 升序排列 |
+
+    另见：datbase_api.list_proposals
+  condenser_api.list_proposals: |-
+    返回全部提案（proposal），从指定的创建者或开始日期开始。参数：`start:array`；`limit:int`；`order:string`；`order_direction:string`；`status:string`
+
+    * `start` 取决于 `order`（见下文）
+      * `creator` - 提案的创建者（账户名字符串）
+      * `start_date` - 提案的开始日期（日期字符串）
+      * `end_date` - 提案的结束日期（日期字符串）
+      * `total_votes` - 提案的总票数（int）
+    * `limit` 最大 1000。
+    * `order` 可取以下值：
+      * `by_creator` - 按提案创建者排序
+      * `by_start_date` - 按提案开始日期排序
+      * `by_end_date` - 按提案结束日期排序
+      * `by_total_votes` - 按提案总票数排序
+    * `order_direction` 可取以下值：
+      * `ascending`
+      * `descending`
+    * `status`
+      * `all`
+      * `inactive`
+      * `active`
+      * `expired`
+      * `votable`
+
+    | `start` (array) | `limit` (int) | `order` (string) | `order_direction` (string) | `status` (string) | |
+    |-------------------|-|-|-|-|-|
+    | `[""]` | 10 | `by_creator` | `ascending` | `active` | 列出 10 条 active 状态的提案，按创建者升序排列 |
+    | `["2019-08-07T16:54:03"]` | 1000 | `by_start_date` | `ascending` | `inactive` | 列出自 2019-08-07T16:54:03 起 inactive 状态的 1000 条提案，按开始日期升序排列 |
+    | `["a"]` | 1 | `by_creator` | `ascending` | `expired` | 列出以 "a" 开头账户的 1 条 expired 状态提案，按创建者升序排列 |
+    | `["alice"]` | 10 | `by_creator` | `ascending` | `all` | 列出 alice 的 10 条任意状态提案，按创建者升序排列 |
+    | `[""]` | 1000 | `by_creator` | `ascending` | `votable` | 列出 1000 条 votable 状态的提案，按创建者升序排列 |
+    | `[10]` | 1000 | `by_total_votes` | `ascending` | `votable` | 列出至少有 10 票的 1000 条 votable 状态提案，按创建者升序排列 |
+
+    另见：datbase_api.list_proposals
+  condenser_api.lookup_account_names: |-
+    查找账户名（account name）。`accounts:[string]`
+
+    另见：database_api.find_accounts
+  condenser_api.lookup_accounts: |-
+    查找以给定名称开头的账户。参数：`lower_bound_name:string`；`limit:int` 最大 1000
+
+    | `lower_bound_name` (string) | `limit` (int) | |
+    |--------------------|---------------|-|
+    | `"a"` | 10 | 查询以 "a" 开头的账户，最多 10 条结果。 |
+
+    另见：database_api.list_accounts
+  condenser_api.lookup_witness_accounts: |-
+    查找以给定名称开头的见证人（witness）账户。参数：`lower_bound_name:string`；`limit:int` 最大 1000
+
+    | `lower_bound_name` (string) | `limit` (int) | |
+    |--------------------|---------------|-|
+    | `"a"` | 10 | 查询以 "a" 开头的见证人，最多 10 条结果。 |
+
+    另见：database_api.list_witnesses
+  condenser_api.verify_account_authority: |-
+    **未实现**
+
+    另见：database_api.verify_account_authority
+  condenser_api.verify_authority: |-
+    如果交易（transaction）具备全部所需签名（signature），则返回 true。
+
+    另见：database_api.verify_authority
