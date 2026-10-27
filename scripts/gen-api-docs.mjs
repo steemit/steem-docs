@@ -854,6 +854,11 @@ function generateEnApis(files, collected) {
   writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + '\n');
   writeFileSync(LIQUID_LOG_PATH, liquidWarnings.map((l) => l.replace(/\s+/g, ' ').trim()).join('\n') + '\n');
 
+  // Fresh manifest in hand — assert the hand-written locale overview pages
+  // still agree with the data (throws / exits 1 on any drift). See the
+  // OVERVIEW_GUARD_LOCALES comment above.
+  verifyLocaleOverviewCounts(manifestApis);
+
   const totalPages = 1 + manifestApis.length + methodPages;
   console.log(`API docs generated:`);
   console.log(`  data files           : ${files.length}`);
@@ -994,6 +999,71 @@ function generateLocalePages(files, collected, locale) {
   console.log(`  ${locale.key} index pages       : ${methodIndexes + opsIndexes} (${methodIndexes} methods + ${opsIndexes} ops bridges)`);
   console.log(`  ${locale.key} method pages      : ${localeMethodPages}${translationsNote}`);
   console.log(`  output               : ${locale.outDir}/`);
+}
+
+// ---------------------------------------------------------------------------
+// Hand-written overview count guard (T13 review fix, phase-2 ru round P2):
+// the per-locale API overview pages docs/<code>/api/index.md are hand-written
+// static pages whose card badges repeat the method/op counts from the data.
+// When the YAML data changes, docs:gen regenerates the ENGLISH overview
+// automatically — the locale pages would silently go stale. This guard runs
+// in every en-mode docs:gen run (after the fresh manifest is written) and
+// FAILS the build when any locale page no longer matches the manifest, so
+// the drift surfaces at build time instead of on the rendered page.
+// ---------------------------------------------------------------------------
+const OVERVIEW_GUARD_LOCALES = ['zh', 'ru', 'fr', 'de', 'it', 'es'];
+
+function verifyLocaleOverviewCounts(manifestApis) {
+  for (const code of OVERVIEW_GUARD_LOCALES) {
+    const pagePath = join(ROOT, 'docs', code, 'api', 'index.md');
+    if (!existsSync(pagePath)) {
+      throw new Error(
+        `overview count guard: hand-written overview page missing: docs/${code}/api/index.md — ` +
+          `restore it or remove '${code}' from OVERVIEW_GUARD_LOCALES`
+      );
+    }
+    const text = readFileSync(pagePath, 'utf8');
+    // Card shape emitted by overviewPage() and mirrored by the hand-written
+    // locale pages: [Name](/api/<stem>/) <span class="badge badge-count">N …
+    // Locale pages link /<code>/api/<stem>/ (methods) or /api/<stem>/ (ops).
+    const cards = new Map();
+    const cardRe =
+      /\[[^\]]+\]\((\/(?:[a-z]{2}\/)?api\/([a-z_]+)\/)\) <span class="badge badge-count">(\d+)/g;
+    for (const match of text.matchAll(cardRe)) {
+      const stem = match[2];
+      if (cards.has(stem)) {
+        throw new Error(`overview count guard: docs/${code}/api/index.md has duplicate cards for '${stem}'`);
+      }
+      cards.set(stem, { count: Number(match[3]), href: match[1] });
+    }
+    const problems = [];
+    if (cards.size !== manifestApis.length) {
+      problems.push(`expected ${manifestApis.length} API cards, found ${cards.size}`);
+    }
+    for (const api of manifestApis) {
+      const card = cards.get(api.stem);
+      if (!card) {
+        problems.push(`no card for '${api.stem}'`);
+        continue;
+      }
+      const expected = api.methodCount > 0 ? api.methodCount : api.opCount;
+      if (card.count !== expected) {
+        problems.push(`'${api.stem}' badge says ${card.count}, manifest says ${expected}`);
+      }
+      const hrefOk = card.href === `/${code}/api/${api.stem}/` || card.href === `/api/${api.stem}/`;
+      if (!hrefOk) {
+        problems.push(`'${api.stem}' links to '${card.href}' (expected /${code}/api/${api.stem}/ or /api/${api.stem}/)`);
+      }
+    }
+    if (problems.length > 0) {
+      throw new Error(
+        `overview count guard: docs/${code}/api/index.md is out of sync with api-manifest.json — ` +
+          `${problems.join('; ')}. The English overview is regenerated from data/apidefinitions ` +
+          `on every docs:gen run; update the hand-written ${code} page to match.`
+      );
+    }
+    console.log(`  overview count guard  : docs/${code}/api/index.md OK (${cards.size} cards match manifest)`);
+  }
 }
 
 function main() {

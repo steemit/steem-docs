@@ -50,6 +50,12 @@ The current status:
   terminology baseline for future translation batches; not a site page —
   excluded from builds and from the per-locale page counts, ru/fr/de/it/es
   pages = 21 each by hard spec).
+- **Overview count guard**: every en-mode docs:gen run verifies each
+  hand-written locale overview against the freshly written
+  `docs/.vitepress/gen/api-manifest.json` (card count, per-API badge count,
+  link targets). Any mismatch fails docs:gen with exit code 1, so a data
+  change can never leave a locale overview silently stale — update the
+  hand-written page in the same change as the data.
 - **Theme config**: each locale is registered in `docs/.vitepress/config.mts`
   (label/lang/link, localized nav + sidebar prefixes + default-theme UI
   strings incl. `langMenuLabel` and `notFound`). `i18nRouting` stays `false`
