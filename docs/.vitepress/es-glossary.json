@@ -35,8 +35,8 @@
     },
     {
       "en": "RC (Resource Credits)",
-      "es": "créditos de recursos (RC)",
-      "note": "Cuota de operaciones repartida según los tokens en vesting y la actividad; cada transacción consume RC."
+      "es": "Resource Credits (RC) (sigla conservada)",
+      "note": "Cuota de operaciones repartida según los tokens en vesting y la actividad; cada transacción consume RC. Sigla inglesa conservada, como en las tarjetas del resumen."
     },
     {
       "en": "witness",

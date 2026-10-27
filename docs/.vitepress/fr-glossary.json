@@ -35,8 +35,8 @@
     },
     {
       "en": "RC (Resource Credits)",
-      "fr": "crédits de ressources (RC)",
-      "note": "Quota d’opérations réparti selon la quantité de tokens en vesting et l’activité ; chaque transaction consomme des RC."
+      "fr": "Resource Credits (RC) (sigle conservé)",
+      "note": "Quota d’opérations réparti selon la quantité de tokens en vesting et l’activité ; chaque transaction consomme des RC. Sigle anglais conservé, comme dans les cartes de l’aperçu."
     },
     {
       "en": "witness",

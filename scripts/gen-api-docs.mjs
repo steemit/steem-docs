@@ -855,8 +855,8 @@ function generateEnApis(files, collected) {
   writeFileSync(LIQUID_LOG_PATH, liquidWarnings.map((l) => l.replace(/\s+/g, ' ').trim()).join('\n') + '\n');
 
   // Fresh manifest in hand — assert the hand-written locale overview pages
-  // still agree with the data (throws / exits 1 on any drift). See the
-  // OVERVIEW_GUARD_LOCALES comment above.
+  // still agree with the data (throws / exits 1 on any drift). The guard
+  // covers OVERVIEW_GUARD_LOCALES, defined near its implementation below.
   verifyLocaleOverviewCounts(manifestApis);
 
   const totalPages = 1 + manifestApis.length + methodPages;
