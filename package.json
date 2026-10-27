@@ -13,7 +13,8 @@
     "docs:gen": "node scripts/gen-api-docs.mjs",
     "validate:data": "node scripts/validate-data.mjs",
     "scrape:api-defs": "node scripts/scrape-api-defs.mjs",
-    "test:curl": "node scripts/test-curl.mjs"
+    "test:curl": "node scripts/test-curl.mjs",
+    "audit:drift": "node scripts/audit-drift.mjs"
   },
   "devDependencies": {
     "vitepress": "^1.6.4",

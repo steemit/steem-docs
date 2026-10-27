@@ -16,6 +16,7 @@ addressable reference for every `condenser_api` and appbase JSON-RPC method.
 | `pnpm validate:data`   | Validate the YAML API definitions                        |
 | `pnpm scrape:api-defs` | Compare the YAML API definitions against a live node     |
 | `pnpm test:curl`       | Live-test documented methods against a node              |
+| `pnpm audit:drift`     | Dual-node drift audit; writes a snapshot into data/audit |
 
 ## Data pipeline
 
@@ -74,18 +75,28 @@ are deliberate:
 Walks every method that documents `curl_examples` or `parameter_json` and
 POSTs `{"jsonrpc":"2.0","method":…,"params":…,"id":1}` to the node, with at
 most 4 concurrent requests and a 15s timeout each. Outcomes are classified
-and summarized:
+into six levels and summarized:
 
-- **OK** — HTTP 200 and the response carried a `result`, or a method-level
-  business error: the request reached the RPC layer, which is the assertion;
-- **RPC_FAIL** — a JSON-RPC protocol error (e.g. method not found);
+- **OK** — HTTP 200 and the response carried a `result`: the method executed;
+- **OK_PARAM_INVALID** — HTTP 200 but a jsonrpc `-32602` (Invalid parameters):
+  the method exists and was dispatched, the documented params were rejected
+  at the parameter level (stale sample values);
+- **RPC_FAIL** — any other JSON-RPC error object (protocol errors like
+  -32601/-32700 and server errors like -32000/-32002): no `result`;
 - **HTTP_FAIL** — non-200 status or a non-JSON body;
-- **NETWORK_FAIL** — DNS/refused/timeout; reported, never thrown.
+- **NETWORK_FAIL** — DNS/refused; reported, never thrown;
+- **TIMEOUT** — no completion within the 15s budget.
 
 ```sh
 TEST_NODE=https://api.steem.fans pnpm test:curl
 TEST_NODE=https://api.steem.fans pnpm test:curl -- --api condenser_api --limit 5
+TEST_NODE=https://api.steem.fans pnpm test:curl -- --report /tmp/curl-report.json
 ```
+
+`--report <file.json>` additionally writes a machine-readable report — one
+`{ api_method, classification, httpStatus, rpcErrorCode, responseBytes, node }`
+record per method plus run metadata — without changing the text report on
+stdout.
 
 `TEST_NODE` selects the endpoint (default `https://api.steem.fans`); `--node`
 overrides it for one run. Once the report completes, the command exits 0 — the
@@ -95,6 +106,41 @@ an error. Exit code 1 means usage errors or unrecoverable YAML parse
 failures; an unknown `--api` stem only prints a warning. (`TEST_NODE` applies
 to this tool only — `scrape:api-defs` deliberately ignores it; use `--node`
 there, which overrides its built-in default.)
+
+### `pnpm audit:drift` — dual-node drift audit baseline
+
+Probes every documented method against two nodes (default
+`api.steem.fans` + `api.steemit.com`) and synthesizes three sources per
+method — `jsonrpc.get_methods` catalog membership, `jsonrpc.get_signature`
+availability, and a live curl with the documented `parameter_json` — into an
+evidence-backed verdict. The verdict deliberately does **not** depend on
+`get_methods` completeness: the catalog is known to lag (whole namespaces
+whose methods still work are absent from it). Verdict rules (a single-node
+anomaly never kills a method):
+
+- **alive** — dispatched on both nodes (result, `-32602` param rejection, or
+  any non-"not found" server error) without contract drift;
+- **dead** — a structured not-found on both nodes (`-32601`, or `-32002`
+  "Could not find API/method");
+- **changed** — dispatched on both, cataloged, but the node's signature args
+  differ from the documented `parameter_json`;
+- **node-dependent** — divergent or undetermined outcomes.
+
+Writes `data/audit/drift-<YYYY-MM-DD>.json` (one record per method:
+`api_method`, `api`, `scrapeInNode`, `sigOk`, `consistency`, per-node
+`curl` outcomes with `classification`/`httpStatus`/`rpcErrorCode`/
+`responseBytes`, `verdict`, `evidence[]`) plus a human-readable
+`drift-<YYYY-MM-DD>.md` summary. The committed snapshot is the disposal
+baseline for content fixes; re-running overwrites the file for that date.
+
+```sh
+pnpm audit:drift                                  # full audit, both defaults
+pnpm audit:drift -- --api database_api            # one namespace
+pnpm audit:drift -- --node1 https://api.steem.fans --node2 https://api.steemit.com
+```
+
+Exit code 0 once the snapshot is written; 1 on usage errors, YAML parse
+failures, or when the first node's `get_methods` cannot be fetched.
 
 ## Internationalization (i18n)
 
