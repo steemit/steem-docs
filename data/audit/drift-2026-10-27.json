@@ -1,6 +1,6 @@
 {
   "tool": "audit-drift",
-  "generatedAt": "2026-10-27T14:45:40.589Z",
+  "generatedAt": "2026-10-27T15:34:15.723Z",
   "date": "2026-10-27",
   "nodes": {
     "fans": "https://api.steem.fans",
@@ -69,6 +69,7 @@
       "file": "account_by_key_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -98,6 +99,7 @@
       "file": "account_history_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -127,6 +129,7 @@
       "file": "account_history_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -156,6 +159,7 @@
       "file": "account_history_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -185,6 +189,7 @@
       "file": "account_history_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -214,6 +219,7 @@
       "file": "block_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -243,6 +249,7 @@
       "file": "block_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -272,6 +279,7 @@
       "file": "bridge.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -301,6 +309,7 @@
       "file": "bridge.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -330,6 +339,7 @@
       "file": "bridge.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -359,6 +369,7 @@
       "file": "bridge.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -388,6 +399,7 @@
       "file": "bridge.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -417,6 +429,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -446,6 +459,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -475,6 +489,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -504,6 +519,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -533,6 +549,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -562,6 +579,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -591,6 +609,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -620,6 +639,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -649,6 +669,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -678,6 +699,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -707,27 +729,28 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 314
+          "responseBytes": 312
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 314
+          "responseBytes": 312
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: [])",
-        "curl fans: OK, 314B - result",
-        "curl steemit: OK, 314B - result"
+        "curl fans: OK, 312B - result",
+        "curl steemit: OK, 312B - result"
       ]
     },
     {
@@ -736,6 +759,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -765,6 +789,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -794,6 +819,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -823,6 +849,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -852,6 +879,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -881,6 +909,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -910,6 +939,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -939,6 +969,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -968,6 +999,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -997,6 +1029,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1026,6 +1059,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1055,6 +1089,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1084,6 +1119,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1113,6 +1149,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1142,6 +1179,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1171,6 +1209,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1200,6 +1239,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1229,6 +1269,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1258,6 +1299,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1287,6 +1329,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1316,6 +1359,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1345,6 +1389,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1374,6 +1419,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1403,6 +1449,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1432,27 +1479,28 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1401
+          "responseBytes": 1408
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1401
+          "responseBytes": 1408
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: [])",
-        "curl fans: OK, 1401B - result",
-        "curl steemit: OK, 1401B - result"
+        "curl fans: OK, 1408B - result",
+        "curl steemit: OK, 1408B - result"
       ]
     },
     {
@@ -1461,6 +1509,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1490,6 +1539,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1519,6 +1569,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1548,6 +1599,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1577,6 +1629,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1606,6 +1659,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1635,6 +1689,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1664,6 +1719,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1693,6 +1749,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1722,6 +1779,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1751,6 +1809,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1780,6 +1839,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1809,6 +1869,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1838,6 +1899,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1867,6 +1929,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1896,6 +1959,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1925,6 +1989,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1954,6 +2019,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -1983,6 +2049,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2012,6 +2079,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2041,6 +2109,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2070,6 +2139,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2099,6 +2169,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2128,6 +2199,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2157,6 +2229,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2186,6 +2259,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2215,6 +2289,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2244,27 +2319,28 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 531437
+          "responseBytes": 533457
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 531437
+          "responseBytes": 533457
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: [])",
-        "curl fans: OK, 531437B - result",
-        "curl steemit: OK, 531437B - result"
+        "curl fans: OK, 533457B - result",
+        "curl steemit: OK, 533457B - result"
       ]
     },
     {
@@ -2273,6 +2349,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2302,6 +2379,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2331,6 +2409,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2360,6 +2439,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2389,6 +2469,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2418,6 +2499,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2447,6 +2529,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2476,6 +2559,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2505,6 +2589,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2534,6 +2619,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2563,6 +2649,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2592,6 +2679,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2621,27 +2709,28 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1338
+          "responseBytes": 1336
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1338
+          "responseBytes": 1336
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: [])",
-        "curl fans: OK, 1338B - result",
-        "curl steemit: OK, 1338B - result"
+        "curl fans: OK, 1336B - result",
+        "curl steemit: OK, 1336B - result"
       ]
     },
     {
@@ -2650,6 +2739,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2679,27 +2769,28 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 924641
+          "responseBytes": 925088
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 924641
+          "responseBytes": 925088
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: [])",
-        "curl fans: OK, 924641B - result",
-        "curl steemit: OK, 924641B - result"
+        "curl fans: OK, 925088B - result",
+        "curl steemit: OK, 925088B - result"
       ]
     },
     {
@@ -2708,6 +2799,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2737,6 +2829,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2766,6 +2859,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2795,6 +2889,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2824,6 +2919,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2853,6 +2949,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2882,6 +2979,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2911,6 +3009,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2940,6 +3039,7 @@
       "file": "condenser_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2969,6 +3069,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -2998,6 +3099,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3027,6 +3129,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3056,6 +3159,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3085,6 +3189,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3114,6 +3219,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3143,6 +3249,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3172,6 +3279,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3201,6 +3309,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3230,6 +3339,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3259,6 +3369,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3288,6 +3399,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3317,6 +3429,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3346,6 +3459,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3375,6 +3489,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3404,27 +3519,28 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 328
+          "responseBytes": 326
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 328
+          "responseBytes": 326
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: {})",
-        "curl fans: OK, 328B - result",
-        "curl steemit: OK, 328B - result"
+        "curl fans: OK, 326B - result",
+        "curl steemit: OK, 326B - result"
       ]
     },
     {
@@ -3433,6 +3549,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3462,6 +3579,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3491,27 +3609,28 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1865
+          "responseBytes": 1866
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1865
+          "responseBytes": 1866
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: {})",
-        "curl fans: OK, 1865B - result",
-        "curl steemit: OK, 1865B - result"
+        "curl fans: OK, 1866B - result",
+        "curl steemit: OK, 1866B - result"
       ]
     },
     {
@@ -3520,6 +3639,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3549,6 +3669,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3578,6 +3699,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3607,6 +3729,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3636,6 +3759,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3665,6 +3789,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3694,6 +3819,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3723,6 +3849,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3752,27 +3879,28 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1376
+          "responseBytes": 1374
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1376
+          "responseBytes": 1374
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: {})",
-        "curl fans: OK, 1376B - result",
-        "curl steemit: OK, 1376B - result"
+        "curl fans: OK, 1374B - result",
+        "curl steemit: OK, 1374B - result"
       ]
     },
     {
@@ -3781,6 +3909,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3810,6 +3939,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3839,6 +3969,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3868,6 +3999,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3897,6 +4029,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3926,6 +4059,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3955,6 +4089,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -3984,6 +4119,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4013,6 +4149,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4042,6 +4179,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4071,6 +4209,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4100,6 +4239,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4129,6 +4269,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4158,6 +4299,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4187,6 +4329,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4216,6 +4359,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4245,6 +4389,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4274,6 +4419,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4303,6 +4449,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4332,6 +4479,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4361,6 +4509,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4390,6 +4539,7 @@
       "file": "database_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4419,6 +4569,7 @@
       "file": "database_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4448,6 +4599,7 @@
       "file": "database_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4477,6 +4629,7 @@
       "file": "database_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4506,6 +4659,7 @@
       "file": "database_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4535,6 +4689,7 @@
       "file": "database_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4564,6 +4719,7 @@
       "file": "database_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4593,6 +4749,7 @@
       "file": "database_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4622,6 +4779,7 @@
       "file": "debug_node_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4651,6 +4809,7 @@
       "file": "debug_node_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4680,6 +4839,7 @@
       "file": "debug_node_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4709,6 +4869,7 @@
       "file": "debug_node_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4738,6 +4899,7 @@
       "file": "debug_node_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4767,6 +4929,7 @@
       "file": "debug_node_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4796,6 +4959,7 @@
       "file": "debug_node_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4825,6 +4989,7 @@
       "file": "debug_node_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4854,6 +5019,7 @@
       "file": "debug_node_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4883,6 +5049,7 @@
       "file": "follow_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4912,6 +5079,7 @@
       "file": "follow_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4941,6 +5109,7 @@
       "file": "follow_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4970,6 +5139,7 @@
       "file": "follow_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -4999,6 +5169,7 @@
       "file": "follow_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5028,6 +5199,7 @@
       "file": "follow_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5057,6 +5229,7 @@
       "file": "follow_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5086,6 +5259,7 @@
       "file": "follow_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5115,6 +5289,7 @@
       "file": "follow_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5144,6 +5319,7 @@
       "file": "follow_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5173,6 +5349,7 @@
       "file": "jsonrpc.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5202,6 +5379,7 @@
       "file": "jsonrpc.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5231,6 +5409,7 @@
       "file": "market_history_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5260,6 +5439,7 @@
       "file": "market_history_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5289,27 +5469,28 @@
       "file": "market_history_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 52305
+          "responseBytes": 50037
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 52305
+          "responseBytes": 50037
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: {\"limit\":500})",
-        "curl fans: OK, 52305B - result",
-        "curl steemit: OK, 52305B - result"
+        "curl fans: OK, 50037B - result",
+        "curl steemit: OK, 50037B - result"
       ]
     },
     {
@@ -5318,27 +5499,28 @@
       "file": "market_history_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 161109
+          "responseBytes": 161145
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 161109
+          "responseBytes": 161145
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: {\"limit\":1000})",
-        "curl fans: OK, 161109B - result",
-        "curl steemit: OK, 161109B - result"
+        "curl fans: OK, 161145B - result",
+        "curl steemit: OK, 161145B - result"
       ]
     },
     {
@@ -5347,6 +5529,7 @@
       "file": "market_history_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5376,6 +5559,7 @@
       "file": "market_history_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5405,6 +5589,7 @@
       "file": "market_history_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5434,6 +5619,7 @@
       "file": "network_broadcast_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5463,6 +5649,7 @@
       "file": "network_broadcast_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5492,6 +5679,7 @@
       "file": "rc_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5521,6 +5709,7 @@
       "file": "rc_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5550,6 +5739,7 @@
       "file": "rc_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5579,6 +5769,7 @@
       "file": "reputation_api.yml",
       "scrapeInNode": true,
       "sigOk": true,
+      "sigUsable": true,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5608,6 +5799,7 @@
       "file": "rewards_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5637,6 +5829,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5666,6 +5859,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5695,6 +5889,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5724,6 +5919,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5753,6 +5949,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5782,6 +5979,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5811,6 +6009,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5840,6 +6039,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5869,6 +6069,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5898,6 +6099,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5927,6 +6129,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5956,6 +6159,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -5985,6 +6189,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -6014,6 +6219,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -6043,6 +6249,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -6072,6 +6279,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -6101,6 +6309,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -6130,6 +6339,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -6159,6 +6369,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -6188,6 +6399,7 @@
       "file": "tags_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -6217,6 +6429,7 @@
       "file": "transaction_status_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -6246,6 +6459,7 @@
       "file": "witness_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
@@ -6275,6 +6489,7 @@
       "file": "witness_api.yml",
       "scrapeInNode": false,
       "sigOk": false,
+      "sigUsable": false,
       "consistency": "consistent",
       "curl": {
         "fans": {
