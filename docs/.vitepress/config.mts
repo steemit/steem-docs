@@ -176,7 +176,8 @@ function zhQueryTokenize(text: string) {
 }
 
 // ---------------------------------------------------------------------------
-// i18n locales — zh pilot ACTIVE (T11) + ru rollout (T13). Structure:
+// i18n locales — zh pilot ACTIVE (T11) + ru/fr/de/it/es rollouts (T13).
+// Structure:
 //   docs/             -> en (root locale, existing content)
 //   docs/zh/*.md      -> hand-written zh static pages (home, API overview)
 //   docs/zh/api/      -> GENERATED bridge index pages + zh method pages for
@@ -184,6 +185,9 @@ function zhQueryTokenize(text: string) {
 //   docs/ru/*.md      -> hand-written ru static pages (home, API overview)
 //   docs/ru/api/      -> GENERATED bridge index pages (docs:gen --locale ru);
 //                        NO ru method pages this phase — all rows bridge en
+//   docs/{fr,de,it,es}/*.md -> hand-written static pages, same shape as ru
+//   docs/{fr,de,it,es}/api/ -> GENERATED bridge index pages
+//                        (docs:gen --locale <code>); method pages deferred
 //
 // Merge semantics (official resolveSiteDataByRoute): each page's themeConfig
 // is `{ ...topLevel.themeConfig, ...locales[localeIndex].themeConfig }` — a
@@ -251,11 +255,11 @@ export default defineConfig({
     // ...locales[route].themeConfig}` (shallow), so locales.root's copy would
     // never reach a zh page. With i18nRouting false the language switcher
     // navigates to the OTHER LOCALE'S HOME (locales.*.link) instead of
-    // 1:1-swapping the current path. T12 final evaluation (all 215 zh method
-    // pages exist): root↔zh 1:1 swapping WOULD now be safe, but T13 registers
-    // five more locales with partial coverage (no translated method pages),
-    // where 1:1 swaps would 404 again — so this stays off until those locales
-    // complete (tracked in the phase-2 plan, T13 acceptance).
+    // 1:1-swapping the current path. zh itself now has full 1:1 coverage
+    // (all 215 method pages since T12 final), but T13 registered five
+    // partial locales (ru/fr/de/it/es — index pages only, no method pages)
+    // where 1:1 swaps would 404 — so this stays off until those locales
+    // complete method-page translation (phase-2 plan, post-T13 decision).
     i18nRouting: false,
 
     // T11 hard spec ③ — local search, ROOT/en side + BUILD-TIME options.
@@ -277,13 +281,15 @@ export default defineConfig({
             tokenize: buildSearchTokenize
           }
         },
-        // T13 — ru search-modal UI strings, keyed by locale index so only ru
-        // pages pick them up (en resolves no 'ru' key -> default English UI;
-        // zh replaces the whole search object below). NO tokenizer override
-        // anywhere for ru: Russian words are whitespace/punctuation-delimited,
-        // so the shared build tokenizer (which only special-cases CJK runs)
-        // indexes Cyrillic terms whole — identical to MiniSearch's default —
-        // and MiniSearch's default query tokenizer matches them as-is.
+        // T13 — ru + fr/de/it/es search-modal UI strings, keyed by locale
+        // index so only those locales' pages pick them up (en resolves no
+        // matching key -> default English UI; zh replaces the whole search
+        // object below). NO tokenizer override anywhere for these locales:
+        // Russian words are whitespace/punctuation-delimited (the shared
+        // build tokenizer, which only special-cases CJK runs, indexes
+        // Cyrillic terms whole — identical to MiniSearch's default), and the
+        // fr/de/it/es locales are Latin-script like en — MiniSearch's default
+        // query tokenizer matches them as-is.
         locales: {
           ru: {
             translations: {
@@ -304,6 +310,98 @@ export default defineConfig({
                   navigateDownKeyAriaLabel: 'Стрелка вниз',
                   closeText: 'Закрыть',
                   closeKeyAriaLabel: 'Закрыть'
+                }
+              }
+            }
+          },
+          fr: {
+            translations: {
+              button: {
+                buttonText: 'Rechercher',
+                buttonAriaLabel: 'Rechercher'
+              },
+              modal: {
+                displayDetails: 'Afficher la liste détaillée',
+                resetButtonTitle: 'Réinitialiser la recherche',
+                backButtonTitle: 'Retour',
+                noResultsText: 'Aucun résultat trouvé',
+                footer: {
+                  selectText: 'Sélectionner',
+                  selectKeyAriaLabel: 'Sélectionner',
+                  navigateText: 'Naviguer',
+                  navigateUpKeyAriaLabel: 'Flèche vers le haut',
+                  navigateDownKeyAriaLabel: 'Flèche vers le bas',
+                  closeText: 'Fermer',
+                  closeKeyAriaLabel: 'Fermer'
+                }
+              }
+            }
+          },
+          de: {
+            translations: {
+              button: {
+                buttonText: 'Suche',
+                buttonAriaLabel: 'Suche'
+              },
+              modal: {
+                displayDetails: 'Detaillierte Liste anzeigen',
+                resetButtonTitle: 'Suche zurücksetzen',
+                backButtonTitle: 'Zurück',
+                noResultsText: 'Keine Ergebnisse gefunden',
+                footer: {
+                  selectText: 'Auswählen',
+                  selectKeyAriaLabel: 'Auswählen',
+                  navigateText: 'Navigieren',
+                  navigateUpKeyAriaLabel: 'Pfeil nach oben',
+                  navigateDownKeyAriaLabel: 'Pfeil nach unten',
+                  closeText: 'Schließen',
+                  closeKeyAriaLabel: 'Schließen'
+                }
+              }
+            }
+          },
+          it: {
+            translations: {
+              button: {
+                buttonText: 'Cerca',
+                buttonAriaLabel: 'Cerca'
+              },
+              modal: {
+                displayDetails: 'Mostra elenco dettagliato',
+                resetButtonTitle: 'Reimposta ricerca',
+                backButtonTitle: 'Indietro',
+                noResultsText: 'Nessun risultato trovato',
+                footer: {
+                  selectText: 'Seleziona',
+                  selectKeyAriaLabel: 'Seleziona',
+                  navigateText: 'Passa',
+                  navigateUpKeyAriaLabel: 'Freccia su',
+                  navigateDownKeyAriaLabel: 'Freccia giù',
+                  closeText: 'Chiudi',
+                  closeKeyAriaLabel: 'Chiudi'
+                }
+              }
+            }
+          },
+          es: {
+            translations: {
+              button: {
+                buttonText: 'Buscar',
+                buttonAriaLabel: 'Buscar'
+              },
+              modal: {
+                displayDetails: 'Mostrar lista detallada',
+                resetButtonTitle: 'Restablecer búsqueda',
+                backButtonTitle: 'Atrás',
+                noResultsText: 'No se encontraron resultados',
+                footer: {
+                  selectText: 'Seleccionar',
+                  selectKeyAriaLabel: 'Seleccionar',
+                  navigateText: 'Navegar',
+                  navigateUpKeyAriaLabel: 'Flecha arriba',
+                  navigateDownKeyAriaLabel: 'Flecha abajo',
+                  closeText: 'Cerrar',
+                  closeKeyAriaLabel: 'Cerrar'
                 }
               }
             }
@@ -329,7 +427,18 @@ export default defineConfig({
             text: 'API Reference',
             items: apiSidebar()
           }
-        ]
+        ],
+        // T13 review fixes — language-switcher flyout label + 404 page copy.
+        // Every locale carries both (see the per-locale blocks below); the
+        // static 404.html snapshot is rendered from THIS root locale, so the
+        // English strings must live here and not only in the other locales.
+        langMenuLabel: 'Change language',
+        notFound: {
+          title: 'PAGE NOT FOUND',
+          quote: 'But if you don’t change your direction, and if you keep looking, you may end up where you are heading.',
+          linkLabel: 'go to home',
+          linkText: 'Take me home'
+        }
       }
     },
     zh: {
@@ -362,6 +471,13 @@ export default defineConfig({
         lightModeSwitchTitle: '切换到浅色模式',
         darkModeSwitchTitle: '切换到深色模式',
         skipToContentLabel: '跳到正文',
+        langMenuLabel: '切换语言',
+        notFound: {
+          title: '页面不存在',
+          quote: '您访问的页面不存在或已被移动。',
+          linkLabel: '返回首页',
+          linkText: '返回首页'
+        },
         // T11 hard spec ③ — zh search side. `search` REPLACES the top-level
         // object on zh pages (shallow merge), so provider + full options
         // live here. miniSearch.searchOptions.tokenize drives QUERY
@@ -440,7 +556,153 @@ export default defineConfig({
         darkModeSwitchLabel: 'Оформление',
         lightModeSwitchTitle: 'Переключить на светлую тему',
         darkModeSwitchTitle: 'Переключить на тёмную тему',
-        skipToContentLabel: 'Перейти к содержимому'
+        skipToContentLabel: 'Перейти к содержимому',
+        langMenuLabel: 'Изменить язык',
+        notFound: {
+          title: 'СТРАНИЦА НЕ НАЙДЕНА',
+          quote: 'Запрашиваемая страница не существует или была перемещена.',
+          linkLabel: 'на главную',
+          linkText: 'На главную'
+        }
+      }
+    },
+    fr: {
+      label: 'Français',
+      lang: 'fr',
+      // Switcher target while i18nRouting is off: always the fr homepage.
+      link: '/fr/',
+      themeConfig: {
+        nav: [
+          { text: 'Accueil', link: '/fr/' },
+          { text: 'API', link: '/fr/api/' }
+        ],
+        // T13 partial locale: fr has NO method pages, so the collapsible
+        // GROUP nodes (API index pages) point into the fr tree while the
+        // method CHILDREN bridge to the en tree — same as ru.
+        sidebar: [
+          {
+            text: 'Référence API',
+            items: apiSidebar({ indexPrefix: '/fr/api/', methodPrefix: '/api/' })
+          }
+        ],
+        // Search modal strings live in the TOP-LEVEL search block (see the
+        // locales key there) — fr deliberately sets no `search` here, so its
+        // pages reuse the shared provider/options configuration (default
+        // tokenization suits Latin-script French).
+        outline: { label: 'Sur cette page' },
+        docFooter: { prev: 'Page précédente', next: 'Page suivante' },
+        returnToTopLabel: 'Retour en haut',
+        sidebarMenuLabel: 'Menu',
+        darkModeSwitchLabel: 'Apparence',
+        lightModeSwitchTitle: 'Passer au thème clair',
+        darkModeSwitchTitle: 'Passer au thème sombre',
+        skipToContentLabel: 'Aller au contenu',
+        langMenuLabel: 'Changer de langue',
+        notFound: {
+          title: 'PAGE INTROUVABLE',
+          quote: 'La page demandée n’existe pas ou a été déplacée.',
+          linkLabel: 'aller à l’accueil',
+          linkText: 'Retour à l’accueil'
+        }
+      }
+    },
+    de: {
+      label: 'Deutsch',
+      lang: 'de',
+      // Switcher target while i18nRouting is off: always the de homepage.
+      link: '/de/',
+      themeConfig: {
+        nav: [
+          { text: 'Startseite', link: '/de/' },
+          { text: 'API', link: '/de/api/' }
+        ],
+        sidebar: [
+          {
+            text: 'API-Referenz',
+            items: apiSidebar({ indexPrefix: '/de/api/', methodPrefix: '/api/' })
+          }
+        ],
+        outline: { label: 'Auf dieser Seite' },
+        docFooter: { prev: 'Vorherige Seite', next: 'Nächste Seite' },
+        returnToTopLabel: 'Zurück nach oben',
+        sidebarMenuLabel: 'Menü',
+        darkModeSwitchLabel: 'Erscheinungsbild',
+        lightModeSwitchTitle: 'Zum hellen Design wechseln',
+        darkModeSwitchTitle: 'Zum dunklen Design wechseln',
+        skipToContentLabel: 'Zum Inhalt springen',
+        langMenuLabel: 'Sprache wechseln',
+        notFound: {
+          title: 'SEITE NICHT GEFUNDEN',
+          quote: 'Die angeforderte Seite existiert nicht oder wurde verschoben.',
+          linkLabel: 'zur Startseite',
+          linkText: 'Zur Startseite'
+        }
+      }
+    },
+    it: {
+      label: 'Italiano',
+      lang: 'it',
+      // Switcher target while i18nRouting is off: always the it homepage.
+      link: '/it/',
+      themeConfig: {
+        nav: [
+          { text: 'Home', link: '/it/' },
+          { text: 'API', link: '/it/api/' }
+        ],
+        sidebar: [
+          {
+            text: 'Riferimento API',
+            items: apiSidebar({ indexPrefix: '/it/api/', methodPrefix: '/api/' })
+          }
+        ],
+        outline: { label: 'In questa pagina' },
+        docFooter: { prev: 'Pagina precedente', next: 'Pagina successiva' },
+        returnToTopLabel: 'Torna all’inizio',
+        sidebarMenuLabel: 'Menu',
+        darkModeSwitchLabel: 'Aspetto',
+        lightModeSwitchTitle: 'Passa al tema chiaro',
+        darkModeSwitchTitle: 'Passa al tema scuro',
+        skipToContentLabel: 'Vai al contenuto',
+        langMenuLabel: 'Cambia lingua',
+        notFound: {
+          title: 'PAGINA NON TROVATA',
+          quote: 'La pagina richiesta non esiste o è stata spostata.',
+          linkLabel: 'vai alla home',
+          linkText: 'Torna alla home'
+        }
+      }
+    },
+    es: {
+      label: 'Español',
+      lang: 'es',
+      // Switcher target while i18nRouting is off: always the es homepage.
+      link: '/es/',
+      themeConfig: {
+        nav: [
+          { text: 'Inicio', link: '/es/' },
+          { text: 'API', link: '/es/api/' }
+        ],
+        sidebar: [
+          {
+            text: 'Referencia de API',
+            items: apiSidebar({ indexPrefix: '/es/api/', methodPrefix: '/api/' })
+          }
+        ],
+        outline: { label: 'En esta página' },
+        docFooter: { prev: 'Página anterior', next: 'Página siguiente' },
+        returnToTopLabel: 'Volver arriba',
+        sidebarMenuLabel: 'Menú',
+        darkModeSwitchLabel: 'Apariencia',
+        lightModeSwitchTitle: 'Cambiar al tema claro',
+        darkModeSwitchTitle: 'Cambiar al tema oscuro',
+        skipToContentLabel: 'Ir al contenido',
+        langMenuLabel: 'Cambiar idioma',
+        notFound: {
+          title: 'PÁGINA NO ENCONTRADA',
+          quote: 'La página solicitada no existe o ha sido movida.',
+          linkLabel: 'ir al inicio',
+          linkText: 'Volver al inicio'
+        }
       }
     }
   }

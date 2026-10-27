@@ -506,10 +506,39 @@ const RU_OPS_BRIDGE_NOTE =
   '> Это русская индексная страница: страница операций пока не переведена на русский язык — нажмите имя операции, чтобы перейти к соответствующему разделу английской страницы.';
 
 /**
+ * Strings for a bridge-only locale (T13 fr/de/it/es, pattern set by ru):
+ * one generated index page per API whose method rows ALL bridge to the
+ * English method pages (no locale method pages this phase). Expands into a
+ * full LOCALES entry with the same shape as zh/ru.
+ */
+function bridgeOnlyLocale(key, strings) {
+  return {
+    key,
+    outDir: join(ROOT, 'docs', key, 'api'),
+    // No purposes file: method pages are deferred for bridge locales, so
+    // every row in every index table bridges to the English page.
+    purposesPath: null,
+    methods: {
+      note: strings.methodsNote,
+      heading: strings.methodsHeading,
+      colMethod: strings.colMethod,
+      colSince: strings.colSince,
+      colFlags: strings.colFlags,
+    },
+    ops: {
+      note: strings.opsNote,
+      heading: strings.opsHeading,
+      colOp: strings.colOp,
+      colFlags: strings.colFlags,
+    },
+  };
+}
+
+/**
  * Locale registry for `--locale <code>` runs. zh is the full pilot (purposes
  * translation file -> translated method pages); every other entry is a
  * bridge-only locale (index pages with all method rows pointing at en) —
- * fr/de/it/es plug in here when their rollout starts (T13).
+ * added via bridgeOnlyLocale() below.
  */
 const LOCALES = {
   zh: {
@@ -550,6 +579,58 @@ const LOCALES = {
       colFlags: 'Статус',
     },
   },
+  fr: bridgeOnlyLocale('fr', {
+    methodsNote:
+      '> Ceci est la page d’index française : les pages de méthodes ne sont pas encore traduites en français — tous les liens de la table mènent aux pages de méthodes anglaises.',
+    methodsHeading: 'Méthodes',
+    colMethod: 'Méthode',
+    colSince: 'À partir de la version',
+    colFlags: 'Statut',
+    opsNote:
+      '> Ceci est la page d’index française : la page des opérations n’est pas encore traduite en français — cliquez sur le nom d’une opération pour ouvrir la section correspondante de la page anglaise.',
+    opsHeading: 'Opérations',
+    colOp: 'Opération',
+    colFlags: 'Statut',
+  }),
+  de: bridgeOnlyLocale('de', {
+    methodsNote:
+      '> Dies ist die deutsche Indexseite: die Methodenseiten sind noch nicht ins Deutsche übersetzt — alle Links in der Tabelle führen zu den englischen Methodenseiten.',
+    methodsHeading: 'Methoden',
+    colMethod: 'Methode',
+    colSince: 'Seit Version',
+    colFlags: 'Status',
+    opsNote:
+      '> Dies ist die deutsche Indexseite: die Operationsseite ist noch nicht ins Deutsche übersetzt — klicken Sie auf den Namen einer Operation, um zum entsprechenden Abschnitt der englischen Seite zu gelangen.',
+    opsHeading: 'Operationen',
+    colOp: 'Operation',
+    colFlags: 'Status',
+  }),
+  it: bridgeOnlyLocale('it', {
+    methodsNote:
+      '> Questa è la pagina di indice italiana: le pagine dei metodi non sono ancora tradotte in italiano — tutti i link della tabella portano alle pagine dei metodi inglesi.',
+    methodsHeading: 'Metodi',
+    colMethod: 'Metodo',
+    colSince: 'Dalla versione',
+    colFlags: 'Stato',
+    opsNote:
+      '> Questa è la pagina di indice italiana: la pagina delle operazioni non è ancora tradotta in italiano — fare clic sul nome di un’operazione per aprire la sezione corrispondente della pagina inglese.',
+    opsHeading: 'Operazioni',
+    colOp: 'Operazione',
+    colFlags: 'Stato',
+  }),
+  es: bridgeOnlyLocale('es', {
+    methodsNote:
+      '> Esta es la página de índice en español: las páginas de métodos aún no están traducidas al español — todos los enlaces de la tabla llevan a las páginas de métodos en inglés.',
+    methodsHeading: 'Métodos',
+    colMethod: 'Método',
+    colSince: 'Desde la versión',
+    colFlags: 'Estado',
+    opsNote:
+      '> Esta es la página de índice en español: la página de operaciones aún no está traducida al español — haga clic en el nombre de una operación para abrir la sección correspondiente de la página en inglés.',
+    opsHeading: 'Operaciones',
+    colOp: 'Operación',
+    colFlags: 'Estado',
+  }),
 };
 
 function flagCells(m, includeVirtual = false) {

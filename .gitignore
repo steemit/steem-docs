@@ -11,6 +11,22 @@ docs/zh/api/*
 # overview stays tracked
 docs/ru/api/*
 !docs/ru/api/index.md
+# generated fr bridge index pages; the hand-written docs/fr/api/index.md
+# overview stays tracked
+docs/fr/api/*
+!docs/fr/api/index.md
+# generated de bridge index pages; the hand-written docs/de/api/index.md
+# overview stays tracked
+docs/de/api/*
+!docs/de/api/index.md
+# generated it bridge index pages; the hand-written docs/it/api/index.md
+# overview stays tracked
+docs/it/api/*
+!docs/it/api/index.md
+# generated es bridge index pages; the hand-written docs/es/api/index.md
+# overview stays tracked
+docs/es/api/*
+!docs/es/api/index.md
 .DS_Store
 .idea/
 .vscode/
