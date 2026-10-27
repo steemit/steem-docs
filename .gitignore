@@ -3,7 +3,10 @@ docs/.vitepress/cache/
 docs/.vitepress/dist/
 docs/.vitepress/gen/
 docs/api/
-docs/zh/api/
+# generated zh bridge index pages; the hand-written docs/zh/api/index.md
+# overview stays tracked
+docs/zh/api/*
+!docs/zh/api/index.md
 .DS_Store
 .idea/
 .vscode/
