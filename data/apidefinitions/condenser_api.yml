@@ -519,12 +519,8 @@
       
       Also see: [tags_api.get_comment_discussions_by_payout]({{ '/apidefinitions/#tags_api.get_comment_discussions_by_payout' | relative_url }})
     parameter_json:
-    - tag: ''
-      limit: 0
-      filter_tags: []
-      select_authors: []
-      select_tags: []
-      truncate_body: 0
+    - tag: steem
+      limit: 1
     expected_response_json: []
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"condenser_api.get_comment_discussions_by_payout",
@@ -716,10 +712,10 @@
       
       Also see: [tags_api.get_discussions_by_author_before_date]({{ '/apidefinitions/#tags_api.get_discussions_by_author_before_date' | relative_url }}), [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#condenser_apiget_discussions_by_author_before_date' | relative_url }})
     parameter_json:
-    - ''
-    - ''
-    - '1970-01-01T00:00:00'
-    - 100
+    - steemit
+    - firstpost
+    - '2016-04-19T22:49:43'
+    - 1
     expected_response_json: []
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"condenser_api.get_discussions_by_author_before_date",
@@ -730,12 +726,8 @@
       
       Also see: [tags_api.get_discussions_by_blog]({{ '/apidefinitions/#tags_api.get_discussions_by_blog' | relative_url }})
     parameter_json:
-    - tag: ''
-      limit: 0
-      filter_tags: []
-      select_authors: []
-      select_tags: []
-      truncate_body: 0
+    - tag: steemit
+      limit: 1
     expected_response_json: []
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"condenser_api.get_discussions_by_blog", "params":[{"tag":"steemit","limit":1}],
@@ -784,9 +776,9 @@
       
       Also see: [tags_api.get_discussions_by_comments]({{ '/apidefinitions/#tags_api.get_discussions_by_comments' | relative_url }})
     parameter_json:
-    - start_author: ''
-      start_permlink: ''
-      limit: 100
+    - start_author: steemit
+      start_permlink: firstpost
+      limit: 1
     expected_response_json: []
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"condenser_api.get_discussions_by_comments", "params":[{"start_author":"steemit","start_permlink":"firstpost","limit":1}],
@@ -802,12 +794,8 @@
       
       Also see: [tags_api.get_discussions_by_created]({{ '/apidefinitions/#tags_api.get_discussions_by_created' | relative_url }})
     parameter_json:
-    - tag: ''
-      limit: 0
-      filter_tags: []
-      select_authors: []
-      select_tags: []
-      truncate_body: 0
+    - tag: steem
+      limit: 1
     expected_response_json: []
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"condenser_api.get_discussions_by_created", "params":[{"tag":"steem","limit":1}],
@@ -821,10 +809,8 @@
       
       Also see: [tags_api.get_discussions_by_feed]({{ '/apidefinitions/#tags_api.get_discussions_by_feed' | relative_url }})
     parameter_json:
-    - tag: ''
-      start_author: ''
-      start_permlink: ''
-      limit: 100
+    - tag: steem
+      limit: 1
     expected_response_json: []
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"condenser_api.get_discussions_by_feed", "params":[{"tag":"steem","limit":1}],
@@ -837,12 +823,8 @@
       
       Also see: [tags_api.get_discussions_by_hot]({{ '/apidefinitions/#tags_api.get_discussions_by_hot' | relative_url }})
     parameter_json:
-    - tag: ''
-      limit: 0
-      filter_tags: []
-      select_authors: []
-      select_tags: []
-      truncate_body: 0
+    - tag: steem
+      limit: 1
     expected_response_json: []
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"condenser_api.get_discussions_by_hot", "params":[{"tag":"steem","limit":1}],
@@ -856,12 +838,8 @@
       
       Also see: [tags_api.get_discussions_by_promoted]({{ '/apidefinitions/#tags_api.get_discussions_by_promoted' | relative_url }})
     parameter_json:
-    - tag: ''
-      limit: 0
-      filter_tags: []
-      select_authors: []
-      select_tags: []
-      truncate_body: 0
+    - tag: steem
+      limit: 1
     expected_response_json: []
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"condenser_api.get_discussions_by_promoted", "params":[{"tag":"steem","limit":1}],
@@ -874,12 +852,8 @@
       
       Also see: [tags_api.get_discussions_by_trending]({{ '/apidefinitions/#tags_api.get_discussions_by_trending' | relative_url }})
     parameter_json:
-    - tag: ''
-      limit: 0
-      filter_tags: []
-      select_authors: []
-      select_tags: []
-      truncate_body: 0
+    - tag: steem
+      limit: 1
     expected_response_json: []
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"condenser_api.get_discussions_by_trending", "params":[{"tag":"steem","limit":1}],
@@ -1043,7 +1017,7 @@
       
       Also see: [follow_api.get_follow_count]({{ '/apidefinitions/#follow_api.get_follow_count' | relative_url }})
     parameter_json:
-    - ''
+    - steemit
     expected_response_json:
       account: ''
       follower_count: 0
@@ -1065,10 +1039,10 @@
       
       Also see: [follow_api.get_followers]({{ '/apidefinitions/#follow_api.get_followers' | relative_url }}), [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#condenser_apiget_followers' | relative_url }})
     parameter_json:
-    - ''
-    - ''
-    - ''
-    - 1
+    - steemit
+    - null
+    - blog
+    - 10
     expected_response_json: []
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"condenser_api.get_followers", "params":["steemit",null,"blog",10],
@@ -1093,10 +1067,10 @@
       
       Also see: [follow_api.get_following]({{ '/apidefinitions/#follow_api.get_following' | relative_url }}), [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#condenser_apiget_following' | relative_url }})
     parameter_json:
-    - ''
-    - ''
-    - ''
-    - 1
+    - steemit
+    - null
+    - blog
+    - 10
     expected_response_json: []
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"condenser_api.get_following", "params":["steemit",null,"blog",10],
@@ -1279,12 +1253,8 @@
       
       Also see: [tags_api.get_post_discussions_by_payout]({{ '/apidefinitions/#tags_api.get_post_discussions_by_payout' | relative_url }})
     parameter_json:
-    - tag: ''
-      limit: 0
-      filter_tags: []
-      select_authors: []
-      select_tags: []
-      truncate_body: 0
+    - tag: steem
+      limit: 1
     expected_response_json: []
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"condenser_api.get_post_discussions_by_payout",
@@ -1373,8 +1343,8 @@
       
       Also see: [tags_api.get_replies_by_last_update]({{ '/apidefinitions/#tags_api.get_replies_by_last_update' | relative_url }}), [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#condenser_apiget_replies_by_last_update' | relative_url }})
     parameter_json:
-    - ''
-    - ''
+    - steemit
+    - firstpost
     - 1
     expected_response_json: []
     curl_examples:

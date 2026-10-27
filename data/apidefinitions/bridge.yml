@@ -21,7 +21,7 @@
       The value for `tag` can be any valid tag.
       
       The value for `observer` can be any valid account or empty string.
-    parameter_json: '{"sort":"","tag":"","observer":""}'
+    parameter_json: '{"sort":"trending","tag":"","observer":"alice"}'
     expected_response_json: |
       [
         {

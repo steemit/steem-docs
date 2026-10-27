@@ -22,7 +22,7 @@
   - api_method: tags_api.get_comment_discussions_by_payout
     since: HF17
     purpose: Returns a list of discussions based on payout.
-    parameter_json: '{"tag":"","limit":0,"filter_tags":[],"select_authors":[],"select_tags":[],"truncate_body":0}'
+    parameter_json: '{"tag":"steem","limit":1}'
     expected_response_json: '{"discussions":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"tags_api.get_comment_discussions_by_payout", "params":{"tag":"steem","limit":1},
@@ -31,7 +31,7 @@
       "id":1}'
   - api_method: tags_api.get_content_replies
     purpose: Returns a list of replies.
-    parameter_json: '{"author":"","permlink":""}'
+    parameter_json: '{"author":"steemit","permlink":"firstpost"}'
     expected_response_json: '{"discussions":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"tags_api.get_content_replies", "params":{"author":"steemit",
@@ -40,7 +40,7 @@
       "permlink":"a-post-by-alice"}, "id":1}'
   - api_method: tags_api.get_discussion
     purpose: Returns the discussion given an author and permlink.
-    parameter_json: '{"author":"","permlink":""}'
+    parameter_json: '{"author":"steemit","permlink":"firstpost"}'
     expected_response_json: '{"id":0,"author":"","permlink":"","category":"","parent_author":"","parent_permlink":"","title":"","body":"","json_metadata":"","last_update":"1970-01-01T00:00:00","created":"1970-01-01T00:00:00","active":"1970-01-01T00:00:00","last_payout":"1970-01-01T00:00:00","depth":0,"children":0,"net_rshares":0,"abs_rshares":0,"vote_rshares":0,"children_abs_rshares":0,"cashout_time":"1970-01-01T00:00:00","max_cashout_time":"1970-01-01T00:00:00","total_vote_weight":0,"reward_weight":0,"total_payout_value":{"amount":"0","precision":3,"nai":"@@000000021"},"curator_payout_value":{"amount":"0","precision":3,"nai":"@@000000021"},"author_rewards":0,"net_votes":0,"root_author":"","root_permlink":"","max_accepted_payout":{"amount":"0","precision":3,"nai":"@@000000021"},"percent_steem_dollars":0,"allow_replies":false,"allow_votes":false,"allow_curation_rewards":false,"beneficiaries":[],"url":"","root_title":"","pending_payout_value":{"amount":"0","precision":3,"nai":"@@000000021"},"total_pending_payout_value":{"amount":"0","precision":3,"nai":"@@000000021"},"active_votes":[],"replies":[],"author_reputation":0,"promoted":{"amount":"0","precision":3,"nai":"@@000000013"},"body_length":0,"reblogged_by":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"tags_api.get_discussion", "params":{"author":"steemit",
@@ -63,7 +63,7 @@
       Returns a list of discussions based on author before date.
       
       Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#tags_apiget_discussions_by_author_before_date' | relative_url }})
-    parameter_json: '{"author":"","start_permlink":"","before_date":"1970-01-01T00:00:00","limit":100}'
+    parameter_json: '{"author":"steemit","start_permlink":"firstpost","before_date":"2016-04-19T22:49:43","limit":1}'
     expected_response_json: '{"discussions":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"tags_api.get_discussions_by_author_before_date",
@@ -71,7 +71,7 @@
       "id":1}'
   - api_method: tags_api.get_discussions_by_blog
     purpose: Returns a list of discussions by blog.
-    parameter_json: '{"tag":"","limit":0,"filter_tags":[],"select_authors":[],"select_tags":[],"truncate_body":0}'
+    parameter_json: '{"tag":"steemit","limit":1}'
     expected_response_json: '{"discussions":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"tags_api.get_discussions_by_blog", "params":{"tag":"steemit","limit":1},
@@ -102,7 +102,7 @@
       "id":1}'
   - api_method: tags_api.get_discussions_by_comments
     purpose: Returns a list of discussions by comments.
-    parameter_json: '{"tag":"","limit":0,"filter_tags":[],"select_authors":[],"select_tags":[],"truncate_body":0}'
+    parameter_json: '{"start_author":"steemit","start_permlink":"firstpost","limit":1}'
     expected_response_json: '{"discussions":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"tags_api.get_discussions_by_comments", "params":{"start_author":"steemit","start_permlink":"firstpost","limit":1},
@@ -114,7 +114,7 @@
     - Comment is not in account's comments
   - api_method: tags_api.get_discussions_by_created
     purpose: Returns a list of discussions by created.
-    parameter_json: '{"tag":"","limit":0,"filter_tags":[],"select_authors":[],"select_tags":[],"truncate_body":0}'
+    parameter_json: '{"tag":"steem","limit":1}'
     expected_response_json: '{"discussions":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"tags_api.get_discussions_by_created", "params":{"tag":"steem","limit":1},
@@ -135,7 +135,7 @@
       "id":1}'
   - api_method: tags_api.get_discussions_by_hot
     purpose: Returns a list of discussions by hot.
-    parameter_json: '{"tag":"","limit":0,"filter_tags":[],"select_authors":[],"select_tags":[],"truncate_body":0}'
+    parameter_json: '{"tag":"steem","limit":1}'
     expected_response_json: '{"discussions":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"tags_api.get_discussions_by_hot", "params":{"tag":"steem","limit":1},
@@ -145,7 +145,7 @@
   - api_method: tags_api.get_discussions_by_promoted
     since: HF13
     purpose: Returns a list of discussions by promoted.
-    parameter_json: '{"tag":"","limit":0,"filter_tags":[],"select_authors":[],"select_tags":[],"truncate_body":0}'
+    parameter_json: '{"tag":"steem","limit":1}'
     expected_response_json: '{"discussions":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"tags_api.get_discussions_by_promoted", "params":{"tag":"steem","limit":1},
@@ -154,7 +154,7 @@
       "id":1}'
   - api_method: tags_api.get_discussions_by_trending
     purpose: Returns a list of discussions by trending.
-    parameter_json: '{"tag":"","limit":0,"filter_tags":[],"select_authors":[],"select_tags":[],"truncate_body":0}'
+    parameter_json: '{"tag":"steem","limit":1}'
     expected_response_json: '{"discussions":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"tags_api.get_discussions_by_trending", "params":{"tag":"steem","limit":1},
@@ -175,7 +175,7 @@
   - api_method: tags_api.get_post_discussions_by_payout
     since: HF17
     purpose: Returns a list of post discussions by payout.
-    parameter_json: '{"tag":"","limit":0,"filter_tags":[],"select_authors":[],"select_tags":[],"truncate_body":0}'
+    parameter_json: '{"tag":"steem","limit":1}'
     expected_response_json: '{"discussions":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"tags_api.get_post_discussions_by_payout", "params":{"tag":"steem","limit":1},

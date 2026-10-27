@@ -24,7 +24,7 @@
       Returns the list of blog entries for an account.
       
       Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#follow_apiget_blog' | relative_url }})
-    parameter_json: '{"account":"","start_entry_id":0,"limit":500}'
+    parameter_json: '{"account":"steemit","start_entry_id":0,"limit":1}'
     expected_response_json: '{"blog":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"follow_api.get_blog", "params":{"account":"steemit","start_entry_id":0,"limit":1},
@@ -50,7 +50,7 @@
       Returns a list of blog entries for an account.
       
       Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#follow_apiget_blog_entries' | relative_url }})
-    parameter_json: '{"account":"","start_entry_id":0,"limit":500}'
+    parameter_json: '{"account":"steemit","start_entry_id":0,"limit":1}'
     expected_response_json: '{"blog":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"follow_api.get_blog_entries", "params":{"account":"steemit","start_entry_id":0,"limit":1},
@@ -90,7 +90,7 @@
   - api_method: follow_api.get_follow_count
     since: HF9
     purpose: Returns the count of followers for an account.
-    parameter_json: '{"account":""}'
+    parameter_json: '{"account":"steemit"}'
     expected_response_json: '{"account":"","follower_count":0,"following_count":0}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"follow_api.get_follow_count", "params":{"account":"steemit"},
@@ -103,7 +103,7 @@
       Returns the list of followers for an account.
       
       Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#follow_apiget_followers' | relative_url }})
-    parameter_json: '{"account":"","start":"","type":"undefined","limit":1000}'
+    parameter_json: '{"account":"steemit","start":null,"type":"blog","limit":10}'
     expected_response_json: '{"followers":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"follow_api.get_followers", "params":{"account":"steemit","start":null,"type":"blog","limit":10},
@@ -116,7 +116,7 @@
       Returns the list of accounts that are following an account.
       
       Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#follow_apiget_following' | relative_url }})
-    parameter_json: '{"account":"","start":"","type":"undefined","limit":1000}'
+    parameter_json: '{"account":"steemit","start":null,"type":"blog","limit":10}'
     expected_response_json: '{"following":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"follow_api.get_following", "params":{"account":"steemit","start":null,"type":"blog","limit":10},
@@ -126,7 +126,7 @@
   - api_method: follow_api.get_reblogged_by
     since: HF14
     purpose: Returns a list of authors that have reblogged a post.
-    parameter_json: '{"author":"","permlink":""}'
+    parameter_json: '{"author":"steemit","permlink":"firstpost"}'
     expected_response_json: '{"accounts":[]}'
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"follow_api.get_reblogged_by", "params":{"author":"steemit","permlink":"firstpost"},

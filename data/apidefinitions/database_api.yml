@@ -210,10 +210,10 @@
     - '{"jsonrpc":"2.0", "method":"database_api.find_change_recovery_account_requests", "params": {"accounts":["steemit"]}, "id":1}'
   - api_method: database_api.find_comments
     purpose: Search for comments.
-    parameter_json: '{"start":[["",""]], "limit":0, "order":""}'
+    parameter_json: '{"comments":[["steemit","firstpost"]]}'
     expected_response_json: '{"comments":[]}'
     curl_examples:
-    - '{"jsonrpc":"2.0", "method":"database_api.find_comments", "params": {"start":[["temp","test1"],["temp","foobar"]], "limit":10, "order":"by_account"}, "id":1}'
+    - '{"jsonrpc":"2.0", "method":"database_api.find_comments", "params": {"comments":[["steemit","firstpost"]]}, "id":1}'
   - api_method: database_api.find_decline_voting_rights_requests
     since: HF14
     purpose: Returns a list of requests to decline voting rights.
@@ -1429,7 +1429,7 @@
       | `["alice", "xeroc", "vanteem-config"]` | 10 | `"by_voter_comment"` | Queries next 10 votes starting at alice on the post `@xeroc/vanteem-config`, sort by voter comment |
 
       Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#database_apilist_votes' | relative_url }})
-    parameter_json: '{"start":null,"limit":0,"order":"by_comment_voter"}'
+    parameter_json: '{"start":["","",""],"limit":10,"order":"by_comment_voter"}'
     expected_response_json: |
       {
         "votes": [
