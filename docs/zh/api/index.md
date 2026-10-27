@@ -70,7 +70,7 @@ zh API 总览（T11，手写静态页）。本页是 docs/api/index.md（构建�
 
 [debug_node_api](/zh/api/debug_node_api/) <span class="badge badge-count">9 个方法</span>
 
-<p class="api-card-summary">私有插件，支持各类链上"假设推演"实验；公网节点不提供该方法族。</p>
+<p class="api-card-summary">私有插件，支持各类链上“假设推演”实验；公网节点不提供该方法族。</p>
 
 </div>
 

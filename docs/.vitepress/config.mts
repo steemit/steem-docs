@@ -117,6 +117,13 @@ function apiSidebar(opts: { indexPrefix?: string; methodPrefix?: string } = {}) 
 function buildSearchTokenize(text: string) {
   const SPACE_OR_PUNCTUATION = /[\n\r\p{Z}\p{P}]+/u
   const CJK_RE = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u
+  // Built once per call (not per CJK token) but INSIDE the function body:
+  // search options are serialized via _vp-fn_, so the body must stay
+  // self-contained — no references to module-scope helpers.
+  const segmenter =
+    typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function'
+      ? new Intl.Segmenter('zh-Hans', { granularity: 'word' })
+      : null
   const tokens = []
   for (const raw of text.split(SPACE_OR_PUNCTUATION)) {
     if (!raw) continue
@@ -128,8 +135,7 @@ function buildSearchTokenize(text: string) {
     // CJK-bearing: prefer Intl.Segmenter word segmentation (fallback: the
     // whole run), index each CJK word AND its individual code points.
     let words = [raw]
-    if (typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function') {
-      const segmenter = new Intl.Segmenter('zh-Hans', { granularity: 'word' })
+    if (segmenter) {
       words = Array.from(segmenter.segment(raw), (s) => s.segment).filter((w) => w.length > 0)
     }
     for (const word of words) {
