@@ -12,6 +12,13 @@ generated from it at build time and the files are never hand-edited here.
   2 broadcast operation reference files (`broadcast_ops.yml`,
   `broadcast_ops_communities.yml`). The file name (without `.yml`) is the API's
   URL slug (e.g. `bridge.yml` → `/api/bridge/`).
+- `translations/zh/purposes.yml` — zh translations of method purposes
+  (phase-2 T12): an `api_method` → translation mapping consumed by
+  `scripts/gen-api-docs.mjs --locale zh`. Methods covered here get a generated
+  zh method page (`docs/zh/api/<stem>/<short>.md`); uncovered methods keep
+  bridging to the English page from the zh index. The source of truth for the
+  translated text is the **en `purpose` field** of the same method; terminology
+  follows the frozen baseline in `docs/.vitepress/zh-glossary.json`.
 
 ## File schema
 
