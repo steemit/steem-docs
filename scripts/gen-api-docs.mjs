@@ -540,7 +540,7 @@ const LOCALES = {
       note: RU_BRIDGE_NOTE,
       heading: 'Методы',
       colMethod: 'Метод',
-      colSince: 'Начиная с',
+      colSince: 'Начиная с версии',
       colFlags: 'Статус',
     },
     ops: {
