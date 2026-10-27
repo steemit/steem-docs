@@ -3,7 +3,7 @@
   description: |
     Presents data interpreted by the hivemind database as JSON-RPC.
     
-    Also see: [Communities Broadcast Ops]({{ '/apidefinitions/#apidefinitions-broadcast-ops-communities' | relative_url }})
+    Also see: Communities Broadcast Ops
   methods:
   - api_method: bridge.get_ranked_posts
     purpose: |
@@ -21,7 +21,7 @@
       The value for `tag` can be any valid tag.
       
       The value for `observer` can be any valid account or empty string.
-    parameter_json: '{"sort":"","tag":"","observer":""}'
+    parameter_json: '{"sort":"trending","tag":"","observer":"alice"}'
     expected_response_json: |
       [
         {

@@ -17,6 +17,8 @@
 :root {
   --badge-red-fg: #b91c1c;
   --badge-red-bg: rgba(220, 38, 38, 0.12);
+  --badge-rose-fg: #9f1239;
+  --badge-rose-bg: rgba(225, 29, 72, 0.12);
   --badge-orange-fg: #b45309;
   --badge-orange-bg: rgba(245, 158, 11, 0.16);
   --badge-blue-fg: #1d4ed8;
@@ -36,6 +38,8 @@
 .dark {
   --badge-red-fg: #f87171;
   --badge-red-bg: rgba(248, 113, 113, 0.14);
+  --badge-rose-fg: #fb7185;
+  --badge-rose-bg: rgba(251, 113, 133, 0.14);
   --badge-orange-fg: #fbbf24;
   --badge-orange-bg: rgba(251, 191, 36, 0.14);
   --badge-blue-fg: #93c5fd;
@@ -69,6 +73,13 @@
 .badge-disabled {
   color: var(--badge-orange-fg);
   background: var(--badge-orange-bg);
+}
+
+/* Removed from public nodes (T9 drift baseline). Rose instead of the
+ * deprecated red so the two statuses stay distinguishable side by side. */
+.badge-removed {
+  color: var(--badge-rose-fg);
+  background: var(--badge-rose-bg);
 }
 
 .badge-since {
@@ -113,6 +124,28 @@
   align-items: center;
   gap: 6px;
   margin: 4px 0 12px;
+}
+
+/* Death-cause line (method `detail`) right under the badge row. */
+.api-detail {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+}
+
+/* "No longer provided by public nodes" warning in front of the Example curl
+ * card on methods flagged dead by the T9 drift baseline. */
+.dead-note {
+  margin: 16px 0;
+  padding: 8px 14px;
+  border: 1px solid var(--badge-rose-fg);
+  border-left: 3px solid var(--badge-rose-fg);
+  border-radius: 8px;
+  background: var(--badge-rose-bg);
+  color: var(--badge-rose-fg);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.6;
 }
 
 /* --- 2. Overview card grid (/api/) --------------------------------------- */

@@ -35,6 +35,8 @@ export const METHOD_FIELDS = new Set([
   'since',
   'disabled',
   'deprecated',
+  'removed',
+  'detail',
   'testnet',
   'mainnet',
 ]);

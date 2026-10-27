@@ -8,7 +8,7 @@
       purpose: |
         Returns a history of all operations for a given account.
         
-        Also see: [Paginated API Methods]({{ '/tutorials-recipes/paginated-api-methods#account_history_apiget_account_history' | relative_url }})
+        Also see: Paginated API Methods
       parameter_json: {"account":"","start":"18446744073709551615","limit":1000}
       expected_response_json: {"history":[]}
       curl_examples:
@@ -38,6 +38,8 @@
         - Could not find API account_history_api
     - api_method: account_history_api.enum_virtual_ops
       since: HF23
-      purpose: 
+      purpose: Returns the virtual operations within a block range, optionally filtered by account and operation type.
       parameter_json: '{"block_range_begin":1,"block_range_end":2}'
       expected_response_json: '{"ops":[],"next_block_range_begin":0}'
+      curl_examples:
+          - '{"jsonrpc":"2.0", "method":"account_history_api.enum_virtual_ops", "params":{"block_range_begin":1,"block_range_end":2}, "id":1}'
