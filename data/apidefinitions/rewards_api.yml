@@ -19,6 +19,8 @@
     See: [#3325](https://github.com/steemit/steem/issues/3325)
   methods:
   - api_method: rewards_api.simulate_curve_payouts
+    removed: true
+    detail: 'The rewards_api namespace is not registered on public nodes.'
     purpose: 
     parameter_json: '{"curve":"quadratic","var1":"2000000000000"}'
     expected_response_json: '{"recent_claims":"","payouts":[]}'

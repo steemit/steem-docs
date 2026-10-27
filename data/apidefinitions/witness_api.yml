@@ -7,6 +7,8 @@
   methods:
   - api_method: witness_api.get_account_bandwidth
     disabled: true
+    removed: true
+    detail: 'The witness_api namespace is not registered on public nodes.'
     purpose: |
       **Disabled since 0.20.6, see: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
       
@@ -15,6 +17,8 @@
     expected_response_json: "{}"
   - api_method: witness_api.get_reserve_ratio
     disabled: true
+    removed: true
+    detail: 'The witness_api namespace is not registered on public nodes.'
     purpose: |
       **Disabled since 0.20.6, see: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
       

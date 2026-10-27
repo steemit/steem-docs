@@ -6,6 +6,8 @@
     AppBase API methods are still under development and subject to change.**
   methods:
   - api_method: tags_api.get_active_votes
+    removed: true
+    detail: 'Removed from the tags API; public nodes return "Method not found".'
     purpose: Returns all votes for the given post.
     parameter_json: '{"author":"","permlink":""}'
     expected_response_json: '{"votes":[]}'
@@ -46,6 +48,8 @@
     - '{"jsonrpc":"2.0", "method":"tags_api.get_discussion", "params":{"author":"alice",
       "permlink":"a-post-by-alice"}, "id":1}'
   - api_method: tags_api.get_discussions_by_active
+    removed: true
+    detail: 'Removed from the tags API; public nodes return "Method not found".'
     purpose: Returns a list of discussions based on active.
     parameter_json: '{"tag":"","limit":0,"filter_tags":[],"select_authors":[],"select_tags":[],"truncate_body":0}'
     expected_response_json: '{"discussions":[]}'
@@ -75,6 +79,8 @@
     - '{"jsonrpc":"2.0", "method":"tags_api.get_discussions_by_blog", "params":{"tag":"alice","limit":10},
       "id":1}'
   - api_method: tags_api.get_discussions_by_cashout
+    removed: true
+    detail: 'Removed from the tags API; public nodes return "Method not found".'
     purpose: Returns a list of discussions by cashout.
     parameter_json: '{"tag":"","limit":0,"filter_tags":[],"select_authors":[],"select_tags":[],"truncate_body":0}'
     expected_response_json: '{"discussions":[]}'
@@ -84,6 +90,8 @@
     - '{"jsonrpc":"2.0", "method":"tags_api.get_discussions_by_cashout", "params":{"tag":"photography","limit":10,"truncate_body":0},
       "id":1}'
   - api_method: tags_api.get_discussions_by_children
+    removed: true
+    detail: 'Removed from the tags API; public nodes return "Method not found".'
     purpose: Returns a list of discussions by children.
     parameter_json: '{"tag":"","limit":0,"filter_tags":[],"select_authors":[],"select_tags":[],"truncate_body":0}'
     expected_response_json: '{"discussions":[]}'
@@ -115,6 +123,8 @@
       "id":1}'
   - api_method: tags_api.get_discussions_by_feed
     since: HF14
+    removed: true
+    detail: 'Removed from the tags API; public nodes return "Method not found".'
     purpose: Returns a list of discussions by feed.
     parameter_json: '{"tag":"","limit":0,"filter_tags":[],"select_authors":[],"select_tags":[],"truncate_body":0}'
     expected_response_json: '{"discussions":[]}'
@@ -152,6 +162,8 @@
     - '{"jsonrpc":"2.0", "method":"tags_api.get_discussions_by_trending", "params":{"tag":"photography","limit":10,"truncate_body":0},
       "id":1}'
   - api_method: tags_api.get_discussions_by_votes
+    removed: true
+    detail: 'Removed from the tags API; public nodes return "Method not found".'
     purpose: Returns a list of discussions by votes.
     parameter_json: '{"tag":"","limit":0,"filter_tags":[],"select_authors":[],"select_tags":[],"truncate_body":0}'
     expected_response_json: '{"discussions":[]}'
@@ -171,6 +183,8 @@
     - '{"jsonrpc":"2.0", "method":"tags_api.get_post_discussions_by_payout", "params":{"tag":"photography","limit":10,"truncate_body":0},
       "id":1}'
   - api_method: tags_api.get_replies_by_last_update
+    removed: true
+    detail: 'Removed from the tags API; public nodes return "Method not found".'
     purpose: |
       Returns a list of replies by last update.
       
@@ -181,6 +195,8 @@
     - '{"jsonrpc":"2.0", "method":"tags_api.get_replies_by_last_update", "params":{"start_parent_author":"steemit","start_permlink":"firstpost","limit":1},
       "id":1}'
   - api_method: tags_api.get_tags_used_by_author
+    removed: true
+    detail: 'Removed from the tags API; public nodes return "Method not found".'
     purpose: Returns a list of tags used by an author.
     parameter_json: '{"author":""}'
     expected_response_json: '{"tags":[]}'
@@ -188,6 +204,8 @@
     - '{"jsonrpc":"2.0", "method":"tags_api.get_tags_used_by_author", "params":{"author":"steemit"},
       "id":1}'
   - api_method: tags_api.get_trending_tags
+    removed: true
+    detail: 'Removed from the tags API; public nodes return "Method not found".'
     purpose: |
       Returns the list of trending tags.
       

@@ -87,6 +87,8 @@
     - Asset has to treated as object.
   - api_method: condenser_api.get_account_bandwidth
     disabled: true
+    removed: true
+    detail: 'Bandwidth was disabled in 0.20.6; public nodes no longer serve this method.'
     purpose: |
       **Disabled since 0.20.6, see: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
 

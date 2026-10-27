@@ -1760,6 +1760,8 @@
     - '{"jsonrpc":"2.0", "method":"database_api.list_proposals", "params":{"start": [10], "limit": 1000, "order": "by_total_votes", "order_direction": "ascending", "status": "votable"}, "id":1}'
   - api_method: database_api.find_smt_contributions
     since: HF23
+    deprecated: true
+    detail: 'SMT has been abandoned; this RPC method is no longer provided.'
     purpose: |
       Find SMT contributions.  Contributions are needed to track individual contributions on an SMT during the ICO phase.
       
@@ -1786,6 +1788,8 @@
     - '{"jsonrpc":"2.0", "method":"database_api.find_smt_contributions", "params":{"symbol_contributors": []}, "id":1}'
   - api_method: database_api.find_smt_token_emissions
     since: HF23
+    deprecated: true
+    detail: 'SMT has been abandoned; this RPC method is no longer provided.'
     purpose: |
       Find SMT emissions.
       
@@ -1796,6 +1800,8 @@
     - '{"jsonrpc":"2.0", "method":"database_api.find_smt_token_emissions", "params":{"asset_symbol":{"nai":"@@422838704","decimals":0}}, "id":1}'
   - api_method: database_api.find_smt_tokens
     since: HF23
+    deprecated: true
+    detail: 'SMT has been abandoned; this RPC method is no longer provided.'
     purpose: |
       Find SMT.
       
@@ -1806,6 +1812,8 @@
     - '{"jsonrpc":"2.0", "method":"database_api.find_smt_tokens", "params":{"symbols":[],"ignore_precision":false}, "id":1}'
   - api_method: database_api.get_nai_pool
     since: HF23
+    deprecated: true
+    detail: 'SMT has been abandoned; this RPC method is no longer provided.'
     purpose: |
       Return an array of Numeric Asset Identifier (NAI) available to be used for new SMT to be created.
       
@@ -1816,6 +1824,8 @@
     - '{"jsonrpc":"2.0", "method":"database_api.get_nai_pool", "params":{}, "id":1}'
   - api_method: database_api.list_smt_contributions
     since: HF23
+    deprecated: true
+    detail: 'SMT has been abandoned; this RPC method is no longer provided.'
     purpose: |
       List SMT contributions.  Contributions are needed to track individual contributions on an SMT during the ICO phase.  Parameters: `start:array`; `limit:int`; `order:string`
       
@@ -1856,6 +1866,8 @@
     - '{"jsonrpc":"2.0", "method":"database_api.list_smt_contributions", "params":{"start":[{"nai": "@@422838704", "decimals": 0}, "alice", 0],"limit":10,"order":"by_symbol_contributor"}, "id":1}'
   - api_method: database_api.list_smt_token_emissions
     since: HF23
+    deprecated: true
+    detail: 'SMT has been abandoned; this RPC method is no longer provided.'
     purpose: |
       List SMT emissions.  Parameters: `start:array`; `limit:int`; `order:string`
       
@@ -1877,6 +1889,8 @@
     - '{"jsonrpc":"2.0", "method":"database_api.list_smt_token_emissions", "params":{"start":[{"nai": "@@422838704", "decimals": 0}, "2019-08-07T16:54:03"],"limit":10,"order":"by_symbol_time"}, "id":1}'
   - api_method: database_api.list_smt_tokens
     since: HF23
+    deprecated: true
+    detail: 'SMT has been abandoned; this RPC method is no longer provided.'
     purpose: |
       List SMTs.  Parameters: `start:object`; `limit:int`; `order:string`
       
