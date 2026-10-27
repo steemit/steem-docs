@@ -44,7 +44,15 @@ function escapeHtml(text) {
   return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-function apiSidebar() {
+// opts.indexPrefix  — where the collapsible GROUP (API index) links point.
+// opts.methodPrefix — where the method CHILDREN link point. The zh sidebar
+//                     deliberately bridges to the English method pages
+//                     (indexPrefix '/zh/api/', methodPrefix '/api/'): zh
+//                     method pages do not exist yet (T12), and dead links in
+//                     the sidebar would break navigation.
+function apiSidebar(opts: { indexPrefix?: string; methodPrefix?: string } = {}) {
+  const indexPrefix = opts.indexPrefix ?? '/api/';
+  const methodPrefix = opts.methodPrefix ?? '/api/';
   const manifestPath = join(dirname(fileURLToPath(import.meta.url)), 'gen', 'api-manifest.json')
   if (!existsSync(manifestPath)) {
     console.warn('[vitepress] docs/.vitepress/gen/api-manifest.json not found — run `pnpm docs:gen`; API sidebar disabled.')
@@ -57,12 +65,12 @@ function apiSidebar() {
         // v-html surface: default theme renders sidebar text as HTML, so
         // every text we emit must be escaped (same as the group label).
         text: escapeHtml(m.full),
-        link: `/api/${api.stem}/${m.short}`
+        link: `${methodPrefix}${api.stem}/${m.short}`
       }))
       return {
         // Sidebar item text is rendered with v-html by the default theme.
         text: escapeHtml(api.displayName),
-        link: `/api/${api.stem}/`,
+        link: `${indexPrefix}${api.stem}/`,
         // Ops-only APIs (broadcast_ops*) have no method pages: stay a plain
         // link instead of an empty collapsible group.
         ...(children.length > 0 ? { collapsed: true, items: children } : {})
@@ -75,56 +83,111 @@ function apiSidebar() {
 }
 
 // ---------------------------------------------------------------------------
-// i18n scaffold — NOT active. The site ships English-only: the root locale is
-// the top-level `lang: 'en'` below, and no `locales` block is registered yet.
-// Registering an empty locale is forbidden — it renders a language switcher
-// that points at pages that don't exist (empty nav).
+// Local-search tokenizers (T11 hard spec ③)
 //
-// Directory convention: the root locale stays at docs/; every added language
-// gets its own mirrored subtree:
-//   docs/             -> en (root, existing content)
-//   docs/zh/index.md  -> zh homepage
-//   docs/zh/api/...   -> zh API pages (per-locale generation is a separate
-//                        project — do NOT copy generated files into a locale)
+// WHY a top-level tokenizer: VitePress 1.6.4's localSearchPlugin reads ONLY
+// `site.themeConfig.search.options` (the top-level one) when it builds the
+// MiniSearch indexes. Per-locale index ISOLATION still exists — one MiniSearch
+// instance per locale (getLocaleForPath: 'root' vs 'zh'), each shipped as its
+// own virtual module — but the OPTIONS used to build them are shared. The zh
+// index therefore must be built with CJK-aware tokenization configured here,
+// at the top level. The function below splits non-CJK text exactly like
+// MiniSearch's default tokenizer (`text.split(/[\n\r\p{Z}\p{P}]+/u)`), so the
+// English index terms — and therefore English search behavior — are unchanged;
+// only tokens CONTAINING CJK get the extra treatment.
 //
-// How to add a language (zh shown; repeat for ru / fr / de / it / es):
+// WHY both functions are self-contained (no closures over module scope):
+// VitePress serializes themeConfig functions into site data via
+// `fn.toString()` (`_vp-fn_` + deserializeFunctions), and rehydrates them in
+// the BROWSER — any closed-over helper would be undefined there.
 //
-//   1. Create the content tree under docs/zh/, mirroring docs/.
-//   2. Register a `locales` block inside defineConfig (merge it with the
-//      existing keys — `themeConfig` deep-merges over the root's, so only
-//      per-locale overrides belong here; the sidebar reuses apiSidebar(),
-//      which is locale-independent because it reads the same manifest):
+// Query-side tokenization is configured per locale (locales.zh.themeConfig
+// .search): with MiniSearch's default settings VitePress combines query
+// tokens with AND + prefix matching, so a multi-char query token like 证人
+// (the middle of 见证人) can never prefix-match and mid-word search would
+// fail. The zh query tokenizer therefore emits SINGLE code points for CJK —
+// 见证 -> [见, 证] — which matches the single-character terms the build
+// tokenizer also indexes. Intl.Segmenter (granularity 'word') is used when
+// available so that mixed Latin/CJK runs keep their Latin words whole; where
+// Segmenter is missing (or at query time, where word tokens would break the
+// AND semantics) we degrade to per-code-point splitting. This trade-off
+// (recall over precision) is the documented pilot choice: mid-word search
+// beats exact-word precision for the acceptance case 搜「见证」→ 命中「见证人」.
+// ---------------------------------------------------------------------------
+function buildSearchTokenize(text: string) {
+  const SPACE_OR_PUNCTUATION = /[\n\r\p{Z}\p{P}]+/u
+  const CJK_RE = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u
+  // Built once per call (not per CJK token) but INSIDE the function body:
+  // search options are serialized via _vp-fn_, so the body must stay
+  // self-contained — no references to module-scope helpers.
+  const segmenter =
+    typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function'
+      ? new Intl.Segmenter('zh-Hans', { granularity: 'word' })
+      : null
+  const tokens = []
+  for (const raw of text.split(SPACE_OR_PUNCTUATION)) {
+    if (!raw) continue
+    if (!CJK_RE.test(raw)) {
+      // No CJK: identical to MiniSearch's default tokenizer output.
+      tokens.push(raw)
+      continue
+    }
+    // CJK-bearing: prefer Intl.Segmenter word segmentation (fallback: the
+    // whole run), index each CJK word AND its individual code points.
+    let words = [raw]
+    if (segmenter) {
+      words = Array.from(segmenter.segment(raw), (s) => s.segment).filter((w) => w.length > 0)
+    }
+    for (const word of words) {
+      if (!CJK_RE.test(word)) {
+        tokens.push(word)
+        continue
+      }
+      tokens.push(word)
+      for (const ch of word) tokens.push(ch)
+    }
+  }
+  return tokens
+}
+
+function zhQueryTokenize(text: string) {
+  const SPACE_OR_PUNCTUATION = /[\n\r\p{Z}\p{P}]+/u
+  const CJK_RE = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u
+  const tokens = []
+  for (const raw of text.split(SPACE_OR_PUNCTUATION)) {
+    if (!raw) continue
+    // Single code points for CJK (needed for mid-word matching under AND +
+    // prefix); keep non-CJK runs whole, exactly like MiniSearch's default.
+    let latinRun = ''
+    for (const ch of raw) {
+      if (CJK_RE.test(ch)) {
+        if (latinRun) tokens.push(latinRun)
+        latinRun = ''
+        tokens.push(ch)
+      } else {
+        latinRun += ch
+      }
+    }
+    if (latinRun) tokens.push(latinRun)
+  }
+  return tokens
+}
+
+// ---------------------------------------------------------------------------
+// i18n locales — zh pilot ACTIVE (T11). Structure:
+//   docs/             -> en (root locale, existing content)
+//   docs/zh/*.md      -> hand-written zh static pages (home, API overview)
+//   docs/zh/api/      -> GENERATED bridge index pages (docs:gen --locale zh)
 //
-//        locales: {
-//          root: {
-//            label: 'English', // required: the switcher renders nothing without it
-//            lang: 'en',
-//            themeConfig: {
-//              nav: [
-//                { text: 'Home', link: '/' },
-//                { text: 'API', link: '/api/' }
-//              ],
-//              sidebar: [{ text: 'API Reference', items: apiSidebar() }]
-//            }
-//          },
-//          zh: {
-//            label: '简体中文',
-//            lang: 'zh-Hans',
-//            link: '/zh/',
-//            themeConfig: {
-//              nav: [
-//                { text: '首页', link: '/zh/' },
-//                { text: 'API', link: '/zh/api/' }
-//              ],
-//              sidebar: [{ text: 'API 参考', items: apiSidebar() }]
-//            }
-//          }
-//        },
-//
-//   3. Translate in two passes: theme chrome first (nav/sidebar labels in
-//      themeConfig), then hand-written content pages top-down.
-//   4. `pnpm build` — the switcher appears once a second locale exists;
-//      verify every /zh/ page has nav + sidebar before merging.
+// Merge semantics (official resolveSiteDataByRoute): each page's themeConfig
+// is `{ ...topLevel.themeConfig, ...locales[localeIndex].themeConfig }` — a
+// SHALLOW merge. Consequences this config relies on:
+//   * keys set at the TOP level (i18nRouting, search defaults, logo) apply to
+//     every locale unless the locale overrides them wholesale;
+//   * locales.root does NOT take part in the zh-page merge — anything that
+//     must affect zh pages cannot live there;
+//   * a locale that sets `search` replaces the WHOLE search object, so the
+//     zh block below carries a complete provider + options config.
 // ---------------------------------------------------------------------------
 
 export default defineConfig({
@@ -175,18 +238,133 @@ export default defineConfig({
     // VitePress applies withBase() to themeConfig.logo itself — passing
     // `${base}logo.svg` would double the prefix (/steem-docs/steem-docs/...).
     logo: '/logo.svg',
-    nav: [
-      { text: 'Home', link: '/' },
-      { text: 'API', link: '/api/' }
-    ],
-    sidebar: [
-      {
-        text: 'API Reference',
-        items: apiSidebar()
-      }
-    ],
+
+    // T11 hard spec ② — i18nRouting DISABLED during the translation
+    // transition. MUST live here at the TOP-level themeConfig:
+    // resolveSiteDataByRoute merges `{...topLevel.themeConfig,
+    // ...locales[route].themeConfig}` (shallow), so locales.root's copy would
+    // never reach a zh page. With i18nRouting false the language switcher
+    // navigates to the OTHER LOCALE'S HOME (locales.*.link) instead of
+    // 1:1-swapping the current path — which would 404 on every page that has
+    // no zh twin yet (all 215 method pages). Re-evaluate REMOVAL once zh
+    // method pages are fully covered (T12 final batch; tracked in the
+    // phase-2 plan, T13 acceptance references this trigger).
+    i18nRouting: false,
+
+    // T11 hard spec ③ — local search, ROOT/en side + BUILD-TIME options.
+    // This top-level block is what the zh pages are NOT supposed to use
+    // (they get locales.zh.themeConfig.search below); it stays here because
+    // (a) the 1.6.4 localSearchPlugin builds every locale's index from the
+    // top-level options (see the tokenizer comment above — this is why
+    // buildSearchTokenize must live HERE), and (b) root pages resolve their
+    // themeConfig from this same block when locales.root sets no `search`.
+    // It is deliberately NOT the same thing as `search.options.locales` —
+    // that sub-key (used in the zh block below) only carries per-locale
+    // SEARCH-MODAL UI translations keyed by locale index, never index/tokenize
+    // options. Do not move tokenize options into it.
     search: {
-      provider: 'local'
+      provider: 'local',
+      options: {
+        miniSearch: {
+          options: {
+            tokenize: buildSearchTokenize
+          }
+        }
+      }
+    }
+  },
+  // Locale registry (site-level, sibling of themeConfig — resolveSiteDataByRoute
+  // reads siteData.locales, never themeConfig.locales). root keeps the existing
+  // en content; zh adds the pilot subtree.
+  locales: {
+    root: {
+      label: 'English', // required: the switcher renders nothing without it
+      lang: 'en',
+      themeConfig: {
+        nav: [
+          { text: 'Home', link: '/' },
+          { text: 'API', link: '/api/' }
+        ],
+        sidebar: [
+          {
+            text: 'API Reference',
+            items: apiSidebar()
+          }
+        ]
+      }
+    },
+    zh: {
+      label: '简体中文',
+      lang: 'zh-Hans',
+      // Switcher target while i18nRouting is off: always the zh homepage.
+      link: '/zh/',
+      themeConfig: {
+        nav: [
+          { text: '首页', link: '/zh/' },
+          { text: 'API', link: '/zh/api/' }
+        ],
+        // zh index pages are generated; method children bridge to the
+        // English pages (see apiSidebar opts comment).
+        sidebar: [
+          {
+            text: 'API 参考',
+            items: apiSidebar({ indexPrefix: '/zh/api/', methodPrefix: '/api/' })
+          }
+        ],
+        // Default-theme UI strings (VitePress default theme overridables).
+        // No `lastUpdated` text override: the feature itself is off
+        // site-wide (`lastUpdated: false` above).
+        outline: { label: '本页目录' },
+        docFooter: { prev: '上一页', next: '下一页' },
+        returnToTopLabel: '回到顶部',
+        sidebarMenuLabel: '菜单',
+        darkModeSwitchLabel: '外观',
+        lightModeSwitchTitle: '切换到浅色模式',
+        darkModeSwitchTitle: '切换到深色模式',
+        skipToContentLabel: '跳到正文',
+        // T11 hard spec ③ — zh search side. `search` REPLACES the top-level
+        // object on zh pages (shallow merge), so provider + full options
+        // live here. miniSearch.searchOptions.tokenize drives QUERY
+        // tokenization (client spreads it over VitePress's own
+        // fuzzy/prefix/boost defaults); miniSearch.options.tokenize keeps
+        // the loaded instance consistent. Modal UI strings use the
+        // `options.locales` sub-key — UI translations ONLY (see comment at
+        // the top-level search block for the distinction).
+        search: {
+          provider: 'local',
+          options: {
+            miniSearch: {
+              options: { tokenize: zhQueryTokenize },
+              searchOptions: { tokenize: zhQueryTokenize }
+            },
+            locales: {
+              zh: {
+                translations: {
+                  button: {
+                    buttonText: '搜索文档',
+                    buttonAriaLabel: '搜索文档'
+                  },
+                  modal: {
+                    displayDetails: '显示详细列表',
+                    resetButtonTitle: '重置搜索',
+                    backButtonTitle: '返回',
+                    noResultsText: '没有找到相关结果',
+                    footer: {
+                      selectText: '选择',
+                      selectKeyAriaLabel: '选中',
+                      navigateText: '切换',
+                      navigateUpKeyAriaLabel: '上移',
+                      navigateDownKeyAriaLabel: '下移',
+                      closeText: '关闭',
+                      closeKeyAriaLabel: '关闭'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 })

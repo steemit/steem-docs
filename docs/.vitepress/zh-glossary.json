@@ -1,0 +1,162 @@
+{
+  "$meta": "zh 术语冻结基线（T11 batch 3，phase2-plan §4-T11）。本表是 T12 方法页 purpose 翻译及后续 zh 批次的强制基线：译法必须逐条遵循；新增或修改条目必须在 PR 说明中给出理由并同步更新本文件。放在 docs/.vitepress/ 下（theme 同级数据文件）而非 docs/zh/*.md，是有意为之——它不是站点页面，不参与构建与页面计数（zh 页面数硬性规格 = 21）。",
+  "version": "1.0-frozen",
+  "conventions": [
+    "代币与 API 名称（STEEM、SBD、RC、VESTS、condenser_api 等）保留英文原词，首次出现时括注中文解释。",
+    "方法名、参数名、字段名一律保留英文原文，不翻译。",
+    "首次出现术语时使用『中文译法（English）』格式；同页后续出现可用中文或缩写。",
+    "与 Steem 官方中文社区惯用译法保持一致；与本表冲突的旧译法一律按本表纠正。"
+  ],
+  "terms": [
+    {
+      "en": "STEEM",
+      "zh": "STEEM（不译）",
+      "note": "主链流动代币。代币名永远保留原词。"
+    },
+    {
+      "en": "STEEM Power (SP)",
+      "zh": "STEEM 权益（SP）",
+      "note": "质押形态的 STEEM，决定投票权重与资源配额；首次出现写全称并括注 SP，后文可用 SP。"
+    },
+    {
+      "en": "HP",
+      "zh": "（不使用；统一写作 SP）",
+      "note": "部分第三方界面把 STEEM Power 简写为 HP（Hive Power 的残留用法）。本站统一使用 SP，避免歧义。"
+    },
+    {
+      "en": "VESTS / vesting shares",
+      "zh": "权益份额（VESTS）",
+      "note": "SP 的最小记账单位，1 SP 对应一定数量的 VESTS；接口返回值常用 VESTS 计。"
+    },
+    {
+      "en": "STEEM Dollars (SBD)",
+      "zh": "STEEM 美元（SBD）",
+      "note": "锚定美元的链内债务代币；首次出现写全称并括注 SBD。"
+    },
+    {
+      "en": "RC (Resource Credits)",
+      "zh": "资源信用（RC）",
+      "note": "按质押量与活跃度分配的操作额度，执行任何交易都消耗 RC。"
+    },
+    {
+      "en": "witness",
+      "zh": "见证人",
+      "note": "负责出块与喂价的记账节点运营者；不译作『证人』。witness vote = 投票选举见证人。"
+    },
+    {
+      "en": "curation",
+      "zh": "策展",
+      "note": "通过投票发掘与评价内容的行为；curation rewards = 策展收益。"
+    },
+    {
+      "en": "author reward",
+      "zh": "创作收益",
+      "note": "作者因发帖获得的 SBD/SP 收益，与策展收益相对。"
+    },
+    {
+      "en": "vesting",
+      "zh": "质押（权益锁定）",
+      "note": "将流动代币转为权益（SP）的过程；解除质押称为『赎回/解押』。"
+    },
+    {
+      "en": "hardfork",
+      "zh": "硬分叉",
+      "note": "协议版本升级事件。写作『硬分叉』或『HF23』形式即可，不再叠加其他修饰。"
+    },
+    {
+      "en": "dynamic global properties",
+      "zh": "动态全局属性",
+      "note": "链上实时全局状态集合（head_block_number、time、supply 等），由 get_dynamic_global_properties 返回。"
+    },
+    {
+      "en": "account history",
+      "zh": "账户历史",
+      "note": "账户全部链上操作流水；由 account_history_api / condenser_api.get_account_history 提供。"
+    },
+    {
+      "en": "block",
+      "zh": "区块",
+      "note": "链的基本记录单元；head block = 最新已出区块。"
+    },
+    {
+      "en": "transaction",
+      "zh": "交易",
+      "note": "一组操作的原子提交单元，需签名后广播；不与金融语境的『转账』混淆——转账是 transfer。"
+    },
+    {
+      "en": "signing key",
+      "zh": "签名密钥",
+      "note": "对交易签名的密钥统称；具体到 posting/active/owner 时用对应译法。"
+    },
+    {
+      "en": "posting key",
+      "zh": "发布密钥",
+      "note": "低权限密钥，用于发帖、投票、关注等社交操作。"
+    },
+    {
+      "en": "active key",
+      "zh": "活动密钥",
+      "note": "中权限密钥，用于转账、投票选举见证人等资金与治理操作。"
+    },
+    {
+      "en": "owner key",
+      "zh": "所有者密钥",
+      "note": "最高权限密钥，可改写其他全部密钥，日常离线保存。"
+    },
+    {
+      "en": "memo key",
+      "zh": "备忘录密钥",
+      "note": "用于加解密转账备注（memo）的密钥。"
+    },
+    {
+      "en": "permlink",
+      "zh": "永久链接（permlink）",
+      "note": "内容在其作者命名空间内的永久标识；代码与参数中保留小写原词 permlink。"
+    },
+    {
+      "en": "proposal",
+      "zh": "提案",
+      "note": "链上治理的提案工作机制（DSPO），由社区投票决定每日奖励分配。"
+    },
+    {
+      "en": "feed price",
+      "zh": "喂价",
+      "note": "见证人发布的 SBD/STEEM 换算价格，影响 SBD 结算。"
+    },
+    {
+      "en": "broadcast operation",
+      "zh": "广播操作",
+      "note": "提交到链上的操作单元；broadcast_ops 页面收录全部操作类型。"
+    },
+    {
+      "en": "testnet / mainnet",
+      "zh": "测试网 / 主网",
+      "note": "YAML 中 testnet/mainnet 字段按此译法描述方法可用性。"
+    },
+    {
+      "en": "appbase / condenser",
+      "zh": "appbase / condenser（不译）",
+      "note": "节点软件与兼容层的名称，保留原词。"
+    },
+    {
+      "en": "reputation",
+      "zh": "声誉",
+      "note": "账户声誉值，由历史获赞加权累计。"
+    },
+    {
+      "en": "tag",
+      "zh": "标签",
+      "note": "帖子的分类标签，tags_api 的核心概念。"
+    },
+    {
+      "en": "post",
+      "zh": "帖子",
+      "note": "链上文章/评论内容，根帖与回复统称帖子。"
+    },
+    {
+      "en": "thread",
+      "zh": "讨论串",
+      "note": "根帖及其全部回复构成的串。"
+    }
+  ]
+}
