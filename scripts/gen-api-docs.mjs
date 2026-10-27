@@ -28,14 +28,16 @@ const OUT_DIR = join(ROOT, 'docs/api');
 const GEN_DIR = join(ROOT, 'docs/.vitepress/gen');
 const MANIFEST_PATH = join(GEN_DIR, 'api-manifest.json');
 const LIQUID_LOG_PATH = join(GEN_DIR, 'liquid-warnings.txt');
-// zh locale pilot (T11): bridge index pages, generated --locale zh. Only the
-// <stem>/index.md subtrees are written; hand-written static pages under
-// docs/zh/ (home, API overview) are never touched by this script.
-// T12: methods covered by data/translations/zh/purposes.yml additionally get
-// a zh method page (docs/zh/api/<stem>/<short>.md, purpose translated,
-// everything else identical to the en page); uncovered methods keep bridging.
+// Partial locales (T11 zh pilot, T13 ru/fr/de/it/es rollouts): bridge index
+// pages, generated with --locale <code>. Only the <stem>/index.md subtrees are
+// written; hand-written static pages under docs/<code>/ (home, API overview)
+// are never touched by this script. zh additionally gets a method page per
+// purpose covered by data/translations/zh/purposes.yml (T12, all 215); the
+// other locales have NO method pages this phase — every method row in their
+// index tables bridges to the English page by site-absolute path.
 const ZH_OUT_DIR = join(ROOT, 'docs/zh/api');
 const ZH_PURPOSES_PATH = join(ROOT, 'data/translations/zh/purposes.yml');
+const RU_OUT_DIR = join(ROOT, 'docs/ru/api');
 const API_URL = 'https://api.steem.fans';
 
 const isMissing = (v) => v === undefined || v === null || v === '';
@@ -297,18 +299,19 @@ function expectedCurlResponsesSection(value, file, where) {
 // ---------------------------------------------------------------------------
 
 /**
- * Render one method page. `zhPurpose` (zh mode only) swaps the Purpose section
- * text and the frontmatter description for the zh translation; titles, badges,
- * detail lines, parameter/response blocks and curl cards are rendered from the
- * en data exactly like the en page (T12 scope: translate purpose only).
+ * Render one method page. `translatedPurpose` (locale mode only) swaps the
+ * Purpose section text and the frontmatter description for the translation;
+ * titles, badges, detail lines, parameter/response blocks and curl cards are
+ * rendered from the en data exactly like the en page (T12 scope: translate
+ * purpose only — and only zh has method pages at all).
  */
-function methodPage(m, file, zhPurpose) {
+function methodPage(m, file, translatedPurpose) {
   const apiMethod = String(m.api_method);
   const dot = apiMethod.indexOf('.');
   const short = dot === -1 ? apiMethod : apiMethod.slice(dot + 1);
   const where = `purpose of ${apiMethod}`;
 
-  const purpose = cleanLiquid(typeof zhPurpose === 'string' ? zhPurpose : m.purpose, file, where);
+  const purpose = cleanLiquid(typeof translatedPurpose === 'string' ? translatedPurpose : m.purpose, file, where);
   const parts = [frontmatter({ title: apiMethod, description: firstPlainLine(purpose) })];
 
   const badges = [badgeLine(m), networkLine(m)].filter(Boolean);
@@ -472,29 +475,84 @@ function overviewPage(apis) {
 }
 
 // ---------------------------------------------------------------------------
-// zh locale pages (T11 bridge indexes + T12 translated method pages)
+// Partial-locale bridge pages (T11 zh pilot + T12 zh methods, T13 ru rollout)
 //
-// docs/zh/api/<stem>/index.md exist for every API; docs/zh/api/<stem>/<short>.md
-// exist only for methods covered by data/translations/zh/purposes.yml. Method
-// rows in the index link to the zh page when it exists, otherwise they bridge
-// to the English page by site-absolute path (`/api/<stem>/<method>.html`):
-// VitePress' dead-link checker resolves site-absolute links from the site
-// root, so they pass even from a /zh/ page, while relative links would resolve
-// into the wrong tree and fail the zero-tolerance check. Method names, badges
-// and purposes stay English on untranslated pages by design.
+// docs/<code>/api/<stem>/index.md exist for every API. Method rows in the
+// index link to the locale's own page when it exists (zh, via the purposes
+// translation file), otherwise they bridge to the English page by
+// site-absolute path (`/api/<stem>/<method>.html`): VitePress' dead-link
+// checker resolves site-absolute links from the site root, so they pass even
+// from a /zh/ or /ru/ page, while relative links would resolve into the wrong
+// tree and fail the zero-tolerance check. Method names, badges and purposes
+// stay English on untranslated pages by design.
+//
+// T12 final (all 215 translated): every zh method row links to its zh page,
+// so the zh note below no longer mentions en bridging. The per-row branch
+// stays as a safety net — an uncovered method (stale translation key) would
+// still bridge to the English page. ru has NO method pages this phase (user
+// decision, phase-2 plan §3.4): all rows bridge to en and the note says so.
 // ---------------------------------------------------------------------------
 
-// T12 final (all 215 translated): every method row links to its zh page, so
-// the note below no longer mentions en bridging. The hasZh branch in
-// zhMethodsIndexPage stays as a safety net — an uncovered method (stale
-// translation key) would still bridge to the English page.
 const ZH_BRIDGE_NOTE =
   '> 本页为中文索引页：全部方法的 purpose 均已翻译为中文，方法行链接指向中文方法页。';
 
 const ZH_OPS_BRIDGE_NOTE =
   '> 本页为中文索引页：该 API 的操作列表页暂未提供中文版。点击操作名跳转到英文页面的对应小节。';
 
-function zhFlags(m, includeVirtual = false) {
+const RU_BRIDGE_NOTE =
+  '> Это русская индексная страница: страницы методов пока не переведены на русский язык — все ссылки в таблице ведут на английские страницы методов.';
+
+const RU_OPS_BRIDGE_NOTE =
+  '> Это русская индексная страница: страница операций пока не переведена на русский язык — нажмите имя операции, чтобы перейти к соответствующему разделу английской страницы.';
+
+/**
+ * Locale registry for `--locale <code>` runs. zh is the full pilot (purposes
+ * translation file -> translated method pages); every other entry is a
+ * bridge-only locale (index pages with all method rows pointing at en) —
+ * fr/de/it/es plug in here when their rollout starts (T13).
+ */
+const LOCALES = {
+  zh: {
+    key: 'zh',
+    outDir: ZH_OUT_DIR,
+    purposesPath: ZH_PURPOSES_PATH,
+    methods: {
+      note: ZH_BRIDGE_NOTE,
+      heading: '方法',
+      colMethod: '方法',
+      colSince: '起始版本',
+      colFlags: '状态',
+    },
+    ops: {
+      note: ZH_OPS_BRIDGE_NOTE,
+      heading: '操作',
+      colOp: '操作',
+      colFlags: '状态',
+    },
+  },
+  ru: {
+    key: 'ru',
+    outDir: RU_OUT_DIR,
+    // No purposes file this phase: ru method pages are deferred, so every
+    // row in every index table bridges to the English page.
+    purposesPath: null,
+    methods: {
+      note: RU_BRIDGE_NOTE,
+      heading: 'Методы',
+      colMethod: 'Метод',
+      colSince: 'Начиная с',
+      colFlags: 'Статус',
+    },
+    ops: {
+      note: RU_OPS_BRIDGE_NOTE,
+      heading: 'Операции',
+      colOp: 'Операция',
+      colFlags: 'Статус',
+    },
+  },
+};
+
+function flagCells(m, includeVirtual = false) {
   const flags = [
     includeVirtual && m.virtual === true ? 'virtual' : '',
     m.deprecated === true ? 'deprecated' : '',
@@ -506,29 +564,24 @@ function zhFlags(m, includeVirtual = false) {
   return flags;
 }
 
-function zhMethodsIndexPage(stem, displayName, description, decorated) {
+function localeMethodsIndexPage(locale, stem, displayName, description, decorated) {
+  const { methods: cfg } = locale;
   const parts = [
     frontmatter({
       title: displayName,
       description: firstPlainLine(description),
     }),
     description.trim() ? description.trim() + '\n' : '',
-    ZH_BRIDGE_NOTE,
+    cfg.note,
     '',
-    `## 方法 (${decorated.length})`,
+    `## ${cfg.heading} (${decorated.length})`,
     '',
-    '| 方法 | 起始版本 | 状态 |',
+    `| ${cfg.colMethod} | ${cfg.colSince} | ${cfg.colFlags} |`,
     '| --- | --- | --- |',
   ];
-  for (const { m, short, hasZh } of decorated) {
+  for (const { m, short, href } of decorated) {
     const since = isMissing(m.since) ? '' : String(m.since);
-    const flags = zhFlags(m);
-    // T12: methods with a zh purpose link to their zh page (same tree, so a
-    // site-absolute path is still required for the dead-link checker);
-    // everything else keeps bridging to the English page.
-    const href = hasZh
-      ? `/zh/api/${stem}/${tableCell(short)}.html`
-      : `/api/${stem}/${tableCell(short)}.html`;
+    const flags = flagCells(m);
     parts.push(`| [${tableCell(short)}](${href}) | ${tableCell(since)} | ${tableCell(flags)} |`);
   }
   parts.push('');
@@ -560,7 +613,8 @@ const vitepressSlug = (str) =>
     .replace(/^(\d)/, '_$1')
     .toLowerCase();
 
-function zhOpsIndexPage(stem, displayName, description, ops) {
+function localeOpsIndexPage(locale, stem, displayName, description, ops) {
+  const { ops: cfg } = locale;
   const parts = [
     frontmatter({
       title: displayName,
@@ -568,11 +622,11 @@ function zhOpsIndexPage(stem, displayName, description, ops) {
       outline: false,
     }),
     description.trim() ? description.trim() + '\n' : '',
-    ZH_OPS_BRIDGE_NOTE,
+    cfg.note,
     '',
-    `## 操作 (${ops.length})`,
+    `## ${cfg.heading} (${ops.length})`,
     '',
-    '| 操作 | 状态 |',
+    `| ${cfg.colOp} | ${cfg.colFlags} |`,
     '| --- | --- |',
   ];
   for (const op of ops) {
@@ -583,7 +637,7 @@ function zhOpsIndexPage(stem, displayName, description, ops) {
     // The hash must be VitePress' slugified heading id, not the raw op name —
     // see vitepressSlug above.
     parts.push(
-      `| [${tableCell(name)}](/api/${stem}/#${vitepressSlug(name)}) | ${tableCell(zhFlags(op, true))} |`
+      `| [${tableCell(name)}](/api/${stem}/#${vitepressSlug(name)}) | ${tableCell(flagCells(op, true))} |`
     );
   }
   parts.push('');
@@ -594,13 +648,15 @@ function zhOpsIndexPage(stem, displayName, description, ops) {
 // Main
 // ---------------------------------------------------------------------------
 
-/** `--locale <code>` CLI flag; only the zh pilot exists so far. */
+/** `--locale <code>` CLI flag; supported codes are the LOCALES registry keys. */
 function readLocaleArg(argv) {
   const i = argv.indexOf('--locale');
   if (i === -1) return undefined;
   const value = argv[i + 1];
   if (!value) throw new Error('--locale requires a value');
-  if (value !== 'zh') throw new Error(`unsupported --locale '${value}' (only 'zh' is implemented)`);
+  if (!LOCALES[value]) {
+    throw new Error(`unsupported --locale '${value}' (implemented: ${Object.keys(LOCALES).join(', ')})`);
+  }
   return value;
 }
 
@@ -728,23 +784,24 @@ function generateEnApis(files, collected) {
 }
 
 /**
- * Load data/translations/zh/purposes.yml (zh mode only): api_method -> zh
+ * Load a locale purposes translation file (zh only today): api_method ->
  * purpose translation. Lenient by design — a missing/unusable entry means
- * "no zh page for that method" (index keeps bridging to en), never a crash.
- * Unknown keys (no matching api_method in data/) are reported so stale
- * translations cannot hide silently. Only consumed by the zh run; the en run
- * never reads this file.
+ * "no locale page for that method" (index keeps bridging to en), never a
+ * crash. Unknown keys (no matching api_method in data/) are reported so stale
+ * translations cannot hide silently. Bridge-only locales (ru today) load
+ * nothing: their indexes link every method row straight to the en page.
  */
-function loadZhPurposes() {
+function loadPurposes(locale) {
   const map = new Map();
-  if (!existsSync(ZH_PURPOSES_PATH)) {
-    console.warn(`! zh purposes file not found (${ZH_PURPOSES_PATH}); no zh method pages will be generated`);
+  if (!locale.purposesPath) return map;
+  if (!existsSync(locale.purposesPath)) {
+    console.warn(`! ${locale.key} purposes file not found (${locale.purposesPath}); no ${locale.key} method pages will be generated`);
     return map;
   }
-  const raw = readFileSync(ZH_PURPOSES_PATH, 'utf8');
+  const raw = readFileSync(locale.purposesPath, 'utf8');
   const doc = parseDocument(raw, { uniqueKeys: false });
   if (doc.errors.length > 0) {
-    throw new Error(`zh purposes: YAML parse error: ${doc.errors[0].message}`);
+    throw new Error(`${locale.key} purposes: YAML parse error: ${doc.errors[0].message}`);
   }
   // Duplicate api_method keys would silently drop one translation (last wins),
   // so surface them like the data validator does.
@@ -753,7 +810,7 @@ function loadZhPurposes() {
     if (node instanceof YAMLMap) {
       for (const pair of node.items) {
         const key = String(pair.key?.value ?? pair.key);
-        if (seen.has(key)) console.warn(`! zh purposes: duplicate key '${key}' (last value wins)`);
+        if (seen.has(key)) console.warn(`! ${locale.key} purposes: duplicate key '${key}' (last value wins)`);
         seen.add(key);
         visit(pair.value);
       }
@@ -765,11 +822,11 @@ function loadZhPurposes() {
 
   const data = doc.toJS();
   if (!isObject(data) || !isObject(data.purposes)) {
-    throw new Error('zh purposes: expected a top-level `purposes` mapping');
+    throw new Error(`${locale.key} purposes: expected a top-level \`purposes\` mapping`);
   }
   for (const [key, value] of Object.entries(data.purposes)) {
     if (typeof value !== 'string' || !value.trim()) {
-      console.warn(`! zh purposes: '${key}' has no usable string translation, skipped`);
+      console.warn(`! ${locale.key} purposes: '${key}' has no usable string translation, skipped`);
       continue;
     }
     map.set(String(key), value);
@@ -778,50 +835,62 @@ function loadZhPurposes() {
 }
 
 /**
- * zh generation (T11 + T12): the 19 API bridge index pages under docs/zh/api/
- * plus one zh method page per translated method. The hand-written
- * docs/zh/api/index.md overview and docs/zh/*.md static pages are NEVER
- * touched: no rm of ZH_OUT_DIR itself — only per-stem dirs are replaced, and
- * stale stem dirs (APIs removed from the YAML) are swept. Also never writes
- * the en-side artifacts (manifest / liquid log) — those belong to the en run.
+ * Partial-locale generation: the 19 API bridge index pages under
+ * docs/<code>/api/ plus (zh only) one method page per translated purpose. The
+ * hand-written docs/<code>/api/index.md overview and docs/<code>/*.md static
+ * pages are NEVER touched: no rm of the locale outDir itself — only per-stem
+ * dirs are replaced, and stale stem dirs (APIs removed from the YAML) are
+ * swept. Also never writes the en-side artifacts (manifest / liquid log) —
+ * those belong to the en run.
  */
-function generateZhPages(files, collected, zhPurposes) {
-  mkdirSync(ZH_OUT_DIR, { recursive: true });
+function generateLocalePages(files, collected, locale) {
+  const purposes = loadPurposes(locale);
+  mkdirSync(locale.outDir, { recursive: true });
 
   // Report translations whose method no longer exists in the en data so the
-  // translation file cannot drift silently.
-  const knownMethods = new Set();
-  for (const api of collected.values()) {
-    for (const { full } of api.decorated) knownMethods.add(full);
-  }
-  for (const key of zhPurposes.keys()) {
-    if (!knownMethods.has(key)) console.warn(`! zh purposes: '${key}' matches no api_method in data/, ignored`);
+  // translation file cannot drift silently (only relevant when a purposes
+  // file is consumed).
+  if (locale.purposesPath) {
+    const knownMethods = new Set();
+    for (const api of collected.values()) {
+      for (const { full } of api.decorated) knownMethods.add(full);
+    }
+    for (const key of purposes.keys()) {
+      if (!knownMethods.has(key)) console.warn(`! ${locale.key} purposes: '${key}' matches no api_method in data/, ignored`);
+    }
   }
 
   const stems = new Set();
   let methodIndexes = 0;
   let opsIndexes = 0;
-  let zhMethodPages = 0;
+  let localeMethodPages = 0;
   for (const file of files) {
     const api = collected.get(file);
     if (!api) continue;
     const { stem, displayName, description, methods, ops, decorated } = api;
-    const stemDir = join(ZH_OUT_DIR, stem);
+    const stemDir = join(locale.outDir, stem);
     rmSync(stemDir, { recursive: true, force: true });
     mkdirSync(stemDir, { recursive: true });
     const rows = decorated.map(({ m, short }) => {
-      const zhPurpose = zhPurposes.get(String(m.api_method));
-      const hasZh = zhPurpose !== undefined;
-      if (hasZh) {
-        writeFileSync(join(stemDir, `${short}.md`), methodPage(m, file, zhPurpose).content);
-        zhMethodPages++;
+      const translated = purposes.get(String(m.api_method));
+      const hasTranslated = translated !== undefined;
+      if (hasTranslated) {
+        writeFileSync(join(stemDir, `${short}.md`), methodPage(m, file, translated).content);
+        localeMethodPages++;
       }
-      return { m, short, hasZh };
+      // A translated method links to its locale page (same tree, so a
+      // site-absolute path is still required for the dead-link checker);
+      // everything else keeps bridging to the English page — for ru that is
+      // every row, by design.
+      const href = hasTranslated
+        ? `/${locale.key}/api/${stem}/${tableCell(short)}.html`
+        : `/api/${stem}/${tableCell(short)}.html`;
+      return { m, short, href };
     });
     const content =
       methods.length > 0
-        ? zhMethodsIndexPage(stem, displayName, description, rows)
-        : zhOpsIndexPage(stem, displayName, description, ops);
+        ? localeMethodsIndexPage(locale, stem, displayName, description, rows)
+        : localeOpsIndexPage(locale, stem, displayName, description, ops);
     writeFileSync(join(stemDir, 'index.md'), content);
     stems.add(stem);
     if (methods.length > 0) methodIndexes++;
@@ -830,17 +899,20 @@ function generateZhPages(files, collected, zhPurposes) {
 
   // Sweep stem dirs whose API no longer exists in data/ (the hand-written
   // overview file is not a directory, so it survives this sweep).
-  for (const entry of readdirSync(ZH_OUT_DIR, { withFileTypes: true })) {
+  for (const entry of readdirSync(locale.outDir, { withFileTypes: true })) {
     if (entry.isDirectory() && !stems.has(entry.name)) {
-      rmSync(join(ZH_OUT_DIR, entry.name), { recursive: true, force: true });
+      rmSync(join(locale.outDir, entry.name), { recursive: true, force: true });
     }
   }
 
-  console.log(`zh API pages generated:`);
+  const translationsNote = locale.purposesPath
+    ? ` (translations loaded: ${purposes.size})`
+    : ' (method pages deferred — all rows bridge to en)';
+  console.log(`${locale.key} API pages generated:`);
   console.log(`  data files           : ${files.length}`);
-  console.log(`  zh index pages       : ${methodIndexes + opsIndexes} (${methodIndexes} methods + ${opsIndexes} ops bridges)`);
-  console.log(`  zh method pages      : ${zhMethodPages} (translations loaded: ${zhPurposes.size})`);
-  console.log(`  output               : ${ZH_OUT_DIR}/`);
+  console.log(`  ${locale.key} index pages       : ${methodIndexes + opsIndexes} (${methodIndexes} methods + ${opsIndexes} ops bridges)`);
+  console.log(`  ${locale.key} method pages      : ${localeMethodPages}${translationsNote}`);
+  console.log(`  output               : ${locale.outDir}/`);
 }
 
 function main() {
@@ -851,8 +923,8 @@ function main() {
     const api = collectApi(file);
     if (api) collected.set(file, api);
   }
-  if (locale === 'zh') {
-    generateZhPages(files, collected, loadZhPurposes());
+  if (locale) {
+    generateLocalePages(files, collected, LOCALES[locale]);
     return;
   }
   generateEnApis(files, collected);

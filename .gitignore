@@ -7,6 +7,10 @@ docs/api/
 # overview stays tracked
 docs/zh/api/*
 !docs/zh/api/index.md
+# generated ru bridge index pages; the hand-written docs/ru/api/index.md
+# overview stays tracked
+docs/ru/api/*
+!docs/ru/api/index.md
 .DS_Store
 .idea/
 .vscode/
