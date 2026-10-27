@@ -197,7 +197,8 @@ async function probe(nodeUrl, apiMethod, params) {
   } catch (e) {
     // Body read died mid-stream: degrade this lane to NETWORK_FAIL instead of
     // rejecting Promise.all and crashing the snapshot halfway.
-    return { classification: 'NETWORK_FAIL', httpStatus, rpcErrorCode: null, responseBytes: null, reason: `body read failed: ${e.cause?.code ?? e.message}` };
+    // AbortSignal covers the body read too: a mid-body stall is a TIMEOUT.
+    return { classification: e.name === 'TimeoutError' ? 'TIMEOUT' : 'NETWORK_FAIL', httpStatus, rpcErrorCode: null, responseBytes: null, reason: `body read failed: ${e.cause?.code ?? e.message}` };
   }
   const responseBytes = Buffer.byteLength(text, 'utf8');
   if (!res.ok) return { classification: 'HTTP_FAIL', httpStatus, rpcErrorCode: null, responseBytes, reason: `HTTP ${res.status} ${res.statusText}`.trim() };

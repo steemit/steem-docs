@@ -219,10 +219,11 @@ async function classify(entry) {
   try {
     text = await res.text(); // read as text: body size is report data too
   } catch (e) {
-    // Body read died mid-stream: degrade this lane to NETWORK_FAIL instead of
-    // rejecting Promise.all and crashing the whole run.
+    // Body read died mid-stream: degrade this lane instead of rejecting
+    // Promise.all and crashing the whole run. AbortSignal covers the body
+    // read too, so a mid-body stall is a TIMEOUT, not a NETWORK_FAIL.
     return {
-      status: 'NETWORK_FAIL',
+      status: e.name === 'TimeoutError' ? 'TIMEOUT' : 'NETWORK_FAIL',
       reason: `body read failed: ${e.cause?.code ?? e.message}`,
       httpStatus,
       rpcErrorCode: null,
