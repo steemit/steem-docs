@@ -30,6 +30,38 @@ generated from it at build time and the files are never hand-edited here.
   generated zh method page (`docs/zh/api/<stem>/<short>.md`); uncovered
   methods keep bridging to the English page from the zh index.
 
+### Partial locales — the LOCALES registry (`--locale <code>`)
+
+`scripts/gen-api-docs.mjs` carries a `LOCALES` registry: `pnpm docs:gen` runs
+the generator once per entry (en first, then `--locale zh ru fr de it es`).
+The current status:
+
+- **zh** — full pilot: method pages generated from
+  `translations/zh/purposes.yml` (schema above); all 215 methods covered.
+- **ru / fr / de / it / es** — bridge-only locales (phase-2 plan §3.4, user
+  decision: method pages deferred). For each, `docs:gen --locale <code>`
+  generates the 19 API index pages under `docs/<code>/api/<stem>/index.md`
+  (gitignored, build-time artifacts) whose method rows ALL bridge to the
+  English method pages by site-absolute path (`/api/<stem>/<method>.html`);
+  ops rows deep-link the English ops pages via VitePress heading anchors.
+- **Hand-written statics per locale** (tracked in git): `docs/<code>/index.md`
+  (home), `docs/<code>/api/index.md` (API overview — card badges repeat the
+  manifest counts), `docs/.vitepress/<code>-glossary.json` (frozen
+  terminology baseline for future translation batches; not a site page —
+  excluded from builds and from the per-locale page counts, ru/fr/de/it/es
+  pages = 21 each by hard spec).
+- **Overview count guard**: every en-mode docs:gen run verifies each
+  hand-written locale overview against the freshly written
+  `docs/.vitepress/gen/api-manifest.json` (card count, per-API badge count,
+  link targets). Any mismatch fails docs:gen with exit code 1, so a data
+  change can never leave a locale overview silently stale — update the
+  hand-written page in the same change as the data.
+- **Theme config**: each locale is registered in `docs/.vitepress/config.mts`
+  (label/lang/link, localized nav + sidebar prefixes + default-theme UI
+  strings incl. `langMenuLabel` and `notFound`). `i18nRouting` stays `false`
+  while any locale has partial coverage (switcher navigates to the locale
+  home instead of 1:1-swapping paths that may not exist).
+
 ## File schema
 
 Each file's top level is a **YAML array of API groups** (most files contain

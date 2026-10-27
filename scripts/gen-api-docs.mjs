@@ -506,10 +506,39 @@ const RU_OPS_BRIDGE_NOTE =
   '> Это русская индексная страница: страница операций пока не переведена на русский язык — нажмите имя операции, чтобы перейти к соответствующему разделу английской страницы.';
 
 /**
+ * Strings for a bridge-only locale (T13 fr/de/it/es, pattern set by ru):
+ * one generated index page per API whose method rows ALL bridge to the
+ * English method pages (no locale method pages this phase). Expands into a
+ * full LOCALES entry with the same shape as zh/ru.
+ */
+function bridgeOnlyLocale(key, strings) {
+  return {
+    key,
+    outDir: join(ROOT, 'docs', key, 'api'),
+    // No purposes file: method pages are deferred for bridge locales, so
+    // every row in every index table bridges to the English page.
+    purposesPath: null,
+    methods: {
+      note: strings.methodsNote,
+      heading: strings.methodsHeading,
+      colMethod: strings.colMethod,
+      colSince: strings.colSince,
+      colFlags: strings.colFlags,
+    },
+    ops: {
+      note: strings.opsNote,
+      heading: strings.opsHeading,
+      colOp: strings.colOp,
+      colFlags: strings.colFlags,
+    },
+  };
+}
+
+/**
  * Locale registry for `--locale <code>` runs. zh is the full pilot (purposes
  * translation file -> translated method pages); every other entry is a
  * bridge-only locale (index pages with all method rows pointing at en) —
- * fr/de/it/es plug in here when their rollout starts (T13).
+ * added via bridgeOnlyLocale() below.
  */
 const LOCALES = {
   zh: {
@@ -550,6 +579,58 @@ const LOCALES = {
       colFlags: 'Статус',
     },
   },
+  fr: bridgeOnlyLocale('fr', {
+    methodsNote:
+      '> Ceci est la page d’index française : les pages de méthodes ne sont pas encore traduites en français — tous les liens de la table mènent aux pages de méthodes anglaises.',
+    methodsHeading: 'Méthodes',
+    colMethod: 'Méthode',
+    colSince: 'À partir de la version',
+    colFlags: 'Statut',
+    opsNote:
+      '> Ceci est la page d’index française : la page des opérations n’est pas encore traduite en français — cliquez sur le nom d’une opération pour ouvrir la section correspondante de la page anglaise.',
+    opsHeading: 'Opérations',
+    colOp: 'Opération',
+    colFlags: 'Statut',
+  }),
+  de: bridgeOnlyLocale('de', {
+    methodsNote:
+      '> Dies ist die deutsche Indexseite: die Methodenseiten sind noch nicht ins Deutsche übersetzt — alle Links in der Tabelle führen zu den englischen Methodenseiten.',
+    methodsHeading: 'Methoden',
+    colMethod: 'Methode',
+    colSince: 'Seit Version',
+    colFlags: 'Status',
+    opsNote:
+      '> Dies ist die deutsche Indexseite: die Operationsseite ist noch nicht ins Deutsche übersetzt — klicken Sie auf den Namen einer Operation, um zum entsprechenden Abschnitt der englischen Seite zu gelangen.',
+    opsHeading: 'Operationen',
+    colOp: 'Operation',
+    colFlags: 'Status',
+  }),
+  it: bridgeOnlyLocale('it', {
+    methodsNote:
+      '> Questa è la pagina di indice italiana: le pagine dei metodi non sono ancora tradotte in italiano — tutti i link della tabella portano alle pagine dei metodi inglesi.',
+    methodsHeading: 'Metodi',
+    colMethod: 'Metodo',
+    colSince: 'Dalla versione',
+    colFlags: 'Stato',
+    opsNote:
+      '> Questa è la pagina di indice italiana: la pagina delle operazioni non è ancora tradotta in italiano — fare clic sul nome di un’operazione per aprire la sezione corrispondente della pagina inglese.',
+    opsHeading: 'Operazioni',
+    colOp: 'Operazione',
+    colFlags: 'Stato',
+  }),
+  es: bridgeOnlyLocale('es', {
+    methodsNote:
+      '> Esta es la página de índice en español: las páginas de métodos aún no están traducidas al español — todos los enlaces de la tabla llevan a las páginas de métodos en inglés.',
+    methodsHeading: 'Métodos',
+    colMethod: 'Método',
+    colSince: 'Desde la versión',
+    colFlags: 'Estado',
+    opsNote:
+      '> Esta es la página de índice en español: la página de operaciones aún no está traducida al español — haga clic en el nombre de una operación para abrir la sección correspondiente de la página en inglés.',
+    opsHeading: 'Operaciones',
+    colOp: 'Operación',
+    colFlags: 'Estado',
+  }),
 };
 
 function flagCells(m, includeVirtual = false) {
@@ -773,6 +854,11 @@ function generateEnApis(files, collected) {
   writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + '\n');
   writeFileSync(LIQUID_LOG_PATH, liquidWarnings.map((l) => l.replace(/\s+/g, ' ').trim()).join('\n') + '\n');
 
+  // Fresh manifest in hand — assert the hand-written locale overview pages
+  // still agree with the data (throws / exits 1 on any drift). The guard
+  // covers OVERVIEW_GUARD_LOCALES, defined near its implementation below.
+  verifyLocaleOverviewCounts(manifestApis);
+
   const totalPages = 1 + manifestApis.length + methodPages;
   console.log(`API docs generated:`);
   console.log(`  data files           : ${files.length}`);
@@ -913,6 +999,71 @@ function generateLocalePages(files, collected, locale) {
   console.log(`  ${locale.key} index pages       : ${methodIndexes + opsIndexes} (${methodIndexes} methods + ${opsIndexes} ops bridges)`);
   console.log(`  ${locale.key} method pages      : ${localeMethodPages}${translationsNote}`);
   console.log(`  output               : ${locale.outDir}/`);
+}
+
+// ---------------------------------------------------------------------------
+// Hand-written overview count guard (T13 review fix, phase-2 ru round P2):
+// the per-locale API overview pages docs/<code>/api/index.md are hand-written
+// static pages whose card badges repeat the method/op counts from the data.
+// When the YAML data changes, docs:gen regenerates the ENGLISH overview
+// automatically — the locale pages would silently go stale. This guard runs
+// in every en-mode docs:gen run (after the fresh manifest is written) and
+// FAILS the build when any locale page no longer matches the manifest, so
+// the drift surfaces at build time instead of on the rendered page.
+// ---------------------------------------------------------------------------
+const OVERVIEW_GUARD_LOCALES = ['zh', 'ru', 'fr', 'de', 'it', 'es'];
+
+function verifyLocaleOverviewCounts(manifestApis) {
+  for (const code of OVERVIEW_GUARD_LOCALES) {
+    const pagePath = join(ROOT, 'docs', code, 'api', 'index.md');
+    if (!existsSync(pagePath)) {
+      throw new Error(
+        `overview count guard: hand-written overview page missing: docs/${code}/api/index.md — ` +
+          `restore it or remove '${code}' from OVERVIEW_GUARD_LOCALES`
+      );
+    }
+    const text = readFileSync(pagePath, 'utf8');
+    // Card shape emitted by overviewPage() and mirrored by the hand-written
+    // locale pages: [Name](/api/<stem>/) <span class="badge badge-count">N …
+    // Locale pages link /<code>/api/<stem>/ (methods) or /api/<stem>/ (ops).
+    const cards = new Map();
+    const cardRe =
+      /\[[^\]]+\]\((\/(?:[a-z]{2}\/)?api\/([a-z_]+)\/)\) <span class="badge badge-count">(\d+)/g;
+    for (const match of text.matchAll(cardRe)) {
+      const stem = match[2];
+      if (cards.has(stem)) {
+        throw new Error(`overview count guard: docs/${code}/api/index.md has duplicate cards for '${stem}'`);
+      }
+      cards.set(stem, { count: Number(match[3]), href: match[1] });
+    }
+    const problems = [];
+    if (cards.size !== manifestApis.length) {
+      problems.push(`expected ${manifestApis.length} API cards, found ${cards.size}`);
+    }
+    for (const api of manifestApis) {
+      const card = cards.get(api.stem);
+      if (!card) {
+        problems.push(`no card for '${api.stem}'`);
+        continue;
+      }
+      const expected = api.methodCount > 0 ? api.methodCount : api.opCount;
+      if (card.count !== expected) {
+        problems.push(`'${api.stem}' badge says ${card.count}, manifest says ${expected}`);
+      }
+      const hrefOk = card.href === `/${code}/api/${api.stem}/` || card.href === `/api/${api.stem}/`;
+      if (!hrefOk) {
+        problems.push(`'${api.stem}' links to '${card.href}' (expected /${code}/api/${api.stem}/ or /api/${api.stem}/)`);
+      }
+    }
+    if (problems.length > 0) {
+      throw new Error(
+        `overview count guard: docs/${code}/api/index.md is out of sync with api-manifest.json — ` +
+          `${problems.join('; ')}. The English overview is regenerated from data/apidefinitions ` +
+          `on every docs:gen run; update the hand-written ${code} page to match.`
+      );
+    }
+    console.log(`  overview count guard  : docs/${code}/api/index.md OK (${cards.size} cards match manifest)`);
+  }
 }
 
 function main() {
