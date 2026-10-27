@@ -683,27 +683,41 @@ function generateEnApis(files, collected) {
 
 /**
  * zh generation (T11): ONLY the 19 API bridge index pages under docs/zh/api/.
- * Never touches hand-written docs/zh pages, and never writes the en-side
- * artifacts (manifest / liquid log) — those belong to the en run.
+ * The hand-written docs/zh/api/index.md overview and docs/zh/*.md static
+ * pages are NEVER touched: no rm of ZH_OUT_DIR itself — only per-stem dirs
+ * are replaced, and stale stem dirs (APIs removed from the YAML) are swept.
+ * Also never writes the en-side artifacts (manifest / liquid log) — those
+ * belong to the en run.
  */
 function generateZhIndexes(files, collected) {
-  rmSync(ZH_OUT_DIR, { recursive: true, force: true });
   mkdirSync(ZH_OUT_DIR, { recursive: true });
 
+  const stems = new Set();
   let methodIndexes = 0;
   let opsIndexes = 0;
   for (const file of files) {
     const api = collected.get(file);
     if (!api) continue;
     const { stem, displayName, description, methods, ops, decorated } = api;
-    mkdirSync(join(ZH_OUT_DIR, stem), { recursive: true });
+    const stemDir = join(ZH_OUT_DIR, stem);
+    rmSync(stemDir, { recursive: true, force: true });
+    mkdirSync(stemDir, { recursive: true });
     const content =
       methods.length > 0
         ? zhMethodsIndexPage(stem, displayName, description, decorated)
         : zhOpsIndexPage(stem, displayName, description, ops);
-    writeFileSync(join(ZH_OUT_DIR, stem, 'index.md'), content);
+    writeFileSync(join(stemDir, 'index.md'), content);
+    stems.add(stem);
     if (methods.length > 0) methodIndexes++;
     else opsIndexes++;
+  }
+
+  // Sweep stem dirs whose API no longer exists in data/ (the hand-written
+  // overview file is not a directory, so it survives this sweep).
+  for (const entry of readdirSync(ZH_OUT_DIR, { withFileTypes: true })) {
+    if (entry.isDirectory() && !stems.has(entry.name)) {
+      rmSync(join(ZH_OUT_DIR, entry.name), { recursive: true, force: true });
+    }
   }
 
   console.log(`zh API index pages generated:`);
