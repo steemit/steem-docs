@@ -53,7 +53,7 @@
 // Deliberately no new dependencies: yaml + node stdlib only, lenient-YAML
 // handling shared via scripts/lib/yaml-lenient.mjs, and the probe/verdict
 // helpers mirror audit-drift.mjs rather than importing from it (the snapshot
-// tools evolve independently — see the lib header note).
+// tools evolve independently — same rationale as the concurrency pools).
 
 import { parseDocument } from 'yaml';
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -66,6 +66,7 @@ const DATA_DIR = fileURLToPath(new URL('../data/apidefinitions/', import.meta.ur
 const OUT_DIR = fileURLToPath(new URL('../data/audit/', import.meta.url));
 const DEFAULT_NODE1 = 'https://api.steem.fans';
 const DEFAULT_NODE2 = 'https://api.steemit.com';
+// 5 (vs audit-drift's 4): each candidate fires 4 probes here vs 3 there.
 const CONCURRENCY = 5;
 const TIMEOUT_MS = 15_000;
 const REASON_MAX = 90;
@@ -74,7 +75,8 @@ const REASON_MAX = 90;
 // CLI
 // ---------------------------------------------------------------------------
 
-function usage() {
+function usage(msg) {
+  if (msg) console.error('coverage-sweep: ' + msg);
   console.error(
     'Usage: node scripts/coverage-sweep.mjs [--node1 <url>] [--node2 <url>] [--write]\n' +
       '  --node1 <url>  first probe node (default: ' + DEFAULT_NODE1 + ')\n' +
@@ -94,6 +96,7 @@ for (let i = 0; i < args.length; i++) {
   else if (args[i] === '--write') WRITE = true;
   else usage();
 }
+if (NODE1 === NODE2) usage('a sweep needs two distinct nodes; dual-node confirmation is the basis of every verdict');
 for (const [flag, url] of [['--node1', NODE1], ['--node2', NODE2]]) {
   if (!/^https?:\/\//.test(url)) {
     console.error(`coverage-sweep: ${flag} must be an http(s) URL, got "${url}"`);
@@ -314,6 +317,12 @@ console.log(`  concurrency: ${CONCURRENCY} | timeout: ${TIMEOUT_MS / 1000}s | pr
 
 const catalog1 = await fetchCatalog(NODE1, LABEL1);
 const catalog2 = await fetchCatalog(NODE2, LABEL2);
+// Both catalogs down means gaps cannot be confirmed either way — fail like
+// audit-drift does on manifest failure instead of reporting a fake gaps=0.
+if (!catalog1 && !catalog2) {
+  console.error('coverage-sweep: both nodes failed jsonrpc.get_methods; coverage gaps cannot be determined. Aborting (use --node1/--node2 to point at reachable nodes).');
+  process.exit(1);
+}
 const set1 = catalog1 ? new Set(catalog1.list) : null;
 const set2 = catalog2 ? new Set(catalog2.list) : null;
 const identical = set1 && set2 ? catalog1.raw === catalog2.raw : null;
@@ -420,7 +429,9 @@ const dead = documented.filter((r) => r.verdict === 'dead');
 const deadSet = new Set(dead.map((r) => r.api_method));
 const flaggedDead = manifest.filter((m) => (m.flags.removed || m.flags.disabled || m.flags.deprecated) && deadSet.has(m.api_method));
 const softFlaggedAlive = manifest
-  .filter((m) => m.flags.removed || m.flags.disabled || m.flags.deprecated)
+  // `removed` stays out: a removed-flagged live method is already a hard
+  // regression row above, not an expected phase-1 soft flag.
+  .filter((m) => m.flags.disabled || m.flags.deprecated)
   .filter((m) => !deadSet.has(m.api_method))
   .map((m) => `${m.api_method} [${[m.flags.removed && 'removed', m.flags.disabled && 'disabled', m.flags.deprecated && 'deprecated'].filter(Boolean).join(',')}]`);
 const deadMissingFlags = dead.filter((r) => !r.flags.removed && !r.flags.disabled && !r.flags.deprecated).map((r) => r.api_method);
@@ -601,7 +612,7 @@ lines.push('');
 lines.push('| api_method | yaml flags | ' + LABEL1 + ' | ' + LABEL2 + ' | baseline |');
 lines.push('| --- | --- | --- | --- | --- |');
 for (const r of dead) {
-  const inBase = baseline ? (baseline.added.includes(r.api_method) ? 'NEW' : baseline.resolved.includes(r.api_method) ? '?' : 'same') : 'n/a';
+  const inBase = baseline ? (baseline.added.includes(r.api_method) ? 'NEW' : 'same') : 'n/a';
   lines.push(`| ${r.api_method} | ${flagStr(r)} | ${cls(r, LABEL1)} ${r.curl[LABEL1].rpcErrorCode ?? ''} | ${cls(r, LABEL2)} ${r.curl[LABEL2].rpcErrorCode ?? ''} | ${inBase} |`);
 }
 lines.push('');

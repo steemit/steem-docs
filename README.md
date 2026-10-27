@@ -152,8 +152,10 @@ that the documented dead set is exactly the YAML-flagged dead set after each
 disposal round. Candidate method names are synthesized from three sources —
 the `get_methods` catalog from both nodes (one source only; the catalog is
 known to lag), a `get_signature` probe of every candidate on both nodes, and
-the repository manifest (every documented `api_method`) — with **no blind
-variant enumeration**. A catalog-only name enters the gaps list only after a
+the YAML manifest (every documented `api_method`). Residual blind spot: a
+method the nodes serve but neither catalog lists nor the docs mention stays
+undiscoverable — blind variant enumeration is deliberately out of scope.
+A catalog-only name enters the gaps list only after a
 live curl dispatches it on **both** nodes (false-positive protection);
 single-node or not-found outcomes are reported as divergent/phantom instead.
 The dead regression is structural, not a count comparison: every freshly-dead
