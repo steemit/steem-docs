@@ -363,7 +363,7 @@ purposes:
 
     另见：follow_api.get_followers、Paginated API Methods
   condenser_api.get_following: |-
-    返回正在关注某账户的账户列表。参数：`account:string`；`start:string`（起始账户）；`type:string`，例如：`blog`；`limit:int` 最大 1000
+    返回正在关注（following）某账户的账户列表。参数：`account:string`；`start:string`（起始账户）；`type:string`，例如：`blog`；`limit:int` 最大 1000
 
     | `account` (string) | `start` (string) | `type` (string) | `limit` (int) | |
     |--------------------|------------------|-----------------|---------------|-|
