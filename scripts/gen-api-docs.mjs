@@ -484,8 +484,12 @@ function overviewPage(apis) {
 // and purposes stay English on untranslated pages by design.
 // ---------------------------------------------------------------------------
 
+// T12 final (all 215 translated): every method row links to its zh page, so
+// the note below no longer mentions en bridging. The hasZh branch in
+// zhMethodsIndexPage stays as a safety net — an uncovered method (stale
+// translation key) would still bridge to the English page.
 const ZH_BRIDGE_NOTE =
-  '> 本页为中文索引页：已翻译 purpose 的方法链接指向中文方法页，其余方法仍桥接英文页面（翻译按批次逐步补齐）。';
+  '> 本页为中文索引页：全部方法的 purpose 均已翻译为中文，方法行链接指向中文方法页。';
 
 const ZH_OPS_BRIDGE_NOTE =
   '> 本页为中文索引页：该 API 的操作列表页暂未提供中文版。点击操作名跳转到英文页面的对应小节。';
