@@ -1,0 +1,162 @@
+{
+  "$meta": "es 基线冻结表（T13，phase2-plan §4-T13）。本表是未来 es 方法页 purpose 翻译的强制基线：译法必须逐条遵循；新增或修改条目必须在 PR 说明中给出理由并同步更新本文件。本 PR（es 铺开）不消费此表——es 方法页暂缓，本轮只做 UI/首页/总览/索引。放在 docs/.vitepress/ 下（theme 同级数据文件）而非 docs/es/*.md，是有意为之——它不是站点页面，不参与构建与页面计数（es 页面数硬性规格 = 21）。",
+  "version": "1.0-frozen",
+  "conventions": [
+    "代币与 API 名称（STEEM、SBD、RC、VESTS、condenser_api 等）保留英文原词，首次出现时括注西班牙语解释。",
+    "方法名、参数名、字段名一律保留英文原文，不翻译。",
+    "首次出现术语时使用『西班牙语译法 (English)』格式；同页后续出现可用西班牙语或缩写。",
+    "与本表冲突的旧译法一律按本表纠正。"
+  ],
+  "terms": [
+    {
+      "en": "STEEM",
+      "es": "STEEM (no se traduce)",
+      "note": "El token líquido principal de la cadena. El nombre del token se mantiene siempre tal cual."
+    },
+    {
+      "en": "STEEM Power (SP)",
+      "es": "STEEM Power (SP)",
+      "note": "Forma de STEEM en vesting, que determina el peso de los votos y las cuotas de recursos; el término inglés se mantiene (uso consolidado en la comunidad hispanohablante), con la sigla SP desde la primera mención."
+    },
+    {
+      "en": "HP",
+      "es": "(no se usa; escribir siempre SP)",
+      "note": "Algunas interfaces de terceros abrevian STEEM Power como HP (herencia de Hive Power). El sitio usa solo SP, para evitar ambigüedades."
+    },
+    {
+      "en": "VESTS / vesting shares",
+      "es": "acciones de vesting (VESTS)",
+      "note": "Unidad contable mínima del STEEM Power (SP); 1 SP equivale a una cierta cantidad de VESTS; los valores devueltos por las API suelen expresarse en VESTS."
+    },
+    {
+      "en": "STEEM Dollars (SBD)",
+      "es": "dólares STEEM (SBD)",
+      "note": "Token de deuda interno de la cadena, anclado al dólar estadounidense; en la primera mención escribir el término completo con la sigla SBD."
+    },
+    {
+      "en": "RC (Resource Credits)",
+      "es": "créditos de recursos (RC)",
+      "note": "Cuota de operaciones repartida según los tokens en vesting y la actividad; cada transacción consume RC."
+    },
+    {
+      "en": "witness",
+      "es": "witness (término conservado; testigo como aclaración)",
+      "note": "Operador del nodo que firma los bloques y publica el precio de referencia; el término inglés se conserva (uso común en español), «testigo» sirve solo como aclaración. witness vote = voto por un witness."
+    },
+    {
+      "en": "curation",
+      "es": "curación",
+      "note": "Descubrimiento y valoración de contenido mediante el voto; curation rewards = recompensas de curación."
+    },
+    {
+      "en": "author reward",
+      "es": "recompensa de autor",
+      "note": "Pago en SBD/SP al autor por una publicación; se contrapone a las recompensas de curación."
+    },
+    {
+      "en": "vesting",
+      "es": "vesting",
+      "note": "Proceso de conversión del token líquido en acciones (STEEM Power); el proceso inverso se llama «retiro del vesting» (power down)."
+    },
+    {
+      "en": "hardfork",
+      "es": "hard fork",
+      "note": "Evento de actualización del protocolo. Escribir «hard fork» o la forma «HF23», sin otras calificaciones."
+    },
+    {
+      "en": "dynamic global properties",
+      "es": "propiedades globales dinámicas",
+      "note": "Conjunto de estados globales en tiempo real de la cadena (head_block_number, time, supply, etc.), devuelto por get_dynamic_global_properties."
+    },
+    {
+      "en": "account history",
+      "es": "historial de la cuenta",
+      "note": "Registro completo de las operaciones de una cuenta en la cadena; proporcionado por account_history_api / condenser_api.get_account_history."
+    },
+    {
+      "en": "block",
+      "es": "bloque",
+      "note": "Unidad básica de registro de la cadena; head block = último bloque producido."
+    },
+    {
+      "en": "transaction",
+      "es": "transacción",
+      "note": "Unidad atómica que agrupa un conjunto de operaciones, firmada antes del broadcast; no confundir con la «transferencia» — una transferencia es un transfer."
+    },
+    {
+      "en": "signing key",
+      "es": "clave de firma",
+      "note": "Término general para la clave con la que se firma una transacción; para posting/active/owner se usan los términos específicos correspondientes."
+    },
+    {
+      "en": "posting key",
+      "es": "clave de publicación",
+      "note": "Clave de privilegios bajos: publicaciones, votos, seguimientos y otras operaciones sociales."
+    },
+    {
+      "en": "active key",
+      "es": "clave activa",
+      "note": "Clave de privilegios medios: transferencias, votos a witnesses y otras operaciones financieras y de gobernanza."
+    },
+    {
+      "en": "owner key",
+      "es": "clave de propietario",
+      "note": "Clave de privilegios máximos, capaz de reemplazar todas las demás; se guarda fuera de línea en el uso diario."
+    },
+    {
+      "en": "memo key",
+      "es": "clave de memo",
+      "note": "Clave para cifrar y descifrar los memos de las transferencias (memo)."
+    },
+    {
+      "en": "permlink",
+      "es": "permlink (enlace permanente)",
+      "note": "Identificador permanente del contenido en el espacio de nombres de su autor; se conserva tal cual, en minúsculas, en el código y los parámetros."
+    },
+    {
+      "en": "proposal",
+      "es": "propuesta",
+      "note": "Mecanismo de propuestas de la gobernanza on-chain (DSPO): la comunidad vota la repartición de las recompensas diarias."
+    },
+    {
+      "en": "feed price",
+      "es": "precio de feed (feed price)",
+      "note": "Tipo de cambio SBD/STEEM publicado por los witnesses; afecta la liquidación de los SBD."
+    },
+    {
+      "en": "broadcast operation",
+      "es": "operación de broadcast",
+      "note": "Unidad de operación enviada a la cadena; la página broadcast_ops recoge todos los tipos de operaciones."
+    },
+    {
+      "en": "testnet / mainnet",
+      "es": "testnet / mainnet (red de pruebas / red principal)",
+      "note": "Los campos testnet/mainnet del YAML describen la disponibilidad de los métodos con esta terminología."
+    },
+    {
+      "en": "appbase / condenser",
+      "es": "appbase / condenser (no se traducen)",
+      "note": "Nombres del software de nodo y de la capa de compatibilidad; se mantienen tal cual."
+    },
+    {
+      "en": "reputation",
+      "es": "reputación",
+      "note": "Valor de reputación de una cuenta, acumulado a partir de los votos ponderados recibidos por su contenido."
+    },
+    {
+      "en": "tag",
+      "es": "etiqueta",
+      "note": "Etiqueta de clasificación de una publicación; concepto central de tags_api."
+    },
+    {
+      "en": "post",
+      "es": "post (publicación)",
+      "note": "Artículo/comentario en la cadena; los posts raíz y las respuestas en conjunto se llaman posts."
+    },
+    {
+      "en": "thread",
+      "es": "hilo de discusión",
+      "note": "Cadena formada por un post raíz y todas sus respuestas."
+    }
+  ]
+}
