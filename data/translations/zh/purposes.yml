@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# zh translations of API method purposes — batch 1-3 (phase2-plan §4-T12)
+# zh translations of API method purposes — batch 1-5（215 条全量完成）(phase2-plan §4-T12)
 #
 # api_method -> 简体中文 purpose 译文。原文以 data/apidefinitions/*.yml 中
 # 现有 en purpose 字段为准（含 T9 补写条目），不增不减不改语义；markdown
@@ -769,7 +769,7 @@ purposes:
     | `"steemit"` | `"firstpost"` | 查询 slug 为 `@steemit/firstpost` 的内容所获投票 |
     | `"alice"` | `"a-post-by-alice"` | 查询 slug 为 `@alice/a-post-by-alice` 的内容所获投票 |
   database_api.find_withdraw_vesting_routes: |-
-    返回某账户的提现路由（vesting withdraw route）列表。
+    返回某账户的权益份额提现路由（vesting withdraw route）列表。
   database_api.find_witnesses: |-
     搜索见证人（witness）。
   database_api.get_active_witnesses: |-
@@ -1341,7 +1341,7 @@ purposes:
 
     | 状态 | 含义 |
     |--------|---------|
-    | `unknown` | 到期时间在未来，交易未包含在区块或内存池中 |
+    | `unknown` | 到期时间在未来，交易未包含在区块或内存池（mempool）中 |
     | `within_mempool` | 交易位于内存池（mempool）中 |
     | `within_reversible_block` | 交易已包含在区块中，但区块尚不可逆 |
     | `within_irreversible_block` | 交易已包含在区块中，且区块不可逆 |
