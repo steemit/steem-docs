@@ -531,6 +531,31 @@ function zhMethodsIndexPage(stem, displayName, description, decorated) {
   return parts.join('\n');
 }
 
+/**
+ * Mirror of VitePress' internal heading slugify (the one markdown-it-anchor
+ * uses to build heading ids, here from the installed vitepress 1.6.4 dist):
+ * NFKD-normalize, strip combining/control chars, collapse runs of special
+ * characters (underscores included) into single hyphens, trim, prefix a
+ * leading digit with "_", lowercase. The zh ops bridge index deep-links into
+ * the en ops pages, so the generated `#anchor` targets must match the ids
+ * VitePress actually assigns to the `## <op name>` headings — the raw op name
+ * does not (transfer_to_vesting -> transfer-to-vesting, setRole -> setrole).
+ * Verified against the built dist (docs/api/broadcast_ops index.html).
+ */
+const rControl = /[\u0000-\u001f]/g;
+const rSpecial = /[\s~`!@#$%^&*()\-_+=[\]{}|\\;:"'“”‘’<>,.?/]+/g;
+const rCombining = /[\u0300-\u036F]/g;
+const vitepressSlug = (str) =>
+  str
+    .normalize('NFKD')
+    .replace(rCombining, '')
+    .replace(rControl, '')
+    .replace(rSpecial, '-')
+    .replace(/-{2,}/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/^(\d)/, '_$1')
+    .toLowerCase();
+
 function zhOpsIndexPage(stem, displayName, description, ops) {
   const parts = [
     frontmatter({
@@ -551,7 +576,11 @@ function zhOpsIndexPage(stem, displayName, description, ops) {
     const name = String(op.name);
     // Anchor deep-links into the English ops page (checker strips #hash, and
     // the /api/<stem>/ page exists, so this passes the dead-link check).
-    parts.push(`| [${tableCell(name)}](/api/${stem}/#${tableCell(name)}) | ${tableCell(zhFlags(op, true))} |`);
+    // The hash must be VitePress' slugified heading id, not the raw op name —
+    // see vitepressSlug above.
+    parts.push(
+      `| [${tableCell(name)}](/api/${stem}/#${vitepressSlug(name)}) | ${tableCell(zhFlags(op, true))} |`
+    );
   }
   parts.push('');
   return parts.join('\n');
