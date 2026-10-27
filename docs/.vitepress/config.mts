@@ -46,10 +46,12 @@ function escapeHtml(text) {
 
 // opts.indexPrefix  — where the collapsible GROUP (API index) links point.
 // opts.methodPrefix — where the method CHILDREN link point. The zh sidebar
-//                     deliberately bridges to the English method pages
-//                     (indexPrefix '/zh/api/', methodPrefix '/api/'): zh
-//                     method pages do not exist yet (T12), and dead links in
-//                     the sidebar would break navigation.
+//                     still bridges method children to the English pages
+//                     (indexPrefix '/zh/api/', methodPrefix '/api/'): only
+//                     part of the 215 method pages have zh twins so far (T12
+//                     batches), and a per-method mixed sidebar is deferred
+//                     until full coverage. The zh index PAGES themselves link
+//                     translated methods to their zh pages.
 function apiSidebar(opts: { indexPrefix?: string; methodPrefix?: string } = {}) {
   const indexPrefix = opts.indexPrefix ?? '/api/';
   const methodPrefix = opts.methodPrefix ?? '/api/';
@@ -177,7 +179,8 @@ function zhQueryTokenize(text: string) {
 // i18n locales — zh pilot ACTIVE (T11). Structure:
 //   docs/             -> en (root locale, existing content)
 //   docs/zh/*.md      -> hand-written zh static pages (home, API overview)
-//   docs/zh/api/      -> GENERATED bridge index pages (docs:gen --locale zh)
+//   docs/zh/api/      -> GENERATED bridge index pages + zh method pages for
+//                        translated purposes (docs:gen --locale zh; T11+T12)
 //
 // Merge semantics (official resolveSiteDataByRoute): each page's themeConfig
 // is `{ ...topLevel.themeConfig, ...locales[localeIndex].themeConfig }` — a
@@ -303,8 +306,9 @@ export default defineConfig({
           { text: '首页', link: '/zh/' },
           { text: 'API', link: '/zh/api/' }
         ],
-        // zh index pages are generated; method children bridge to the
-        // English pages (see apiSidebar opts comment).
+        // zh index pages and translated method pages are generated; sidebar
+        // method children bridge to the English pages (see apiSidebar opts
+        // comment).
         sidebar: [
           {
             text: 'API 参考',

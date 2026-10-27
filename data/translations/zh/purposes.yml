@@ -1,0 +1,310 @@
+# ---------------------------------------------------------------------------
+# zh translations of API method purposes — batch 1 (phase2-plan §4-T12)
+#
+# api_method -> 简体中文 purpose 译文。原文以 data/apidefinitions/*.yml 中
+# 现有 en purpose 字段为准（含 T9 补写条目），不增不减不改语义；markdown
+# 结构（表格/列表/加粗/链接）按原文保留，仅翻译文字内容。
+#
+# 术语遵循 docs/.vitepress/zh-glossary.json 的 30 条冻结基线；方法名、
+# 参数名、字段值、API 名与被引用文档页标题保留英文。首次出现的术语按
+# glossary conventions 使用『中文（English）』格式；行文为简洁说明句，
+# 不使用感叹号。
+#
+# 消费方：scripts/gen-api-docs.mjs --locale zh。此处未收录译文的方法不
+# 生成 zh 方法页，zh 索引表中的对应行继续桥接英文页面。
+# ---------------------------------------------------------------------------
+schema: zh-method-purposes/v1
+locale: zh-Hans
+batch: 1
+purposes:
+  account_by_key_api.get_key_references: |-
+    返回所有在 owner 或 active 权限（authority）中关联了该密钥的账户。
+  account_history_api.enum_virtual_ops: |-
+    返回区块（block）范围内的虚拟操作（virtual operation），可选择按账户与操作类型过滤。
+  account_history_api.get_account_history: |-
+    返回给定账户的全部操作历史。
+
+    另见：Paginated API Methods
+  account_history_api.get_ops_in_block: |-
+    返回一个区块（block）中包含的全部操作。
+  account_history_api.get_transaction: |-
+    根据交易 id（transaction id）返回对应交易（transaction）的详细信息。
+  block_api.get_block: |-
+    检索所引用区块（block）的完整已签名区块，未找到匹配的区块时返回 null。
+
+    **Parameters:**
+
+      * `block_num:int`
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | 查询第一个区块。 |
+    | `8675309` | 查询区块号 8,675,309。 |
+    | `62396745` | 查询区块号 62,396,745。 |
+  block_api.get_block_header: |-
+    检索所引用区块（block）的区块头（block header），未找到匹配的区块时返回 null。
+
+    **Parameters:**
+
+      * `block_num:int` - 应返回其区块头的区块高度
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | 查询第一个区块的区块头。 |
+    | `8675309` | 查询区块号 8,675,309 的区块头。 |
+    | `62396745` | 查询区块号 62,396,745 的区块头。 |
+  bridge.account_notifications: |-
+    账户通知（account notification）。
+
+    `type` 的支持取值：
+      * `new_community` - 创建了新的社区（community）
+      * `set_role` - 版主/管理员为账户添加角色
+      * `set_props` - 为社区设置了属性
+      * `set_label` - 为账户设置了头衔/徽章/标签（label）
+      * `mute_post` - 一篇帖子（post）被静音，并附带原因
+      * `unmute_post` - 一篇帖子被解除静音，并附带原因
+      * `pin_post` - 一篇帖子被置顶
+      * `unpin_post` - 一篇帖子被取消置顶
+      * `flag_post` - 一篇帖子被成员标记（flag），并附带原因
+      * `error` - 就无法解读的操作向开发者提供反馈
+      * `subscribe` - 一个账户订阅了社区
+      * `reply` - 一篇帖子收到了回复
+      * `reblog` - 一篇帖子被转帖（reblog/resteem）
+      * `follow` - 一个账户关注了另一个账户
+      * `mention` - 作者提到了某个账户
+      * `vote` - 投票者为作者投了一票
+
+    `score` 值基于发起账户的排名。
+  bridge.get_community: |-
+    获取社区（community）详情。
+  bridge.get_ranked_posts: |-
+    获取排序后的帖子（post）。
+
+    `sort` 的支持取值：
+      * `trending`
+      * `hot`
+      * `created`
+      * `promoted`
+      * `payout`
+      * `payout_comments`
+      * `muted`
+
+    `tag` 的取值可以是任意有效标签（tag）。
+
+    `observer` 的取值可以是任意有效账户或空字符串。
+  bridge.list_all_subscriptions: |-
+    列出某账户对一个社区（community）的全部订阅。
+  bridge.list_community_roles: |-
+    列出社区（community）中每个账户的角色与标签（label）。
+  condenser_api.broadcast_block: |-
+    用于广播（broadcast）一个区块（block）。
+
+    另见：network_broadcast_api.broadcast_block
+  condenser_api.broadcast_transaction: |-
+    用于广播一笔交易（transaction）。
+
+    另见：network_broadcast_api.broadcast_transaction
+  condenser_api.broadcast_transaction_synchronous: |-
+    用于广播一笔交易（transaction），并同步等待其处理完成。
+  condenser_api.find_proposals: |-
+    按 `proposal.id`（而非 `proposal.proposal_id`）查找提案（proposal）。
+
+    另见：database_api.find_proposals
+  condenser_api.get_account_bandwidth: |-
+    **自 0.20.6 起已禁用，参见：[#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
+
+    返回账户的可用带宽（bandwidth）。参数：`account:string`；`type:string`，例如：`forum` 或 `market`
+
+    | `account` (string) | `type` (string) | |
+    |--------------------|-----------------|-|
+    | `"steemit"` | `"forum"` | 查询名为 "steemit" 的账户可用的 forum 带宽。 |
+    | `"alice"` | `"market"` | 查询名为 "alice" 的账户可用的 market 带宽。 |
+
+    参见：Forum/Market Bandwidth
+  condenser_api.get_account_count: |-
+    返回账户数量。
+  condenser_api.get_account_history: |-
+    返回给定账户的全部操作历史。参数：`account:string`；`start:int`，例如：-1 表示反向历史，或任意正数；`limit:int` 最大 10000
+
+    | `account` (string) | `start` (int) | `limit` (int) | |
+    |--------------------|---------------|---------------|-|
+    | `"steemit"` | `1000` | `1000` | 查询名为 `steemit` 的账户，从历史中最新一条开始，最多 1,000 条结果。 |
+    | `"alice"` | `-1` | `10000` | 查询名为 `alice` 的账户，从历史中最旧一条开始，最多 10,000 条结果。 |
+
+    另见：account_history_api.get_account_history、Paginated API Methods
+  condenser_api.get_account_references: |-
+    **未实现**
+  condenser_api.get_account_reputations: |-
+    返回账户声誉（reputation）列表。参数：`account_lower_bound:string`；`limit:int` 最大 1000
+
+    | `account_lower_bound` (string) | `limit` (int) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `1` | 查询以 "steemit" 开头的账户，仅一条结果。 |
+    | `"a"` | `10` | 查询以 "a" 开头的账户，最多 10 条结果。 |
+
+    另见：follow_api.get_account_reputations
+  condenser_api.get_account_votes: |-
+    返回某账户投出的全部投票（vote）。参数：`account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | 查询 "steemit" 投出的投票。 |
+    | `"alice"` | 查询 "alice" 投出的投票。 |
+  condenser_api.get_accounts: |-
+    按名称查询并返回账户。参数：`account:string array`
+
+    | `account` (string array) | |
+    |-------------------|-|
+    | `["steemit"]` | 查询名为 "steemit" 的账户。 |
+    | `["steemit", "alice"]` | 查询名为 "steemit" 与 "alice" 的账户。 |
+
+    另见：database_api.find_accounts
+  condenser_api.get_active_votes: |-
+    返回给定帖子（post）收到的全部投票（vote）。参数：`author:string`；`permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | 查询 slug 为 `@steemit/firstpost` 的内容所获投票 |
+    | `"alice"` | `"a-post-by-alice"` | 查询 slug 为 `@alice/a-post-by-alice` 的内容所获投票 |
+
+    另见：tags_api.get_active_votes
+  condenser_api.get_active_witnesses: |-
+    返回活跃见证人（witness）列表。
+
+    另见：database_api.get_active_witnesses
+  condenser_api.get_block: |-
+    返回一个区块（block）。参数：`block_num:int`
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | 查询第一个区块。 |
+    | `8675309` | 查询区块号 8,675,309。 |
+    | `62396745` | 查询区块号 62,396,745。 |
+
+    另见：block_api.get_block
+  condenser_api.get_block_header: |-
+    返回一个区块头（block header）。参数：`block_num:int`
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | 查询第一个区块的区块头。 |
+    | `8675309` | 查询区块号 8,675,309 的区块头。 |
+    | `62396745` | 查询区块号 62,396,745 的区块头。 |
+
+    另见：block_api.get_block_header
+  condenser_api.get_blog: |-
+    返回某账户的博客（blog）条目列表。参数：`account:string`；`start_entry_id:int`；`limit:int` 最大 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|------------------------|---------------|-|
+    | "steemit" | `0` | `1` | 查询名为 "steemit" 的账户的博客，最多一条结果。 |
+    | "alice" | `0` | `50` | 查询名为 "alice" 的账户的博客，最多 50 条结果。 |
+
+    另见：follow_api.get_blog、Paginated API Methods
+  condenser_api.get_blog_authors: |-
+    返回其内容曾在给定博客（blog）账户上被转帖（reblog）的作者列表。参数：`account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | 查询名为 "steemit" 的账户。 |
+    | `"alice"` | 查询名为 "alice" 的账户。 |
+
+    另见：follow_api.get_blog_authors
+  condenser_api.get_blog_entries: |-
+    返回某账户的博客（blog）条目列表。参数：`account:string`；`start_entry_id:int`；`limit:int` 最大 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|------------------------|---------------|-|
+    | "steemit" | `0` | `1` | 查询名为 "steemit" 的账户的博客条目，最多一条结果。 |
+    | "alice" | `0` | `50` | 查询名为 "alice" 的账户的博客条目，最多 50 条结果。 |
+
+    另见：follow_api.get_blog_entries、Paginated API Methods
+  condenser_api.get_chain_properties: |-
+    返回链属性（chain properties）。
+  condenser_api.get_comment_discussions_by_payout: |-
+    返回按 payout 排序的讨论（discussion）列表。
+
+    另见：tags_api.get_comment_discussions_by_payout
+  condenser_api.get_config: |-
+    返回编译期常量（compile-time constant）的相关信息。参见：Understanding Configuration Values
+
+    另见：database_api.get_config
+  condenser_api.get_content: |-
+    返回内容（content），即帖子（post）或评论（comment）。参数：`author:string`；`permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | 查询 slug 为 `@steemit/firstpost` 的内容 |
+    | `"alice"` | `"a-post-by-alice"` | 查询 slug 为 `@alice/a-post-by-alice` 的内容 |
+  condenser_api.get_content_replies: |-
+    返回回复（reply）列表。参数：`author:string`；`permlink:string`
+
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | 查询 slug 为 `@steemit/firstpost` 的回复 |
+    | `"alice"` | `"a-post-by-alice"` | 查询 slug 为 `@alice/a-post-by-alice` 的回复 |
+
+    另见：tags_api.get_content_replies
+  condenser_api.get_conversion_requests: |-
+    返回转换请求（conversion request）列表。参数：`id:integer`
+
+    | `id` (int) | |
+    |-------------------|-|
+    | `1234` | 查询 id 为 1234 的转换请求。 |
+
+    另见：database_api.list_sbd_conversion_requests
+  condenser_api.get_current_median_history_price: |-
+    返回当前的中位历史价格（median history price），即见证人（witness）喂价（feed price）得出的 STEEM:SBD 兑换汇率。
+  condenser_api.get_discussions_by_active: |-
+    返回按 active 排序的讨论（discussion）列表。
+
+    另见：tags_api.get_discussions_by_active
+  condenser_api.get_discussions_by_author_before_date: |-
+    返回按 author before date 查询的讨论（discussion）列表。
+
+    另见：tags_api.get_discussions_by_author_before_date、Paginated API Methods
+  condenser_api.get_discussions_by_blog: |-
+    返回按 blog 排序的讨论（discussion）列表。
+
+    另见：tags_api.get_discussions_by_blog
+  condenser_api.get_discussions_by_cashout: |-
+    返回按 cashout 排序的讨论（discussion）列表。
+
+    另见：tags_api.get_discussions_by_cashout
+  condenser_api.get_discussions_by_children: |-
+    返回按 children 排序的讨论（discussion）列表。
+
+    另见：tags_api.get_discussions_by_children
+  condenser_api.get_discussions_by_comments: |-
+    返回按 comments 排序的讨论（discussion）列表。
+
+    另见：tags_api.get_discussions_by_comments
+  condenser_api.get_discussions_by_created: |-
+    返回按 created 排序的讨论（discussion）列表。
+
+    另见：tags_api.get_discussions_by_created
+  condenser_api.get_discussions_by_feed: |-
+    返回按 feed 排序的讨论（discussion）列表。
+
+    另见：tags_api.get_discussions_by_feed
+  condenser_api.get_discussions_by_hot: |-
+    返回按 hot 排序的讨论（discussion）列表。
+
+    另见：tags_api.get_discussions_by_hot
+  condenser_api.get_discussions_by_promoted: |-
+    返回按 promoted 排序的讨论（discussion）列表。
+
+    另见：tags_api.get_discussions_by_promoted
+  condenser_api.get_discussions_by_trending: |-
+    返回按 trending 排序的讨论（discussion）列表。
+
+    另见：tags_api.get_discussions_by_trending
+  condenser_api.get_discussions_by_votes: |-
+    返回按 votes 排序的讨论（discussion）列表。
+
+    另见：tags_api.get_discussions_by_votes
+  condenser_api.get_dynamic_global_properties: |-
+    返回当前的动态全局属性（dynamic global properties）。参见：Understanding Dynamic Global Properties
+
+    另见：database_api.get_dynamic_global_properties

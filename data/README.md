@@ -12,6 +12,23 @@ generated from it at build time and the files are never hand-edited here.
   2 broadcast operation reference files (`broadcast_ops.yml`,
   `broadcast_ops_communities.yml`). The file name (without `.yml`) is the API's
   URL slug (e.g. `bridge.yml` → `/api/bridge/`).
+- `translations/zh/purposes.yml` — zh translations of method purposes
+
+### translations/zh/purposes.yml schema
+
+- `schema: zh-method-purposes/v1` — self-declared format marker (informational).
+- `locale`, `batch` — provenance metadata (informational).
+- `purposes:` — REQUIRED wrapper; the generator aborts without it. Keys are
+  full `api_method` strings, values are non-empty strings (a translated page
+  is generated only for usable entries; unknown / duplicate / empty /
+  non-string keys produce warnings, never crashes).
+- Translation contract: the English `purpose` in `data/apidefinitions/` is
+  the sole source; terminology follows the frozen glossary
+  `docs/.vitepress/zh-glossary.json`; badge/detail/dead-note strings stay
+  English (purpose-only translation). The mapping is consumed by
+  `scripts/gen-api-docs.mjs --locale zh`: methods covered here get a
+  generated zh method page (`docs/zh/api/<stem>/<short>.md`); uncovered
+  methods keep bridging to the English page from the zh index.
 
 ## File schema
 
@@ -84,10 +101,9 @@ flagged.
 
 ## Known data defects (tolerated, reported as warnings)
 
-- `database_api.yml` — the `find_savings_withdrawals` entry has a **duplicate
-  `parameter_json` key** (two different values). YAML consumers silently keep
-  the last value; the validator detects duplicates via the parser AST and
-  reports the path as a warning. To be cleaned up in a later phase.
+- ~~`database_api.yml` — the `find_savings_withdrawals` entry has a
+  **duplicate `parameter_json` key**~~ — cleaned up in T9 (merged into a
+  single entry); kept here for history.
 - `block_api.yml` and `condenser_api.yml` — contain one legacy multi-line
   single-quoted scalar whose closing quote sits at column 1 (a psych/YAML 1.1
   leniency). The validator re-indents that line **in memory** only; the source
