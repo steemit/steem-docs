@@ -6,24 +6,35 @@
 // For each method that documents `curl_examples` or `parameter_json`, POSTs
 //   {"jsonrpc":"2.0","method":<api_method>,"params":<normalized parameter_json>,"id":1}
 // to $TEST_NODE (default https://api.steem.fans) and classifies the outcome:
-//   OK          - HTTP 200 and the response carried a `result`, or an error
-//                 that is the method's own business error: the request reached
-//                 the RPC layer, which is all this tool asserts.
-//   RPC_FAIL    - HTTP 200 but a JSON-RPC protocol error (method not found,
-//                 invalid request, parse error): the method is not callable.
-//   HTTP_FAIL   - non-200 status, or a 200 with a non-JSON body.
-//   NETWORK_FAIL- the request never completed (DNS, refused, timeout).
+//   OK              - HTTP 200 and the response carried a `result`: the method
+//                     executed.
+//   OK_PARAM_INVALID- HTTP 200 but a jsonrpc -32602 (Invalid parameters): the
+//                     method exists and was dispatched, the documented params
+//                     were rejected at the parameter level. Single class so
+//                     param drift (stale sample params) is machine-countable.
+//   RPC_FAIL        - any other JSON-RPC error object (protocol errors like
+//                     -32601/-32700 and server errors like -32000/-32002): the
+//                     method did not return a result.
+//   HTTP_FAIL       - non-200 status, or a 200 with a non-JSON body.
+//   NETWORK_FAIL    - the request never completed (DNS, refused, ...).
+//   TIMEOUT         - the request did not complete within the 15s budget.
 // This is a report tool: it prints a summary table plus a failure list; drift
 // against the 2020-era YAML is expected and is the point.
+//
+// Pass --report <file.json> to additionally write a machine-readable report:
+//   { tool, node, generatedAt, scope, counts,
+//     methods: [{ api_method, classification, httpStatus, rpcErrorCode,
+//                 responseBytes, node }, ...] }
+// The text report on stdout is unchanged by --report.
 //
 // Exit code: 0 once the report completed (the report is the artifact, the
 // failure list is not a pass/fail gate); 1 on usage errors and on
 // unrecoverable YAML parse failures (no report is possible then).
 
 import { parseDocument } from 'yaml';
-import { readdirSync, readFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import process from 'node:process';
 import { isObject, repairLegacyQuotesCounted, walkMethods } from './lib/yaml-lenient.mjs';
 
@@ -33,10 +44,9 @@ const CONCURRENCY = 4;
 const TIMEOUT_MS = 15_000;
 const REASON_MAX = 90;
 
-// JSON-RPC 2.0 protocol-level error codes: the method itself is not usable.
-// Everything else (e.g. -32000 server/business errors) means the method exists
-// and executed, which counts as OK.
-const PROTOCOL_ERROR_CODES = new Set([-32700, -32600, -32601]);
+// -32602 (Invalid parameters) is split out as OK_PARAM_INVALID: the method was
+// found and dispatched, only the params were rejected. Every other JSON-RPC
+// error (protocol or server-level) is RPC_FAIL.
 
 // ---------------------------------------------------------------------------
 // CLI
@@ -44,10 +54,11 @@ const PROTOCOL_ERROR_CODES = new Set([-32700, -32600, -32601]);
 
 function usage() {
   console.error(
-    'Usage: node scripts/test-curl.mjs [--api <stem>] [--limit <n>] [--node <url>]\n' +
+    'Usage: node scripts/test-curl.mjs [--api <stem>] [--limit <n>] [--node <url>] [--report <file.json>]\n' +
       '  --api  <stem>  limit to one API namespace/file, e.g. condenser_api\n' +
       '  --limit <n>    test at most <n> methods\n' +
-      '  --node <url>   override $TEST_NODE (default: ' + DEFAULT_NODE + ')'
+      '  --node <url>   override $TEST_NODE (default: ' + DEFAULT_NODE + ')\n' +
+      '  --report <f>   also write a machine-readable JSON report to <f>'
   );
   process.exit(1);
 }
@@ -56,12 +67,14 @@ const args = process.argv.slice(2);
 let NODE_URL = process.env.TEST_NODE || DEFAULT_NODE;
 let ONLY_API = null;
 let LIMIT = null;
+let REPORT_PATH = null;
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--api') ONLY_API = args[++i] ?? usage();
   else if (args[i] === '--limit') {
     LIMIT = Number(args[++i]);
     if (!Number.isInteger(LIMIT) || LIMIT < 1) usage();
   } else if (args[i] === '--node') NODE_URL = args[++i] ?? usage();
+  else if (args[i] === '--report') REPORT_PATH = args[++i] ?? usage();
   else usage();
 }
 if (!/^https?:\/\//.test(NODE_URL)) {
@@ -168,6 +181,10 @@ function paramsFor(entry) {
 console.log(`test-curl: ${entries.length} method(s) against ${NODE_URL}`);
 console.log(`  scope: ${ONLY_API ?? 'all files'} | concurrency: ${CONCURRENCY} | timeout: ${TIMEOUT_MS / 1000}s\n`);
 
+/**
+ * One probe → a six-level classification plus the machine fields for the JSON
+ * report. `reason` is a human hint for the text report only.
+ */
 async function classify(entry) {
   const body = JSON.stringify({ jsonrpc: '2.0', method: entry.api_method, params: paramsFor(entry), id: 1 });
   let res;
@@ -180,26 +197,35 @@ async function classify(entry) {
     });
   } catch (e) {
     const reason = e.name === 'TimeoutError' ? `timeout after ${TIMEOUT_MS / 1000}s` : e.cause?.code ?? e.message;
-    return { status: 'NETWORK_FAIL', reason: String(reason) };
+    return {
+      status: e.name === 'TimeoutError' ? 'TIMEOUT' : 'NETWORK_FAIL',
+      reason: String(reason),
+      httpStatus: null,
+      rpcErrorCode: null,
+      responseBytes: null,
+    };
   }
-  if (!res.ok) return { status: 'HTTP_FAIL', reason: `HTTP ${res.status} ${res.statusText}`.trim() };
+  const httpStatus = res.status;
+  const text = await res.text(); // read as text: body size is report data too
+  const responseBytes = Buffer.byteLength(text, 'utf8');
+  if (!res.ok) return { status: 'HTTP_FAIL', reason: `HTTP ${res.status} ${res.statusText}`.trim(), httpStatus, rpcErrorCode: null, responseBytes };
   let parsed;
   try {
-    parsed = await res.json();
+    parsed = JSON.parse(text);
   } catch {
-    return { status: 'HTTP_FAIL', reason: 'HTTP 200 with non-JSON body' };
+    return { status: 'HTTP_FAIL', reason: 'HTTP 200 with non-JSON body', httpStatus, rpcErrorCode: null, responseBytes };
   }
-  if (!isObject(parsed)) return { status: 'HTTP_FAIL', reason: 'response is not a JSON-RPC envelope' };
-  if ('result' in parsed) return { status: 'OK', reason: 'result' };
+  if (!isObject(parsed)) return { status: 'HTTP_FAIL', reason: 'response is not a JSON-RPC envelope', httpStatus, rpcErrorCode: null, responseBytes };
+  if ('result' in parsed) return { status: 'OK', reason: 'result', httpStatus, rpcErrorCode: null, responseBytes };
   if (isObject(parsed.error)) {
     const code = typeof parsed.error.code === 'number' ? parsed.error.code : null;
     const message = String(parsed.error.message ?? '').replace(/\s+/g, ' ').slice(0, REASON_MAX);
-    if (code !== null && PROTOCOL_ERROR_CODES.has(code)) {
-      return { status: 'RPC_FAIL', reason: `jsonrpc error ${code}: ${message}` };
+    if (code === -32602) {
+      return { status: 'OK_PARAM_INVALID', reason: `param rejected ${code}: ${message}`, httpStatus, rpcErrorCode: code, responseBytes };
     }
-    return { status: 'OK', reason: `business error${code !== null ? ' ' + code : ''}: ${message}` };
+    return { status: 'RPC_FAIL', reason: `jsonrpc error ${code ?? '?'}: ${message}`, httpStatus, rpcErrorCode: code, responseBytes };
   }
-  return { status: 'RPC_FAIL', reason: 'malformed JSON-RPC response (no result, no error)' };
+  return { status: 'RPC_FAIL', reason: 'malformed JSON-RPC response (no result, no error)', httpStatus, rpcErrorCode: null, responseBytes };
 }
 
 const results = new Array(entries.length);
@@ -218,7 +244,7 @@ await Promise.all(Array.from({ length: Math.min(CONCURRENCY, entries.length) }, 
 // Summary
 // ---------------------------------------------------------------------------
 
-const counts = { OK: 0, RPC_FAIL: 0, HTTP_FAIL: 0, NETWORK_FAIL: 0 };
+const counts = { OK: 0, OK_PARAM_INVALID: 0, RPC_FAIL: 0, HTTP_FAIL: 0, NETWORK_FAIL: 0, TIMEOUT: 0 };
 for (const r of results) counts[r.status]++;
 
 const failures = results.filter((r) => r.status !== 'OK');
@@ -233,6 +259,32 @@ if (failures.length > 0) {
   console.log(`\nFailures (${failures.length}):`);
   for (const r of failures) {
     console.log(`  ${r.api_method}  [${r.status}]  ${r.reason.slice(0, REASON_MAX)}`);
+  }
+}
+if (REPORT_PATH) {
+  const report = {
+    tool: 'test-curl',
+    node: NODE_URL,
+    generatedAt: new Date().toISOString(),
+    scope: { api: ONLY_API, limit: LIMIT },
+    counts: { ...counts, total: results.length },
+    methods: results.map((r) => ({
+      api_method: r.api_method,
+      classification: r.status,
+      httpStatus: r.httpStatus,
+      rpcErrorCode: r.rpcErrorCode,
+      responseBytes: r.responseBytes,
+      node: NODE_URL,
+    })),
+  };
+  try {
+    const dir = dirname(REPORT_PATH);
+    if (dir && dir !== '.') mkdirSync(dir, { recursive: true });
+    writeFileSync(REPORT_PATH, JSON.stringify(report, null, 2) + '\n');
+    console.log(`\nreport: wrote ${REPORT_PATH} (${results.length} method(s))`);
+  } catch (e) {
+    console.error(`\nreport: FAILED to write ${REPORT_PATH}: ${e.message}`);
+    process.exitCode = 1;
   }
 }
 console.log('\ndone (exit 0; this is a report tool — inspect the list, do not gate on it)');
