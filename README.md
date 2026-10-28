@@ -19,6 +19,7 @@ addressable reference for every `condenser_api` and appbase JSON-RPC method.
 | `pnpm audit:drift`     | Dual-node drift audit; writes a snapshot into data/audit |
 | `pnpm audit:coverage`  | Coverage sweep + dead-set regression; report-only unless `--write` |
 | `pnpm audit:source-crosscheck` | Source × docs × node disposition matrix; report-only unless `--write` |
+| `pnpm check:curl-width` | Line-width assertion for the generated Example bash blocks (run after `pnpm docs:gen`) |
 
 ## Data pipeline
 
@@ -213,6 +214,24 @@ decision-3 death-annotation family census).
 pnpm audit:source-crosscheck                               # report-only
 pnpm audit:source-crosscheck -- --write                    # persist into data/audit/
 pnpm audit:source-crosscheck -- --drift data/audit/drift-2026-10-27.json --node1 https://api.steem.fans --node2 https://api.steemit.com
+```
+
+### `pnpm check:curl-width` — Example block line-width assertion
+
+Every method page's `## Example` block renders `curl_examples` as a complete
+wrapped `curl` command against `https://api.steemit.com` (bash fence, 2-space
+indented JSON body, backslash continuations, target line width ≤80 columns).
+A few stored bodies carry unbreakable tokens (hex transaction signatures up
+to ~160 columns) that no fold logic can split, so the site CSS
+(`.code-card pre { white-space: pre-wrap; word-break: break-all }`) wraps
+long lines in place — no card ever scrolls horizontally regardless of this
+check. The script scans the generated `docs/api` and `docs/zh/api` trees
+after `pnpm docs:gen` and reports every bash line over the 80-column target
+as a warning (exit code unaffected); anything over the 170-column hard cap
+means a whole body leaked onto one line and fails the build with exit 1.
+
+```sh
+pnpm docs:gen && pnpm check:curl-width
 ```
 
 ## Internationalization (i18n)

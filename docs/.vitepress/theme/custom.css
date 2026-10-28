@@ -246,6 +246,18 @@
   border-radius: 0 !important;
 }
 
+/* T23: wrap instead of horizontal scroll. Some bash example bodies carry
+ * unbreakable tokens (hex signatures up to ~160 columns) that cannot be
+ * folded by the generator, so every code-card block wraps long lines in
+ * place — no data is changed and no card ever scrolls horizontally.
+ * Selector specificity beats VitePress' own
+ * `.vp-doc [class*=language-] pre/code { white-space: pre; word-break: normal }`. */
+.vp-doc .code-card pre,
+.vp-doc .code-card pre code {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
 /* The card title replaces the built-in language label. */
 .code-card .lang {
   display: none;
