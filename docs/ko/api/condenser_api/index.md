@@ -1,6 +1,6 @@
 ---
 title: "condenser_api"
-description: "To help with this transition, we created condenserapi, which contains all of the API methods that currently exist and uses the existing argument formatting.…"
+description: "To help with this transition, we created condenser_api, which contains all of the API methods that currently exist and uses the existing argument formatting.…"
 outline: [2, 3]
 ---
 

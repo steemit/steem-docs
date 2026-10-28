@@ -1,6 +1,6 @@
 ---
 title: "reputation_api"
-description: "Needed by condenserapi to optionally use followapi or reputationapi"
+description: "Needed by condenser_api to optionally use follow_api or reputation_api"
 outline: [2, 3]
 ---
 
