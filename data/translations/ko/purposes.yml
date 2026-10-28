@@ -1,0 +1,1539 @@
+# ---------------------------------------------------------------------------
+# ko translations of API method purposes — batch 1-5（238 条全量）
+# (phase4-plan §1-T32；schema/风格沿用 zh-method-purposes/v1，batch 字段标
+# 语言内批次：batch 1 = C 序 #1-48、batch 2 = #49-96、batch 3 = #97-144、
+# batch 4 = #145-192、batch 5 = #193-238，按写入顺序)
+#
+# api_method -> 한국어 purpose 번역。原文以 data/apidefinitions/*.yml 中
+# 现有 en purpose 字段为准，不增不减不改语义；markdown 结构（表格/列表/加粗/
+# 链接/代码 span）按原文保留，仅翻译文字内容；代码 span 内文字一律不动。
+#
+# 术语遵循 docs/.vitepress/ko-glossary.json 的 30 条冻结基线：witness 译作韩国
+# Steem 社区通用的「위트니스」并首现括注英文；Resource Credits (RC)、STEEM Power
+# (SP)、permlink 保留英文（首现括注）；VESTS=베스팅 지분 (VESTS)；SBD=스팀 달러
+# (SBD)；hardfork=하드포크；dynamic global properties=동적 전역 속성；account
+# history=계정 기록；proposal=프로포절 (제안)；post=포스트 (게시물)；curation=
+# 큐레이션；reputation=평판；tag=태그等。方法名、参数名、字段值、API 名与被引用
+# 文档页标题（Paginated API Methods、Understanding Configuration Values、
+# Understanding Dynamic Global Properties、Forum/Market Bandwidth 及 SMT 白皮书
+# 链接文字）保留英文。术语首次出现按 glossary conventions 使用
+# 『한국어 표기 (English)』格式；SMT 无冻结条目，按惯用展开 SMT (스마트 미디어
+# 토큰)。行文为简洁说明句（합니다체），不使用感叹号；表内引用账户名处照原文
+# 使用直引号。
+#
+# en 原文的既有缺陷语义如实保留，不擅自“修正”：condenser_api.list_proposal_votes
+# /list_proposals 的 Also see 行引用拼写 datbase_api（各 1 处）、
+# get_vesting_delegations 的 Also see 行 Paginated API Methods 重复、
+# get_blog_authors 表内 alice". 缺左引号、lookup_accounts 参数行缺冒号
+# （파라미터`lower_bound_name）、lookup_accounts/lookup_witness_accounts 表行
+# 缺尾竖线、list_accounts/list_owner_histories/find_vesting_delegation_expirations
+# 等断表（表头/分隔/行 列数不齐）、list_limit_orders/list_witness_votes 表内
+# order 值串行（by_effective_date/by_withdraw_route/by_destination）、
+# get_witnesses_by_vote 表内 limit `1` 配文 “상위 10개”、find_rc_accounts 表内
+# 第二行只列 alice 而行文写 “alice"과 "bob”、list_accounts 的
+# “next next vesting withdrawal” 与 accont/withdrawl 拼写等均照原文直译或
+# 原样保留。en 硬换行（Understanding Configuration Values、
+# Understanding Dynamic Global Properties、get_potential_signatures 段落、
+# verify_authority 句子共 7 处）在韩语中并为一行，语义不变。
+#
+# 死方法（deprecated/disabled/removed 三族）照常翻译，不因死亡而省略；
+# 机械核验（isDeadWithCause：死亡 flag + 非空 detail）确认全量 238 键共
+# 35 个死方法（disabled 25、removed 3、deprecated 7）；裸 badge 5 个
+# （get_state、verify_account_authority ×2 变体、account_history_api.get_transaction、
+# get_account_references）照常翻译；23 个三期新增方法（bridge 系 14、
+# condenser_api follow 分页对 2、chain_api 2、hive 1、tags 1、call 1 及
+# T22 补页清单其余）全部在内。
+#
+# 排序口径仍为 LC_ALL=C（字节序），是唯一口径。机械核验（LC_ALL=C sort 对
+# ko_KR.UTF-8 sort）确认全量 238 键共 0 处 C/UTF-8 collation 分歧对——
+# ko_KR.UTF-8 下 238 键排序与 C 序逐位相同（键集为纯 ASCII 方法名，韩语
+# 多音节 collation 不参与键排序），如实记零。
+#
+# 消费方：scripts/gen-api-docs.mjs --locale ko。
+# ---------------------------------------------------------------------------
+schema: zh-method-purposes/v1
+locale: ko
+batch: 1-5
+purposes:
+  account_by_key_api.get_key_references: |-
+    오너(owner) 또는 액티브(active) 권한(authority)에 연결된 키를 가진 모든 계정을 반환합니다.
+  account_history_api.enum_virtual_ops: |-
+    블록 범위 내의 가상 오퍼레이션(virtual operation)을 반환합니다. 계정과 오퍼레이션 유형으로 선택적으로 필터링할 수 있습니다.
+  account_history_api.get_account_history: |-
+    주어진 계정의 모든 오퍼레이션 이력을 반환합니다.
+
+    추가 참조: Paginated API Methods
+  account_history_api.get_ops_in_block: |-
+    블록에 포함된 모든 오퍼레이션을 반환합니다.
+  account_history_api.get_transaction: |-
+    트랜잭션 ID를 기준으로 트랜잭션의 상세 정보를 반환합니다.
+  block_api.get_block: |-
+    참조된 블록의 전체 서명된 블록을 가져오며, 일치하는 블록이 없으면 null을 반환합니다.
+
+    **파라미터:**
+
+      * `block_num:int`
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | 가장 첫 번째 블록을 조회합니다. |
+    | `8675309` | 블록 번호 8,675,309를 조회합니다. |
+    | `62396745` | 블록 번호 62,396,745를 조회합니다. |
+  block_api.get_block_header: |-
+    참조된 블록의 블록 헤더를 가져오며, 일치하는 블록이 없으면 null을 반환합니다.
+
+    **파라미터:**
+      
+      * `block_num:int` - 헤더를 반환할 블록의 높이(height)
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | 가장 첫 번째 블록의 블록 헤더를 조회합니다. |
+    | `8675309` | 블록 번호 8,675,309의 블록 헤더를 조회합니다. |
+    | `62396745` | 블록 번호 62,396,745의 블록 헤더를 조회합니다. |
+  bridge.account_notifications: |-
+    계정 알림(notification)입니다.
+
+    `type`에 지원되는 값:
+      * `new_community` - 새 커뮤니티가 생성되었습니다
+      * `set_role` - 모더레이터/관리자가 계정에 역할을 추가합니다
+      * `set_props` - 커뮤니티 속성이 설정됩니다
+      * `set_label` - 계정에 칭호/배지/라벨이 설정됩니다
+      * `mute_post` - 포스트가 사유와 함께 뮤트되었습니다
+      * `unmute_post` - 포스트가 사유와 함께 뮤트 해제되었습니다
+      * `pin_post` - 포스트가 고정되었습니다
+      * `unpin_post` - 포스트의 고정이 해제되었습니다
+      * `flag_post` - 포스트가 멤버에 의해 사유와 함께 신고되었습니다
+      * `error` - 해석할 수 없는 오퍼레이션에 대해 개발자에게 피드백을 제공합니다
+      * `subscribe` - 계정이 커뮤니티를 구독했습니다
+      * `reply` - 포스트에 답글이 달렸습니다
+      * `reblog` - 포스트가 리블로그되거나 리스팀(resteem)되었습니다
+      * `follow` - 계정이 다른 계정을 팔로우했습니다
+      * `mention` - 저자가 계정을 멘션했습니다
+      * `vote` - 투표자가 저자에게 투표했습니다
+
+    `score` 값은 발신 계정의 랭크를 기준으로 합니다.
+  bridge.get_account_posts: |-
+    계정의 포스트를 가져옵니다 -- 블로그, 피드, 댓글 또는 답글.
+
+    `sort`에 지원되는 값:
+      * `blog`
+      * `feed`
+      * `posts`
+      * `comments`
+      * `replies`
+      * `payout`
+
+    파라미터: `sort:string`; `account:string`; `start_author:string` (선택, 기본값은 빈 값); `start_permlink:string` (선택, 기본값은 빈 값); `limit:int` (선택, 기본값 `20`, 최대 `100`); `observer:string` (선택)
+
+    추가 참조: bridge.get_ranked_posts
+  bridge.get_community: |-
+    커뮤니티 상세 정보를 가져옵니다.
+  bridge.get_community_context: |-
+    커뮤니티/계정 쌍에 대해 계정의 역할, 칭호, 구독 여부를 반환합니다.
+
+    파라미터: `name:string` (커뮤니티 이름, 예: `hive-123456`); `account:string`
+
+    추가 참조: bridge.get_community
+  bridge.get_discussion: |-
+    `author/permlink`를 키로, 루트 포스트와 그 답글 전체로 이루어진 토론 스레드를 반환합니다.  이것은 `condenser_api.get_state`의 스레드 부분을 대체하는 hivemind 버전입니다.
+
+    파라미터: `author:string`; `permlink:string`
+  bridge.get_payout_stats: |-
+    트리맵(treemap) 작성용 정산(payout) 통계를 가져옵니다: 전체 블로그 정산 금액에 상위 커뮤니티별로 하나의 `(url, label, payout, posts, authors)` 튜플이 더해집니다.
+
+    파라미터: `limit:int` (선택, 기본값 `250`, 최대 `250`)
+  bridge.get_post: |-
+    포스트 하나를 가져옵니다.
+
+    파라미터: `author:string`; `permlink:string`; `observer:string` (선택)
+  bridge.get_post_header: |-
+    포스트의 기본 데이터를 가져옵니다: 저자, 퍼머링크(permlink), 카테고리, 깊이.
+
+    파라미터: `author:string`; `permlink:string`
+  bridge.get_profile: |-
+    계정/프로필 데이터를 로드합니다: 메타데이터, 평판, 팔로우 통계, 블랙리스트.
+
+    파라미터: `account:string`; `observer:string` (선택)
+  bridge.get_ranked_posts: |-
+    랭킹에 매겨진 포스트를 가져옵니다.
+
+    `sort`에 지원되는 값:
+      * `trending`
+      * `hot`
+      * `created`
+      * `promoted`
+      * `payout`
+      * `payout_comments`
+      * `muted`
+      
+    `tag` 값으로는 유효한 모든 태그를 쓸 수 있습니다.
+
+    `observer` 값으로는 유효한 모든 계정 또는 빈 문자열을 쓸 수 있습니다.
+  bridge.get_trending_topics: |-
+    보류 중인 포스트 전반의 상위 인기 토픽(커뮤니티와 태그의 혼합)을 반환합니다.
+
+    파라미터: `limit:int` (선택, 기본값 `10`, 최대 `25`); `observer:string` (선택, 아직 사용되지 않음)
+  bridge.list_all_subscriptions: |-
+    한 계정의 모든 커뮤니티 구독을 나열합니다.
+  bridge.list_communities: |-
+    모든 커뮤니티를 페이지네이션(pagination)으로 나열합니다. 라이트(lite) 버전의 커뮤니티 목록을 반환합니다.
+
+    `sort`에 지원되는 값:
+      * `rank`
+      * `new`
+      * `subs`
+
+    파라미터: `last:string` (선택, 기본값은 빈 값); `limit:int` (선택, 기본값 `100`, 최대 `100`); `query:string` (선택, 제목과 소개에 대한 전문 검색); `sort:string` (선택, 기본값 `rank`); `observer:string` (선택)
+
+    추가 참조: bridge.get_community
+  bridge.list_community_roles: |-
+    커뮤니티 안의 각 계정에 대한 커뮤니티 역할과 라벨을 나열합니다.
+  bridge.list_pop_communities: |-
+    새 구독자 수 기준으로 커뮤니티를 나열합니다. 라이트(lite) 버전의 커뮤니티 목록을 반환합니다.
+
+    파라미터: `limit:int` (선택, 기본값 `25`, 최대 `25`)
+
+    참고: 2026-10-28 기준으로, 이 호출은 퍼블릭 노드에서 서버 오류를 반환합니다(배포된 hivemind 빌드는 `cutoff` 쿼리 파라미터를 바인딩하지 않습니다). 아래 응답은 의도된 형태를 보여줍니다.
+  bridge.list_subscribers: |-
+    커뮤니티의 구독자(최대 250명, 최신 항목 우선)를 `name`/`role`/`title`/`created_at` 튜플 형태로 나열합니다.
+
+    파라미터: `community:string` (예: `hive-123456`)
+  bridge.normalize_post: |-
+    steemd 포스트 객체(`condenser_api.get_content`가 반환하는 형태)를 받아 bridge-api 정규화 버전을 출력합니다.
+
+    파라미터: `post:object` (`condenser_api.get_content`가 반환하는 것과 정확히 동일한, 전체 steemd 포스트 객체. 요소 하나짜리 배열로 감싸서 전달: `params: [{ <post object> }]`)
+
+    **참고:** 포스트 객체는 steemd 필드 전체를 담고 있어야 합니다 -- 아래 예시는 가독성을 위해 `body`만 축약되어 있습니다. `params`에 배열로 감싸지 않은 객체를 그대로 전달하면 `-32602`가 반환되고, 불완전한 객체(예: `active_votes` 항목에 `percent`/`reputation`이 없는 경우, 또는 `cashout_time` 같은 정산 필드가 누락된 경우)는 `-32000`을 반환합니다.
+  bridge.post_notifications: |-
+    특정 포스트의 알림을 로드합니다.
+
+    파라미터: `author:string`; `permlink:string`; `min_score:int` (선택, 기본값 `25`); `last_id:int` (선택, 이 알림 ID부터 탐색); `limit:int` (선택, 기본값 `100`, 최대 `100`)
+
+    참고: 2026-10-28 기준으로, 알림이 있는 포스트에 대한 이 호출은 퍼블릭 노드에서 내부 오류를 반환합니다. 아래 응답은 의도된 형태를 보여줍니다.
+
+    추가 참조: bridge.account_notifications
+  bridge.unread_notifications: |-
+    지정된 계정의 알림 상태를 로드합니다: 마지막으로 읽은 시각과 `min_score` 이상의 점수를 가진 읽지 않은 알림 수.
+
+    파라미터: `account:string`; `min_score:int` (선택, 기본값 `25`)
+
+    추가 참조: bridge.account_notifications
+  call: |-
+    레거시(legacy) 스타일의 `call` 메서드 요청을 라우팅합니다.
+
+    파라미터: `api:string` (`condenser_api`만 허용됨); `method:string` (라우팅되는 condenser_api 메서드 중 하나: get_followers, get_following, get_followers_by_page, get_following_by_page, get_follow_count, get_content, get_content_replies, get_trending_tags, get_state, get_discussions_by_trending, get_discussions_by_hot, get_discussions_by_promoted, get_discussions_by_created, get_post_discussions_by_payout, get_comment_discussions_by_payout, get_discussions_by_blog, get_discussions_by_feed, get_discussions_by_comments, get_replies_by_last_update, get_discussions_by_author_before_date, get_blog, get_blog_entries, get_account_votes); `params:array` (라우팅되는 메서드의 파라미터)
+
+    그 외의 메서드는 오류를 반환합니다.
+  chain_api.push_block: |-
+    블록을 노드에 푸시합니다.
+
+    파라미터: `block:object` (서명된 블록); `currently_syncing:bool` (선택, 기본값 `false`)
+
+    `success:bool`을 반환하고, 실패 시 `error:string`을 반환합니다.
+  chain_api.push_transaction: |-
+    트랜잭션을 노드에 푸시합니다.
+
+    파라미터: 감싸지 않은 서명된 트랜잭션 객체 그 자체: `ref_block_num:int`; `ref_block_prefix:int`; `expiration:timestamp`; `operations:array`; `extensions:array`; `signatures:array`
+
+    `success:bool`을 반환하고, 실패 시 `error:string`을 반환합니다.
+  condenser_api.broadcast_block: |-
+    블록을 브로드캐스트할 때 사용합니다.
+
+    추가 참조: network_broadcast_api.broadcast_block
+  condenser_api.broadcast_transaction: |-
+    트랜잭션을 브로드캐스트할 때 사용합니다.
+
+    추가 참조: network_broadcast_api.broadcast_transaction
+  condenser_api.broadcast_transaction_synchronous: |-
+    트랜잭션을 브로드캐스트하고 동기적으로 처리될 때까지 기다립니다.
+  condenser_api.find_proposals: |-
+    `proposal.id`(`proposal.proposal_id`가 아님)로 프로포절(제안)을 찾습니다.
+
+    추가 참조: database_api.find_proposals
+  condenser_api.get_account_bandwidth: |-
+    **0.20.6부터 비활성화되었습니다. 참조: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
+
+    계정의 사용 가능한 대역폭(bandwidth)을 반환합니다.  파라미터: `account:string`; `type:string`, 예: `forum` 또는 `market`
+
+    | `account` (string) | `type` (string) | |
+    |--------------------|-----------------|-|
+    | `"steemit"` | `"forum"` | "steemit"이라는 이름의 계정에 대해 사용 가능한 forum 대역폭을 조회합니다. |
+    | `"alice"` | `"market"` | "alice"이라는 이름의 계정에 대해 사용 가능한 market 대역폭을 조회합니다. |
+
+    참조: Forum/Market Bandwidth
+  condenser_api.get_account_count: |-
+    계정 수를 반환합니다.
+  condenser_api.get_account_history: |-
+    주어진 계정의 모든 오퍼레이션 이력을 반환합니다.  파라미터: `account:string`; `start:int`. 예: 역방향 이력은 -1, 그 외에는 임의의 양수; `limit:int` 최대 10000
+
+    | `account` (string) | `start` (int) | `limit` (int) | |
+    |--------------------|---------------|---------------|-|
+    | `"steemit"` | `1000` | `1000` | `steemit`이라는 이름의 계정을 이력의 가장 최근 항목부터 조회하며, 최대 1,000개 결과를 반환합니다. |
+    | `"alice"` | `-1` | `10000` | `alice`이라는 이름의 계정을 이력의 가장 오래된 항목부터 조회하며, 최대 10,000개 결과를 반환합니다. |
+
+    추가 참조: account_history_api.get_account_history, Paginated API Methods
+  condenser_api.get_account_references: |-
+    **구현되지 않음**
+  condenser_api.get_account_reputations: |-
+    계정 평판 목록을 반환합니다.  파라미터: `account_lower_bound:string`; `limit:int` 최대 1000
+
+    | `account_lower_bound` (string) | `limit` (int) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `1` | "steemit"으로 시작하는 계정을 조회하며, 결과는 하나만 반환합니다. |
+    | `"a"` | `10` | "a"로 시작하는 계정을 조회하며, 최대 10개 결과를 반환합니다. |
+
+    추가 참조: follow_api.get_account_reputations
+  condenser_api.get_account_votes: |-
+    한 계정이 던진 모든 투표를 반환합니다.  파라미터: `account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | "steemit"의 투표를 조회합니다. |
+    | `"alice"` | "alice"의 투표를 조회합니다. |
+  condenser_api.get_accounts: |-
+    이름으로 계정을 조회하여 반환합니다.  파라미터: `account:string array`
+
+    | `account` (string array) | |
+    |-------------------|-|
+    | `["steemit"]` | "steemit"이라는 이름의 계정을 조회합니다. |
+    | `["steemit", "alice"]` | "steemit"과 "alice"이라는 이름의 계정을 조회합니다. |
+
+    추가 참조: database_api.find_accounts
+  condenser_api.get_active_votes: |-
+    주어진 포스트에 대한 모든 투표를 반환합니다.  파라미터: `author:string`; `permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | 슬러그(slug)가 `@steemit/firstpost`인 콘텐츠의 투표를 조회합니다 |
+    | `"alice"` | `"a-post-by-alice"` | 슬러그가 `@alice/a-post-by-alice`인 콘텐츠의 투표를 조회합니다 |
+
+    추가 참조: tags_api.get_active_votes
+  condenser_api.get_active_witnesses: |-
+    활성 위트니스(witness) 목록을 반환합니다.
+
+    추가 참조: database_api.get_active_witnesses
+  condenser_api.get_block: |-
+    블록을 반환합니다.  파라미터: `block_num:int`
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | 가장 첫 번째 블록을 조회합니다. |
+    | `8675309` | 블록 번호 8,675,309를 조회합니다. |
+    | `62396745` | 블록 번호 62,396,745를 조회합니다. |
+
+    추가 참조: block_api.get_block
+  condenser_api.get_block_header: |-
+    블록 헤더를 반환합니다.  파라미터: `block_num:int`
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | 가장 첫 번째 블록의 블록 헤더를 조회합니다. |
+    | `8675309` | 블록 번호 8,675,309의 블록 헤더를 조회합니다. |
+    | `62396745` | 블록 번호 62,396,745의 블록 헤더를 조회합니다. |
+
+    추가 참조: block_api.get_block_header
+  condenser_api.get_blog: |-
+    계정의 블로그 항목 목록을 반환합니다.  파라미터: `account:string`; `start_entry_id:int`; `limit:int` 최대 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|------------------------|---------------|-|
+    | "steemit" | `0` | `1` | "steemit"이라는 이름의 계정의 블로그를 조회하며, 최대 하나의 결과를 반환합니다. |
+    | "alice" | `0` | `50` | "alice"이라는 이름의 계정의 블로그를 조회하며, 최대 50개 결과를 반환합니다. |
+
+    추가 참조: follow_api.get_blog, Paginated API Methods
+  condenser_api.get_blog_authors: |-
+    주어진 블로그 계정에서 콘텐츠가 리블로그된 적이 있는 저자 목록을 반환합니다.  파라미터: `account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | "steemit"이라는 이름의 계정을 조회합니다. |
+    | `"alice"` | alice"이라는 이름의 계정을 조회합니다. |
+
+    추가 참조: follow_api.get_blog_authors
+  condenser_api.get_blog_entries: |-
+    계정의 블로그 항목 목록을 반환합니다.  파라미터: `account:string`; `start_entry_id:int`; `limit:int` 최대 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|------------------------|---------------|-|
+    | "steemit" | `0` | `1` | "steemit"이라는 이름의 계정의 블로그 항목을 조회하며, 최대 하나의 결과를 반환합니다. |
+    | "alice" | `0` | `50` | "alice"이라는 이름의 계정의 블로그 항목을 조회하며, 최대 50개 결과를 반환합니다. |
+
+    추가 참조: follow_api.get_blog_entries, Paginated API Methods
+  condenser_api.get_chain_properties: |-
+    체인 속성을 반환합니다.
+  condenser_api.get_comment_discussions_by_payout: |-
+    정산(payout) 기준 토론 목록을 반환합니다.
+
+    추가 참조: tags_api.get_comment_discussions_by_payout
+  condenser_api.get_config: |-
+    컴파일 타임 상수에 대한 정보를 반환합니다.  참조: Understanding Configuration Values
+
+    추가 참조: database_api.get_config
+  condenser_api.get_content: |-
+    콘텐츠(포스트 또는 댓글)를 반환합니다.  파라미터: `author:string`; `permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | 슬러그가 `@steemit/firstpost`인 콘텐츠를 조회합니다 |
+    | `"alice"` | `"a-post-by-alice"` | 슬러그가 `@alice/a-post-by-alice`인 콘텐츠를 조회합니다 |
+  condenser_api.get_content_replies: |-
+    답글 목록을 반환합니다.  파라미터: `author:string`; `permlink:string`
+
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | 슬러그가 `@steemit/firstpost`인 콘텐츠의 답글을 조회합니다 |
+    | `"alice"` | `"a-post-by-alice"` | 슬러그가 `@alice/a-post-by-alice`인 콘텐츠의 답글을 조회합니다 |
+
+    추가 참조: tags_api.get_content_replies
+  condenser_api.get_conversion_requests: |-
+    전환 요청(conversion request) 목록을 반환합니다.  파라미터: `id:integer`
+
+    | `id` (int) | |
+    |-------------------|-|
+    | `1234` | ID가 1234인 전환 요청을 조회합니다. |
+
+    추가 참조: database_api.list_sbd_conversion_requests
+  condenser_api.get_current_median_history_price: |-
+    현재 중간값 이력 가격(median history price), 즉 위트니스가 게시하는 STEEM:SBD 환율을 반환합니다.
+  condenser_api.get_discussions_by_active: |-
+    active 기준 토론 목록을 반환합니다.
+
+    추가 참조: tags_api.get_discussions_by_active
+  condenser_api.get_discussions_by_author_before_date: |-
+    author before date 기준 토론 목록을 반환합니다.
+
+    추가 참조: tags_api.get_discussions_by_author_before_date, Paginated API Methods
+  condenser_api.get_discussions_by_blog: |-
+    blog 기준 토론 목록을 반환합니다.
+
+    추가 참조: tags_api.get_discussions_by_blog
+  condenser_api.get_discussions_by_cashout: |-
+    cashout 기준 토론 목록을 반환합니다.
+
+    추가 참조: tags_api.get_discussions_by_cashout
+  condenser_api.get_discussions_by_children: |-
+    children 기준 토론 목록을 반환합니다.
+
+    추가 참조: tags_api.get_discussions_by_children
+  condenser_api.get_discussions_by_comments: |-
+    comments 기준 토론 목록을 반환합니다.
+
+    추가 참조: tags_api.get_discussions_by_comments
+  condenser_api.get_discussions_by_created: |-
+    created 기준 토론 목록을 반환합니다.
+
+    추가 참조: tags_api.get_discussions_by_created
+  condenser_api.get_discussions_by_feed: |-
+    feed 기준 토론 목록을 반환합니다.
+
+    추가 참조: tags_api.get_discussions_by_feed
+  condenser_api.get_discussions_by_hot: |-
+    hot 기준 토론 목록을 반환합니다.
+
+    추가 참조: tags_api.get_discussions_by_hot
+  condenser_api.get_discussions_by_promoted: |-
+    promoted 기준 토론 목록을 반환합니다.
+
+    추가 참조: tags_api.get_discussions_by_promoted
+  condenser_api.get_discussions_by_trending: |-
+    trending 기준 토론 목록을 반환합니다.
+
+    추가 참조: tags_api.get_discussions_by_trending
+  condenser_api.get_discussions_by_votes: |-
+    votes 기준 토론 목록을 반환합니다.
+
+    추가 참조: tags_api.get_discussions_by_votes
+  condenser_api.get_dynamic_global_properties: |-
+    현재 동적 전역 속성(dynamic global properties)을 반환합니다.  참조: Understanding Dynamic Global Properties
+
+    추가 참조: database_api.get_dynamic_global_properties
+  condenser_api.get_escrow: |-
+    특정 계정의 에스크로(escrow)를 ID로 조회하여 반환합니다.
+
+    추가 참조: database_api.list_escrows
+  condenser_api.get_expiring_vesting_delegations: |-
+    계정의 만료 예정 베스팅 위임(vesting delegation)을 반환합니다.  파라미터: `account:string`, `after:timestamp`
+
+    | `account` (string) | `after` (timestamp) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"2018-01-01T00:00:00"` | 2018년 1월 1일 이후에 만료되는 베스팅을 조회합니다. |
+    | `"alice"` | `"2017-12-01T00:00:00"` | 2017년 12월 1일 이후에 만료되는 베스팅을 조회합니다. |
+  condenser_api.get_feed: |-
+    계정 피드의 항목 목록을 반환합니다.  파라미터: `account:string`; `start_entry_id:int`; `limit:int` 최대 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|---------------|---------------|-|
+    | `"steemit"` | `0` | `1` | `steemit`이라는 이름의 계정을 첫 번째 항목부터 조회하며, 최대 1개 결과를 반환합니다. |
+    | `"alice"` | `1` | `10` | `alice`이라는 이름의 계정을 두 번째 항목부터 조회하며, 최대 10개 결과를 반환합니다. |
+
+    추가 참조: follow_api.get_feed, Paginated API Methods
+  condenser_api.get_feed_entries: |-
+    계정 피드의 항목(entry) 목록을 반환합니다.  파라미터: `account:string`; `start_entry_id:int`; `limit:int` 최대 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|---------------|---------------|-|
+    | `"steemit"` | `0` | `1` | `steemit`이라는 이름의 계정을 첫 번째 항목부터 조회하며, 최대 1개 결과를 반환합니다. |
+    | `"alice"` | `1` | `10` | `alice`이라는 이름의 계정을 두 번째 항목부터 조회하며, 최대 10개 결과를 반환합니다. |
+
+    추가 참조: follow_api.get_feed_entries, Paginated API Methods
+  condenser_api.get_feed_history: |-
+    피드 가격(feed price) 값의 이력을 반환합니다.
+
+    추가 참조: database_api.get_feed_history
+  condenser_api.get_follow_count: |-
+    계정의 팔로워(follower)/팔로잉(following) 수를 반환합니다.  파라미터: `account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | `steemit`이라는 이름의 계정을 조회합니다. |
+    | `"alice"` | `alice`이라는 이름의 계정을 조회합니다. |
+
+    추가 참조: follow_api.get_follow_count
+  condenser_api.get_followers: |-
+    계정의 팔로워 목록을 반환합니다.  파라미터: `account:string`; `start:string` (시작할 계정); `type:string` 예: `blog`; `limit:int` 최대 1000
+
+    | `account` (string) | `start` (string) | `type` (string) | `limit` (int) | |
+    |--------------------|------------------|-----------------|---------------|-|
+    | `"steemit"` | `null` | `"blog"` | `10` | `steemit`이라는 이름의 계정의 팔로우를 조회하며, 최대 10개 결과를 반환합니다. |
+    | `"alice"` | `null` | `"ignore"` | `100` | `alice`이라는 이름의 계정의 뮤트를 조회하며, 최대 100개 결과를 반환합니다. |
+
+    추가 참조: follow_api.get_followers, Paginated API Methods
+  condenser_api.get_followers_by_page: |-
+    페이지 단위로 계정의 팔로워를 반환합니다.  (EOL)  파라미터: `account:string`; `page:int` (0부터 시작 -- 페이지 `0`이 첫 페이지이며, 페이지가 하나씩 늘어날 때마다 `page_size`행을 건너뜁니다); `page_size:int` (필수, 최대 `100`); `follow_type:string` (선택, 예: `blog`, 기본값 `blog`)
+
+    **참고:** 행 오프셋은 `page * page_size`입니다. `page_size`는 필수이며, 생략하면 위치 형식과 이름 형식 모두 `-32602`를 반환합니다.
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemit"` | `0` | `5` | 첫 번째 페이지(페이지 `0`)에 있는 `steemit`을 팔로우하는 계정들을 조회합니다. 페이지당 5개. |
+    | `"alice"` | `1` | `100` | 페이지 `1` -- 앞의 100행을 건너뜁니다 -- 의 `alice`을 팔로우하는 계정들을 조회합니다. 페이지당 100개. |
+
+    추가 참조: condenser_api.get_followers, follow_api.get_followers_by_page
+  condenser_api.get_following: |-
+    한 계정을 팔로우하고 있는 계정 목록을 반환합니다.  파라미터: `account:string`; `start:string` (시작할 계정); `type:string` 예: `blog`; `limit:int` 최대 1000
+
+    | `account` (string) | `start` (string) | `type` (string) | `limit` (int) | |
+    |--------------------|------------------|-----------------|---------------|-|
+    | `"steemit"` | `null` | `"blog"` | `10` | `steemit`이라는 이름의 계정의 팔로우를 조회하며, 최대 10개 결과를 반환합니다. |
+    | `"alice"` | `null` | `"ignore"` | `100` | `alice`이라는 이름의 계정의 뮤트를 조회하며, 최대 100개 결과를 반환합니다. |
+
+    추가 참조: follow_api.get_following, Paginated API Methods
+  condenser_api.get_following_by_page: |-
+    페이지 단위로 한 계정이 팔로우하는 계정을 반환합니다.  (EOL)  파라미터: `account:string`; `page:int` (0부터 시작 -- 페이지 `0`이 첫 페이지이며, 페이지가 하나씩 늘어날 때마다 `page_size`행을 건너뜁니다); `page_size:int` (필수, 최대 `100`); `follow_type:string` (선택, 예: `blog`, 기본값 `blog`)
+
+    **참고:** 행 오프셋은 `page * page_size`입니다. `page_size`는 필수이며, 생략하면 위치 형식과 이름 형식 모두 `-32602`를 반환합니다.
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemitblog"` | `0` | `2` | 첫 번째 페이지(페이지 `0`)에 있는 `steemitblog`이 팔로우하는 계정들을 조회합니다. 페이지당 2개. |
+    | `"alice"` | `1` | `100` | 페이지 `1` -- 앞의 100행을 건너뜁니다 -- 의 `alice`이 팔로우하는 계정들을 조회합니다. 페이지당 100개. |
+
+    추가 참조: condenser_api.get_following, follow_api.get_following_by_page
+  condenser_api.get_hardfork_version: |-
+    현재 하드포크 버전을 반환합니다.
+
+    추가 참조: database_api.get_hardfork_properties
+  condenser_api.get_key_references: |-
+    오너(owner) 또는 액티브(active) 권한(authority)에 연결된 키를 가진 모든 계정을 반환합니다.
+
+    추가 참조: account_by_key_api.get_key_references
+  condenser_api.get_market_history: |-
+    내부 SBD:STEEM 마켓의 마켓 히스토리를 반환합니다.  파라미터: `bucket_seconds:int`; `start:timestamp`; `end:timestamp`
+
+    | `bucket_seconds` (int) | `start` (timestamp) | `end` (timestamp) | |
+    |------------------------|---------------------|-------------------|-|
+    | `15` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | 2018년 1월 1일부터 2018년 1월 2일 사이의 마켓 히스토리를 15초 단위로 조회합니다. |
+    | `60` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | 2018년 1월 1일부터 2018년 1월 2일 사이의 마켓 히스토리를 1분 단위로 조회합니다. |
+    | `300` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | 2018년 1월 1일부터 2018년 1월 2일 사이의 마켓 히스토리를 5분 단위로 조회합니다. |
+    | `3600` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | 2018년 1월 1일부터 2018년 1월 2일 사이의 마켓 히스토리를 1시간 단위로 조회합니다. |
+    | `86400` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | 2018년 1월 1일부터 2018년 1월 2일 사이의 마켓 히스토리를 하루 단위로 조회합니다. |
+
+    추가 참조: market_history_api.get_market_history
+  condenser_api.get_market_history_buckets: |-
+    플러그인이 추적하는 버킷(bucket) 초 단위 값을 반환합니다.
+
+    추가 참조: market_history_api.get_market_history_buckets
+  condenser_api.get_next_scheduled_hardfork: |-
+    다음에 예정된 하드포크를 반환합니다.
+          
+    추가 참조: database_api.get_hardfork_properties
+  condenser_api.get_open_orders: |-
+    계정의 미체결 주문(open order)을 반환합니다.  `account:string`
+
+    추가 참조: database_api.list_limit_orders
+  condenser_api.get_ops_in_block: |-
+    블록에 포함된 모든 오퍼레이션을 반환합니다.  파라미터: `block_num:int`; `only_virtual:boolean`
+
+    | `block_num` (int) | `only_virtual` (boolean) | |
+    |-------------------|--------------------------|-|
+    | `1` | `false` | 블록 #1의 오퍼레이션을 조회합니다. |
+    | `5443322` | `true` | 블록 #5,443,322의 가상 오퍼레이션만 조회합니다. |
+
+    추가 참조: account_history_api.get_ops_in_block
+  condenser_api.get_order_book: |-
+    내부 마켓의 오더북(order book)을 반환합니다.  파라미터: `limit:int` 최대 500
+
+    | `limit` (int) | |
+    |--------------------|-|
+    | `10` | 오더북에서 최대 10개 항목을 조회합니다. |
+    | `500` | 오더북에서 최대 500개 항목을 조회합니다. |
+
+    추가 참조: database_api.get_order_book, market_history_api.get_order_book
+  condenser_api.get_owner_history: |-
+    계정의 오너 키 이력(owner history)을 반환합니다.  파라미터: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | "steemit"이라는 이름의 계정의 오너 키 이력을 조회합니다. |
+
+    추가 참조: database_api.list_owner_histories
+  condenser_api.get_post_discussions_by_payout: |-
+    정산 기준 포스트 토론 목록을 반환합니다.
+
+    추가 참조: tags_api.get_post_discussions_by_payout
+  condenser_api.get_potential_signatures: |-
+    이 메서드는 주어진 트랜잭션에 서명할 수 있는 모든 공개 키(public key)의 집합을 반환합니다.
+
+    추가 참조: database_api.get_potential_signatures
+  condenser_api.get_reblogged_by: |-
+    포스트를 리블로그(reblog)한 저자 목록을 반환합니다.  파라미터: `author:string`; `permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | 슬러그가 `@steemit/firstpost`인 콘텐츠의 리블로그를 조회합니다 |
+    | `"alice"` | `"a-post-by-alice"` | 슬러그가 `@alice/a-post-by-alice`인 콘텐츠의 리블로그를 조회합니다 |
+
+    추가 참조: follow_api.get_reblogged_by
+  condenser_api.get_recent_trades: |-
+    내부 SBD:STEEM 마켓의 가장 최근 체결 내역(trade)을 반환합니다.  파라미터: `limit:int` 최대 1000
+
+    | `limit` (int) | |
+    |--------------------|-|
+    | `10` | 최근 체결 내역을 최대 10개 조회합니다. |
+    | `500` | 최근 체결 내역을 최대 500개 조회합니다. |
+
+    추가 참조: market_history_api.get_recent_trades
+  condenser_api.get_recovery_request: |-
+    계정의 복구 요청(recovery request)을 반환합니다.  파라미터: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | "steemit"이라는 이름의 계정의 복구 요청을 조회합니다. |
+
+    추가 참조: database_api.list_account_recovery_requests
+  condenser_api.get_replies_by_last_update: |-
+    마지막 업데이트 기준 답글 목록을 반환합니다.  `start_parent_author:string`, `start_permlink:string`, `limit:int` 최대 100
+
+    추가 참조: tags_api.get_replies_by_last_update, Paginated API Methods
+  condenser_api.get_required_signatures: |-
+    이 API는 부분 서명된 트랜잭션과, 소유자가 서명할 수 있는 공개 키 집합을 받아 트랜잭션에 서명을 추가해야 하는 공개 키의 최소 부분집합을 반환합니다. 파라미터: `trx:object`; `available_keys:[string]`
+
+    추가 참조: database_api.get_required_signatures
+  condenser_api.get_reward_fund: |-
+    현재 보상 펀드(reward fund)에 대한 정보를 반환합니다.
+
+    추가 참조: database_api.get_reward_funds
+  condenser_api.get_savings_withdraw_from: |-
+    계정에서 나가는 저축 인출(savings withdraw)을 반환합니다.  파라미터: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | "steemit"이라는 이름의 계정의 저축 인출을 조회합니다. |
+
+    추가 참조: database_api.list_savings_withdrawals
+  condenser_api.get_savings_withdraw_to: |-
+    계정으로 들어오는 저축 인출(savings withdraw)을 반환합니다.  파라미터: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | "steemit"이라는 이름의 계정의 저축 인출을 조회합니다. |
+
+    추가 참조: database_api.list_savings_withdrawals
+  condenser_api.get_state: |-
+    경로의 상태(state)를 반환합니다.  **지원 중단됨.**  파라미터: `path:string`
+  condenser_api.get_tags_used_by_author: |-
+    한 저자가 사용한 태그 목록을 반환합니다.  파라미터: `author:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | "steemit"이라는 이름의 계정이 사용한 태그를 조회합니다. |
+
+    추가 참조: tags_api.get_tags_used_by_author
+  condenser_api.get_ticker: |-
+    내부 SBD:STEEM 마켓의 시세(ticker)를 반환합니다.
+
+    추가 참조: market_history_api.get_ticker
+  condenser_api.get_trade_history: |-
+    내부 SBD:STEEM 마켓의 체결 이력을 반환합니다.  파라미터: `start:timestamp`; `end:timestamp`; `limit:int` 최대 1000
+
+    | `start` (timestamp) | `end` (timestamp) | `limit` (int) | |
+    |---------------------|-------------------|---------------|-|
+    | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | 10 | 2018년 1월 1일부터 2018년 1월 2일 사이의 체결 내역을 최대 10개 조회합니다. |
+
+    추가 참조: market_history_api.get_trade_history
+  condenser_api.get_transaction: |-
+    트랜잭션 ID를 기준으로 트랜잭션의 상세 정보를 반환합니다.  파라미터: `trx_id:string`
+
+    | `trx_id` (string) | |
+    |-------------------|-|
+    | `"6fde0190a97835ea6d9e651293e90c89911f933c"` | 이 트랜잭션 ID와 정확히 일치하는 트랜잭션을 조회합니다. |
+
+    추가 참조: account_history_api.get_transaction
+  condenser_api.get_transaction_hex: |-
+    트랜잭션의 직렬화된 이진 형식에 대한 헥스 덤프(hexdump)를 반환합니다.
+
+    추가 참조: database_api.get_transaction_hex
+  condenser_api.get_trending_tags: |-
+    인기(trending) 태그 목록을 반환합니다.  파라미터: `start_tag:string`; `limit:int` 최대 100
+
+    | `tag` (string) | `limit` (int) | |
+    |----------------|---------------|-|
+    | `null` | 100 | 상위 100개 인기 태그를 조회합니다. |
+    | `"steem"` | 10 | "steem" 이후의 태그를 최대 10개 조회합니다. |
+
+    추가 참조: tags_api.get_trending_tags, Paginated API Methods
+  condenser_api.get_version: |-
+    블록체인, steem, FC의 버전을 반환합니다.
+
+    추가 참조: database_api.get_version, Paginated API Methods
+  condenser_api.get_vesting_delegations: |-
+    계정이 한 베스팅 위임(vesting delegation)을 반환합니다.  파라미터: `delegator_account:string`; `start_account:string`; `limit:int` 최대 1000
+
+    | `delegator_account` (string) | `start_account` (string) | `limit` (int) | |
+    |------------------------------|--------------------------|---------------|-|
+    | `"steemit"` | `null` | `10` | "steemit"이 한 베스팅 위임을 최대 10개 조회합니다. |
+
+    추가 참조: database_api.list_vesting_delegations, Paginated API Methods, Paginated API Methods
+  condenser_api.get_volume: |-
+    지난 24시간의 마켓 거래량(volume)을 반환합니다.
+
+    추가 참조: market_history_api.get_volume
+  condenser_api.get_withdraw_routes: |-
+    계정의 인출 경로(withdraw route)를 반환합니다.  파라미터: `account:string`; `type:string`
+
+    | `account` (string) | `type` (string) | |
+    |--------------------|-----------------|-|
+    | `"steemit"` | `"outgoing"` | "steemit"이 설정한 나가는 인출 경로를 조회합니다. |
+    | `"steemit"` | `"incoming"` | "steemit"이 설정한 들어오는 인출 경로를 조회합니다. |
+    | `"steemit"` | `"all"` | "steemit"이 설정한 모든 인출 경로를 조회합니다. |
+
+    추가 참조: database_api.list_withdraw_vesting_routes
+  condenser_api.get_witness_by_account: |-
+    계정의 위트니스를 반환합니다.  파라미터: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | "steemit"의 위트니스 계정을 조회합니다(없으면 `null`). |
+
+    추가 참조: database_api.list_witnesses
+  condenser_api.get_witness_count: |-
+    위트니스 총수를 반환합니다.
+  condenser_api.get_witness_schedule: |-
+    현재 위트니스 스케줄(witness schedule)을 반환합니다.
+
+    추가 참조: database_api.get_witness_schedule
+  condenser_api.get_witnesses: |-
+    현재 위트니스를 반환합니다.
+
+    추가 참조: database_api.list_witnesses
+  condenser_api.get_witnesses_by_vote: |-
+    투표 기준 현재 위트니스를 반환합니다.  파라미터: `start_name:string`; `limit:int` 최대 1000
+
+    | `account` (string) | `limit` (int) | |
+    |--------------------|---------------|-|
+    | `null` | `21` | 상위 21개 위트니스 투표를 조회합니다. |
+    | `"a"` | `1` | "a"로 시작하는 상위 10개 위트니스 투표를 조회합니다. |
+
+    추가 참조: database_api.list_witnesses
+  condenser_api.list_proposal_votes: |-
+    지정된 투표자(voter) 또는 `proposal.id`부터 모든 프로포절 투표를 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+      * `voter` - 프로포절의 투표자  (계정 이름 문자열)
+      * `proposal.id` - 프로포절의 ID (int)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_voter_proposal` - 프로포절 투표자 기준 정렬
+      * `by_proposal_voter` - `proposal.id` 기준 정렬
+    * `order_direction`은 다음 중 하나입니다:
+      * `ascending`
+      * `descending`
+    * `status`
+      * `all`
+      * `inactive`
+      * `active`
+      * `expired`
+      * `votable`
+
+    | `start` (array) | `limit` (int) | `order` (string) | `order_direction` (string) | `status` (string) | |
+    |-------------------|-|-|-|-|-|
+    | `["alice"]` | 10 | `by_voter_proposal` | `ascending` | `active` | active 상태의 프로포절 10개를 투표자 기준 오름차순으로 나열합니다 |
+    | `[10]` | 1000 | `by_proposal_voter` | `ascending` | `votable` | 프로포절 10에 대한 투표 1000개를 `proposal.id` 기준 오름차순으로 나열합니다 |
+
+    추가 참조: datbase_api.list_proposals
+  condenser_api.list_proposals: |-
+    지정된 작성자(creator) 또는 시작 날짜부터 모든 프로포절을 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+      * `creator` - 프로포절의 작성자  (계정 이름 문자열)
+      * `start_date` - 프로포절의 시작 날짜 (날짜 문자열)
+      * `end_date` - 프로포절의 종료 날짜 (날짜 문자열)
+      * `total_votes` - 프로포절의 총 투표 수 (int)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_creator` - 프로포절 작성자 기준 정렬
+      * `by_start_date` - 프로포절 시작 날짜 기준 정렬
+      * `by_end_date` - 프로포절 종료 날짜 기준 정렬
+      * `by_total_votes` - 프로포절 총 투표 수 기준 정렬
+    * `order_direction`은 다음 중 하나입니다:
+      * `ascending`
+      * `descending`
+    * `status`
+      * `all`
+      * `inactive`
+      * `active`
+      * `expired`
+      * `votable`
+
+    | `start` (array) | `limit` (int) | `order` (string) | `order_direction` (string) | `status` (string) | |
+    |-------------------|-|-|-|-|-|
+    | `[""]` | 10 | `by_creator` | `ascending` | `active` | active 상태의 프로포절 10개를 작성자 기준 오름차순으로 나열합니다 |
+    | `["2019-08-07T16:54:03"]` | 1000 | `by_start_date` | `ascending` | `inactive` | inactive 상태의 프로포절 1000개를 시작 날짜 기준 오름차순으로, 2019-08-07T16:54:03 이후부터 나열합니다 |
+    | `["a"]` | 1 | `by_creator` | `ascending` | `expired` | "a"로 시작하는 계정의 expired 상태 프로포절 1개를 작성자 기준 오름차순으로 나열합니다 |
+    | `["alice"]` | 10 | `by_creator` | `ascending` | `all` | alice의 모든 상태 프로포절 10개를 작성자 기준 오름차순으로 나열합니다 |
+    | `[""]` | 1000 | `by_creator` | `ascending` | `votable` | votable 상태의 프로포절 1000개를 작성자 기준 오름차순으로 나열합니다 |
+    | `[10]` | 1000 | `by_total_votes` | `ascending` | `votable` | 최소 10표 이상 있는 votable 상태의 프로포절 1000개를 작성자 기준 오름차순으로 나열합니다 |
+
+    추가 참조: datbase_api.list_proposals
+  condenser_api.lookup_account_names: |-
+    계정 이름을 조회합니다.  `accounts:[string]`
+
+    추가 참조: database_api.find_accounts
+  condenser_api.lookup_accounts: |-
+    이름 접두사로 계정을 조회합니다.  파라미터`lower_bound_name:string`; `limit:int` 최대 1000
+
+    | `lower_bound_name` (string) | `limit` (int) | |
+    |--------------------|---------------|-|
+    | `"a"` | 10 | "a"로 시작하는 계정을 최대 10개 조회합니다.
+
+    추가 참조: database_api.list_accounts
+  condenser_api.lookup_witness_accounts: |-
+    이름 접두사로 위트니스 계정을 조회합니다.  파라미터: `lower_bound_name:string`; `limit:int` 최대 1000
+
+    | `lower_bound_name` (string) | `limit` (int) | |
+    |--------------------|---------------|-|
+    | `"a"` | 10 | "a"로 시작하는 위트니스를 최대 10개 조회합니다.
+
+    추가 참조: database_api.list_witnesses
+  condenser_api.verify_account_authority: |-
+    **구현되지 않음**
+
+    추가 참조: database_api.verify_account_authority
+  condenser_api.verify_authority: |-
+    트랜잭션이 필요한 모든 서명을 갖추고 있으면 true를 반환합니다.
+
+    추가 참조: database_api.verify_authority
+  database_api.find_account_recovery_requests: |-
+    계정 복구 요청 목록을 반환합니다.  파라미터: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | "steemit"이라는 이름의 계정의 복구 요청을 조회합니다. |
+  database_api.find_accounts: |-
+    이름으로 계정을 조회하여 반환합니다.  파라미터: `account:string array`
+
+    | `account` (string array) | |
+    |-------------------|-|
+    | `["steemit"]` | "steemit"이라는 이름의 계정을 조회합니다. |
+    | `["steemit", "alice"]` | "steemit"과 "alice"이라는 이름의 계정을 조회합니다. |
+  database_api.find_change_recovery_account_requests: |-
+    복구 계정 변경 요청 목록을 반환합니다.  파라미터: `account:array`
+
+    | `account` (array) | |
+    |--------------------|-|
+    | `["steemit"]` | "steemit"이라는 이름의 계정의 복구 요청을 조회합니다. |
+  database_api.find_comments: |-
+    댓글을 검색합니다.
+  database_api.find_decline_voting_rights_requests: |-
+    투표권 포기 요청 목록을 반환합니다.
+  database_api.find_escrows: |-
+    에스크로(escrow) 목록을 반환합니다.
+  database_api.find_limit_orders: |-
+    지정가 주문(limit order) 목록을 반환합니다.
+  database_api.find_owner_histories: |-
+    오너 권한(owner authority) 이력을 반환합니다.  파라미터: `owner:string`
+
+    | `owner` (string) | |
+    |--------------------|-|
+    | `"steemit"` | "steemit"이라는 이름의 계정의 오너 키 이력을 조회합니다. |
+    | `"alice"` | "alice"이라는 이름의 계정의 오너 키 이력을 조회합니다. |
+  database_api.find_proposals: |-
+    `proposal.id`(`proposal.proposal_id`가 아님)로 프로포절(제안)을 찾습니다.
+  database_api.find_savings_withdrawals: |-
+    계정의 저축 인출(withdrawl) 목록을 반환합니다.  파라미터: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | "steemit"이라는 이름의 계정의 저축 인출을 조회합니다. |
+  database_api.find_sbd_conversion_requests: |-
+    계정의 SBD 전환 요청 목록을 반환합니다.  파라미터: `account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | steemit의 전환 요청을 조회합니다. |
+    | `"alice"` | alice의 전환 요청을 조회합니다. |
+  database_api.find_smt_contributions: |-
+    SMT 기여(contribution)를 찾습니다.  기여는 ICO 단계에서 SMT에 대한 개별 기여를 추적하는 데 필요합니다.
+
+    참조: [Token Units](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#token-units), [Vesting Contributions](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#vesting-contributions)
+  database_api.find_smt_token_emissions: |-
+    SMT 방출(emission)을 찾습니다.
+
+    참조: [Content Rewards](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#content-rewards), [Qualitative Discussion](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#qualitative-discussion)
+  database_api.find_smt_tokens: |-
+    SMT를 찾습니다.
+
+    참조: [Smart Media Tokens (SMTs)](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#smart-media-tokens-smts)
+  database_api.find_vesting_delegation_expirations: |-
+    계정의 만료 예정 베스팅 위임(vesting delegation)을 반환합니다.  파라미터: `account:string`
+
+    | `account` (string) | | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | | `steemit`의 만료 예정 베스팅을 조회합니다. |
+    | `"alice"` | | `alice`의 만료 예정 베스팅을 조회합니다. |
+  database_api.find_vesting_delegations: |-
+    계정의 베스팅 위임(vesting delegation) 목록을 반환합니다.  파라미터: `account:string`
+
+    | `account` (string) | | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | | `steemit`의 베스팅을 조회합니다. |
+    | `"alice"` | | `alice`의 베스팅을 조회합니다. |
+  database_api.find_votes: |-
+    주어진 포스트에 대한 모든 투표를 반환합니다.  파라미터: `author:string`; `permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | 슬러그가 `@steemit/firstpost`인 콘텐츠의 투표를 조회합니다 |
+    | `"alice"` | `"a-post-by-alice"` | 슬러그가 `@alice/a-post-by-alice`인 콘텐츠의 투표를 조회합니다 |
+  database_api.find_withdraw_vesting_routes: |-
+    계정의 베스팅 인출 경로(vesting withdraw route) 목록을 반환합니다.
+  database_api.find_witnesses: |-
+    위트니스를 검색합니다.
+  database_api.get_active_witnesses: |-
+    활성 위트니스 목록을 반환합니다.
+  database_api.get_config: |-
+    컴파일 타임 상수에 대한 정보를 반환합니다. 일부 속성은 존재하지 않을 수 있습니다.  참조: Understanding Configuration Values
+  database_api.get_current_price_feed: |-
+    현재 피드 가격(price feed)을 반환합니다.
+  database_api.get_dynamic_global_properties: |-
+    현재 동적 전역 속성(dynamic global properties)을 반환합니다.  참조: Understanding Dynamic Global Properties
+  database_api.get_feed_history: |-
+    피드 가격 값의 이력을 반환합니다.
+  database_api.get_hardfork_properties: |-
+    블록체인의 하드포크에 대한 현재 속성을 반환합니다.
+  database_api.get_nai_pool: |-
+    새로 생성할 SMT에 사용할 수 있는 숫자 자산 식별자(Numeric Asset Identifier, NAI) 배열을 반환합니다.
+
+    참조: [Numerical Asset Identifiers](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#numerical-asset-identifiers)
+  database_api.get_order_book: |-
+    오더북(order book)을 반환합니다.
+  database_api.get_potential_signatures: |-
+    이 메서드는 주어진 트랜잭션에 서명할 수 있는 모든 공개 키의 집합을 반환합니다.  이 호출은 지갑이 `get_required_signatures`를 호출해 최소 부분집합을 구하기 전에, 자신의 공개 키 집합을 관련 있는 부분집합만 남도록 걸러내는 데 사용할 수 있습니다.
+  database_api.get_required_signatures: |-
+    이 API는 부분 서명된 트랜잭션과, 소유자가 서명할 수 있는 공개 키 집합을 받아 트랜잭션에 서명을 추가해야 하는 공개 키의 최소 부분집합을 반환합니다.
+  database_api.get_reward_funds: |-
+    현재 보상 펀드(reward fund)에 대한 정보를 반환합니다.
+  database_api.get_transaction_hex: |-
+    트랜잭션의 직렬화된 이진 형식에 대한 헥스 덤프(hexdump)를 반환합니다.
+  database_api.get_version: |-
+    블록체인, steem, FC의 컴파일 타임 버전을 반환합니다. 또한 체인 ID의 부팅 시점 버전도 반환합니다(테스트넷을 볼 때에만 컴파일 타임 값과 다를 수 있음)
+  database_api.get_witness_schedule: |-
+    현재 위트니스 스케줄(witness schedule)을 반환합니다.
+  database_api.list_account_recovery_requests: |-
+    계정 복구 요청 목록을 반환합니다.  파라미터: `start:string`, `limit:int`, `order:string`
+
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_account` - accont(계정) 이름 기준 정렬
+      * `by_expiration` - 만료 기준 정렬
+
+    | `account` (string) | `limit` (int) | `order` (string) | |
+    |--------------------|-|
+    | `"steemit"` | 10 | `"by_account"` | "steemit"이라는 이름의 계정의 복구 요청을 계정 이름 기준으로 조회합니다. |
+    | `["1960-01-01T00:00:00"]` | 10 | `"by_expiration"`| 날짜의 복구 요청을 만료 기준으로 조회합니다. |
+  database_api.list_accounts: |-
+    지정된 키 기준으로 계정을 나열합니다.  파라미터: `start:object`, `limit:int`, `order:string`
+
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_name` - accont(계정) 이름 기준 정렬
+      * `by_proxy` - 프록시(proxy) 기준 정렬
+      * `by_next_vesting_withdrawal` - next next vesting withdrawal(다음 다음 베스팅 인출) 기준 정렬
+
+    | `start` (object) | `limit` (int) | `order` (string) |
+    |-------------------|-|
+    | `""` | `10` | `"by_name"` 처음부터 시작하는 계정을 최대 10개, 이름 기준 정렬로 조회합니다. |
+    | `["", ""]` | `10` | `"by_proxy"` 처음부터 시작하는 계정을 최대 10개, 프록시 기준 정렬로 조회합니다. |
+    | `["1960-01-01T00:00:00", ""]` | `10` | `"by_next_vesting_withdrawal"` 처음부터 시작하는 계정을 최대 10개, next vesting withdrawl(다음 베스팅 인출) 기준 정렬로 조회합니다. |
+
+    추가 참조: Paginated API Methods
+  database_api.list_change_recovery_account_requests: |-
+    복구 계정 변경 요청 목록을 반환합니다.  파라미터: `start:object`, `limit:int`, `order:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_account` - 계정 기준 정렬
+        * `start`는 문자열: `account`
+      * `by_effective_date` - 적용 날짜 기준 정렬
+        * `start`는 두 값(`timestamp`, `account`)의 배열
+
+    | `start` (object) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `""` | 10 | `"by_account"` | 첫 10개 요청을 계정 기준 정렬로 조회합니다 |
+    | `["1960-01-01T00:00:00", ""]` | 10 | `"by_effective_date"` | 첫 10개 요청을 적용 날짜 기준 정렬로 조회합니다 |
+
+    추가 참조: Paginated API Methods
+  database_api.list_comments: |-
+    지정된 옵션부터 모든 댓글을 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_cashout_time` - 캐시아웃 시간 기준 정렬
+        * `start`는 필수 값 하나와 선택 값 두 개(`timestamp`, `author`, `permlink`)의 배열
+      * `by_permlink` - 퍼머링크(permlink) 기준 정렬
+        * `start`는 선택 값 두 개(`author`, `permlink`)의 배열
+      * `by_root` - 루트 기준 정렬
+        * `start`는 필수 값 두 개와 선택 값 두 개(`root_author`, `root_permlink`, `child_author`, `child_permlink`)의 배열
+      * `by_parent` - 부모 기준 정렬
+        * `start`는 필수 값 두 개와 선택 값 두 개(`parent_author`, `parent_permlink`, `child_author`, `child_permlink`)의 배열
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["1970-01-01T00:00:00", "", ""]` | 10 | `"by_cashout_time"` | 첫 10개 댓글을 캐시아웃 시간 기준 정렬로 조회합니다 |
+    | `["", ""]` | 10 | `"by_permlink"` | 첫 10개 댓글을 퍼머링크 기준 정렬로 조회합니다 |
+    | `["steemit","firstpost", "", ""]` | 10 | `"by_root"` | @steemit/firstpost부터 다음 10개 댓글을 루트 기준 정렬로 조회합니다 |
+    | `["steemit","firstpost", "", ""]` | 10 | `"by_parent"` | @steemit/firstpost부터 다음 10개 댓글을 부모 기준 정렬로 조회합니다 |
+
+    추가 참조: Paginated API Methods
+  database_api.list_decline_voting_rights_requests: |-
+    투표권 포기 요청 목록을 반환합니다.  파라미터: `start:object`; `limit:int`; `order:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_account` - 계정 기준 정렬
+        * `start`는 문자열: `account`
+      * `by_effective_date` - 적용 날짜 기준 정렬
+        * `start`는 두 값(`timestamp`, `account`)의 배열
+
+    | `start` (object) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `""` | 10 | `"by_account"` | 첫 10개 요청을 계정 기준 정렬로 조회합니다 |
+    | `["1960-01-01T00:00:00", ""]` | 10 | `"by_effective_date"` | 첫 10개 요청을 적용 날짜 기준 정렬로 조회합니다 |
+
+    추가 참조: Paginated API Methods
+  database_api.list_escrows: |-
+    에스크로(escrow) 목록을 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_from_id` - ID 기준 정렬
+        * `start`는 두 값(`account`, `escrow_id`)의 배열
+      * `by_ratification_deadline` - 승인(ratification) 기한 기준 정렬
+        * `start`는 세 값(`is_approved`, `timestamp`, `escrow_id`)의 배열
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["alice", 99]` | 10 | `"by_from_id"` | 첫 10개 요청을 ID 기준 정렬로 조회합니다 |
+    | `[true, "1960-01-01T00:00:00", 99]` | 10 | `"by_ratification_deadline"` | 첫 10개 요청을 승인 기한 기준 정렬로 조회합니다 |
+
+    추가 참조: Paginated API Methods
+  database_api.list_limit_orders: |-
+    지정가 주문(limit order) 목록을 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_price` - 가격 기준 정렬
+        * `start`는 두 값(`price`, `order_type`)의 배열
+      * `by_account` - 계정 기준 정렬
+        * `start`는 두 값(`account`, `order_id`)의 배열
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `[{"base": {"amount": "85405", "precision": 3, "nai": "@@000000021"}, "quote": {"amount": "17192", "precision": 3, "nai": "@@000000013"}}, 0]` | 10 | `"by_price"` | 첫 10개 요청을 가격 기준 정렬로 조회합니다 |
+    | `["alice", 0]` | 10 | `"by_effective_date"` | 첫 10개 요청을 계정 기준 정렬로 조회합니다 |
+
+    추가 참조: Paginated API Methods
+  database_api.list_owner_histories: |-
+    오너 권한(owner authority) 이력 목록을 반환합니다.  파라미터: `start:array`, `limit:int`
+
+    | `start` (array) | `limit` (int) | |
+    |--------------------|-|-|
+    | `["steemit", "1970-01-01T00:00:00"]` | 10 | "steemit"이라는 이름의 계정을 "1970-01-01T00:00:00"부터 오너 키 이력을 조회하며, 10개 결과로 제한합니다. |
+    | `["alice", "1970-01-01T00:00:00"]` | 10 | "alice"이라는 이름의 계정의 오너 키 이력을 조회하며, 10개 결과로 제한합니다. |
+
+    추가 참조: Paginated API Methods
+  database_api.list_proposal_votes: |-
+    지정된 투표자(voter) 또는 `proposal.id`부터 모든 프로포절 투표를 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+      * `voter` - 프로포절의 투표자  (계정 이름 문자열)
+      * `proposal.id` - 프로포절의 ID (int)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_voter_proposal` - 프로포절 투표자 기준 정렬
+      * `by_proposal_voter` - `proposal.id` 기준 정렬
+    * `order_direction`은 다음 중 하나입니다:
+      * `ascending`
+      * `descending`
+    * `status`
+      * `all`
+      * `inactive`
+      * `active`
+      * `expired`
+      * `votable`
+
+    | `start` (array) | `limit` (int) | `order` (string) | `order_direction` (string) | `status` (string) | |
+    |-------------------|-|-|-|-|-|
+    | `["alice"]` | 10 | `by_voter_proposal` | `ascending` | `active` | active 상태의 프로포절 10개를 투표자 기준 오름차순으로 나열합니다 |
+    | `[10]` | 1000 | `by_proposal_voter` | `ascending` | `votable` | 프로포절 10에 대한 투표 1000개를 `proposal.id` 기준 오름차순으로 나열합니다 |
+
+    추가 참조: Paginated API Methods
+  database_api.list_proposals: |-
+    지정된 작성자(creator) 또는 시작 날짜부터 모든 프로포절을 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+      * `creator` - 프로포절의 작성자  (계정 이름 문자열)
+      * `start_date` - 프로포절의 시작 날짜 (날짜 문자열)
+      * `end_date` - 프로포절의 종료 날짜 (날짜 문자열)
+      * `total_votes` - 프로포절의 총 투표 수 (int)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_creator` - 프로포절 작성자 기준 정렬
+      * `by_start_date` - 프로포절 시작 날짜 기준 정렬
+      * `by_end_date` - 프로포절 종료 날짜 기준 정렬
+      * `by_total_votes` - 프로포절 총 투표 수 기준 정렬
+    * `order_direction`은 다음 중 하나입니다:
+      * `ascending`
+      * `descending`
+    * `status`
+      * `all`
+      * `inactive`
+      * `active`
+      * `expired`
+      * `votable`
+
+    | `start` (array) | `limit` (int) | `order` (string) | `order_direction` (string) | `status` (string) | |
+    |-------------------|-|-|-|-|-|
+    | `[""]` | 10 | `by_creator` | `ascending` | `active` | active 상태의 프로포절 10개를 작성자 기준 오름차순으로 나열합니다 |
+    | `["2019-08-07T16:54:03"]` | 1000 | `by_start_date` | `ascending` | `inactive` | inactive 상태의 프로포절 1000개를 시작 날짜 기준 오름차순으로, 2019-08-07T16:54:03 이후부터 나열합니다 |
+    | `["a"]` | 1 | `by_creator` | `ascending` | `expired` | "a"로 시작하는 계정의 expired 상태 프로포절 1개를 작성자 기준 오름차순으로 나열합니다 |
+    | `["alice"]` | 10 | `by_creator` | `ascending` | `all` | alice의 모든 상태 프로포절 10개를 작성자 기준 오름차순으로 나열합니다 |
+    | `[""]` | 1000 | `by_creator` | `ascending` | `votable` | votable 상태의 프로포절 1000개를 작성자 기준 오름차순으로 나열합니다 |
+    | `[10]` | 1000 | `by_total_votes` | `ascending` | `votable` | 최소 10표 이상 있는 votable 상태의 프로포절 1000개를 작성자 기준 오름차순으로 나열합니다 |
+
+    추가 참조: Paginated API Methods
+  database_api.list_savings_withdrawals: |-
+    저축 인출(withdrawl) 목록을 반환합니다.  파라미터: `start:object`, `limit:int`, `order:string`
+
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_from_id` - ID 기준 정렬
+        * `start`는 두 값(`account`, `request_id`)의 배열
+      * `by_complete_from_id` - ID 기준 정렬 (완료)
+        * `start`는 세 값(`timestamp`, `account`, `request_id`)의 배열
+      * `by_to_complete` - 완료 기준 정렬
+        * `start`는 세 값(`account`, `timestamp`, `order_id`)의 배열
+
+    | `start` (object) | `limit` (int) | `order` (string) | |
+    |--------------------|-|-|-|
+    | `[0]` | `10` | `"by_from_id"` | ID의 저축 인출을 조회합니다. |
+    | `["2018-12-07T16:54:03", "steemit", 0]` | `10` | `"by_complete_from_id"` | ID의 저축 인출(완료됨)을 조회합니다. |
+    | `["", "1970-01-01T00:00:00", 0]` | `10` | `"by_to_complete"` | 완료된 저축 인출을 조회합니다. |
+
+    추가 참조: Paginated API Methods
+  database_api.list_sbd_conversion_requests: |-
+    계정의 SBD 전환 요청 목록을 반환합니다.  파라미터: `start:array`, `limit:int`, `order:string`
+
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_account` - accont(계정) 이름 기준 정렬
+        * `start`는 두 값(`account`, `request_id`)의 배열
+      * `by_conversion_date` - 전환 날짜 기준 정렬
+        * `start`는 두 값(`timestamp`, `request_id`)의 배열
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |-------------------|-|-|-|
+    | `["steemit", 0]` | 10 | `by_account` | steemit의 전환 요청을 최대 10개 결과로, 계정 이름 기준 정렬로 조회합니다. |
+    | `["2018-12-07T16:54:03", 0]` | 10 | `by_conversion_date`| 이 날짜부터의 전환 요청을 최대 10개 결과로, 전환 날짜 기준 정렬로 조회합니다. |
+
+    추가 참조: Paginated API Methods
+  database_api.list_smt_contributions: |-
+    SMT 기여(contribution)를 나열합니다.  기여는 ICO 단계에서 SMT에 대한 개별 기여를 추적하는 데 필요합니다.  파라미터: `start:array`; `limit:int`; `order:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_symbol_id` - 심볼(symbol) 기준 정렬
+      * `by_symbol_contributor` - `symbol`, `contributor`, `contribution_id` 기준 정렬
+
+    | `start` (array) | `limit` (int) | `order` (string) |
+    |-------------------|-|-|-|-|-|
+    | `[{"nai": "@@422838704", "decimals": 0}, 0]` | 10 | `by_symbol_id` | 10개 기여를 심볼, ID 기준으로 나열합니다 |
+    | `[{"nai": "@@422838704", "decimals": 0}, "alice", 0]` | 10 | `by_symbol_contributor` | 10개 기여를 심볼, 기여자, ID 기준으로 나열합니다 |
+
+    참조: [Token Units](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#token-units), [Vesting Contributions](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#vesting-contributions)
+
+    추가 참조: Paginated API Methods
+  database_api.list_smt_token_emissions: |-
+    SMT 방출(emission)을 나열합니다.  파라미터: `start:array`; `limit:int`; `order:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_symbol_time` - 심볼(symbol)과 시간 기준 정렬
+
+    | `start` (array) | `limit` (int) | `order` (string) |
+    |-------------------|-|-|-|-|-|
+    | `[{"nai": "@@422838704", "decimals": 0}, "2019-08-07T16:54:03"]` | 10 | `by_symbol_time` | 10개 방출을 심볼, 타임스탬프 기준으로 나열합니다 |
+
+    참조: [Content Rewards](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#content-rewards), [Qualitative Discussion](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#qualitative-discussion)
+
+    추가 참조: Paginated API Methods
+  database_api.list_smt_tokens: |-
+    SMT를 나열합니다.  파라미터: `start:object`; `limit:int`; `order:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_symbol` - 심볼(symbol) 기준 정렬
+      * `by_control_account` - 컨트롤 계정(control account) 기준 정렬
+
+    | `start` (object) | `limit` (int) | `order` (string) |
+    |-------------------|-|-|-|-|-|
+    | `{"nai": "@@422838704", "decimals": 0}` | 10 | `by_symbol` | 10개 토큰을 심볼 기준으로 나열합니다 |
+    | `""` | 10 | `by_control_account` | 10개 토큰을 컨트롤 계정 기준으로 나열합니다 |
+    | `["", {"nai": "@@422838704", "decimals": 0}]` | 10 | `by_control_account` | 10개 토큰을 컨트롤 계정, 심볼 기준으로 나열합니다 |
+
+    참조: [Smart Media Tokens (SMTs)](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#smart-media-tokens-smts)
+
+    추가 참조: Paginated API Methods
+  database_api.list_vesting_delegation_expirations: |-
+    베스팅 위임 만료(vesting delegation expiration) 목록을 반환합니다.  파라미터: `start:array`, `limit:int`, `order:string`
+
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_expiration` - 만료 기준 정렬
+        * `start`는 두 값(`timestamp`, `expiration_id`)의 배열
+      * `by_account_expiration` - 계정 만료 기준 정렬
+        * `start`는 두 값의 배열: `account`, `timestamp`, `expiration_id`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |-------------------|-|-|-|
+    | `["1970-01-01T00:00:00", 0]` | 10 | `by_expiration` | 위임(delegation)을 최대 10개 결과로, 만료 기준 정렬로 조회합니다. |
+    | `["alice", "1970-01-01T00:00:00", 0]` | 10 | `by_account_expiration`| 이 날짜부터의 위임을 최대 10개 결과로, 계정 만료 기준 정렬로 조회합니다. |
+
+    추가 참조: Paginated API Methods
+  database_api.list_vesting_delegations: |-
+    베스팅 위임(vesting delegation) 목록을 반환합니다.  파라미터: `start:array`, `limit:int`, `order:string`
+
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_delegation` - 위임(delegation) 기준 정렬
+        * `start`는 두 값(`delegator`, `delegatee`)의 배열
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |-------------------|-|-|-|
+    | `["", ""]` | 10 | `by_delegation` | 위임(delegation)을 최대 10개 결과로, 위임 기준 정렬로 조회합니다. |
+
+    추가 참조: Paginated API Methods
+  database_api.list_votes: |-
+    지정된 투표자 및/또는 저자와 퍼머링크(permlink)부터 모든 투표를 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+      * `voter`는 선택 사항입니다
+      * `author`와 `permlink`는 선택 사항이지만, 하나가 비어 있으면 둘 다 비어 있어야 합니다
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_comment_voter` - 댓글 투표자 기준 정렬
+        * `start`는 세 선택 값(`author`, `permlink`, `voter`)의 배열
+      * `by_voter_comment` - 투표자 댓글 기준 정렬
+        * `start`는 세 선택 값(`voter`, `author`, `permlink`)의 배열
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["", "", ""]` | 10 | `"by_comment_voter"` | 첫 10개 투표를 댓글 투표자 기준 정렬로 조회합니다 |
+    | `["", "", ""]` | 10 | `"by_voter_comment"` | 첫 10개 투표를 투표자 댓글 기준 정렬로 조회합니다 |
+    | `["xeroc", "vanteem-config", ""]` | 10 | `"by_comment_voter"` | 포스트 `@xeroc/vanteem-config`부터 다음 10개 투표를 댓글 투표자 기준 정렬로 조회합니다 |
+    | `["alice", "xeroc", "vanteem-config"]` | 10 | `"by_voter_comment"` | 포스트 `@xeroc/vanteem-config`에서 alice부터 다음 10개 투표를 투표자 댓글 기준 정렬로 조회합니다 |
+
+    추가 참조: Paginated API Methods
+  database_api.list_withdraw_vesting_routes: |-
+    베스팅 인출 경로(vesting withdraw route) 목록을 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_withdraw_route` - 인출 경로 기준 정렬
+        * `start`는 두 값(`from_account`, `to_account`)의 배열
+      * `by_destination` - 목적지 기준 정렬
+        * `start`는 두 값(`to_account`, `route_id`)의 배열
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["temp", ""]` | 10 | `"by_withdraw_route"` | 첫 10개 경로를 인출 경로 기준 정렬로 조회합니다 |
+    | `["", 0]` | 10 | `"by_destination"` | 첫 10개 경로를 목적지 기준 정렬로 조회합니다 |
+
+    추가 참조: Paginated API Methods
+  database_api.list_witness_votes: |-
+    위트니스 투표 목록을 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_account_witness` - 계정 위트니스 기준 정렬
+        * `start`는 두 값(`account`, `witness`)의 배열
+      * `by_witness_account` - 위트니스 계정 기준 정렬
+        * `start`는 두 값(`witness`, `account`)의 배열
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["", ""]` | 10 | `"by_withdraw_route"` | 첫 10개 투표를 계정 위트니스 기준 정렬로 조회합니다 |
+    | `["", ""]` | 10 | `"by_destination"` | 첫 10개 투표를 위트니스 계정 기준 정렬로 조회합니다 |
+
+    추가 참조: Paginated API Methods
+  database_api.list_witnesses: |-
+    위트니스 목록을 반환합니다.  파라미터: `start:object`; `limit:int`; `order:string`
+
+    * `start`는 `order`에 따라 달라집니다(아래 참조)
+    * `limit`는 최대 1000입니다.
+    * `order`는 다음 중 하나입니다:
+      * `by_name` - 이름 기준 정렬
+        * `start`는 문자열 값: `account`
+      * `by_vote_name` - 투표, 이름 기준 정렬
+        * `start`는 두 값(`votes`, `account`)의 배열
+      * `by_schedule_time` - 스케줄 시간 기준 정렬
+        * `start`는 두 값(`virtual_scheduled_time`, `account`)의 배열
+
+    | `start` (object) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `""` | 10 | `"by_name"` | 첫 10개 위트니스를 계정 이름 기준 정렬로 조회합니다 |
+    | `[0, ""]` | 10 | `"by_vote_name"` | 첫 10개 위트니스를 투표 수 기준 정렬로 조회합니다 |
+    | `["473718186844702107410533306", "alice"]` | 10 | `"by_schedule_time"` | 첫 10개 위트니스를 스케줄 기준 정렬로 조회합니다 |
+
+    추가 참조: Paginated API Methods
+  database_api.verify_account_authority: |-
+    **구현되지 않음**
+  database_api.verify_authority: |-
+    트랜잭션이 필요한 모든 서명을 갖추고 있으면 true를 반환하고, 그렇지 않으면 예외를 throw합니다.
+  database_api.verify_signatures: |-
+    기존 권한(authority) 구조를 사용해 임의의 sha256 해시에 대해 계정의 서명을 검사하는 범용 API입니다.
+  debug_node_api.debug_generate_blocks: |-
+    로컬에서 블록을 생성합니다.
+  debug_node_api.debug_generate_blocks_until: |-
+    지정된 헤드 블록 시각까지 로컬에서 블록을 생성합니다.  블록을 드문드문(sparse) 생성할 수도 있습니다.
+  debug_node_api.debug_get_hardfork_property_object: |-
+    하드포크 속성 객체를 반환하며, 디버그 노드에 적용된 하드포크를 보여줍니다.
+  debug_node_api.debug_get_json_schema: |-
+    디버그 노드에서 오퍼레이션 JSON을 검증하는 데 사용되는 JSON 스키마를 반환합니다.
+  debug_node_api.debug_get_witness_schedule: |-
+    디버그 노드의 현재 위트니스 스케줄(witness schedule)을 반환합니다.
+  debug_node_api.debug_has_hardfork: |-
+    주어진 하드포크가 디버그 노드에 적용되었는지 여부를 반환합니다.
+  debug_node_api.debug_pop_block: |-
+    블록체인에서 블록 하나를 팝(pop)하여 반환합니다.
+  debug_node_api.debug_push_blocks: |-
+    기존 데이터베이스에서 블록을 푸시합니다.
+  debug_node_api.debug_set_hardfork: |-
+    디버그 노드에 정상 일정보다 앞서 하드포크를 적용합니다.
+  follow_api.get_account_reputations: |-
+    계정 평판 목록을 반환합니다.
+
+    추가 참조: Paginated API Methods
+  follow_api.get_blog: |-
+    계정의 블로그 항목 목록을 반환합니다.
+
+    추가 참조: Paginated API Methods
+  follow_api.get_blog_authors: |-
+    주어진 블로그 계정에서 콘텐츠가 리블로그된 적이 있는 저자 목록을 반환합니다.
+
+    추가 참조: Paginated API Methods
+  follow_api.get_blog_entries: |-
+    계정의 블로그 항목 목록을 반환합니다.
+
+    추가 참조: Paginated API Methods
+  follow_api.get_feed: |-
+    계정 피드의 항목 목록을 반환합니다.
+
+    추가 참조: Paginated API Methods
+  follow_api.get_feed_entries: |-
+    계정 피드의 항목(entry) 목록을 반환합니다.
+
+    추가 참조: Paginated API Methods
+  follow_api.get_follow_count: |-
+    계정의 팔로워(follower) 수를 반환합니다.
+  follow_api.get_followers: |-
+    계정의 팔로워 목록을 반환합니다.
+
+    추가 참조: Paginated API Methods
+  follow_api.get_followers_by_page: |-
+    페이지 단위로 계정의 팔로워를 반환합니다.  (EOL)  `condenser_api.get_followers_by_page`의 별칭(alias): 파라미터는 위치 배열로 전달됩니다 -- `account:string`; `page:int` (0부터 시작 -- 페이지 `0`이 첫 페이지이며, 페이지가 하나씩 늘어날 때마다 `page_size`행을 건너뜁니다); `page_size:int` (필수, 최대 `100`); `follow_type:string` (선택, 기본값 `blog`).
+
+    **참고:** 행 오프셋은 `page * page_size`입니다. `page_size`는 필수이며, 생략하면 `-32602`를 반환합니다.
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemit"` | `0` | `5` | 첫 번째 페이지(페이지 `0`)에 있는 `steemit`을 팔로우하는 계정들을 조회합니다. 페이지당 5개. |
+    | `"alice"` | `1` | `100` | 페이지 `1` -- 앞의 100행을 건너뜁니다 -- 의 `alice`을 팔로우하는 계정들을 조회합니다. 페이지당 100개. |
+
+    추가 참조: condenser_api.get_followers_by_page, Paginated API Methods
+  follow_api.get_following: |-
+    한 계정을 팔로우하고 있는 계정 목록을 반환합니다.
+
+    추가 참조: Paginated API Methods
+  follow_api.get_following_by_page: |-
+    페이지 단위로 한 계정이 팔로우하는 계정을 반환합니다.  (EOL)  `condenser_api.get_following_by_page`의 별칭(alias): 파라미터는 위치 배열로 전달됩니다 -- `account:string`; `page:int` (0부터 시작 -- 페이지 `0`이 첫 페이지이며, 페이지가 하나씩 늘어날 때마다 `page_size`행을 건너뜁니다); `page_size:int` (필수, 최대 `100`); `follow_type:string` (선택, 기본값 `blog`).
+
+    **참고:** 행 오프셋은 `page * page_size`입니다. `page_size`는 필수이며, 생략하면 `-32602`를 반환합니다.
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemitblog"` | `0` | `2` | 첫 번째 페이지(페이지 `0`)에 있는 `steemitblog`이 팔로우하는 계정들을 조회합니다. 페이지당 2개. |
+    | `"alice"` | `1` | `100` | 페이지 `1` -- 앞의 100행을 건너뜁니다 -- 의 `alice`이 팔로우하는 계정들을 조회합니다. 페이지당 100개. |
+
+    추가 참조: condenser_api.get_following_by_page, Paginated API Methods
+  follow_api.get_reblogged_by: |-
+    포스트를 리블로그(reblog)한 저자 목록을 반환합니다.
+  hive.db_head_state: |-
+    상태/헬스 체크: hivemind 데이터베이스의 헤드 블록 번호와 시각, 그리고 헤드 블록의 경과 시간(초)을 반환합니다.
+
+    파라미터: 없음
+  jsonrpc.get_methods: |-
+    JSON RPC API가 지원하는 메서드 목록을 반환합니다.
+  jsonrpc.get_signature: |-
+    JSON RPC 메서드의 시그니처(signature) 정보(인자와 예상 응답 JSON 포함)를 반환합니다.
+  market_history_api.get_market_history: |-
+    내부 SBD:STEEM 마켓의 마켓 히스토리를 반환합니다.
+  market_history_api.get_market_history_buckets: |-
+    플러그인이 추적하는 버킷(bucket) 초 단위 값을 반환합니다.
+  market_history_api.get_order_book: |-
+    내부 마켓의 오더북(order book)을 반환합니다.
+  market_history_api.get_recent_trades: |-
+    내부 SBD:STEEM 마켓의 가장 최근 체결 내역(trade)을 반환합니다.
+  market_history_api.get_ticker: |-
+    내부 SBD:STEEM 마켓의 시세(ticker)를 반환합니다.
+  market_history_api.get_trade_history: |-
+    내부 SBD:STEEM 마켓의 체결 이력을 반환합니다.
+  market_history_api.get_volume: |-
+    지난 24시간의 마켓 거래량(volume)을 반환합니다.
+  network_broadcast_api.broadcast_block: |-
+    블록을 브로드캐스트할 때 사용합니다.
+  network_broadcast_api.broadcast_transaction: |-
+    트랜잭션을 브로드캐스트할 때 사용합니다.
+  rc_api.find_rc_accounts: |-
+    계정의 사용 가능한 Resource Credits (RC)를 반환합니다.  파라미터: `accounts:string array`
+
+    | `accounts` (string) | |
+    |---------------------|-|
+    | `"steemit"` | "steemit"이라는 이름의 계정의 사용 가능한 Resource Credits를 조회합니다. |
+    | `"alice"` | "alice"과 "bob"이라는 이름의 계정의 사용 가능한 Resource Credits를 조회합니다. |
+  rc_api.get_resource_params: |-
+    관련된 모든 리소스 크기 상수, 특히 측정 기반 실행 시간 파라미터를 내보냅니다(export).
+
+    참조: [#2980](https://github.com/steemit/steem/issues/2980)
+  rc_api.get_resource_pool: |-
+    작업 진행 중입니다.  참조: [#2563](https://github.com/steemit/steem/issues/2563), [PR#2678](https://github.com/steemit/steem/pull/2678)
+  reputation_api.get_account_reputations: |-
+    계정의 평판을 반환합니다.  파라미터: `account:string`; `limit:int`
+
+    * `limit`는 최대 1000입니다.
+
+    | `account` (string) | `limit` (int) | |
+    |--------------------|-|
+    | `"steemit"` | 10 | "steemit"이라는 이름의 계정의 평판을 조회합니다. |
+
+    참조 [#1425](https://github.com/steemit/steem/issues/1425)
+
+    추가 참조: Paginated API Methods
+  rewards_api.simulate_curve_payouts: |-
+    주어진 정산 곡선(payout curve)에 대해 보상 펀드 정산을 시뮬레이션하며, 실제로 적용하지는 않습니다.
+  tags_api.get_account_votes: |-
+    **지원되지 않음:** hivemind는 이 메서드 이름을 안내용 오류를 반환하기 위한 목적으로만 등록합니다: "get_account_votes is no longer supported, for details see https://steemit.com/steemit/@steemitdev/additional-public-api-change".
+
+    파라미터: `account:string`
+
+    추가 참조: condenser_api.get_account_votes
+  tags_api.get_active_votes: |-
+    주어진 포스트에 대한 모든 투표를 반환합니다.
+  tags_api.get_comment_discussions_by_payout: |-
+    정산 기준 토론 목록을 반환합니다.
+  tags_api.get_content_replies: |-
+    답글 목록을 반환합니다.
+  tags_api.get_discussion: |-
+    저자와 퍼머링크(permlink)가 주어지면 해당 토론을 반환합니다.
+  tags_api.get_discussions_by_active: |-
+    active 기준 토론 목록을 반환합니다.
+  tags_api.get_discussions_by_author_before_date: |-
+    author before date 기준 토론 목록을 반환합니다.
+
+    추가 참조: Paginated API Methods
+  tags_api.get_discussions_by_blog: |-
+    blog 기준 토론 목록을 반환합니다.
+  tags_api.get_discussions_by_cashout: |-
+    cashout 기준 토론 목록을 반환합니다.
+  tags_api.get_discussions_by_children: |-
+    children 기준 토론 목록을 반환합니다.
+  tags_api.get_discussions_by_comments: |-
+    comments 기준 토론 목록을 반환합니다.
+  tags_api.get_discussions_by_created: |-
+    created 기준 토론 목록을 반환합니다.
+  tags_api.get_discussions_by_feed: |-
+    feed 기준 토론 목록을 반환합니다.
+  tags_api.get_discussions_by_hot: |-
+    hot 기준 토론 목록을 반환합니다.
+  tags_api.get_discussions_by_promoted: |-
+    promoted 기준 토론 목록을 반환합니다.
+  tags_api.get_discussions_by_trending: |-
+    trending 기준 토론 목록을 반환합니다.
+  tags_api.get_discussions_by_votes: |-
+    votes 기준 토론 목록을 반환합니다.
+  tags_api.get_post_discussions_by_payout: |-
+    정산 기준 포스트 토론 목록을 반환합니다.
+  tags_api.get_replies_by_last_update: |-
+    마지막 업데이트 기준 답글 목록을 반환합니다.
+
+    추가 참조: Paginated API Methods
+  tags_api.get_tags_used_by_author: |-
+    한 저자가 사용한 태그 목록을 반환합니다.
+  tags_api.get_trending_tags: |-
+    인기 태그 목록을 반환합니다.
+
+    추가 참조: Paginated API Methods
+  transaction_status_api.find_transaction: |-
+    주어진 트랜잭션 ID의 상태를 반환합니다.  파라미터: `trx_id:string`; `expiration:timestamp` (선택)
+
+    결과에는 다음 `status` 값 중 하나가 담깁니다:
+
+    | 상태 | 의미 |
+    |--------|---------|
+    | `unknown` | 만료 시각이 미래이며, 트랜잭션이 블록이나 멤피프(mempool)에 포함되지 않았습니다 |
+    | `within_mempool` | 트랜잭션이 멤피프(mempool)에 있습니다 |
+    | `within_reversible_block` | 트랜잭션이 블록에 포함되었으며, 블록은 아직 비가역적(irreversible)이지 않습니다 |
+    | `within_irreversible_block` | 트랜잭션이 블록에 포함되었으며, 블록은 비가역적(irreversible)입니다 |
+    | `expired_reversible` | 트랜잭션이 만료되었으며, 트랜잭션은 비가역적이지 않습니다(포크에 있을 수 있음) |
+    | `expired_irreversible` | 트랜잭션이 만료되었으며, 트랜잭션은 비가역적입니다(포크에 있을 수 없음) |
+    | `too_old` | 트랜잭션이 너무 오래되어 알 수 없습니다 |
+  witness_api.get_account_bandwidth: |-
+    **0.20.6부터 비활성화되었습니다. 참조: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
+
+    계정의 사용 가능한 대역폭(bandwidth)을 반환합니다.  참조: Forum/Market Bandwidth
+  witness_api.get_reserve_ratio: |-
+    **0.20.6부터 비활성화되었습니다. 참조: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
+
+    현재 준비율(reserve ratio)을 반환합니다.

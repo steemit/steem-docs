@@ -189,7 +189,8 @@ function zhQueryTokenize(text: string) {
 //   docs/{fr,de,it,es}/api/ -> GENERATED bridge index pages
 //                        (docs:gen --locale <code>); method pages deferred
 //   docs/ko/*.md       -> hand-written ko static pages, same shape as es (T26)
-//   docs/ko/api/       -> GENERATED bridge index pages (docs:gen --locale ko)
+//   docs/ko/api/       -> GENERATED index pages + ko method pages for
+//                        translated purposes (docs:gen --locale ko; T26+T32)
 //
 // Merge semantics (official resolveSiteDataByRoute): each page's themeConfig
 // is `{ ...topLevel.themeConfig, ...locales[localeIndex].themeConfig }` — a
@@ -749,13 +750,13 @@ export default defineConfig({
           { text: '홈', link: '/ko/' },
           { text: 'API', link: '/ko/api/' }
         ],
-        // T26 partial locale: ko has NO method pages, so the collapsible
-        // GROUP nodes (API index pages) point into the ko tree while the
-        // method CHILDREN bridge to the en tree — same as ru/fr/de/it/es.
+        // T32 full locale: ko index pages AND all 238 translated method
+        // pages are generated, so the sidebar children point into the ko
+        // tree too (same shape as the zh/ru/fr/de/it/es sidebars since T27).
         sidebar: [
           {
             text: 'API 레퍼런스',
-            items: apiSidebar({ indexPrefix: '/ko/api/', methodPrefix: '/api/' })
+            items: apiSidebar({ indexPrefix: '/ko/api/', methodPrefix: '/ko/api/' })
           }
         ],
         // Search modal strings live in the TOP-LEVEL search block (see the
