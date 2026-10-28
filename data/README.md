@@ -37,10 +37,10 @@ the generator once per entry (en first, then `--locale zh ru fr de it es`).
 The current status:
 
 - **zh** — full pilot: method pages generated from
-  `translations/zh/purposes.yml` (schema above); all 215 methods covered.
+  `translations/zh/purposes.yml` (schema above); all 238 methods covered.
 - **ru / fr / de / it / es** — bridge-only locales (phase-2 plan §3.4, user
   decision: method pages deferred). For each, `docs:gen --locale <code>`
-  generates the 19 API index pages under `docs/<code>/api/<stem>/index.md`
+  generates the 22 API index pages under `docs/<code>/api/<stem>/index.md`
   (gitignored, build-time artifacts) whose method rows ALL bridge to the
   English method pages by site-absolute path (`/api/<stem>/<method>.html`);
   ops rows deep-link the English ops pages via VitePress heading anchors.
@@ -227,4 +227,4 @@ pnpm validate:data
 ```
 
 Run in CI on every PR (see `.github/workflows/pr-build.yml`). Current baseline:
-19 files, 215 methods, 85 ops (75 + 10).
+22 files, 238 methods, 85 ops (75 + 10).

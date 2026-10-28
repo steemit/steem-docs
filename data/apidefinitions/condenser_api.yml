@@ -1072,27 +1072,27 @@
       detail: "Will not work because this function requires jussi to work correctly which is not available on the testnet"
   - api_method: condenser_api.get_followers_by_page
     purpose: |
-      Returns the followers for an account, by page.  (EOL)  Parameters: `account:string`; `page:int` (1-based); `page_size:int` (optional, defaults to `100`, max `100`); `follow_type:string` (optional, e.g.: `blog`, defaults to `blog`)
+      Returns the followers for an account, by page.  (EOL)  Parameters: `account:string`; `page:int` (0-based -- page `0` returns the first page, each further page skips another `page_size` rows); `page_size:int` (required, max `100`); `follow_type:string` (optional, e.g.: `blog`, defaults to `blog`)
 
-      **Note:** this hivemind-served method takes its parameters as a positional array. Some nodes reject the named-parameter form with `-32602`; pass a positional array.
+      **Note:** the row offset is `page * page_size`. `page_size` is required; omitting it returns `-32602` (positional and named form alike).
 
       | `account` (string) | `page` (int) | `page_size` (int) | |
       |--------------------|--------------|-------------------|-|
-      | `"steemit"` | `1` | `5` | Queries page 1 of the accounts following `steemit`, 5 per page. |
-      | `"alice"` | `2` | `100` | Queries page 2 of the accounts following `alice`, 100 per page. |
+      | `"steemit"` | `0` | `5` | Queries the first page (page `0`) of the accounts following `steemit`, 5 per page. |
+      | `"alice"` | `1` | `100` | Queries page `1` -- skips the first 100 rows -- of the accounts following `alice`, 100 per page. |
 
       Also see: condenser_api.get_followers, follow_api.get_followers_by_page
     parameter_json:
     - steemit
-    - 1
+    - 0
     - 5
     expected_response_json: |
       [
-        {"follower":"etette","following":"steemit","reputation":73.4,"what":["blog"]},
-        {"follower":"victorlives","following":"steemit","reputation":60.17,"what":["blog"]}
+        {"follower":"etette","following":"steemit","reputation":73.4,"what":["blog",""]},
+        {"follower":"victorlives","following":"steemit","reputation":60.17,"what":["blog",""]}
       ]
     curl_examples:
-    - '{"jsonrpc":"2.0", "method":"condenser_api.get_followers_by_page", "params":["steemit",1,5], "id":1}'
+    - '{"jsonrpc":"2.0", "method":"condenser_api.get_followers_by_page", "params":["steemit",0,5], "id":1}'
   - api_method: condenser_api.get_following
     since: HF9
     purpose: |
@@ -1117,27 +1117,27 @@
       "id":1}'
   - api_method: condenser_api.get_following_by_page
     purpose: |
-      Returns the accounts that an account follows, by page.  (EOL)  Parameters: `account:string`; `page:int` (1-based); `page_size:int` (optional, defaults to `100`, max `100`); `follow_type:string` (optional, e.g.: `blog`, defaults to `blog`)
+      Returns the accounts that an account follows, by page.  (EOL)  Parameters: `account:string`; `page:int` (0-based -- page `0` returns the first page, each further page skips another `page_size` rows); `page_size:int` (required, max `100`); `follow_type:string` (optional, e.g.: `blog`, defaults to `blog`)
 
-      **Note:** this hivemind-served method takes its parameters as a positional array. Some nodes reject the named-parameter form with `-32602`; pass a positional array.
+      **Note:** the row offset is `page * page_size`. `page_size` is required; omitting it returns `-32602` (positional and named form alike).
 
       | `account` (string) | `page` (int) | `page_size` (int) | |
       |--------------------|--------------|-------------------|-|
-      | `"steemitblog"` | `1` | `2` | Queries page 1 of the accounts `steemitblog` follows, 2 per page. |
-      | `"alice"` | `2` | `100` | Queries page 2 of the accounts `alice` follows, 100 per page. |
+      | `"steemitblog"` | `0` | `2` | Queries the first page (page `0`) of the accounts `steemitblog` follows, 2 per page. |
+      | `"alice"` | `1` | `100` | Queries page `1` -- skips the first 100 rows -- of the accounts `alice` follows, 100 per page. |
 
       Also see: condenser_api.get_following, follow_api.get_following_by_page
     parameter_json:
     - steemitblog
-    - 1
+    - 0
     - 2
     expected_response_json: |
       [
-        {"follower":"steemitblog","following":"rishabh99946","reputation":74.46,"what":["blog"]},
-        {"follower":"steemitblog","following":"oluwatobiloba","reputation":69.24,"what":["blog"]}
+        {"follower":"steemitblog","following":"rishabh99946","reputation":74.46,"what":["blog",""]},
+        {"follower":"steemitblog","following":"oluwatobiloba","reputation":69.24,"what":["blog",""]}
       ]
     curl_examples:
-    - '{"jsonrpc":"2.0", "method":"condenser_api.get_following_by_page", "params":["steemitblog",1,2], "id":1}'
+    - '{"jsonrpc":"2.0", "method":"condenser_api.get_following_by_page", "params":["steemitblog",0,2], "id":1}'
   - api_method: condenser_api.get_hardfork_version
     purpose: |
       Returns the current hardfork version.

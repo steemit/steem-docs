@@ -183,7 +183,9 @@ purposes:
   bridge.normalize_post: |-
     接收一个 steemd 帖子对象（即 `condenser_api.get_content` 的返回形态），输出 bridge-api 规范化后的版本。
 
-    参数：`post:object`（steemd 帖子对象）
+    参数：`post:object`（完整的 steemd 帖子对象，须与 `condenser_api.get_content` 的实际返回形态一致，以单元素数组形式传入：`params: [{ <帖子对象> }]`）
+
+    **注意：** 帖子对象必须携带完整的 steemd 字段集——下方示例仅为可读性省略了 `body` 正文。把裸对象直接作为 `params` 传入（未经数组包装）会返回 `-32602`；对象不完整（如 `active_votes` 条目缺 `percent`/`reputation`，或缺 `cashout_time` 等收益字段）会返回 `-32000`。
   bridge.post_notifications: |-
     加载某篇帖子的通知。
 
@@ -485,14 +487,14 @@ purposes:
 
     另见：follow_api.get_followers、Paginated API Methods
   condenser_api.get_followers_by_page: |-
-    按页返回某账户的关注者。  (EOL)  参数：`account:string`；`page:int`（从 1 开始）；`page_size:int`（可选，默认 `100`，最大 `100`）；`follow_type:string`（可选，例如：`blog`，默认 `blog`）
+    按页返回某账户的关注者。  (EOL)  参数：`account:string`；`page:int`（从 0 开始——`page` 为 `0` 时返回第一页，每加一页多跳过 `page_size` 行）；`page_size:int`（必填，最大 `100`）；`follow_type:string`（可选，例如：`blog`，默认 `blog`）
 
-    **注意：** 该方法由 hivemind 提供，参数以位置数组形式传入。部分节点会以 `-32602` 拒绝命名参数形式，请使用位置数组。
+    **注意：** 行偏移为 `page * page_size`；`page_size` 为必填，省略时返回 `-32602`（位置数组与命名参数形式均如此）。
 
     | `account` (string) | `page` (int) | `page_size` (int) | |
     |--------------------|--------------|-------------------|-|
-    | `"steemit"` | `1` | `5` | 查询关注 `steemit` 的账户第 1 页，每页 5 条。 |
-    | `"alice"` | `2` | `100` | 查询关注 `alice` 的账户第 2 页，每页 100 条。 |
+    | `"steemit"` | `0` | `5` | 查询关注 `steemit` 的账户第 0 页（第一页），每页 5 条。 |
+    | `"alice"` | `1` | `100` | 查询关注 `alice` 的账户第 1 页（跳过前 100 行），每页 100 条。 |
 
     另见：condenser_api.get_followers、follow_api.get_followers_by_page
   condenser_api.get_following: |-
@@ -505,14 +507,14 @@ purposes:
 
     另见：follow_api.get_following、Paginated API Methods
   condenser_api.get_following_by_page: |-
-    按页返回某账户正在关注的账户。  (EOL)  参数：`account:string`；`page:int`（从 1 开始）；`page_size:int`（可选，默认 `100`，最大 `100`）；`follow_type:string`（可选，例如：`blog`，默认 `blog`）
+    按页返回某账户正在关注的账户。  (EOL)  参数：`account:string`；`page:int`（从 0 开始——`page` 为 `0` 时返回第一页，每加一页多跳过 `page_size` 行）；`page_size:int`（必填，最大 `100`）；`follow_type:string`（可选，例如：`blog`，默认 `blog`）
 
-    **注意：** 该方法由 hivemind 提供，参数以位置数组形式传入。部分节点会以 `-32602` 拒绝命名参数形式，请使用位置数组。
+    **注意：** 行偏移为 `page * page_size`；`page_size` 为必填，省略时返回 `-32602`（位置数组与命名参数形式均如此）。
 
     | `account` (string) | `page` (int) | `page_size` (int) | |
     |--------------------|--------------|-------------------|-|
-    | `"steemitblog"` | `1` | `2` | 查询 `steemitblog` 正在关注的账户第 1 页，每页 2 条。 |
-    | `"alice"` | `2` | `100` | 查询 `alice` 正在关注的账户第 2 页，每页 100 条。 |
+    | `"steemitblog"` | `0` | `2` | 查询 `steemitblog` 正在关注的账户第 0 页（第一页），每页 2 条。 |
+    | `"alice"` | `1` | `100` | 查询 `alice` 正在关注的账户第 1 页（跳过前 100 行），每页 100 条。 |
 
     另见：condenser_api.get_following、follow_api.get_following_by_page
   condenser_api.get_hardfork_version: |-
@@ -1367,14 +1369,14 @@ purposes:
 
     另见：Paginated API Methods
   follow_api.get_followers_by_page: |-
-    按页返回某账户的关注者。  (EOL)  `condenser_api.get_followers_by_page` 的别名：参数以位置数组形式传入——`account:string`；`page:int`（从 1 开始）；`page_size:int`（可选，默认 `100`，最大 `100`）；`follow_type:string`（可选，默认 `blog`）。
+    按页返回某账户的关注者。  (EOL)  `condenser_api.get_followers_by_page` 的别名：参数以位置数组形式传入——`account:string`；`page:int`（从 0 开始——`page` 为 `0` 时返回第一页，每加一页多跳过 `page_size` 行）；`page_size:int`（必填，最大 `100`）；`follow_type:string`（可选，默认 `blog`）。
 
-    **注意：** 部分节点会以 `-32602` 拒绝命名参数形式，请使用位置数组。
+    **注意：** 行偏移为 `page * page_size`；`page_size` 为必填，省略时返回 `-32602`。
 
     | `account` (string) | `page` (int) | `page_size` (int) | |
     |--------------------|--------------|-------------------|-|
-    | `"steemit"` | `1` | `5` | 查询关注 `steemit` 的账户第 1 页，每页 5 条。 |
-    | `"alice"` | `2` | `100` | 查询关注 `alice` 的账户第 2 页，每页 100 条。 |
+    | `"steemit"` | `0` | `5` | 查询关注 `steemit` 的账户第 0 页（第一页），每页 5 条。 |
+    | `"alice"` | `1` | `100` | 查询关注 `alice` 的账户第 1 页（跳过前 100 行），每页 100 条。 |
 
     另见：condenser_api.get_followers_by_page、Paginated API Methods
   follow_api.get_following: |-
@@ -1382,14 +1384,14 @@ purposes:
 
     另见：Paginated API Methods
   follow_api.get_following_by_page: |-
-    按页返回某账户正在关注的账户。  (EOL)  `condenser_api.get_following_by_page` 的别名：参数以位置数组形式传入——`account:string`；`page:int`（从 1 开始）；`page_size:int`（可选，默认 `100`，最大 `100`）；`follow_type:string`（可选，默认 `blog`）。
+    按页返回某账户正在关注的账户。  (EOL)  `condenser_api.get_following_by_page` 的别名：参数以位置数组形式传入——`account:string`；`page:int`（从 0 开始——`page` 为 `0` 时返回第一页，每加一页多跳过 `page_size` 行）；`page_size:int`（必填，最大 `100`）；`follow_type:string`（可选，默认 `blog`）。
 
-    **注意：** 部分节点会以 `-32602` 拒绝命名参数形式，请使用位置数组。
+    **注意：** 行偏移为 `page * page_size`；`page_size` 为必填，省略时返回 `-32602`。
 
     | `account` (string) | `page` (int) | `page_size` (int) | |
     |--------------------|--------------|-------------------|-|
-    | `"steemitblog"` | `1` | `2` | 查询 `steemitblog` 正在关注的账户第 1 页，每页 2 条。 |
-    | `"alice"` | `2` | `100` | 查询 `alice` 正在关注的账户第 2 页，每页 100 条。 |
+    | `"steemitblog"` | `0` | `2` | 查询 `steemitblog` 正在关注的账户第 0 页（第一页），每页 2 条。 |
+    | `"alice"` | `1` | `100` | 查询 `alice` 正在关注的账户第 1 页（跳过前 100 行），每页 100 条。 |
 
     另见：condenser_api.get_following_by_page、Paginated API Methods
   follow_api.get_reblogged_by: |-
