@@ -1,6 +1,6 @@
 {
   "tool": "audit-drift",
-  "generatedAt": "2026-10-28T05:56:21.620Z",
+  "generatedAt": "2026-10-28T06:23:33.846Z",
   "date": "2026-10-28",
   "nodes": {
     "fans": "https://api.steem.fans",
@@ -710,21 +710,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 203
+          "responseBytes": 204
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 203
+          "responseBytes": 204
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: NOT listed on fans",
         "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_payo",
-        "curl fans: OK, 203B - result",
-        "curl steemit: OK, 203B - result"
+        "curl fans: OK, 204B - result",
+        "curl steemit: OK, 204B - result"
       ]
     },
     {
@@ -1250,21 +1250,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 314
+          "responseBytes": 311
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 314
+          "responseBytes": 311
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: [])",
-        "curl fans: OK, 314B - result",
-        "curl steemit: OK, 314B - result"
+        "curl fans: OK, 311B - result",
+        "curl steemit: OK, 311B - result"
       ]
     },
     {
@@ -1820,21 +1820,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 2248
+          "responseBytes": 5142
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 2248
+          "responseBytes": 5142
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: [])",
-        "curl fans: OK, 2248B - result",
-        "curl steemit: OK, 2248B - result"
+        "curl fans: OK, 5142B - result",
+        "curl steemit: OK, 5142B - result"
       ]
     },
     {
@@ -1880,21 +1880,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 2850
+          "responseBytes": 5038
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 2850
+          "responseBytes": 5038
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: [])",
-        "curl fans: OK, 2850B - result",
-        "curl steemit: OK, 2850B - result"
+        "curl fans: OK, 5038B - result",
+        "curl steemit: OK, 5038B - result"
       ]
     },
     {
@@ -2000,21 +2000,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1406
+          "responseBytes": 1409
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1406
+          "responseBytes": 1409
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: [])",
-        "curl fans: OK, 1406B - result",
-        "curl steemit: OK, 1406B - result"
+        "curl fans: OK, 1409B - result",
+        "curl steemit: OK, 1409B - result"
       ]
     },
     {
@@ -2900,21 +2900,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 464611
+          "responseBytes": 464605
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 464611
+          "responseBytes": 464605
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: [])",
-        "curl fans: OK, 464611B - result",
-        "curl steemit: OK, 464611B - result"
+        "curl fans: OK, 464605B - result",
+        "curl steemit: OK, 464605B - result"
       ]
     },
     {
@@ -3290,21 +3290,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1338
+          "responseBytes": 1335
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1338
+          "responseBytes": 1335
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: [])",
-        "curl fans: OK, 1338B - result",
-        "curl steemit: OK, 1338B - result"
+        "curl fans: OK, 1335B - result",
+        "curl steemit: OK, 1335B - result"
       ]
     },
     {
@@ -3350,21 +3350,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 924929
+          "responseBytes": 924968
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 924929
+          "responseBytes": 924968
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: [])",
-        "curl fans: OK, 924929B - result",
-        "curl steemit: OK, 924929B - result"
+        "curl fans: OK, 924968B - result",
+        "curl steemit: OK, 924968B - result"
       ]
     },
     {
@@ -4100,21 +4100,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 328
+          "responseBytes": 325
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 328
+          "responseBytes": 325
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: {})",
-        "curl fans: OK, 328B - result",
-        "curl steemit: OK, 328B - result"
+        "curl fans: OK, 325B - result",
+        "curl steemit: OK, 325B - result"
       ]
     },
     {
@@ -4190,21 +4190,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1868
+          "responseBytes": 1864
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1856
+          "responseBytes": 1864
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: {})",
-        "curl fans: OK, 1868B - result",
-        "curl steemit: OK, 1856B - result"
+        "curl fans: OK, 1864B - result",
+        "curl steemit: OK, 1864B - result"
       ]
     },
     {
@@ -4460,21 +4460,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1376
+          "responseBytes": 1373
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1376
+          "responseBytes": 1373
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: {})",
-        "curl fans: OK, 1376B - result",
-        "curl steemit: OK, 1376B - result"
+        "curl fans: OK, 1373B - result",
+        "curl steemit: OK, 1373B - result"
       ]
     },
     {
@@ -6140,21 +6140,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 48939
+          "responseBytes": 49391
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 48939
+          "responseBytes": 49391
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: listed on fans",
         "get_signature [fans]: ok (args: {\"limit\":500})",
-        "curl fans: OK, 48939B - result",
-        "curl steemit: OK, 48939B - result"
+        "curl fans: OK, 49391B - result",
+        "curl steemit: OK, 49391B - result"
       ]
     },
     {
@@ -6830,21 +6830,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 2248
+          "responseBytes": 5142
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 2248
+          "responseBytes": 5142
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: NOT listed on fans",
         "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method tags_api.get_di",
-        "curl fans: OK, 2248B - result",
-        "curl steemit: OK, 2248B - result"
+        "curl fans: OK, 5142B - result",
+        "curl steemit: OK, 5142B - result"
       ]
     },
     {
@@ -6890,21 +6890,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 2850
+          "responseBytes": 5038
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 2850
+          "responseBytes": 5038
         }
       },
       "verdict": "alive",
       "evidence": [
         "get_methods: NOT listed on fans",
         "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method tags_api.get_di",
-        "curl fans: OK, 2850B - result",
-        "curl steemit: OK, 2850B - result"
+        "curl fans: OK, 5038B - result",
+        "curl steemit: OK, 5038B - result"
       ]
     },
     {

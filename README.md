@@ -200,7 +200,12 @@ comparable. Exclusions (plan decision 2: `test_api.*`, `jsonrpc.*`, plus the
 inventory-level `ingest` and community.py notes) are reported in a dedicated
 section and never enter the matrix body. Double-source methods carry a
 param-style comparison column; enumerable signature mismatches between the
-steem and hivemind sides are flagged (10 of 42 today).
+steem and hivemind sides are flagged (10 of 42 today). Death-annotation
+families after the T25 refresh (source-truth口径): `disabled` 25 — every
+dead-but-source-defined page says "defined in source; plugin not enabled on
+public nodes" (decision 3-②) —, `removed-keep` 3 (absent from both source
+inventories), and `removed-unsupported` 0 (a removed flag on a source-defined
+method is a regression the census asserts against).
 
 Report-only by default; `--write` persists `source-crosscheck-<YYYY-MM-DD>.json`
 (meta, combo census, full matrix rows, disposal lists) plus a human-readable

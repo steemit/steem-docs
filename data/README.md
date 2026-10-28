@@ -90,9 +90,9 @@ nesting may be deeper, so consumers must recurse.
 | `curl_examples`           | no       | List of example request bodies (JSON-RPC payloads for `curl --data`).                           |
 | `expected_curl_responses` | no       | List of responses matching `curl_examples` one-to-one.                                          |
 | `since`                   | no       | Hardfork / version the method appeared in (e.g. `HF14`).                                        |
-| `disabled`                | no       | `true` when the method is disabled on public nodes.                                             |
+| `disabled`                | no       | `true` when the method is defined in the steem source but not served by public nodes (its plugin is not enabled there). Renders the `disabled` badge. |
 | `deprecated`              | no       | `true` when the method is deprecated.                                                           |
-| `removed`                 | no       | `true` when the method has been removed from public nodes (drift baseline 2026-10-28). Renders the `removed` badge. |
+| `removed`                 | no       | `true` only when the method is absent from BOTH source inventories (source-absence proof; today: `witness_api.get_account_bandwidth`, `witness_api.get_reserve_ratio`, `condenser_api.get_account_bandwidth`). A `removed` flag on a method the source still defines is a T25 regression — refresh it to `disabled`. Renders the `removed` badge. |
 | `detail`                  | no       | Death-cause note for a method carrying `deprecated`/`disabled`/`removed` (why it is no longer served). Rendered under the badge row; together with a death badge it also adds the "no longer provided by public nodes" warning above the Example curl card. |
 | `testnet`                 | no       | Testnet availability status: object `{ working: boolean, detail: string }` (every occurrence in the data set uses this shape). |
 | `mainnet`                 | no       | Mainnet availability status: object `{ working: boolean, detail: string }` (every occurrence in the data set uses this shape). |

@@ -1,6 +1,6 @@
 {
   "tool": "source-crosscheck",
-  "generatedAt": "2026-10-28T05:59:41.760Z",
+  "generatedAt": "2026-10-28T06:24:46.258Z",
   "date": "2026-10-28",
   "mode": "write",
   "inputs": {
@@ -51,7 +51,7 @@
     {
       "combo": "src+ doc+ node-dead",
       "id": "annotation-refresh",
-      "action": "按死亡标注三族复核（决策 3）：deprecated 维持 / disabled 口径刷新为「源码仍定义；插件未在公共节点启用」/ removed 口径不成立（源码仍定义）→ 标注需刷新",
+      "action": "按死亡标注三族复核（决策 3）：deprecated 维持 / disabled 口径为「源码仍定义；插件未在公共节点启用」/ removed 口径不成立（源码仍定义）→ 回归态（T25 已将全部此类页面刷新为 disabled 口径，family census 断言 0）",
       "basis": "决策 3-①②③ + 对照表"
     },
     {
@@ -113,8 +113,8 @@
     "annotationRefresh": {
       "total": 32,
       "deprecatedKeep": 7,
-      "disabledRefresh": 11,
-      "removedUnsupported": 14,
+      "disabledRefresh": 25,
+      "removedUnsupported": 0,
       "unflaggedDead": 0
     },
     "removedKeep": 3,
@@ -179,66 +179,23 @@
         "debug_node_api.debug_has_hardfork",
         "debug_node_api.debug_pop_block",
         "debug_node_api.debug_push_blocks",
-        "debug_node_api.debug_set_hardfork"
+        "debug_node_api.debug_set_hardfork",
+        "follow_api.get_blog_authors",
+        "follow_api.get_feed",
+        "follow_api.get_feed_entries",
+        "rewards_api.simulate_curve_payouts",
+        "tags_api.get_active_votes",
+        "tags_api.get_discussions_by_active",
+        "tags_api.get_discussions_by_cashout",
+        "tags_api.get_discussions_by_children",
+        "tags_api.get_discussions_by_feed",
+        "tags_api.get_discussions_by_votes",
+        "tags_api.get_replies_by_last_update",
+        "tags_api.get_tags_used_by_author",
+        "tags_api.get_trending_tags",
+        "transaction_status_api.find_transaction"
       ],
-      "removedUnsupported": [
-        {
-          "api_method": "follow_api.get_blog_authors",
-          "steemSource": "libraries/plugins/apis/follow_api/include/steem/plugins/follow_api/follow_api.hpp:184"
-        },
-        {
-          "api_method": "follow_api.get_feed",
-          "steemSource": "libraries/plugins/apis/follow_api/include/steem/plugins/follow_api/follow_api.hpp:171"
-        },
-        {
-          "api_method": "follow_api.get_feed_entries",
-          "steemSource": "libraries/plugins/apis/follow_api/include/steem/plugins/follow_api/follow_api.hpp:170"
-        },
-        {
-          "api_method": "rewards_api.simulate_curve_payouts",
-          "steemSource": "libraries/plugins/apis/rewards_api/include/steem/plugins/rewards_api/rewards_api.hpp:17"
-        },
-        {
-          "api_method": "tags_api.get_active_votes",
-          "steemSource": "libraries/plugins/apis/tags_api/include/steem/plugins/tags_api/tags_api.hpp:227"
-        },
-        {
-          "api_method": "tags_api.get_discussions_by_active",
-          "steemSource": "libraries/plugins/apis/tags_api/include/steem/plugins/tags_api/tags_api.hpp:216"
-        },
-        {
-          "api_method": "tags_api.get_discussions_by_cashout",
-          "steemSource": "libraries/plugins/apis/tags_api/include/steem/plugins/tags_api/tags_api.hpp:217"
-        },
-        {
-          "api_method": "tags_api.get_discussions_by_children",
-          "steemSource": "libraries/plugins/apis/tags_api/include/steem/plugins/tags_api/tags_api.hpp:219"
-        },
-        {
-          "api_method": "tags_api.get_discussions_by_feed",
-          "steemSource": "libraries/plugins/apis/tags_api/include/steem/plugins/tags_api/tags_api.hpp:221"
-        },
-        {
-          "api_method": "tags_api.get_discussions_by_votes",
-          "steemSource": "libraries/plugins/apis/tags_api/include/steem/plugins/tags_api/tags_api.hpp:218"
-        },
-        {
-          "api_method": "tags_api.get_replies_by_last_update",
-          "steemSource": "libraries/plugins/apis/tags_api/include/steem/plugins/tags_api/tags_api.hpp:225"
-        },
-        {
-          "api_method": "tags_api.get_tags_used_by_author",
-          "steemSource": "libraries/plugins/apis/tags_api/include/steem/plugins/tags_api/tags_api.hpp:209"
-        },
-        {
-          "api_method": "tags_api.get_trending_tags",
-          "steemSource": "libraries/plugins/apis/tags_api/include/steem/plugins/tags_api/tags_api.hpp:208"
-        },
-        {
-          "api_method": "transaction_status_api.find_transaction",
-          "steemSource": "libraries/plugins/apis/transaction_status_api/include/steem/plugins/transaction_status_api/transaction_status_api.hpp:16"
-        }
-      ],
+      "removedUnsupported": [],
       "unflaggedDead": []
     },
     "removedKeep": [
@@ -7960,8 +7917,8 @@
       "doc": {
         "file": "follow_api.yml",
         "flags": {
-          "removed": true,
-          "disabled": false,
+          "removed": false,
+          "disabled": true,
           "deprecated": false
         }
       },
@@ -7974,9 +7931,9 @@
       "combo": "src+ doc+ node-dead",
       "disposition": {
         "id": "annotation-refresh",
-        "family": "removed-unsupported",
-        "note": "源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）",
-        "basis": "对照表 + 决策 3-③ 反例"
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -8062,8 +8019,8 @@
       "doc": {
         "file": "follow_api.yml",
         "flags": {
-          "removed": true,
-          "disabled": false,
+          "removed": false,
+          "disabled": true,
           "deprecated": false
         }
       },
@@ -8076,9 +8033,9 @@
       "combo": "src+ doc+ node-dead",
       "disposition": {
         "id": "annotation-refresh",
-        "family": "removed-unsupported",
-        "note": "源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）",
-        "basis": "对照表 + 决策 3-③ 反例"
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -8098,8 +8055,8 @@
       "doc": {
         "file": "follow_api.yml",
         "flags": {
-          "removed": true,
-          "disabled": false,
+          "removed": false,
+          "disabled": true,
           "deprecated": false
         }
       },
@@ -8112,9 +8069,9 @@
       "combo": "src+ doc+ node-dead",
       "disposition": {
         "id": "annotation-refresh",
-        "family": "removed-unsupported",
-        "note": "源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）",
-        "basis": "对照表 + 决策 3-③ 反例"
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -8932,8 +8889,8 @@
       "doc": {
         "file": "rewards_api.yml",
         "flags": {
-          "removed": true,
-          "disabled": false,
+          "removed": false,
+          "disabled": true,
           "deprecated": false
         }
       },
@@ -8946,9 +8903,9 @@
       "combo": "src+ doc+ node-dead",
       "disposition": {
         "id": "annotation-refresh",
-        "family": "removed-unsupported",
-        "note": "源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）",
-        "basis": "对照表 + 决策 3-③ 反例"
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -9001,8 +8958,8 @@
       "doc": {
         "file": "tags_api.yml",
         "flags": {
-          "removed": true,
-          "disabled": false,
+          "removed": false,
+          "disabled": true,
           "deprecated": false
         }
       },
@@ -9015,9 +8972,9 @@
       "combo": "src+ doc+ node-dead",
       "disposition": {
         "id": "annotation-refresh",
-        "family": "removed-unsupported",
-        "note": "源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）",
-        "basis": "对照表 + 决策 3-③ 反例"
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -9251,8 +9208,8 @@
       "doc": {
         "file": "tags_api.yml",
         "flags": {
-          "removed": true,
-          "disabled": false,
+          "removed": false,
+          "disabled": true,
           "deprecated": false
         }
       },
@@ -9265,9 +9222,9 @@
       "combo": "src+ doc+ node-dead",
       "disposition": {
         "id": "annotation-refresh",
-        "family": "removed-unsupported",
-        "note": "源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）",
-        "basis": "对照表 + 决策 3-③ 反例"
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -9464,8 +9421,8 @@
       "doc": {
         "file": "tags_api.yml",
         "flags": {
-          "removed": true,
-          "disabled": false,
+          "removed": false,
+          "disabled": true,
           "deprecated": false
         }
       },
@@ -9478,9 +9435,9 @@
       "combo": "src+ doc+ node-dead",
       "disposition": {
         "id": "annotation-refresh",
-        "family": "removed-unsupported",
-        "note": "源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）",
-        "basis": "对照表 + 决策 3-③ 反例"
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -9507,8 +9464,8 @@
       "doc": {
         "file": "tags_api.yml",
         "flags": {
-          "removed": true,
-          "disabled": false,
+          "removed": false,
+          "disabled": true,
           "deprecated": false
         }
       },
@@ -9521,9 +9478,9 @@
       "combo": "src+ doc+ node-dead",
       "disposition": {
         "id": "annotation-refresh",
-        "family": "removed-unsupported",
-        "note": "源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）",
-        "basis": "对照表 + 决策 3-③ 反例"
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -9737,8 +9694,8 @@
       "doc": {
         "file": "tags_api.yml",
         "flags": {
-          "removed": true,
-          "disabled": false,
+          "removed": false,
+          "disabled": true,
           "deprecated": false
         }
       },
@@ -9751,9 +9708,9 @@
       "combo": "src+ doc+ node-dead",
       "disposition": {
         "id": "annotation-refresh",
-        "family": "removed-unsupported",
-        "note": "源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）",
-        "basis": "对照表 + 决策 3-③ 反例"
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -10068,8 +10025,8 @@
       "doc": {
         "file": "tags_api.yml",
         "flags": {
-          "removed": true,
-          "disabled": false,
+          "removed": false,
+          "disabled": true,
           "deprecated": false
         }
       },
@@ -10082,9 +10039,9 @@
       "combo": "src+ doc+ node-dead",
       "disposition": {
         "id": "annotation-refresh",
-        "family": "removed-unsupported",
-        "note": "源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）",
-        "basis": "对照表 + 决策 3-③ 反例"
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -10195,8 +10152,8 @@
       "doc": {
         "file": "tags_api.yml",
         "flags": {
-          "removed": true,
-          "disabled": false,
+          "removed": false,
+          "disabled": true,
           "deprecated": false
         }
       },
@@ -10209,9 +10166,9 @@
       "combo": "src+ doc+ node-dead",
       "disposition": {
         "id": "annotation-refresh",
-        "family": "removed-unsupported",
-        "note": "源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）",
-        "basis": "对照表 + 决策 3-③ 反例"
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -10229,8 +10186,8 @@
       "doc": {
         "file": "tags_api.yml",
         "flags": {
-          "removed": true,
-          "disabled": false,
+          "removed": false,
+          "disabled": true,
           "deprecated": false
         }
       },
@@ -10243,9 +10200,9 @@
       "combo": "src+ doc+ node-dead",
       "disposition": {
         "id": "annotation-refresh",
-        "family": "removed-unsupported",
-        "note": "源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）",
-        "basis": "对照表 + 决策 3-③ 反例"
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -10264,8 +10221,8 @@
       "doc": {
         "file": "tags_api.yml",
         "flags": {
-          "removed": true,
-          "disabled": false,
+          "removed": false,
+          "disabled": true,
           "deprecated": false
         }
       },
@@ -10278,9 +10235,9 @@
       "combo": "src+ doc+ node-dead",
       "disposition": {
         "id": "annotation-refresh",
-        "family": "removed-unsupported",
-        "note": "源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）",
-        "basis": "对照表 + 决策 3-③ 反例"
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -10299,8 +10256,8 @@
       "doc": {
         "file": "transaction_status_api.yml",
         "flags": {
-          "removed": true,
-          "disabled": false,
+          "removed": false,
+          "disabled": true,
           "deprecated": false
         }
       },
@@ -10313,9 +10270,9 @@
       "combo": "src+ doc+ node-dead",
       "disposition": {
         "id": "annotation-refresh",
-        "family": "removed-unsupported",
-        "note": "源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）",
-        "basis": "对照表 + 决策 3-③ 反例"
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {

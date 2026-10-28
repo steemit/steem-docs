@@ -23,7 +23,8 @@
 //                 disabled → reword to "defined in source; plugin not
 //                 enabled on public nodes" (decision 3-②); removed → the
 //                 claim "removed from the API" is falsified by the source
-//                 inventory → annotation must be refreshed (T22/T23 input)
+//                 inventory → regression state (post-T25 all such pages were
+//                 refreshed to the disabled wording; the census asserts 0)
 //   yes   no    alive   → add-page              missing page, method is served
 //                 → T22 fill list (en+zh pages + overview count guard)
 //   yes   no    dead    → add-page+dead-note    missing page, method is dead →
@@ -75,9 +76,10 @@
 // 238 == drift snapshot scope, universe accounting (body ∪ excluded ==
 // universe, every source/doc name lands exactly once), the witness_api
 // double-check (both methods must resolve to src-none + doc + dead →
-// removed-keep), and the decision-3 family census (deprecated 7 / disabled 11
-// = 9 debug_node_api + 2 chain_api filled post-T22 / removed-keep 3 /
-// removed-unsupported 14 / soft-flagged-alive 5).
+// removed-keep), and the decision-3 family census (deprecated 7 / disabled 25
+// = 9 debug_node_api + 2 chain_api filled post-T22 + 14 refreshed from
+// removed to the disabled wording in T25 / removed-keep 3 /
+// removed-unsupported 0 / soft-flagged-alive 5).
 //
 // CLI:
 //   --node1 <url> --node2 <url>  probe nodes for undocumented names
@@ -485,7 +487,7 @@ function compareParams(name) {
 
 const DISPOSITION_TABLE = [
   { combo: 'src+ doc+ node-alive', id: 'all-good', action: 'keep the page as-is', basis: '常规组合：三源一致（node `changed` 行附带 contract-drift 注记 → T23 输入；alive 但带 deprecated/disabled/removed 软标注的行附带 soft-flag 注记）' },
-  { combo: 'src+ doc+ node-dead', id: 'annotation-refresh', action: '按死亡标注三族复核（决策 3）：deprecated 维持 / disabled 口径刷新为「源码仍定义；插件未在公共节点启用」/ removed 口径不成立（源码仍定义）→ 标注需刷新', basis: '决策 3-①②③ + 对照表' },
+  { combo: 'src+ doc+ node-dead', id: 'annotation-refresh', action: '按死亡标注三族复核（决策 3）：deprecated 维持 / disabled 口径为「源码仍定义；插件未在公共节点启用」/ removed 口径不成立（源码仍定义）→ 回归态（T25 已将全部此类页面刷新为 disabled 口径，family census 断言 0）', basis: '决策 3-①②③ + 对照表' },
   { combo: 'src+ doc- node-alive', id: 'add-page', action: 'T22 补页（en+zh 方法页 + 手写总览页计数守卫）', basis: '对照表：源码有+文档无+节点活 → 补页（T22 输入）' },
   { combo: 'src+ doc- node-dead', id: 'add-page+dead-note', action: 'T22 补页且携带 dead-note 警示块', basis: '对照表：源码有+文档无+节点死 → 补页+警示块' },
   { combo: 'src- doc+ node-alive', id: 'keep-annotation', action: 'witness 型：保留页面与标注（两源均无定义而节点仍服务）', basis: '对照表：源码无+文档有+节点活 → keep-annotation（witness 型）' },
@@ -506,7 +508,7 @@ function resolveDisposition(srcPresent, docPresent, nodeStatus, doc) {
     if (nodeStatus === 'alive') return { id: 'all-good', note: null, basis: '对照表：src+ doc+ node-alive → all-good' };
     if (nodeStatus === 'dead') {
       const flags = doc.flags;
-      if (flags.removed) return { id: 'annotation-refresh', family: 'removed-unsupported', note: '源码清单仍定义此方法，「Removed from the API」口径不成立；标注需刷新（T22/T23 输入）', basis: '对照表 + 决策 3-③ 反例' };
+      if (flags.removed) return { id: 'annotation-refresh', family: 'removed-unsupported', note: '源码清单仍定义此方法，「Removed from the API」口径不成立；T25 已将此类页面刷新为 disabled 口径 — 此处重新出现即回归', basis: '对照表 + 决策 3-③ 反例（T25 后为回归态）' };
       if (flags.disabled) return { id: 'annotation-refresh', family: 'disabled-refresh', note: '口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）', basis: '对照表 + 决策 3-②' };
       if (flags.deprecated) return { id: 'annotation-refresh', family: 'deprecated-keep', note: '弃用语义与源码存在不矛盾，标注维持（决策 3-①）', basis: '对照表 + 决策 3-①' };
       return { id: 'annotation-refresh', family: 'unflagged-dead', note: 'dead 但无任何死亡标注（违反二期 dead-regression 对齐），需补标注', basis: '对照表 + coverage dead-regression 契约' };
@@ -643,35 +645,47 @@ const cab = rows.find((r) => r.api_method === 'condenser_api.get_account_bandwid
 if (!cab || cab.disposition.id !== 'removed-keep') failures.push('condenser_api.get_account_bandwidth must resolve to removed-keep (documented, absent from both inventories, dead)');
 
 // Decision-3 family census.
+// Post-T25: the 14 removed-unsupported pages were refreshed to the disabled
+// wording (source still defines them — "Removed from the API" was falsified),
+// so the disabled family is 25 and removed-unsupported must stay 0; a
+// reappearing removed flag on a source-defined method is a T25 regression.
 const FAMILY_BASELINE = {
   deprecatedKeep: { n: 7, members: ['database_api.find_smt_contributions', 'database_api.find_smt_token_emissions', 'database_api.find_smt_tokens', 'database_api.get_nai_pool', 'database_api.list_smt_contributions', 'database_api.list_smt_token_emissions', 'database_api.list_smt_tokens'] },
   // Post-T22: the two chain_api pages (filled with the decision-3-② wording
   // baked in) join the 9 debug_node_api methods in the disabled family.
+  // Post-T25: the 14 former removed-unsupported pages join them after their
+  // annotation refresh (removed flag → disabled flag + source-truth detail).
   disabledRefresh: {
-    n: 11,
+    n: 25,
     members: [
       'debug_node_api.debug_generate_blocks', 'debug_node_api.debug_generate_blocks_until',
       'debug_node_api.debug_get_hardfork_property_object', 'debug_node_api.debug_get_json_schema',
       'debug_node_api.debug_get_witness_schedule', 'debug_node_api.debug_has_hardfork',
       'debug_node_api.debug_pop_block', 'debug_node_api.debug_push_blocks', 'debug_node_api.debug_set_hardfork',
       'chain_api.push_block', 'chain_api.push_transaction',
+      'follow_api.get_blog_authors', 'follow_api.get_feed', 'follow_api.get_feed_entries',
+      'rewards_api.simulate_curve_payouts',
+      'tags_api.get_active_votes', 'tags_api.get_discussions_by_active', 'tags_api.get_discussions_by_cashout',
+      'tags_api.get_discussions_by_children', 'tags_api.get_discussions_by_feed', 'tags_api.get_discussions_by_votes',
+      'tags_api.get_replies_by_last_update', 'tags_api.get_tags_used_by_author', 'tags_api.get_trending_tags',
+      'transaction_status_api.find_transaction',
     ],
   },
   removedKeep: { n: 3, members: ['condenser_api.get_account_bandwidth', 'witness_api.get_account_bandwidth', 'witness_api.get_reserve_ratio'] },
-  removedUnsupported: { n: 14 },
+  removedUnsupported: { n: 0 },
   softFlaggedAlive: { n: 5 },
 };
 if (deprecatedKeep.length !== FAMILY_BASELINE.deprecatedKeep.n || deprecatedKeep.map((r) => r.api_method).sort().join(',') !== [...FAMILY_BASELINE.deprecatedKeep.members].sort().join(',')) {
   failures.push(`decision-3 ①: deprecated-keep family is [${deprecatedKeep.map((r) => r.api_method).join(', ')}], expected the 7 SMT-era database_api methods`);
 }
 if (disabledRefresh.length !== FAMILY_BASELINE.disabledRefresh.n || disabledRefresh.map((r) => r.api_method).sort().join(',') !== [...FAMILY_BASELINE.disabledRefresh.members].sort().join(',')) {
-  failures.push(`decision-3 ②: disabled-refresh family is [${disabledRefresh.map((r) => r.api_method).join(', ')}], expected the 9 debug_node_api methods + the 2 chain_api pages filled post-T22`);
+  failures.push(`decision-3 ②: disabled-refresh family is [${disabledRefresh.map((r) => r.api_method).join(', ')}], expected the 25 pages carrying the decision-3-② wording (9 debug_node_api + 2 chain_api filled post-T22 + 14 refreshed from removed to disabled post-T25)`);
 }
 if (removedKeep.length !== FAMILY_BASELINE.removedKeep.n || removedKeep.map((r) => r.api_method).sort().join(',') !== [...FAMILY_BASELINE.removedKeep.members].sort().join(',')) {
   failures.push(`decision-3 ③: removed-keep family is [${removedKeep.map((r) => r.api_method).join(', ')}], expected the 3 source-absent documented dead methods`);
 }
 if (removedUnsupported.length !== FAMILY_BASELINE.removedUnsupported.n) {
-  failures.push(`decision-3 ③ amendment: removed-unsupported family is ${removedUnsupported.length} rows, expected 14 removed-flagged methods that ARE defined in the steem inventory`);
+  failures.push(`decision-3 ③ amendment (post-T25): removed-unsupported family is ${removedUnsupported.length} rows, expected 0 — every removed flag on a source-defined method was refreshed to the disabled wording in T25; a reappearing one is a regression: ${removedUnsupported.map((r) => r.api_method).join(', ')}`);
 }
 if (softFlaggedAlive.length !== FAMILY_BASELINE.softFlaggedAlive.n) {
   failures.push(`soft-flagged-alive census is ${softFlaggedAlive.length}, expected 5 (2 deprecated + 3 disabled era-2018 soft flags on live methods; removed+alive would also count here — none expected)`);
@@ -804,9 +818,9 @@ lines.push('');
 lines.push('## ② Death-annotation review (plan decision 3, three families re-checked against the source inventories)');
 lines.push('');
 lines.push(`- **deprecated — keep (${deprecatedKeep.length})**: source still defines every one; deprecation semantics do not contradict source presence. ${deprecatedKeep.map((r) => r.api_method).join(', ')}.`);
-lines.push(`- **disabled — reword (${disabledRefresh.length})**: source still defines all nine in the private debug_node plugin; wording refreshes to "defined in source; plugin not enabled on public nodes" (decision 3-②). ${disabledRefresh.map((r) => r.api_method).join(', ')}.`);
+lines.push(`- **disabled — decision-3-② wording (${disabledRefresh.length})**: every dead-but-source-defined page carries the "defined in source; plugin not enabled on public nodes" wording (decision 3-②; T25 refreshed the 14 former removed-unsupported pages onto this口径). ${disabledRefresh.map((r) => r.api_method).join(', ')}.`);
 lines.push(`- **removed — keep with harder evidence (${removedKeep.length})**: absent from BOTH source inventories — the annotation survives with source-absence as proof. ${removedKeep.map((r) => r.api_method).join(', ')}.`);
-lines.push(`- **removed — annotation falsified (${removedUnsupported.length})**: these removed-flagged pages describe methods the steem inventory (${steemInv.commit?.slice(0, 7)}) STILL DEFINES — "Removed from the API" is not true at source level; the true statement is "defined in source, not enabled on public nodes". Annotation refresh is T22/T23 work (no YAML edited in this task). ${removedUnsupported.map((r) => r.api_method).join(', ')}.`);
+lines.push(`- **removed — annotation falsified (${removedUnsupported.length})**: post-T25 no removed-flagged page describes a method the steem inventory (${steemInv.commit?.slice(0, 7)}) STILL DEFINES — T25 refreshed all 14 falsified annotations to the disabled wording ("defined in source, not enabled on public nodes"); a reappearing entry here is a regression${removedUnsupported.length ? `: ${removedUnsupported.map((r) => r.api_method).join(', ')}.` : '.'}`);
 lines.push(`- **soft flags on live methods (${softFlaggedAlive.length})**: era-2018 \`disabled\`/"Not Implemented" and \`deprecated\` annotations on methods that still dispatch — kept as-is here, confirm during T22/T23 edits. ${softFlaggedAlive.map((r) => r.api_method).join(', ')}.`);
 lines.push(`- **contract drift on alive methods (${driftChanged.length})**: all-good pages whose node signature differs from the documented parameter_json (drift verdict \`changed\`) — page stays, contract fix belongs to T23. ${driftChanged.map((r) => r.api_method).join(', ')}.`);
 lines.push('');
@@ -855,4 +869,4 @@ if (WRITE) {
   console.log(`\n${lines.join('\n')}`);
   console.log(`\nreport-only: nothing written. Re-run with --write to persist data/audit/source-crosscheck-${date}.{json,md}.`);
 }
-console.log('\ndone (exit 0; findings are data, not failures — read the disposal lists and the removed-unsupported review)');
+console.log('\ndone (exit 0; findings are data, not failures — read the disposal lists and the death-annotation review)');
