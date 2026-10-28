@@ -17,7 +17,7 @@ builder non riesce a leggere title/description); i commenti di servizio vanno
 inseriti solo dopo.
 -->
 
-Il riferimento delle API JSON-RPC riportato di seguito è generato in fase di build da `data/apidefinitions/*.yml`. Le pagine di indice italiane elencano tutti i metodi di ogni API; le pagine dei metodi non sono ancora tradotte — i link delle tabelle portano alle pagine dei metodi inglesi.
+Il riferimento delle API JSON-RPC riportato di seguito è generato in fase di build da `data/apidefinitions/*.yml`. Le pagine di indice italiane elencano tutti i metodi di ogni API; le pagine dei metodi sono tradotte in italiano — i link delle tabelle portano alle pagine dei metodi italiane.
 
 # Riferimento API
 

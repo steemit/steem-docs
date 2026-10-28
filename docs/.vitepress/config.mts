@@ -680,7 +680,10 @@ export default defineConfig({
         sidebar: [
           {
             text: 'Riferimento API',
-            items: apiSidebar({ indexPrefix: '/it/api/', methodPrefix: '/api/' })
+            // T30 full locale: it index pages AND all 238 translated method
+            // pages are generated, so the sidebar children point into the it
+            // tree too (same shape as the zh/ru/fr sidebars since T27).
+            items: apiSidebar({ indexPrefix: '/it/api/', methodPrefix: '/it/api/' })
           }
         ],
         outline: { label: 'In questa pagina' },
