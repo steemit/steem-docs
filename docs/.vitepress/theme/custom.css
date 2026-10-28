@@ -272,15 +272,18 @@ html:not(.dark) .VPNavBarTitle img.logo {
 /* --- 4. Table polish (method index tables) -------------------------------- */
 
 .vp-doc table {
+  /* VitePress ships tables as display:block (the table box is its own scroll
+   * container). A block-level box spans the full container width while the
+   * inner table grid shrink-to-fits its columns - on sparse tables (e.g. an
+   * API with one method) that leaves a huge empty band inside the bordered
+   * box. Restore real table layout and stretch the grid across the box. */
+  display: table;
+  width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   margin: 16px 0;
   border: 1px solid var(--vp-c-divider);
   border-radius: 10px;
-  /* Restore the default theme's horizontal scrolling (the table itself is the
-   * scroll container): border + radius stay on the box, content scrolls under
-   * them instead of being clipped off-canvas. */
-  overflow-x: auto;
 }
 
 .vp-doc th,
