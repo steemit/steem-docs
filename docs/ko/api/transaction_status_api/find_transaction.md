@@ -20,8 +20,8 @@ outline: [2, 3]
 |--------|---------|
 | `unknown` | 만료 시각이 아직 미래이며, 트랜잭션이 블록이나 mempool (메모리 풀)에 포함되지 않음 |
 | `within_mempool` | 트랜잭션이 mempool (메모리 풀)에 있음 |
-| `within_reversible_block` | 트랜잭션이 블록에 포함되었으나, 블록이 아직 되돌릴 수 없는(irreversible) 상태가 아님 |
-| `within_irreversible_block` | 트랜잭션이 블록에 포함되었고, 블록이 되돌릴 수 없는(irreversible) 상태임 |
+| `within_reversible_block` | 트랜잭션이 블록에 포함되었으나, 블록이 아직 되돌릴 수 없는 (irreversible) 상태가 아님 |
+| `within_irreversible_block` | 트랜잭션이 블록에 포함되었고, 블록이 되돌릴 수 없는 (irreversible) 상태임 |
 | `expired_reversible` | 트랜잭션이 만료되었으나, 되돌릴 수 없는 상태가 아님 (포크에 있을 수 있음) |
 | `expired_irreversible` | 트랜잭션이 만료되었고, 되돌릴 수 없는 상태임 (포크에 있을 수 없음) |
 | `too_old` | 트랜잭션이 너무 오래되어 알 수 없음 |

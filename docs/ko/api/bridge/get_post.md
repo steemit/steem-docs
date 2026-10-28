@@ -1,6 +1,6 @@
 ---
 title: "bridge.get_post"
-description: "포스트 하나를 가져옵니다."
+description: "포스트 (게시물) 하나를 가져옵니다."
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-포스트 하나를 가져옵니다.
+포스트 (게시물) 하나를 가져옵니다.
 
 파라미터: `author:string`; `permlink:string`; `observer:string` (선택 사항)
 

@@ -22,7 +22,7 @@ For example, calling `get_dynamic_global_properties` with `condenser_api` vs `da
 
 Because the method has no arguments, the params field can be omitted when not using `condenser_api`. However, it can optionally be included as the void type (e.g. `"params":{}`) but it is not required.
 
-> 이것은 한국어 인덱스 페이지입니다: 모든 메서드가 한국어로 번역되어 있습니다, 표의 링크는 한국어 메서드 페이지로 연결됩니다.
+> 이것은 한국어 인덱스 페이지입니다: 모든 메서드가 한국어로 번역되어 있습니다. 표의 링크는 한국어 메서드 페이지로 연결됩니다.
 
 ## 메서드 (90)
 

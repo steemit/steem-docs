@@ -1,6 +1,6 @@
 ---
 title: "database_api.list_witness_votes"
-description: "위트니스 투표 목록을 반환합니다. 파라미터: start:array; limit:int; order:string"
+description: "위트니스 (witness) 투표 목록을 반환합니다. 파라미터: start:array; limit:int; order:string"
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-위트니스 투표 목록을 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`
+위트니스 (witness) 투표 목록을 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`
 
 * `start`는 `order`에 따라 달라집니다 (아래 참고)
 * `limit`는 최대 1000입니다.

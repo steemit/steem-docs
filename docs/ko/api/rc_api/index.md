@@ -8,7 +8,7 @@ outline: [2, 3]
 
 Allows querying of various Resource Credit metrics.  See: [RC Bandwidth System](https://github.com/steemit/steem/wiki/RC-Bandwidth-System), [0.20.2 Release Notes](https://github.com/steemit/steem/releases/tag/v0.20.2), [Developer Guide: Resource Credit System](https://steemit.com/steem/@steemitdev/developer-guide-resource-credit-system)
 
-> 이것은 한국어 인덱스 페이지입니다: 모든 메서드가 한국어로 번역되어 있습니다, 표의 링크는 한국어 메서드 페이지로 연결됩니다.
+> 이것은 한국어 인덱스 페이지입니다: 모든 메서드가 한국어로 번역되어 있습니다. 표의 링크는 한국어 메서드 페이지로 연결됩니다.
 
 ## 메서드 (3)
 

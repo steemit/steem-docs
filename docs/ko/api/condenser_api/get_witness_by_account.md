@@ -1,6 +1,6 @@
 ---
 title: "condenser_api.get_witness_by_account"
-description: "계정의 위트니스를 반환합니다. 파라미터: account:string"
+description: "계정의 위트니스 (witness)를 반환합니다. 파라미터: account:string"
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-계정의 위트니스를 반환합니다.  파라미터: `account:string`
+계정의 위트니스 (witness)를 반환합니다.  파라미터: `account:string`
 
 | `account` (string) | |
 |--------------------|-|

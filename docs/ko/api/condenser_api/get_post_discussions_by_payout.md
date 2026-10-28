@@ -1,6 +1,6 @@
 ---
 title: "condenser_api.get_post_discussions_by_payout"
-description: "지급 (payout) 기준의 포스트 토론 목록을 반환합니다."
+description: "지급 (payout) 기준의 포스트 (게시물) 토론 목록을 반환합니다."
 outline: [2, 3]
 ---
 
@@ -10,7 +10,7 @@ outline: [2, 3]
 
 ## Purpose
 
-지급 (payout) 기준의 포스트 토론 목록을 반환합니다.
+지급 (payout) 기준의 포스트 (게시물) 토론 목록을 반환합니다.
 
 함께 보기: tags_api.get_post_discussions_by_payout
 

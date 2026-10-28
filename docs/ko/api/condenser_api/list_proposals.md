@@ -1,6 +1,6 @@
 ---
 title: "condenser_api.list_proposals"
-description: "지정된 생성자 또는 시작 날짜부터 모든 프로포절을 반환합니다. 파라미터: start:array; limit:int; order:string; order_direction:string; status:string"
+description: "지정된 생성자 또는 시작 날짜부터 모든 프로포절 (제안)을 반환합니다. 파라미터: start:array; limit:int; order:string; order_direction:string; status:string"
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-지정된 생성자 또는 시작 날짜부터 모든 프로포절을 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
+지정된 생성자 또는 시작 날짜부터 모든 프로포절 (제안)을 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
 
 * `start`는 `order`에 따라 달라집니다 (아래 참고)
   * `creator` - 프로포절의 생성자  (계정 이름 문자열)

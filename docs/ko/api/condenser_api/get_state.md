@@ -1,6 +1,6 @@
 ---
 title: "condenser_api.get_state"
-description: "경로의 상태를 반환합니다. 지원 중단(deprecated). 파라미터: path:string"
+description: "경로의 상태를 반환합니다. 지원 중단 (deprecated). 파라미터: path:string"
 outline: [2, 3]
 ---
 
@@ -10,7 +10,7 @@ outline: [2, 3]
 
 ## Purpose
 
-경로의 상태를 반환합니다.  **지원 중단(deprecated).**  파라미터: `path:string`
+경로의 상태를 반환합니다.  **지원 중단 (deprecated).**  파라미터: `path:string`
 
 ## Parameters
 

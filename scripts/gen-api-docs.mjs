@@ -385,7 +385,7 @@ const DEAD_NOTES = {
   ko: {
     removed: '⚠ 이 RPC 메서드는 더 이상 퍼블릭 노드에서 제공되지 않습니다.',
     disabled: '⚠ steem 소스 코드에 정의되어 있지만, 퍼블릭 노드에서는 활성화되지 않았습니다.',
-    deprecated: '⚠ 이 메서드는 지원 중단(deprecated, SMT 시대)되었으며 더 이상 퍼블릭 노드에서 제공되지 않습니다.',
+    deprecated: '⚠ 이 메서드는 지원 중단 (deprecated, SMT 시대)되었으며 더 이상 퍼블릭 노드에서 제공되지 않습니다.',
   },
 };
 
@@ -664,7 +664,7 @@ const ES_OPS_BRIDGE_NOTE =
   '> Esta es la página de índice en español: la página de operaciones aún no está traducida al español — haga clic en el nombre de una operación para abrir la sección correspondiente de la página en inglés.';
 
 const KO_METHODS_NOTE =
-  '> 이것은 한국어 인덱스 페이지입니다: 모든 메서드가 한국어로 번역되어 있습니다, 표의 링크는 한국어 메서드 페이지로 연결됩니다.';
+  '> 이것은 한국어 인덱스 페이지입니다: 모든 메서드가 한국어로 번역되어 있습니다. 표의 링크는 한국어 메서드 페이지로 연결됩니다.';
 
 const KO_OPS_BRIDGE_NOTE =
   '> 이것은 한국어 인덱스 페이지입니다: 작업 페이지는 아직 한국어로 번역되지 않았습니다 — 작업 이름을 클릭하면 영어 페이지의 해당 섹션으로 이동합니다.';

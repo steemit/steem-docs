@@ -1,6 +1,6 @@
 ---
 title: "condenser_api.get_content"
-description: "콘텐츠 (포스트 또는 댓글)를 반환합니다. 파라미터: author:string; permlink:string"
+description: "콘텐츠 (포스트 (게시물) 또는 댓글)를 반환합니다. 파라미터: author:string; permlink:string"
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-콘텐츠 (포스트 또는 댓글)를 반환합니다.  파라미터: `author:string`; `permlink:string`
+콘텐츠 (포스트 (게시물) 또는 댓글)를 반환합니다.  파라미터: `author:string`; `permlink:string`
 
 | `author` (string) | `permlink` (string) | |
 |----------------------------|---------------|-|

@@ -1,6 +1,6 @@
 ---
 title: "bridge.get_discussion"
-description: "author/permlink를 키로 하는 전체 토론 스레드 — 루트 포스트와 그에 달린 답글 전체 — 를 반환합니다. 이는 condenser_api.get_state 중 스레드에 해당하는 부분을 대체하는 hivemind 버전입니다."
+description: "author/permlink를 키로 하는 전체 토론 스레드 — 루트 포스트 (게시물)와 그에 달린 답글 전체 — 를 반환합니다. 이는 condenser_api.get_state 중 스레드에 해당하는 부분을 대체하는 hivemind 버전입니다."
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-`author/permlink`를 키로 하는 전체 토론 스레드 — 루트 포스트와 그에 달린 답글 전체 — 를 반환합니다. 이는 `condenser_api.get_state` 중 스레드에 해당하는 부분을 대체하는 hivemind 버전입니다.
+`author/permlink`를 키로 하는 전체 토론 스레드 — 루트 포스트 (게시물)와 그에 달린 답글 전체 — 를 반환합니다. 이는 `condenser_api.get_state` 중 스레드에 해당하는 부분을 대체하는 hivemind 버전입니다.
 
 파라미터: `author:string`; `permlink:string`
 

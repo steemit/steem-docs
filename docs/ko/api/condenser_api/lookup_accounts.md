@@ -1,6 +1,6 @@
 ---
 title: "condenser_api.lookup_accounts"
-description: "이름이 일치하는 계정을 조회합니다. 파라미터lower_bound_name:string; limit:int 최대 1000"
+description: "이름이 지정한 접두사로 시작하는 계정을 조회합니다. 파라미터lower_bound_name:string; limit:int 최대 1000"
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-이름이 일치하는 계정을 조회합니다.  파라미터`lower_bound_name:string`; `limit:int` 최대 1000
+이름이 지정한 접두사로 시작하는 계정을 조회합니다.  파라미터`lower_bound_name:string`; `limit:int` 최대 1000
 
 | `lower_bound_name` (string) | `limit` (int) | |
 |--------------------|---------------|-|

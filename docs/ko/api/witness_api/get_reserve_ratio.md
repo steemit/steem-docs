@@ -1,6 +1,6 @@
 ---
 title: "witness_api.get_reserve_ratio"
-description: "0.20.6부터 비활성화됨(disabled), 참고: 3029"
+description: "0.20.6부터 비활성화됨 (disabled), 참고: 3029"
 outline: [2, 3]
 ---
 
@@ -12,7 +12,7 @@ outline: [2, 3]
 
 ## Purpose
 
-**0.20.6부터 비활성화됨(disabled), 참고: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
+**0.20.6부터 비활성화됨 (disabled), 참고: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
 
 현재 준비비율 (reserve ratio)을 반환합니다.
 

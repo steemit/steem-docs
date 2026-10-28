@@ -1,6 +1,6 @@
 ---
 title: "debug_node_api.debug_get_witness_schedule"
-description: "디버그 노드 (debug node)의 현재 위트니스 스케줄을 반환합니다."
+description: "디버그 노드 (debug node)의 현재 위트니스 (witness) 스케줄을 반환합니다."
 outline: [2, 3]
 ---
 
@@ -12,7 +12,7 @@ outline: [2, 3]
 
 ## Purpose
 
-디버그 노드 (debug node)의 현재 위트니스 스케줄을 반환합니다.
+디버그 노드 (debug node)의 현재 위트니스 (witness) 스케줄을 반환합니다.
 
 ## Parameters
 

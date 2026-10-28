@@ -1,6 +1,6 @@
 ---
 title: "condenser_api.get_witness_count"
-description: "위트니스 총수를 반환합니다."
+description: "위트니스 (witness) 총수를 반환합니다."
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-위트니스 총수를 반환합니다.
+위트니스 (witness) 총수를 반환합니다.
 
 ## Parameters
 

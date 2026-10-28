@@ -1,6 +1,6 @@
 ---
 title: "condenser_api.get_witnesses_by_vote"
-description: "현재 위트니스를 투표순으로 반환합니다. 파라미터: start_name:string; limit:int 최대 1000"
+description: "현재 위트니스 (witness)를 투표순으로 반환합니다. 파라미터: start_name:string; limit:int 최대 1000"
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-현재 위트니스를 투표순으로 반환합니다.  파라미터: `start_name:string`; `limit:int` 최대 1000
+현재 위트니스 (witness)를 투표순으로 반환합니다.  파라미터: `start_name:string`; `limit:int` 최대 1000
 
 | `account` (string) | `limit` (int) | |
 |--------------------|---------------|-|

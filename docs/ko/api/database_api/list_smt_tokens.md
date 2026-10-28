@@ -45,7 +45,7 @@ SMT (스마트 미디어 토큰)를 나열합니다.  파라미터: `start:objec
 
 </div>
 
-<p class="dead-note">⚠ 이 메서드는 지원 중단(deprecated, SMT 시대)되었으며 더 이상 퍼블릭 노드에서 제공되지 않습니다.</p>
+<p class="dead-note">⚠ 이 메서드는 지원 중단 (deprecated, SMT 시대)되었으며 더 이상 퍼블릭 노드에서 제공되지 않습니다.</p>
 
 ## Example
 

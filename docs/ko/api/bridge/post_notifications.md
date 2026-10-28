@@ -1,6 +1,6 @@
 ---
 title: "bridge.post_notifications"
-description: "특정 포스트의 알림을 조회합니다."
+description: "특정 포스트 (게시물)의 알림을 조회합니다."
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-특정 포스트의 알림을 조회합니다.
+특정 포스트 (게시물)의 알림을 조회합니다.
 
 파라미터: `author:string`; `permlink:string`; `min_score:int` (선택 사항, 기본값 `25`); `last_id:int` (선택 사항, 이 알림 id부터 탐색); `limit:int` (선택 사항, 기본값 `100`, 최대 `100`)
 

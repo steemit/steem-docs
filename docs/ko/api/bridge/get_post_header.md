@@ -1,6 +1,6 @@
 ---
 title: "bridge.get_post_header"
-description: "포스트의 기본 데이터를 가져옵니다: 저자, 퍼머링크 (permlink), 카테고리, 깊이."
+description: "포스트 (게시물)의 기본 데이터를 가져옵니다: 저자, 퍼머링크 (permlink), 카테고리, 깊이."
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-포스트의 기본 데이터를 가져옵니다: 저자, 퍼머링크 (permlink), 카테고리, 깊이.
+포스트 (게시물)의 기본 데이터를 가져옵니다: 저자, 퍼머링크 (permlink), 카테고리, 깊이.
 
 파라미터: `author:string`; `permlink:string`
 

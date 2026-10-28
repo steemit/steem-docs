@@ -1,6 +1,6 @@
 ---
 title: "tags_api.get_active_votes"
-description: "주어진 포스트에 대한 모든 투표를 반환합니다."
+description: "주어진 포스트 (게시물)에 대한 모든 투표를 반환합니다."
 outline: [2, 3]
 ---
 
@@ -12,7 +12,7 @@ outline: [2, 3]
 
 ## Purpose
 
-주어진 포스트에 대한 모든 투표를 반환합니다.
+주어진 포스트 (게시물)에 대한 모든 투표를 반환합니다.
 
 ## Parameters
 

@@ -8,7 +8,7 @@ outline: [2, 3]
 
 Used to lookup information related to reputation and account follow operations. **These AppBase API methods are still under development and subject to change.**
 
-> 이것은 한국어 인덱스 페이지입니다: 모든 메서드가 한국어로 번역되어 있습니다, 표의 링크는 한국어 메서드 페이지로 연결됩니다.
+> 이것은 한국어 인덱스 페이지입니다: 모든 메서드가 한국어로 번역되어 있습니다. 표의 링크는 한국어 메서드 페이지로 연결됩니다.
 
 ## 메서드 (12)
 

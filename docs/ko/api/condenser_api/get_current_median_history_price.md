@@ -1,6 +1,6 @@
 ---
 title: "condenser_api.get_current_median_history_price"
-description: "현재 중위 이력 가격, 즉 위트니스가 제공하는 STEEM:SBD 환율을 반환합니다."
+description: "현재 중위 이력 가격, 즉 위트니스 (witness)가 제공하는 STEEM:SBD 환율을 반환합니다."
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-현재 중위 이력 가격, 즉 위트니스가 제공하는 STEEM:SBD 환율을 반환합니다.
+현재 중위 이력 가격, 즉 위트니스 (witness)가 제공하는 STEEM:SBD 환율을 반환합니다.
 
 ## Parameters
 

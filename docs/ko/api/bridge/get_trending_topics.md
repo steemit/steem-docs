@@ -1,6 +1,6 @@
 ---
 title: "bridge.get_trending_topics"
-description: "대기 중인 포스트 전반(커뮤니티와 태그가 섞여 있음)에서 상위 인기 (trending) 주제를 반환합니다."
+description: "대기 중인 포스트 (게시물) 전반(커뮤니티와 태그가 섞여 있음)에서 상위 인기 (trending) 주제를 반환합니다."
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-대기 중인 포스트 전반(커뮤니티와 태그가 섞여 있음)에서 상위 인기 (trending) 주제를 반환합니다.
+대기 중인 포스트 (게시물) 전반(커뮤니티와 태그가 섞여 있음)에서 상위 인기 (trending) 주제를 반환합니다.
 
 파라미터: `limit:int` (선택 사항, 기본값 `10`, 최대 `25`); `observer:string` (선택 사항, 아직 사용되지 않음)
 

@@ -1,6 +1,6 @@
 ---
 title: "condenser_api.list_proposal_votes"
-description: "지정된 투표자 또는 proposal.id부터 모든 프로포절 투표를 반환합니다. 파라미터: start:array; limit:int; order:string; order_direction:string; status:string"
+description: "지정된 투표자 또는 proposal.id부터 모든 프로포절 (제안) 투표를 반환합니다. 파라미터: start:array; limit:int; order:string; order_direction:string; status:string"
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-지정된 투표자 또는 `proposal.id`부터 모든 프로포절 투표를 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
+지정된 투표자 또는 `proposal.id`부터 모든 프로포절 (제안) 투표를 반환합니다.  파라미터: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
 
 * `start`는 `order`에 따라 달라집니다 (아래 참고)
   * `voter` - 프로포절의 투표자  (계정 이름 문자열)

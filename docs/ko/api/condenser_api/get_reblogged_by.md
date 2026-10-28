@@ -1,6 +1,6 @@
 ---
 title: "condenser_api.get_reblogged_by"
-description: "포스트를 리블로그 (reblog)한 저자 목록을 반환합니다. 파라미터: author:string; permlink:string"
+description: "포스트 (게시물)를 리블로그 (reblog)한 저자 목록을 반환합니다. 파라미터: author:string; permlink:string"
 outline: [2, 3]
 ---
 
@@ -10,7 +10,7 @@ outline: [2, 3]
 
 ## Purpose
 
-포스트를 리블로그 (reblog)한 저자 목록을 반환합니다.  파라미터: `author:string`; `permlink:string`
+포스트 (게시물)를 리블로그 (reblog)한 저자 목록을 반환합니다.  파라미터: `author:string`; `permlink:string`
 
 | `author` (string) | `permlink` (string) | |
 |----------------------------|---------------|-|

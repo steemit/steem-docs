@@ -1,6 +1,6 @@
 ---
 title: "condenser_api.get_witnesses"
-description: "현재 위트니스들을 반환합니다."
+description: "현재 위트니스 (witness)들을 반환합니다."
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-현재 위트니스들을 반환합니다.
+현재 위트니스 (witness)들을 반환합니다.
 
 함께 보기: database_api.list_witnesses
 

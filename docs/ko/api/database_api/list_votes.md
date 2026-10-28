@@ -24,7 +24,7 @@ outline: [2, 3]
 |----------------------------|---------------|-|
 | `["", "", ""]` | 10 | `"by_comment_voter"` | 처음 10개 투표를, 댓글 투표자 순으로 조회합니다 |
 | `["", "", ""]` | 10 | `"by_voter_comment"` | 처음 10개 투표를, 투표자 댓글 순으로 조회합니다 |
-| `["xeroc", "vanteem-config", ""]` | 10 | `"by_comment_voter"` | `@xeroc/vanteem-config` 포스트부터 다음 10개 투표를, 댓글 투표자 순으로 조회합니다 |
+| `["xeroc", "vanteem-config", ""]` | 10 | `"by_comment_voter"` | `@xeroc/vanteem-config` 포스트 (게시물)부터 다음 10개 투표를, 댓글 투표자 순으로 조회합니다 |
 | `["alice", "xeroc", "vanteem-config"]` | 10 | `"by_voter_comment"` | `@xeroc/vanteem-config` 포스트의 alice부터 다음 10개 투표를, 투표자 댓글 순으로 조회합니다 |
 
 함께 보기: Paginated API Methods

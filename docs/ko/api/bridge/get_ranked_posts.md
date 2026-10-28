@@ -1,6 +1,6 @@
 ---
 title: "bridge.get_ranked_posts"
-description: "랭킹이 매겨진 포스트를 조회합니다."
+description: "랭킹이 매겨진 포스트 (게시물)를 조회합니다."
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-랭킹이 매겨진 포스트를 조회합니다.
+랭킹이 매겨진 포스트 (게시물)를 조회합니다.
 
 `sort`에 사용할 수 있는 값:
   * `trending`

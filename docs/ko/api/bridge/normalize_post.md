@@ -1,6 +1,6 @@
 ---
 title: "bridge.normalize_post"
-description: "steemd 포스트 객체(condenser_api.get_content가 반환한 것)를 받아서 bridge-api 정규화 버전을 출력합니다."
+description: "steemd 포스트 (게시물) 객체(condenser_api.get_content가 반환한 것)를 받아서 bridge-api 정규화 버전을 출력합니다."
 outline: [2, 3]
 ---
 
@@ -8,7 +8,7 @@ outline: [2, 3]
 
 ## Purpose
 
-steemd 포스트 객체(`condenser_api.get_content`가 반환한 것)를 받아서 bridge-api 정규화 버전을 출력합니다.
+steemd 포스트 (게시물) 객체(`condenser_api.get_content`가 반환한 것)를 받아서 bridge-api 정규화 버전을 출력합니다.
 
 파라미터: `post:object` (`condenser_api.get_content`가 반환한 것과 정확히 같은 전체 steemd 포스트 객체를, 요소 하나짜리 배열로 감싸서 전달: `params: [{ <post object> }]`)
 

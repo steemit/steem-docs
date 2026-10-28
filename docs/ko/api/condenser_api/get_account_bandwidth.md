@@ -1,6 +1,6 @@
 ---
 title: "condenser_api.get_account_bandwidth"
-description: "0.20.6부터 비활성화됨(disabled), 참고: 3029"
+description: "0.20.6부터 비활성화됨 (disabled), 참고: 3029"
 outline: [2, 3]
 ---
 
@@ -12,7 +12,7 @@ outline: [2, 3]
 
 ## Purpose
 
-**0.20.6부터 비활성화됨(disabled), 참고: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
+**0.20.6부터 비활성화됨 (disabled), 참고: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
 
 계정의 사용 가능한 대역폭 (bandwidth)을 반환합니다.  파라미터: `account:string`; `type:string`, 예: `forum` 또는 `market`
 
