@@ -15,8 +15,8 @@
   methods:
   - api_method: transaction_status_api.find_transaction
     since: The Mysterious Future
-    removed: true
-    detail: 'The transaction_status_api plugin is not registered on public nodes.'
+    disabled: true
+    detail: 'Defined in the steem source (52dcfabb) but not served by public nodes.'
     purpose: |
       Returns the status of a given transaction id.  Parameters: `trx_id:string`; `expiration:timestamp` (optional)
       

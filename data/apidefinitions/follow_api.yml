@@ -32,8 +32,8 @@
     - '{"jsonrpc":"2.0", "method":"follow_api.get_blog", "params":{"account":"alice","start_entry_id":0,"limit":50},
       "id":1}'
   - api_method: follow_api.get_blog_authors
-    removed: true
-    detail: 'Removed from the follow API; public nodes return "Method not found".'
+    disabled: true
+    detail: 'Defined in the steem source (52dcfabb) but not served by public nodes.'
     purpose: |
       Returns a list of authors that have had their content reblogged on a given blog account.
       
@@ -59,8 +59,8 @@
       "id":1}'
   - api_method: follow_api.get_feed
     since: HF14
-    removed: true
-    detail: 'Removed from the follow API; public nodes return "Method not found".'
+    disabled: true
+    detail: 'Defined in the steem source (52dcfabb) but not served by public nodes.'
     purpose: |
       Returns a list of items in an account's feed.
       
@@ -74,8 +74,8 @@
       "id":1}'
   - api_method: follow_api.get_feed_entries
     since: HF14
-    removed: true
-    detail: 'Removed from the follow API; public nodes return "Method not found".'
+    disabled: true
+    detail: 'Defined in the steem source (52dcfabb) but not served by public nodes.'
     purpose: |
       Returns a list of entries in an account's feed.
       
