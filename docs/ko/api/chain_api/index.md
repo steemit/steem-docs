@@ -1,6 +1,6 @@
 ---
 title: "Chain API"
-description: "Direct block/transaction push endpoints. The chainapi plugin is defined in source but not enabled on public nodes -- the namespace is not registered."
+description: "Direct block/transaction push endpoints. The chain_api plugin is defined in source but not enabled on public nodes -- the namespace is not registered."
 outline: [2, 3]
 ---
 

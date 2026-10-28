@@ -1,6 +1,6 @@
 ---
 title: "transaction_status_api"
-description: "This API is intended to evaluate a transaction status after calling condenserapi.broadcasttransaction."
+description: "This API is intended to evaluate a transaction status after calling condenser_api.broadcast_transaction."
 outline: [2, 3]
 ---
 

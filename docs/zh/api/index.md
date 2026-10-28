@@ -12,7 +12,7 @@ zh API 总览（T11，手写静态页）。本页是 docs/api/index.md（构建�
 维护注释只能放在其后。
 -->
 
-下方 JSON-RPC API 参考由 `data/apidefinitions/*.yml` 在构建期生成。各 API 的中文索引页列出全部方法并链接到对应的英文方法页（方法页全文暂为英文，中文翻译将由后续批次补齐）。
+下方 JSON-RPC API 参考由 `data/apidefinitions/*.yml` 在构建期生成。各 API 的中文索引页列出全部方法并链接到对应的中文方法页（全部方法的用途说明均已译为中文）。
 
 # API 参考
 

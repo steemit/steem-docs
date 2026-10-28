@@ -1,6 +1,6 @@
 ---
 title: "broadcast_ops_communities"
-description: "To interact with the communities framework, use customjson operations with the an id of community. Communities also intepret other ids like follow and reblog."
+description: "To interact with the communities framework, use custom_json operations with the an id of community. Communities also intepret other ids like follow and reblog."
 ---
 
 # broadcast_ops_communities
