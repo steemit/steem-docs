@@ -18,6 +18,7 @@ addressable reference for every `condenser_api` and appbase JSON-RPC method.
 | `pnpm test:curl`       | Live-test documented methods against a node              |
 | `pnpm audit:drift`     | Dual-node drift audit; writes a snapshot into data/audit |
 | `pnpm audit:coverage`  | Coverage sweep + dead-set regression; report-only unless `--write` |
+| `pnpm audit:source-crosscheck` | Source × docs × node disposition matrix; report-only unless `--write` |
 
 ## Data pipeline
 
@@ -178,6 +179,41 @@ pnpm audit:coverage -- --write                    # persist into data/audit/
 
 Exit code 0 once the sweep completed (findings are data, not failures — read
 the gaps/deadRegression sections); 1 on usage errors or YAML parse failures.
+
+### `pnpm audit:source-crosscheck` — source × docs × node disposition matrix
+
+The phase-3 crosscheck that fuses the two source inventories
+(`data/source-inventory/steem.json`, 211 methods, and
+`data/source-inventory/hivemind.json`, 68 bindings), the YAML manifest (215
+documented methods), and the latest committed `data/audit/drift-*.json`
+snapshot into one per-method disposition matrix. Every name in the universe
+(sources ∪ docs — 240 names today) lands in exactly one cell of the
+src± × doc± × node-alive/dead grid, and each cell maps to exactly one
+disposal action (`all-good`, `annotation-refresh`, `add-page`,
+`add-page+dead-note`, `keep-annotation`, `removed-keep`); the
+combo→disposition table embedded in the report is the review artifact.
+Documented methods take their node status from the drift snapshot;
+source-only names (invisible to the snapshot by construction) are
+existence-probed live on the same dual nodes, so the two evidence lanes stay
+comparable. Exclusions (plan decision 2: `test_api.*`, `jsonrpc.*`, plus the
+inventory-level `ingest` and community.py notes) are reported in a dedicated
+section and never enter the matrix body. Double-source methods carry a
+param-style comparison column; enumerable signature mismatches between the
+steem and hivemind sides are flagged (10 of 42 today).
+
+Report-only by default; `--write` persists `source-crosscheck-<YYYY-MM-DD>.json`
+(meta, combo census, full matrix rows, disposal lists) plus a human-readable
+`.md` into `data/audit/`. Exit 0 once the crosscheck completes (findings are
+data, not failures — read the disposal lists); 1 on usage errors, YAML parse
+failures, input-contract violations (inventory counts vs the plan baselines),
+or failed assertions (universe accounting, the witness_api double-check, the
+decision-3 death-annotation family census).
+
+```sh
+pnpm audit:source-crosscheck                               # report-only
+pnpm audit:source-crosscheck -- --write                    # persist into data/audit/
+pnpm audit:source-crosscheck -- --drift data/audit/drift-2026-10-27.json --node1 https://api.steem.fans --node2 https://api.steemit.com
+```
 
 ## Internationalization (i18n)
 
