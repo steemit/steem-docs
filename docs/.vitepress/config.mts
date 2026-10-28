@@ -252,18 +252,19 @@ export default defineConfig({
     // `${base}logo.svg` would double the prefix (/steem-docs/steem-docs/...).
     logo: '/logo.svg',
 
-    // T11 hard spec ② — i18nRouting DISABLED during the translation
-    // transition. MUST live here at the TOP-level themeConfig:
-    // resolveSiteDataByRoute merges `{...topLevel.themeConfig,
-    // ...locales[route].themeConfig}` (shallow), so locales.root's copy would
-    // never reach a zh page. With i18nRouting false the language switcher
-    // navigates to the OTHER LOCALE'S HOME (locales.*.link) instead of
-    // 1:1-swapping the current path. zh itself now has full 1:1 coverage
-    // (all 215 method pages since T12 final), but T13 registered five
-    // partial locales (ru/fr/de/it/es — index pages only, no method pages)
-    // where 1:1 swaps would 404 — so this stays off until those locales
-    // complete method-page translation (phase-2 plan, post-T13 decision).
-    i18nRouting: false,
+    // T11 hard spec ② — i18nRouting was DISABLED during the translation
+    // transition: T13's five partial locales (ru/fr/de/it/es, index pages
+    // only) had no method pages, so 1:1 path swaps would have 404'd. Phase 4
+    // completed all seven locales at 238 method pages each (T27-T32), and the
+    // en tree is home + api tree only, so every page is now mirrored 1:1 and
+    // the switcher can safely swap the current path (langs.js:
+    // normalizeLink(link, i18nRouting !== false && correspondingLink, ...)).
+    // Caveat: future non-API en pages (phase-5 six chapters / tutorials) will
+    // swap to missing pages until they are mirrored per locale.
+    // MUST live here at the TOP-level themeConfig: resolveSiteDataByRoute
+    // merges `{...topLevel.themeConfig, ...locales[route].themeConfig}`
+    // (shallow), so a locales.root copy would never reach a zh page.
+    i18nRouting: true,
 
     // T11 hard spec ③ — local search, ROOT/en side + BUILD-TIME options.
     // This top-level block is what the zh pages are NOT supposed to use
@@ -471,7 +472,8 @@ export default defineConfig({
     zh: {
       label: '简体中文',
       lang: 'zh-Hans',
-      // Switcher target while i18nRouting is off: always the zh homepage.
+      // locales.*.link stays the swap base for the 1:1 language switcher:
+      // zh homepage.
       link: '/zh/',
       themeConfig: {
         nav: [
@@ -552,7 +554,8 @@ export default defineConfig({
     ru: {
       label: 'Русский',
       lang: 'ru',
-      // Switcher target while i18nRouting is off: always the ru homepage.
+      // locales.*.link stays the swap base for the 1:1 language switcher:
+      // ru homepage.
       link: '/ru/',
       themeConfig: {
         nav: [
@@ -595,7 +598,8 @@ export default defineConfig({
     fr: {
       label: 'Français',
       lang: 'fr',
-      // Switcher target while i18nRouting is off: always the fr homepage.
+      // locales.*.link stays the swap base for the 1:1 language switcher:
+      // fr homepage.
       link: '/fr/',
       themeConfig: {
         nav: [
@@ -635,7 +639,8 @@ export default defineConfig({
     de: {
       label: 'Deutsch',
       lang: 'de',
-      // Switcher target while i18nRouting is off: always the de homepage.
+      // locales.*.link stays the swap base for the 1:1 language switcher:
+      // de homepage.
       link: '/de/',
       themeConfig: {
         nav: [
@@ -671,7 +676,8 @@ export default defineConfig({
     it: {
       label: 'Italiano',
       lang: 'it',
-      // Switcher target while i18nRouting is off: always the it homepage.
+      // locales.*.link stays the swap base for the 1:1 language switcher:
+      // it homepage.
       link: '/it/',
       themeConfig: {
         nav: [
@@ -707,7 +713,8 @@ export default defineConfig({
     es: {
       label: 'Español',
       lang: 'es',
-      // Switcher target while i18nRouting is off: always the es homepage.
+      // locales.*.link stays the swap base for the 1:1 language switcher:
+      // es homepage.
       link: '/es/',
       themeConfig: {
         nav: [
@@ -743,7 +750,8 @@ export default defineConfig({
     ko: {
       label: '한국어',
       lang: 'ko',
-      // Switcher target while i18nRouting is off: always the ko homepage.
+      // locales.*.link stays the swap base for the 1:1 language switcher:
+      // ko homepage.
       link: '/ko/',
       themeConfig: {
         nav: [
