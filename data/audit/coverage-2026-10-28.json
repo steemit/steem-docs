@@ -1,6 +1,6 @@
 {
   "tool": "coverage-sweep",
-  "generatedAt": "2026-10-27T16:32:36.863Z",
+  "generatedAt": "2026-10-28T14:13:38.278Z",
   "date": "2026-10-28",
   "mode": "write",
   "nodes": {
@@ -9,8 +9,8 @@
   },
   "sources": {
     "manifest": {
-      "files": 19,
-      "methods": 215
+      "files": 22,
+      "methods": 238
     },
     "catalog": {
       "fans": {
@@ -23,17 +23,17 @@
       "union": 155
     },
     "signatures": {
-      "probed": 430,
+      "probed": 476,
       "note": "get_signature probed on both nodes for every candidate"
     }
   },
   "stats": {
-    "candidates": 215,
-    "documented": 215,
+    "candidates": 238,
+    "documented": 238,
     "catalogOnly": 0,
     "documentedVerdicts": {
-      "alive": 182,
-      "dead": 33,
+      "alive": 203,
+      "dead": 35,
       "node-dependent": 0
     },
     "gaps": 0,
@@ -41,8 +41,8 @@
     "phantoms": 0
   },
   "deadRegression": {
-    "deadConfirmed": 33,
-    "yamlFlaggedDead": 33,
+    "deadConfirmed": 35,
+    "yamlFlaggedDead": 35,
     "aligned": true,
     "deadMissingFlags": [],
     "removedFlaggedAlive": [],
@@ -54,13 +54,65 @@
       "database_api.verify_account_authority [disabled]"
     ],
     "baseline": {
-      "file": "data/audit/drift-2026-10-27.json",
-      "deadCount": 33,
+      "file": "data/audit/drift-2026-10-28.json",
+      "deadCount": 35,
       "added": [],
       "resolved": [],
       "match": true
     },
     "perMethod": [
+      {
+        "api_method": "chain_api.push_block",
+        "api": "chain_api",
+        "yamlFlags": "disabled",
+        "curl": {
+          "fans": {
+            "classification": "RPC_FAIL",
+            "httpStatus": 200,
+            "rpcErrorCode": -32002,
+            "responseBytes": 569
+          },
+          "steemit": {
+            "classification": "RPC_FAIL",
+            "httpStatus": 200,
+            "rpcErrorCode": -32002,
+            "responseBytes": 469
+          }
+        },
+        "evidence": [
+          "get_methods: NOT listed on both nodes",
+          "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method chain_api.push_",
+          "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method chain_api.push_",
+          "curl fans [documented parameter_json]: RPC_FAIL (jsonrpc -32002), 569B - jsonrpc error -32002: Assert Exception:api_itr != _registered_apis.end(): Could not find API chain_api",
+          "curl steemit [documented parameter_json]: RPC_FAIL (jsonrpc -32002), 469B - jsonrpc error -32002: Assert Exception:api_itr != _registered_apis.end(): Could not find API chain_api"
+        ]
+      },
+      {
+        "api_method": "chain_api.push_transaction",
+        "api": "chain_api",
+        "yamlFlags": "disabled",
+        "curl": {
+          "fans": {
+            "classification": "RPC_FAIL",
+            "httpStatus": 200,
+            "rpcErrorCode": -32002,
+            "responseBytes": 569
+          },
+          "steemit": {
+            "classification": "RPC_FAIL",
+            "httpStatus": 200,
+            "rpcErrorCode": -32002,
+            "responseBytes": 469
+          }
+        },
+        "evidence": [
+          "get_methods: NOT listed on both nodes",
+          "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method chain_api.push_",
+          "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method chain_api.push_",
+          "curl fans [documented parameter_json]: RPC_FAIL (jsonrpc -32002), 569B - jsonrpc error -32002: Assert Exception:api_itr != _registered_apis.end(): Could not find API chain_api",
+          "curl steemit [documented parameter_json]: RPC_FAIL (jsonrpc -32002), 469B - jsonrpc error -32002: Assert Exception:api_itr != _registered_apis.end(): Could not find API chain_api"
+        ]
+      },
       {
         "api_method": "condenser_api.get_account_bandwidth",
         "api": "condenser_api",
@@ -506,7 +558,7 @@
       {
         "api_method": "follow_api.get_blog_authors",
         "api": "follow_api",
-        "yamlFlags": "removed",
+        "yamlFlags": "disabled",
         "curl": {
           "fans": {
             "classification": "RPC_FAIL",
@@ -532,7 +584,7 @@
       {
         "api_method": "follow_api.get_feed",
         "api": "follow_api",
-        "yamlFlags": "removed",
+        "yamlFlags": "disabled",
         "curl": {
           "fans": {
             "classification": "RPC_FAIL",
@@ -558,7 +610,7 @@
       {
         "api_method": "follow_api.get_feed_entries",
         "api": "follow_api",
-        "yamlFlags": "removed",
+        "yamlFlags": "disabled",
         "curl": {
           "fans": {
             "classification": "RPC_FAIL",
@@ -584,7 +636,7 @@
       {
         "api_method": "rewards_api.simulate_curve_payouts",
         "api": "rewards_api",
-        "yamlFlags": "removed",
+        "yamlFlags": "disabled",
         "curl": {
           "fans": {
             "classification": "RPC_FAIL",
@@ -610,7 +662,7 @@
       {
         "api_method": "tags_api.get_active_votes",
         "api": "tags_api",
-        "yamlFlags": "removed",
+        "yamlFlags": "disabled",
         "curl": {
           "fans": {
             "classification": "RPC_FAIL",
@@ -636,7 +688,7 @@
       {
         "api_method": "tags_api.get_discussions_by_active",
         "api": "tags_api",
-        "yamlFlags": "removed",
+        "yamlFlags": "disabled",
         "curl": {
           "fans": {
             "classification": "RPC_FAIL",
@@ -662,7 +714,7 @@
       {
         "api_method": "tags_api.get_discussions_by_cashout",
         "api": "tags_api",
-        "yamlFlags": "removed",
+        "yamlFlags": "disabled",
         "curl": {
           "fans": {
             "classification": "RPC_FAIL",
@@ -688,7 +740,7 @@
       {
         "api_method": "tags_api.get_discussions_by_children",
         "api": "tags_api",
-        "yamlFlags": "removed",
+        "yamlFlags": "disabled",
         "curl": {
           "fans": {
             "classification": "RPC_FAIL",
@@ -714,7 +766,7 @@
       {
         "api_method": "tags_api.get_discussions_by_feed",
         "api": "tags_api",
-        "yamlFlags": "removed",
+        "yamlFlags": "disabled",
         "curl": {
           "fans": {
             "classification": "RPC_FAIL",
@@ -740,7 +792,7 @@
       {
         "api_method": "tags_api.get_discussions_by_votes",
         "api": "tags_api",
-        "yamlFlags": "removed",
+        "yamlFlags": "disabled",
         "curl": {
           "fans": {
             "classification": "RPC_FAIL",
@@ -766,7 +818,7 @@
       {
         "api_method": "tags_api.get_replies_by_last_update",
         "api": "tags_api",
-        "yamlFlags": "removed",
+        "yamlFlags": "disabled",
         "curl": {
           "fans": {
             "classification": "RPC_FAIL",
@@ -792,7 +844,7 @@
       {
         "api_method": "tags_api.get_tags_used_by_author",
         "api": "tags_api",
-        "yamlFlags": "removed",
+        "yamlFlags": "disabled",
         "curl": {
           "fans": {
             "classification": "RPC_FAIL",
@@ -818,7 +870,7 @@
       {
         "api_method": "tags_api.get_trending_tags",
         "api": "tags_api",
-        "yamlFlags": "removed",
+        "yamlFlags": "disabled",
         "curl": {
           "fans": {
             "classification": "RPC_FAIL",
@@ -844,7 +896,7 @@
       {
         "api_method": "transaction_status_api.find_transaction",
         "api": "transaction_status_api",
-        "yamlFlags": "removed",
+        "yamlFlags": "disabled",
         "curl": {
           "fans": {
             "classification": "RPC_FAIL",
@@ -1157,7 +1209,7 @@
           "classification": "RPC_FAIL",
           "httpStatus": 200,
           "rpcErrorCode": -32003,
-          "responseBytes": 424
+          "responseBytes": 524
         },
         "steemit": {
           "classification": "RPC_FAIL",
@@ -1170,7 +1222,7 @@
         "get_methods: NOT listed on both nodes",
         "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method account_history",
         "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method account_history",
-        "curl fans [documented parameter_json]: RPC_FAIL (jsonrpc -32003), 424B - jsonrpc error -32003: Assert Exception:blk->transactions.size() > txInBlock: ",
+        "curl fans [documented parameter_json]: RPC_FAIL (jsonrpc -32003), 524B - jsonrpc error -32003: Assert Exception:blk->transactions.size() > txInBlock: ",
         "curl steemit [documented parameter_json]: RPC_FAIL (jsonrpc -32003), 424B - jsonrpc error -32003: Assert Exception:blk->transactions.size() > txInBlock: "
       ]
     },
@@ -1316,6 +1368,53 @@
       ]
     },
     {
+      "api_method": "bridge.get_account_posts",
+      "api": "bridge",
+      "file": "bridge.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 23726
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 23726
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_acco",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_acco",
+        "curl fans [documented parameter_json]: OK, 23726B - result",
+        "curl steemit [documented parameter_json]: OK, 23726B - result"
+      ]
+    },
+    {
       "api_method": "bridge.get_community",
       "api": "bridge",
       "file": "bridge.yml",
@@ -1363,6 +1462,288 @@
       ]
     },
     {
+      "api_method": "bridge.get_community_context",
+      "api": "bridge",
+      "file": "bridge.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 80
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 80
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_comm",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_comm",
+        "curl fans [documented parameter_json]: OK, 80B - result",
+        "curl steemit [documented parameter_json]: OK, 80B - result"
+      ]
+    },
+    {
+      "api_method": "bridge.get_discussion",
+      "api": "bridge",
+      "file": "bridge.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 35377
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 35377
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_disc",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_disc",
+        "curl fans [documented parameter_json]: OK, 35377B - result",
+        "curl steemit [documented parameter_json]: OK, 35377B - result"
+      ]
+    },
+    {
+      "api_method": "bridge.get_payout_stats",
+      "api": "bridge",
+      "file": "bridge.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 204
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 204
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_payo",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_payo",
+        "curl fans [documented parameter_json]: OK, 204B - result",
+        "curl steemit [documented parameter_json]: OK, 204B - result"
+      ]
+    },
+    {
+      "api_method": "bridge.get_post",
+      "api": "bridge",
+      "file": "bridge.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 14191
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 14191
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_post",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_post",
+        "curl fans [documented parameter_json]: OK, 14191B - result",
+        "curl steemit [documented parameter_json]: OK, 14191B - result"
+      ]
+    },
+    {
+      "api_method": "bridge.get_post_header",
+      "api": "bridge",
+      "file": "bridge.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 180
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 180
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_post",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_post",
+        "curl fans [documented parameter_json]: OK, 180B - result",
+        "curl steemit [documented parameter_json]: OK, 180B - result"
+      ]
+    },
+    {
+      "api_method": "bridge.get_profile",
+      "api": "bridge",
+      "file": "bridge.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 345
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 345
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_prof",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_prof",
+        "curl fans [documented parameter_json]: OK, 345B - result",
+        "curl steemit [documented parameter_json]: OK, 345B - result"
+      ]
+    },
+    {
       "api_method": "bridge.get_ranked_posts",
       "api": "bridge",
       "file": "bridge.yml",
@@ -1392,21 +1773,68 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 460298
+          "responseBytes": 401873
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 460298
+          "responseBytes": 401873
         }
       },
       "evidence": [
         "get_methods: NOT listed on both nodes",
         "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_rank",
         "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_rank",
-        "curl fans [documented parameter_json]: OK, 460298B - result",
-        "curl steemit [documented parameter_json]: OK, 460298B - result"
+        "curl fans [documented parameter_json]: OK, 401873B - result",
+        "curl steemit [documented parameter_json]: OK, 401873B - result"
+      ]
+    },
+    {
+      "api_method": "bridge.get_trending_topics",
+      "api": "bridge",
+      "file": "bridge.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 113
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 113
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_tren",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.get_tren",
+        "curl fans [documented parameter_json]: OK, 113B - result",
+        "curl steemit [documented parameter_json]: OK, 113B - result"
       ]
     },
     {
@@ -1457,6 +1885,53 @@
       ]
     },
     {
+      "api_method": "bridge.list_communities",
+      "api": "bridge",
+      "file": "bridge.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 873
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 873
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.list_com",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.list_com",
+        "curl fans [documented parameter_json]: OK, 873B - result",
+        "curl steemit [documented parameter_json]: OK, 873B - result"
+      ]
+    },
+    {
       "api_method": "bridge.list_community_roles",
       "api": "bridge",
       "file": "bridge.yml",
@@ -1501,6 +1976,382 @@
         "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.list_com",
         "curl fans [documented parameter_json]: OK, 62B - result",
         "curl steemit [documented parameter_json]: OK, 62B - result"
+      ]
+    },
+    {
+      "api_method": "bridge.list_pop_communities",
+      "api": "bridge",
+      "file": "bridge.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "RPC_FAIL",
+          "httpStatus": 200,
+          "rpcErrorCode": -32000,
+          "responseBytes": 182
+        },
+        "steemit": {
+          "classification": "RPC_FAIL",
+          "httpStatus": 200,
+          "rpcErrorCode": -32000,
+          "responseBytes": 212
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.list_pop",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.list_pop",
+        "curl fans [documented parameter_json]: RPC_FAIL (jsonrpc -32000), 182B - jsonrpc error -32000: Server error",
+        "curl steemit [documented parameter_json]: RPC_FAIL (jsonrpc -32000), 212B - jsonrpc error -32000: Server error"
+      ]
+    },
+    {
+      "api_method": "bridge.list_subscribers",
+      "api": "bridge",
+      "file": "bridge.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 12449
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 12449
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.list_sub",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.list_sub",
+        "curl fans [documented parameter_json]: OK, 12449B - result",
+        "curl steemit [documented parameter_json]: OK, 12449B - result"
+      ]
+    },
+    {
+      "api_method": "bridge.normalize_post",
+      "api": "bridge",
+      "file": "bridge.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 928
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 928
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.normaliz",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.normaliz",
+        "curl fans [documented parameter_json]: OK, 928B - result",
+        "curl steemit [documented parameter_json]: OK, 928B - result"
+      ]
+    },
+    {
+      "api_method": "bridge.post_notifications",
+      "api": "bridge",
+      "file": "bridge.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "RPC_FAIL",
+          "httpStatus": 200,
+          "rpcErrorCode": -32603,
+          "responseBytes": 142
+        },
+        "steemit": {
+          "classification": "RPC_FAIL",
+          "httpStatus": 200,
+          "rpcErrorCode": -32603,
+          "responseBytes": 184
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.post_not",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.post_not",
+        "curl fans [documented parameter_json]: RPC_FAIL (jsonrpc -32603), 142B - jsonrpc error -32603: Internal error",
+        "curl steemit [documented parameter_json]: RPC_FAIL (jsonrpc -32603), 184B - jsonrpc error -32603: Internal error"
+      ]
+    },
+    {
+      "api_method": "bridge.unread_notifications",
+      "api": "bridge",
+      "file": "bridge.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 83
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 83
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.unread_n",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method bridge.unread_n",
+        "curl fans [documented parameter_json]: OK, 83B - result",
+        "curl steemit [documented parameter_json]: OK, 83B - result"
+      ]
+    },
+    {
+      "api_method": "call",
+      "api": "call",
+      "file": "call.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 97
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 97
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:v.size() == 2: Invalid method name",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:v.size() == 2: Invalid method name",
+        "curl fans [documented parameter_json]: OK, 97B - result",
+        "curl steemit [documented parameter_json]: OK, 97B - result"
+      ]
+    },
+    {
+      "api_method": "chain_api.push_block",
+      "api": "chain_api",
+      "file": "chain_api.yml",
+      "kind": "documented",
+      "verdict": "dead",
+      "flags": {
+        "removed": false,
+        "disabled": true,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "RPC_FAIL",
+          "httpStatus": 200,
+          "rpcErrorCode": -32002,
+          "responseBytes": 569
+        },
+        "steemit": {
+          "classification": "RPC_FAIL",
+          "httpStatus": 200,
+          "rpcErrorCode": -32002,
+          "responseBytes": 469
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method chain_api.push_",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method chain_api.push_",
+        "curl fans [documented parameter_json]: RPC_FAIL (jsonrpc -32002), 569B - jsonrpc error -32002: Assert Exception:api_itr != _registered_apis.end(): Could not find API chain_api",
+        "curl steemit [documented parameter_json]: RPC_FAIL (jsonrpc -32002), 469B - jsonrpc error -32002: Assert Exception:api_itr != _registered_apis.end(): Could not find API chain_api"
+      ]
+    },
+    {
+      "api_method": "chain_api.push_transaction",
+      "api": "chain_api",
+      "file": "chain_api.yml",
+      "kind": "documented",
+      "verdict": "dead",
+      "flags": {
+        "removed": false,
+        "disabled": true,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "RPC_FAIL",
+          "httpStatus": 200,
+          "rpcErrorCode": -32002,
+          "responseBytes": 569
+        },
+        "steemit": {
+          "classification": "RPC_FAIL",
+          "httpStatus": 200,
+          "rpcErrorCode": -32002,
+          "responseBytes": 469
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method chain_api.push_",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method chain_api.push_",
+        "curl fans [documented parameter_json]: RPC_FAIL (jsonrpc -32002), 569B - jsonrpc error -32002: Assert Exception:api_itr != _registered_apis.end(): Could not find API chain_api",
+        "curl steemit [documented parameter_json]: RPC_FAIL (jsonrpc -32002), 469B - jsonrpc error -32002: Assert Exception:api_itr != _registered_apis.end(): Could not find API chain_api"
       ]
     },
     {
@@ -2097,21 +2948,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 315
+          "responseBytes": 311
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 315
+          "responseBytes": 311
         }
       },
       "evidence": [
         "get_methods: listed on both nodes",
         "get_signature [fans]: ok (args empty)",
         "get_signature [steemit]: ok (args empty)",
-        "curl fans [documented parameter_json]: OK, 315B - result",
-        "curl steemit [documented parameter_json]: OK, 315B - result"
+        "curl fans [documented parameter_json]: OK, 311B - result",
+        "curl steemit [documented parameter_json]: OK, 311B - result"
       ]
     },
     {
@@ -2990,21 +3841,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 3934
+          "responseBytes": 1192
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 3934
+          "responseBytes": 1192
         }
       },
       "evidence": [
         "get_methods: listed on both nodes",
         "get_signature [fans]: ok (args empty)",
         "get_signature [steemit]: ok (args empty)",
-        "curl fans [documented parameter_json]: OK, 3934B - result",
-        "curl steemit [documented parameter_json]: OK, 3934B - result"
+        "curl fans [documented parameter_json]: OK, 1192B - result",
+        "curl steemit [documented parameter_json]: OK, 1192B - result"
       ]
     },
     {
@@ -3084,21 +3935,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 3934
+          "responseBytes": 4205
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 3934
+          "responseBytes": 4205
         }
       },
       "evidence": [
         "get_methods: listed on both nodes",
         "get_signature [fans]: ok (args empty)",
         "get_signature [steemit]: ok (args empty)",
-        "curl fans [documented parameter_json]: OK, 3934B - result",
-        "curl steemit [documented parameter_json]: OK, 3934B - result"
+        "curl fans [documented parameter_json]: OK, 4205B - result",
+        "curl steemit [documented parameter_json]: OK, 4205B - result"
       ]
     },
     {
@@ -3178,21 +4029,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 24130
+          "responseBytes": 11793
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 24130
+          "responseBytes": 11793
         }
       },
       "evidence": [
         "get_methods: listed on both nodes",
         "get_signature [fans]: ok (args empty)",
         "get_signature [steemit]: ok (args empty)",
-        "curl fans [documented parameter_json]: OK, 24130B - result",
-        "curl steemit [documented parameter_json]: OK, 24130B - result"
+        "curl fans [documented parameter_json]: OK, 11793B - result",
+        "curl steemit [documented parameter_json]: OK, 11793B - result"
       ]
     },
     {
@@ -3272,21 +4123,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1402
+          "responseBytes": 1404
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1402
+          "responseBytes": 1404
         }
       },
       "evidence": [
         "get_methods: listed on both nodes",
         "get_signature [fans]: ok (args empty)",
         "get_signature [steemit]: ok (args empty)",
-        "curl fans [documented parameter_json]: OK, 1402B - result",
-        "curl steemit [documented parameter_json]: OK, 1402B - result"
+        "curl fans [documented parameter_json]: OK, 1404B - result",
+        "curl steemit [documented parameter_json]: OK, 1404B - result"
       ]
     },
     {
@@ -3601,21 +4452,68 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 890
+          "responseBytes": 889
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 890
+          "responseBytes": 889
         }
       },
       "evidence": [
         "get_methods: listed on both nodes",
         "get_signature [fans]: ok (args empty)",
         "get_signature [steemit]: ok (args empty)",
-        "curl fans [documented parameter_json]: OK, 890B - result",
-        "curl steemit [documented parameter_json]: OK, 890B - result"
+        "curl fans [documented parameter_json]: OK, 889B - result",
+        "curl steemit [documented parameter_json]: OK, 889B - result"
+      ]
+    },
+    {
+      "api_method": "condenser_api.get_followers_by_page",
+      "api": "condenser_api",
+      "file": "condenser_api.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 461
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 461
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:method_itr != api_itr->second.end(): Method condenser",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:method_itr != api_itr->second.end(): Method condenser",
+        "curl fans [documented parameter_json]: OK, 461B - result",
+        "curl steemit [documented parameter_json]: OK, 461B - result"
       ]
     },
     {
@@ -3663,6 +4561,53 @@
         "get_signature [steemit]: ok (args empty)",
         "curl fans [documented parameter_json]: OK, 36B - result",
         "curl steemit [documented parameter_json]: OK, 36B - result"
+      ]
+    },
+    {
+      "api_method": "condenser_api.get_following_by_page",
+      "api": "condenser_api",
+      "file": "condenser_api.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 212
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 212
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:method_itr != api_itr->second.end(): Method condenser",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:method_itr != api_itr->second.end(): Method condenser",
+        "curl fans [documented parameter_json]: OK, 212B - result",
+        "curl steemit [documented parameter_json]: OK, 212B - result"
       ]
     },
     {
@@ -4588,21 +5533,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 546420
+          "responseBytes": 489437
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 546420
+          "responseBytes": 489437
         }
       },
       "evidence": [
         "get_methods: listed on both nodes",
         "get_signature [fans]: ok (args empty)",
         "get_signature [steemit]: ok (args empty)",
-        "curl fans [documented parameter_json]: OK, 546420B - result",
-        "curl steemit [documented parameter_json]: OK, 546420B - result"
+        "curl fans [documented parameter_json]: OK, 489437B - result",
+        "curl steemit [documented parameter_json]: OK, 489437B - result"
       ]
     },
     {
@@ -5199,21 +6144,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1341
+          "responseBytes": 1339
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1341
+          "responseBytes": 1339
         }
       },
       "evidence": [
         "get_methods: listed on both nodes",
         "get_signature [fans]: ok (args empty)",
         "get_signature [steemit]: ok (args empty)",
-        "curl fans [documented parameter_json]: OK, 1341B - result",
-        "curl steemit [documented parameter_json]: OK, 1341B - result"
+        "curl fans [documented parameter_json]: OK, 1339B - result",
+        "curl steemit [documented parameter_json]: OK, 1339B - result"
       ]
     },
     {
@@ -5293,21 +6238,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 924872
+          "responseBytes": 924656
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 924872
+          "responseBytes": 924656
         }
       },
       "evidence": [
         "get_methods: listed on both nodes",
         "get_signature [fans]: ok (args empty)",
         "get_signature [steemit]: ok (args empty)",
-        "curl fans [documented parameter_json]: OK, 924872B - result",
-        "curl steemit [documented parameter_json]: OK, 924872B - result"
+        "curl fans [documented parameter_json]: OK, 924656B - result",
+        "curl steemit [documented parameter_json]: OK, 924656B - result"
       ]
     },
     {
@@ -6562,21 +7507,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 331
+          "responseBytes": 329
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 331
+          "responseBytes": 329
         }
       },
       "evidence": [
         "get_methods: listed on both nodes",
         "get_signature [fans]: ok (args empty)",
         "get_signature [steemit]: ok (args empty)",
-        "curl fans [documented parameter_json]: OK, 331B - result",
-        "curl steemit [documented parameter_json]: OK, 331B - result"
+        "curl fans [documented parameter_json]: OK, 329B - result",
+        "curl steemit [documented parameter_json]: OK, 329B - result"
       ]
     },
     {
@@ -6703,21 +7648,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1858
+          "responseBytes": 1860
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1858
+          "responseBytes": 1860
         }
       },
       "evidence": [
         "get_methods: listed on both nodes",
         "get_signature [fans]: ok (args empty)",
         "get_signature [steemit]: ok (args empty)",
-        "curl fans [documented parameter_json]: OK, 1858B - result",
-        "curl steemit [documented parameter_json]: OK, 1858B - result"
+        "curl fans [documented parameter_json]: OK, 1860B - result",
+        "curl steemit [documented parameter_json]: OK, 1860B - result"
       ]
     },
     {
@@ -7173,21 +8118,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1379
+          "responseBytes": 1377
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 1379
+          "responseBytes": 1377
         }
       },
       "evidence": [
         "get_methods: listed on both nodes",
         "get_signature [fans]: ok (args empty)",
         "get_signature [steemit]: ok (args empty)",
-        "curl fans [documented parameter_json]: OK, 1379B - result",
-        "curl steemit [documented parameter_json]: OK, 1379B - result"
+        "curl fans [documented parameter_json]: OK, 1377B - result",
+        "curl steemit [documented parameter_json]: OK, 1377B - result"
       ]
     },
     {
@@ -8842,8 +9787,8 @@
       "kind": "documented",
       "verdict": "dead",
       "flags": {
-        "removed": true,
-        "disabled": false,
+        "removed": false,
+        "disabled": true,
         "deprecated": false
       },
       "catalog": {
@@ -8936,8 +9881,8 @@
       "kind": "documented",
       "verdict": "dead",
       "flags": {
-        "removed": true,
-        "disabled": false,
+        "removed": false,
+        "disabled": true,
         "deprecated": false
       },
       "catalog": {
@@ -8983,8 +9928,8 @@
       "kind": "documented",
       "verdict": "dead",
       "flags": {
-        "removed": true,
-        "disabled": false,
+        "removed": false,
+        "disabled": true,
         "deprecated": false
       },
       "catalog": {
@@ -9100,21 +10045,68 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 890
+          "responseBytes": 889
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 890
+          "responseBytes": 889
         }
       },
       "evidence": [
         "get_methods: NOT listed on both nodes",
         "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method follow_api.get_",
         "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method follow_api.get_",
-        "curl fans [documented parameter_json]: OK, 890B - result",
-        "curl steemit [documented parameter_json]: OK, 890B - result"
+        "curl fans [documented parameter_json]: OK, 889B - result",
+        "curl steemit [documented parameter_json]: OK, 889B - result"
+      ]
+    },
+    {
+      "api_method": "follow_api.get_followers_by_page",
+      "api": "follow_api",
+      "file": "follow_api.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 461
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 461
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method follow_api.get_",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method follow_api.get_",
+        "curl fans [documented parameter_json]: OK, 461B - result",
+        "curl steemit [documented parameter_json]: OK, 461B - result"
       ]
     },
     {
@@ -9165,6 +10157,53 @@
       ]
     },
     {
+      "api_method": "follow_api.get_following_by_page",
+      "api": "follow_api",
+      "file": "follow_api.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 212
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 212
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method follow_api.get_",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method follow_api.get_",
+        "curl fans [documented parameter_json]: OK, 212B - result",
+        "curl steemit [documented parameter_json]: OK, 212B - result"
+      ]
+    },
+    {
       "api_method": "follow_api.get_reblogged_by",
       "api": "follow_api",
       "file": "follow_api.yml",
@@ -9209,6 +10248,53 @@
         "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method follow_api.get_",
         "curl fans [documented parameter_json]: OK, 292B - result",
         "curl steemit [documented parameter_json]: OK, 292B - result"
+      ]
+    },
+    {
+      "api_method": "hive.db_head_state",
+      "api": "hive",
+      "file": "hive.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 114
+        },
+        "steemit": {
+          "classification": "OK",
+          "httpStatus": 200,
+          "rpcErrorCode": null,
+          "responseBytes": 114
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method hive.db_head_st",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method hive.db_head_st",
+        "curl fans [documented parameter_json]: OK, 114B - result",
+        "curl steemit [documented parameter_json]: OK, 114B - result"
       ]
     },
     {
@@ -9429,21 +10515,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 52781
+          "responseBytes": 49165
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 52781
+          "responseBytes": 49165
         }
       },
       "evidence": [
         "get_methods: listed on both nodes",
         "get_signature [fans]: ok (args: {\"limit\":500})",
         "get_signature [steemit]: ok (args: {\"limit\":500})",
-        "curl fans [documented parameter_json]: OK, 52781B - result",
-        "curl steemit [documented parameter_json]: OK, 52781B - result"
+        "curl fans [documented parameter_json]: OK, 49165B - result",
+        "curl steemit [documented parameter_json]: OK, 49165B - result"
       ]
     },
     {
@@ -9923,8 +11009,8 @@
       "kind": "documented",
       "verdict": "dead",
       "flags": {
-        "removed": true,
-        "disabled": false,
+        "removed": false,
+        "disabled": true,
         "deprecated": false
       },
       "catalog": {
@@ -9964,14 +11050,61 @@
       ]
     },
     {
+      "api_method": "tags_api.get_account_votes",
+      "api": "tags_api",
+      "file": "tags_api.yml",
+      "kind": "documented",
+      "verdict": "alive",
+      "flags": {
+        "removed": false,
+        "disabled": false,
+        "deprecated": false
+      },
+      "catalog": {
+        "fans": false,
+        "steemit": false
+      },
+      "sig": {
+        "fans": {
+          "ok": false,
+          "usable": false
+        },
+        "steemit": {
+          "ok": false,
+          "usable": false
+        }
+      },
+      "curl": {
+        "fans": {
+          "classification": "RPC_FAIL",
+          "httpStatus": 200,
+          "rpcErrorCode": -32000,
+          "responseBytes": 182
+        },
+        "steemit": {
+          "classification": "RPC_FAIL",
+          "httpStatus": 200,
+          "rpcErrorCode": -32000,
+          "responseBytes": 219
+        }
+      },
+      "evidence": [
+        "get_methods: NOT listed on both nodes",
+        "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method tags_api.get_ac",
+        "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method tags_api.get_ac",
+        "curl fans [documented parameter_json]: RPC_FAIL (jsonrpc -32000), 182B - jsonrpc error -32000: Server error",
+        "curl steemit [documented parameter_json]: RPC_FAIL (jsonrpc -32000), 219B - jsonrpc error -32000: Server error"
+      ]
+    },
+    {
       "api_method": "tags_api.get_active_votes",
       "api": "tags_api",
       "file": "tags_api.yml",
       "kind": "documented",
       "verdict": "dead",
       "flags": {
-        "removed": true,
-        "disabled": false,
+        "removed": false,
+        "disabled": true,
         "deprecated": false
       },
       "catalog": {
@@ -10158,8 +11291,8 @@
       "kind": "documented",
       "verdict": "dead",
       "flags": {
-        "removed": true,
-        "disabled": false,
+        "removed": false,
+        "disabled": true,
         "deprecated": false
       },
       "catalog": {
@@ -10299,8 +11432,8 @@
       "kind": "documented",
       "verdict": "dead",
       "flags": {
-        "removed": true,
-        "disabled": false,
+        "removed": false,
+        "disabled": true,
         "deprecated": false
       },
       "catalog": {
@@ -10346,8 +11479,8 @@
       "kind": "documented",
       "verdict": "dead",
       "flags": {
-        "removed": true,
-        "disabled": false,
+        "removed": false,
+        "disabled": true,
         "deprecated": false
       },
       "catalog": {
@@ -10463,21 +11596,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 3934
+          "responseBytes": 1347
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 3934
+          "responseBytes": 1347
         }
       },
       "evidence": [
         "get_methods: NOT listed on both nodes",
         "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method tags_api.get_di",
         "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method tags_api.get_di",
-        "curl fans [documented parameter_json]: OK, 3934B - result",
-        "curl steemit [documented parameter_json]: OK, 3934B - result"
+        "curl fans [documented parameter_json]: OK, 1347B - result",
+        "curl steemit [documented parameter_json]: OK, 1347B - result"
       ]
     },
     {
@@ -10487,8 +11620,8 @@
       "kind": "documented",
       "verdict": "dead",
       "flags": {
-        "removed": true,
-        "disabled": false,
+        "removed": false,
+        "disabled": true,
         "deprecated": false
       },
       "catalog": {
@@ -10557,21 +11690,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 3934
+          "responseBytes": 4436
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 3934
+          "responseBytes": 4436
         }
       },
       "evidence": [
         "get_methods: NOT listed on both nodes",
         "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method tags_api.get_di",
         "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method tags_api.get_di",
-        "curl fans [documented parameter_json]: OK, 3934B - result",
-        "curl steemit [documented parameter_json]: OK, 3934B - result"
+        "curl fans [documented parameter_json]: OK, 4436B - result",
+        "curl steemit [documented parameter_json]: OK, 4436B - result"
       ]
     },
     {
@@ -10651,21 +11784,21 @@
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 24130
+          "responseBytes": 11793
         },
         "steemit": {
           "classification": "OK",
           "httpStatus": 200,
           "rpcErrorCode": null,
-          "responseBytes": 24130
+          "responseBytes": 11793
         }
       },
       "evidence": [
         "get_methods: NOT listed on both nodes",
         "get_signature [fans]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method tags_api.get_di",
         "get_signature [steemit]: jsonrpc error -32003: Assert Exception:api_itr != _method_sigs.end(): Method tags_api.get_di",
-        "curl fans [documented parameter_json]: OK, 24130B - result",
-        "curl steemit [documented parameter_json]: OK, 24130B - result"
+        "curl fans [documented parameter_json]: OK, 11793B - result",
+        "curl steemit [documented parameter_json]: OK, 11793B - result"
       ]
     },
     {
@@ -10675,8 +11808,8 @@
       "kind": "documented",
       "verdict": "dead",
       "flags": {
-        "removed": true,
-        "disabled": false,
+        "removed": false,
+        "disabled": true,
         "deprecated": false
       },
       "catalog": {
@@ -10769,8 +11902,8 @@
       "kind": "documented",
       "verdict": "dead",
       "flags": {
-        "removed": true,
-        "disabled": false,
+        "removed": false,
+        "disabled": true,
         "deprecated": false
       },
       "catalog": {
@@ -10816,8 +11949,8 @@
       "kind": "documented",
       "verdict": "dead",
       "flags": {
-        "removed": true,
-        "disabled": false,
+        "removed": false,
+        "disabled": true,
         "deprecated": false
       },
       "catalog": {
@@ -10863,8 +11996,8 @@
       "kind": "documented",
       "verdict": "dead",
       "flags": {
-        "removed": true,
-        "disabled": false,
+        "removed": false,
+        "disabled": true,
         "deprecated": false
       },
       "catalog": {
@@ -10910,8 +12043,8 @@
       "kind": "documented",
       "verdict": "dead",
       "flags": {
-        "removed": true,
-        "disabled": false,
+        "removed": false,
+        "disabled": true,
         "deprecated": false
       },
       "catalog": {

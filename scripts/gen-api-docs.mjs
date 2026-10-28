@@ -32,7 +32,8 @@ const LIQUID_LOG_PATH = join(GEN_DIR, 'liquid-warnings.txt');
 // pages, generated with --locale <code>. Only the <stem>/index.md subtrees are
 // written; hand-written static pages under docs/<code>/ (home, API overview)
 // are never touched by this script. zh additionally gets a method page per
-// purpose covered by data/translations/zh/purposes.yml (T12, all 215); the
+// purpose covered by data/translations/zh/purposes.yml (T12, all 238 since
+// the T22 source-fill); the
 // other locales have NO method pages this phase — every method row in their
 // index tables bridges to the English page by site-absolute path.
 const ZH_OUT_DIR = join(ROOT, 'docs/zh/api');
@@ -101,13 +102,17 @@ function cleanLiquid(text, file, where) {
   return out;
 }
 
-/** First non-empty line as plain text (markdown symbols stripped, truncated). */
+/**
+ * First non-empty line as plain text (truncated). Only markdown syntax
+ * symbols are stripped — underscores are preserved so snake_case method
+ * names survive intact into meta descriptions (phase-3 nits).
+ */
 function firstPlainLine(text, max = 160) {
   if (typeof text !== 'string') return '';
   const line = text.split('\n').map((l) => l.trim()).find((l) => l.length > 0) ?? '';
   const plain = line
     .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1')
-    .replace(/[#>*_`~]/g, '')
+    .replace(/[#>*`~]/g, '')
     .replace(/\s+/g, ' ')
     .trim();
   if (plain.length <= max) return plain;
@@ -313,6 +318,41 @@ function isDeadWithCause(m) {
   return deathBadge && typeof m.detail === 'string' && m.detail.trim() !== '';
 }
 
+/**
+ * Dead-note wording per death family (phase-3 nits). The single generic
+ * "no longer provided" sentence was wrong for two of the three families:
+ * the SMT-era set is deprecated rather than removed, and the source-defined
+ * methods (debug_node / chain_api / the T25 source-truth set) still exist in
+ * steem source — their plugins are just not enabled on public nodes. Family
+ * selection: removed wins over disabled (the three removed methods carry
+ * both flags in the YAML), then disabled, then deprecated. zh mirrors the
+ * English sentences on locale-generated method pages.
+ */
+const DEAD_NOTES = {
+  en: {
+    removed: '⚠ This RPC method is no longer provided by public nodes.',
+    disabled: '⚠ Defined in the steem source, but not enabled on public nodes.',
+    deprecated: '⚠ This method is deprecated (SMT-era) and no longer served by public nodes.',
+  },
+  zh: {
+    removed: '⚠ 此 RPC 方法已不再由公共节点提供。',
+    disabled: '⚠ 该方法在 steem 源码中有定义，但公共节点未启用。',
+    deprecated: '⚠ 此方法已弃用（SMT 时代），公共节点已不再提供。',
+  },
+};
+
+/** Death family of a method carrying at least one death badge. */
+function deathFamily(m) {
+  if (m.removed === true) return 'removed';
+  if (m.disabled === true) return 'disabled';
+  return 'deprecated';
+}
+
+/** Localized dead-note paragraph for a method that isDeadWithCause(). */
+function deadNote(m, locale) {
+  return `<p class="dead-note">${DEAD_NOTES[locale ?? 'en'][deathFamily(m)]}</p>`;
+}
+
 /** testnet/mainnet availability notes (objects of { working, detail }). */
 function networkLine(m) {
   const parts = [];
@@ -357,11 +397,12 @@ function expectedCurlResponsesSection(value, file, where) {
 /**
  * Render one method page. `translatedPurpose` (locale mode only) swaps the
  * Purpose section text and the frontmatter description for the translation;
- * titles, badges, detail lines, parameter/response blocks and curl cards are
+ * `locale` (locale mode only) picks the dead-note wording (en when omitted).
+ * Titles, badges, detail lines, parameter/response blocks and curl cards are
  * rendered from the en data exactly like the en page (T12 scope: translate
  * purpose only — and only zh has method pages at all).
  */
-function methodPage(m, file, translatedPurpose) {
+function methodPage(m, file, translatedPurpose, locale) {
   const apiMethod = String(m.api_method);
   const dot = apiMethod.indexOf('.');
   const short = dot === -1 ? apiMethod : apiMethod.slice(dot + 1);
@@ -386,7 +427,7 @@ function methodPage(m, file, translatedPurpose) {
   }
 
   if (isDeadWithCause(m)) {
-    parts.push('<p class="dead-note">⚠ This RPC method is no longer provided by public nodes.</p>', '');
+    parts.push(deadNote(m, locale), '');
   }
   parts.push(...exampleSection(m, apiMethod));
 
@@ -533,7 +574,8 @@ function overviewPage(apis) {
 // tree and fail the zero-tolerance check. Method names, badges and purposes
 // stay English on untranslated pages by design.
 //
-// T12 final (all 215 translated): every zh method row links to its zh page,
+// T12 final (all 238 translated since the T22 source-fill): every zh method
+// row links to its zh page,
 // so the zh note below no longer mentions en bridging. The per-row branch
 // stays as a safety net — an uncovered method (stale translation key) would
 // still bridge to the English page. ru has NO method pages this phase (user
@@ -1008,7 +1050,7 @@ function generateLocalePages(files, collected, locale) {
       const translated = purposes.get(String(m.api_method));
       const hasTranslated = translated !== undefined;
       if (hasTranslated) {
-        writeFileSync(join(stemDir, `${short}.md`), methodPage(m, file, translated).content);
+        writeFileSync(join(stemDir, `${short}.md`), methodPage(m, file, translated, locale.key).content);
         localeMethodPages++;
       }
       // A translated method links to its locale page (same tree, so a
