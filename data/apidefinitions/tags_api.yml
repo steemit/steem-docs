@@ -5,6 +5,26 @@
   description: Used to lookup information about tags, posts, and discussions. **These
     AppBase API methods are still under development and subject to change.**
   methods:
+  - api_method: tags_api.get_account_votes
+    purpose: |
+      **Not supported:** hivemind registers this method name only to return an informational error: "get_account_votes is no longer supported, for details see https://steemit.com/steemit/@steemitdev/additional-public-api-change".
+
+      Parameters: `account:string`
+
+      Also see: condenser_api.get_account_votes
+    parameter_json: '{"account":"steemit"}'
+    expected_response_json: |
+      {
+        "error": {
+          "code": -32000,
+          "message": "Server error",
+          "data": "ApiError: get_account_votes is no longer supported, for details see https://steemit.com/steemit/@steemitdev/additional-public-api-change"
+        },
+        "id": 1,
+        "jsonrpc": "2.0"
+      }
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"tags_api.get_account_votes", "params":{"account":"steemit"}, "id":1}'
   - api_method: tags_api.get_active_votes
     removed: true
     detail: 'Removed from the tags API; public nodes return "Method not found".'

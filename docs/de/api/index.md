@@ -8,7 +8,7 @@ deutsche API-Übersichtsseite (T13, handgeschriebene statische Seite). Diese
 Seite ist das deutsche Gegenstück zu docs/api/index.md (zur Build-Zeit
 generiert): Kartenanzahl und Zähler müssen mit ihr synchron bleiben (ändert
 sich eine Datendatei, aktualisiert docs:gen die englische Übersicht; diese
-Seite wird von Hand gepflegt). Die 17 Methoden-API-Karten zeigen auf die
+Seite wird von Hand gepflegt). Die 20 Methoden-API-Karten zeigen auf die
 deutschen Indexseiten unter /de/api/; für die 2 Operationslisten-APIs
 (broadcast_ops*) gibt es noch keine deutsche Fassung — ihre Karten führen
 direkt auf die englischen Seiten.
@@ -48,7 +48,7 @@ Unten befindet sich die zur Build-Zeit aus `data/apidefinitions/*.yml` generiert
 
 <div class="api-card">
 
-[Bridge](/de/api/bridge/) <span class="badge badge-count">5 Methoden</span>
+[Bridge](/de/api/bridge/) <span class="badge badge-count">19 Methoden</span>
 
 <p class="api-card-summary">Stellt die von der hivemind-Datenbank interpretierten Daten als JSON-RPC bereit.</p>
 
@@ -56,7 +56,23 @@ Unten befindet sich die zur Build-Zeit aus `data/apidefinitions/*.yml` generiert
 
 <div class="api-card">
 
-[condenser_api](/de/api/condenser_api/) <span class="badge badge-count">88 Methoden</span>
+[call](/de/api/call/) <span class="badge badge-count">1 Methode</span>
+
+<p class="api-card-summary">Adapter für das Legacy-JSON-RPC-`call`-Format, bereitgestellt vom hivemind-API-Server.</p>
+
+</div>
+
+<div class="api-card">
+
+[chain_api](/de/api/chain_api/) <span class="badge badge-count">2 Methoden</span>
+
+<p class="api-card-summary">Direkte Endpunkte zum Pushen von Blöcken und Transaktionen. Das chain_api-Plugin ist im Quellcode definiert, aber auf öffentlichen Knoten nicht aktiviert.</p>
+
+</div>
+
+<div class="api-card">
+
+[condenser_api](/de/api/condenser_api/) <span class="badge badge-count">90 Methoden</span>
 
 <p class="api-card-summary">Aggregierende API für einen sanften Umstieg: sie enthält alle derzeit existierenden Methoden und behält das bisherige Parameterformat bei — bestehende Anwendungen müssen ihre Anfragen nur an condenser_api richten, um mit Appbase zu arbeiten.</p>
 
@@ -80,9 +96,17 @@ Unten befindet sich die zur Build-Zeit aus `data/apidefinitions/*.yml` generiert
 
 <div class="api-card">
 
-[Follow API](/de/api/follow_api/) <span class="badge badge-count">10 Methoden</span>
+[Follow API](/de/api/follow_api/) <span class="badge badge-count">12 Methoden</span>
 
 <p class="api-card-summary">Abfrage sozialer Daten: Reputation, Abonnements zwischen Konten. AppBase-API, noch in Entwicklung; die Schnittstelle kann sich ändern.</p>
+
+</div>
+
+<div class="api-card">
+
+[hive](/de/api/hive/) <span class="badge badge-count">1 Methode</span>
+
+<p class="api-card-summary">Status- und Diagnosemethoden, bereitgestellt vom hivemind-API-Server.</p>
 
 </div>
 
@@ -136,7 +160,7 @@ Unten befindet sich die zur Build-Zeit aus `data/apidefinitions/*.yml` generiert
 
 <div class="api-card">
 
-[Tags API](/de/api/tags_api/) <span class="badge badge-count">20 Methoden</span>
+[Tags API](/de/api/tags_api/) <span class="badge badge-count">21 Methoden</span>
 
 <p class="api-card-summary">Abfrage von Tags, Beiträgen und Diskussionen. AppBase-API, noch in Entwicklung; die Schnittstelle kann sich ändern.</p>
 

@@ -1,0 +1,35 @@
+---
+- name: Chain API
+  description: |
+    Direct block/transaction push endpoints. **The chain_api plugin is defined in source but not enabled on public nodes -- the namespace is not registered.**
+  methods:
+  - api_method: chain_api.push_block
+    disabled: true
+    detail: 'The chain_api plugin is defined in source but not enabled on public nodes; the namespace is not registered.'
+    purpose: |
+      Pushes a block to the node.
+
+      Parameters: `block:object` (a signed block); `currently_syncing:bool` (optional, defaults to `false`)
+
+      Returns `success:bool` and, on failure, an `error:string`.
+    parameter_json: '{"block":{},"currently_syncing":false}'
+    expected_response_json: '{"success":true,"error":null}'
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"chain_api.push_block", "params":{"block":{},"currently_syncing":false}, "id":1}'
+    expected_curl_responses:
+    - Could not find API chain_api
+  - api_method: chain_api.push_transaction
+    disabled: true
+    detail: 'The chain_api plugin is defined in source but not enabled on public nodes; the namespace is not registered.'
+    purpose: |
+      Pushes a transaction to the node.
+
+      Parameters: the signed transaction object itself, not wrapped: `ref_block_num:int`; `ref_block_prefix:int`; `expiration:timestamp`; `operations:array`; `extensions:array`; `signatures:array`
+
+      Returns `success:bool` and, on failure, an `error:string`.
+    parameter_json: '{"ref_block_num":0,"ref_block_prefix":0,"expiration":"1970-01-01T00:00:00","operations":[],"extensions":[],"signatures":[]}'
+    expected_response_json: '{"success":true,"error":null}'
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"chain_api.push_transaction", "params":{"ref_block_num":0,"ref_block_prefix":0,"expiration":"1970-01-01T00:00:00","operations":[],"extensions":[],"signatures":[]}, "id":1}'
+    expected_curl_responses:
+    - Could not find API chain_api
