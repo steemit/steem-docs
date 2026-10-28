@@ -21,7 +21,7 @@
 # （by_effective_date/by_withdraw_route/by_destination）、
 # "next next vesting withdrawal" 等均照原文直译或原样保留。
 #
-# 死方法（deprecated/disabled/removed 三族 32 个）照常翻译，不因死亡而省略；
+# 死方法（deprecated/disabled/removed 三族 35 个）照常翻译，不因死亡而省略；
 # 23 个三期新增方法（bridge 系 14、condenser_api follow 分页对 2、chain_api 2、
 # hive 1、tags 1、call 1 及 T22 补页清单其余）全部在内。
 #
@@ -180,7 +180,7 @@ purposes:
 
     Параметры: `limit:int` (необязательный, по умолчанию `25`, максимум `25`)
 
-    Примечание: по состоянию на 2026-10-28 публичные узлы возвращают на этот вызов серверную ошибку (в развёрнутой сборке hivemind параметр запроса `cutoff` никогда не привязывается). Отклик ниже показывает ожидаемую форму ответа.
+    Примечание: по состоянию на 2026-10-28 публичные узлы возвращают на этот вызов серверную ошибку (в развёрнутой сборке hivemind параметр запроса `cutoff` никогда не привязывается). Пример ответа ниже показывает ожидаемую форму.
   bridge.list_subscribers: |-
     Перечисляет подписчиков (subscriber) сообщества (community) (до 250, начиная с новейших) в виде кортежей (tuple) `name`/`role`/`title`/`created_at`.
 
@@ -786,7 +786,7 @@ purposes:
     |-------------------|-|-|-|-|-|
     | `[""]` | 10 | `by_creator` | `ascending` | `active` | список 10 предложений со статусом active, упорядоченных по создателю, по возрастанию |
     | `["2019-08-07T16:54:03"]` | 1000 | `by_start_date` | `ascending` | `inactive` | список 1000 предложений со статусом inactive, упорядоченных по дате начала, по возрастанию, начиная с 2019-08-07T16:54:03 |
-    | `["a"]` | 1 | `by_creator` | `ascending` | `expired` | список 1 предложения со статусом expired, упорядоченных по создателю, по возрастанию, по аккаунтам, начинающимся с "a" |
+    | `["a"]` | 1 | `by_creator` | `ascending` | `expired` | список 1 предложения со статусом expired, упорядоченного по создателю, по возрастанию, по аккаунтам, начинающимся с "a" |
     | `["alice"]` | 10 | `by_creator` | `ascending` | `all` | список 10 предложений с любым статусом, упорядоченных по создателю, по возрастанию, по alice |
     | `[""]` | 1000 | `by_creator` | `ascending` | `votable` | список 1000 доступных для голосования (votable) предложений, упорядоченных по создателю, по возрастанию |
     | `[10]` | 1000 | `by_total_votes` | `ascending` | `votable` | список 1000 доступных для голосования (votable) предложений, упорядоченных по создателю, по возрастанию, с не менее чем 10 голосами |
@@ -878,7 +878,7 @@ purposes:
 
     См.: [Content Rewards](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#content-rewards), [Qualitative Discussion](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#qualitative-discussion)
   database_api.find_smt_tokens: |-
-    Ищет SMT (Smart Media Tokens).
+    Ищет SMT (смарт-медиа-токены).
 
     См.: [Smart Media Tokens (SMTs)](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#smart-media-tokens-smts)
   database_api.find_vesting_delegation_expirations: |-
@@ -1051,8 +1051,8 @@ purposes:
 
     | `start` (array) | `limit` (int) | `order` (string) | |
     |----------------------------|---------------|-|
-    | `[{"base": {"amount": "85405", "precision": 3, "nai": "@@000000021"}, "quote": {"amount": "17192", "precision": 3, "nai": "@@000000013"}}, 0]` | 10 | `"by_price"` | Запрос первых 10 заявок, сортировка по цене |
-    | `["alice", 0]` | 10 | `"by_effective_date"` | Запрос первых 10 заявок, сортировка по аккаунту |
+    | `[{"base": {"amount": "85405", "precision": 3, "nai": "@@000000021"}, "quote": {"amount": "17192", "precision": 3, "nai": "@@000000013"}}, 0]` | 10 | `"by_price"` | Запрос первых 10 ордеров, сортировка по цене |
+    | `["alice", 0]` | 10 | `"by_effective_date"` | Запрос первых 10 ордеров, сортировка по аккаунту |
 
     См. также: Paginated API Methods
   database_api.list_owner_histories: |-
@@ -1118,7 +1118,7 @@ purposes:
     |-------------------|-|-|-|-|-|
     | `[""]` | 10 | `by_creator` | `ascending` | `active` | список 10 предложений со статусом active, упорядоченных по создателю, по возрастанию |
     | `["2019-08-07T16:54:03"]` | 1000 | `by_start_date` | `ascending` | `inactive` | список 1000 предложений со статусом inactive, упорядоченных по дате начала, по возрастанию, начиная с 2019-08-07T16:54:03 |
-    | `["a"]` | 1 | `by_creator` | `ascending` | `expired` | список 1 предложения со статусом expired, упорядоченных по создателю, по возрастанию, по аккаунтам, начинающимся с "a" |
+    | `["a"]` | 1 | `by_creator` | `ascending` | `expired` | список 1 предложения со статусом expired, упорядоченного по создателю, по возрастанию, по аккаунтам, начинающимся с "a" |
     | `["alice"]` | 10 | `by_creator` | `ascending` | `all` | список 10 предложений с любым статусом, упорядоченных по создателю, по возрастанию, по alice |
     | `[""]` | 1000 | `by_creator` | `ascending` | `votable` | список 1000 доступных для голосования (votable) предложений, упорядоченных по создателю, по возрастанию |
     | `[10]` | 1000 | `by_total_votes` | `ascending` | `votable` | список 1000 доступных для голосования (votable) предложений, упорядоченных по создателю, по возрастанию, с не менее чем 10 голосами |
@@ -1192,7 +1192,7 @@ purposes:
 
     См. также: Paginated API Methods
   database_api.list_smt_tokens: |-
-    Перечисляет SMT (Smart Media Tokens). Параметры: `start:object`; `limit:int`; `order:string`
+    Перечисляет SMT (смарт-медиа-токены). Параметры: `start:object`; `limit:int`; `order:string`
 
     * `start` зависит от `order` (см. ниже)
     * `limit` - до 1000.
