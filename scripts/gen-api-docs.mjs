@@ -34,8 +34,9 @@ const LIQUID_LOG_PATH = join(GEN_DIR, 'liquid-warnings.txt');
 // are never touched by this script. Full locales additionally get a method
 // page per purpose covered by their data/translations/<code>/purposes.yml —
 // zh (T12, all 238 since the T22 source-fill), ru (T27, same 238 key set),
-// fr (T28, same 238 key set), de (T29, same 238 key set) and it (T30, same
-// 238 key set) are full locales; the remaining bridge-only locales have NO
+// fr (T28, same 238 key set), de (T29, same 238 key set), it (T30, same
+// 238 key set) and es (T31, same 238 key set) are full locales; the remaining
+// bridge-only locales have NO
 // method pages this phase — every method row in their index tables bridges
 // to the English page by site-absolute path.
 const ZH_OUT_DIR = join(ROOT, 'docs/zh/api');
@@ -48,6 +49,8 @@ const DE_OUT_DIR = join(ROOT, 'docs/de/api');
 const DE_PURPOSES_PATH = join(ROOT, 'data/translations/de/purposes.yml');
 const IT_OUT_DIR = join(ROOT, 'docs/it/api');
 const IT_PURPOSES_PATH = join(ROOT, 'data/translations/it/purposes.yml');
+const ES_OUT_DIR = join(ROOT, 'docs/es/api');
+const ES_PURPOSES_PATH = join(ROOT, 'data/translations/es/purposes.yml');
 // T23 (user decision): every generated curl command targets api.steemit.com.
 const API_URL = 'https://api.steemit.com';
 
@@ -334,9 +337,8 @@ function isDeadWithCause(m) {
  * methods (debug_node / chain_api / the T25 source-truth set) still exist in
  * steem source — their plugins are just not enabled on public nodes. Family
  * selection: removed wins over disabled (the three removed methods carry
- * both flags in the YAML), then disabled, then deprecated. zh/ru/fr/de/it
- * mirror the
- * English sentences on locale-generated method pages.
+ * both flags in the YAML), then disabled, then deprecated. zh/ru/fr/de/it/es
+ * mirror the English sentences on locale-generated method pages.
  */
 const DEAD_NOTES = {
   en: {
@@ -370,6 +372,12 @@ const DEAD_NOTES = {
     disabled: '⚠ Definito nel codice sorgente di steem, ma non abilitato sui nodi pubblici.',
     deprecated:
       '⚠ Questo metodo è deprecato (era SMT, token multimediali intelligenti) e non è più fornito dai nodi pubblici.',
+  },
+  es: {
+    removed: '⚠ Este método RPC ya no es proporcionado por los nodos públicos.',
+    disabled: '⚠ Definido en el código fuente de steem, pero no habilitado en los nodos públicos.',
+    deprecated:
+      '⚠ Este método está deprecado (de la era SMT, tokens de medios inteligentes) y ya no es proporcionado por los nodos públicos.',
   },
 };
 
@@ -432,7 +440,7 @@ function expectedCurlResponsesSection(value, file, where) {
  * `locale` (locale mode only) picks the dead-note wording (en when omitted).
  * Titles, badges, detail lines, parameter/response blocks and curl cards are
  * rendered from the en data exactly like the en page (T12 scope: translate
- * purpose only — zh, ru, fr, de and it are the locales with method pages today).
+ * purpose only — zh, ru, fr, de, it and es are the locales with method pages today).
  */
 function methodPage(m, file, translatedPurpose, locale) {
   const apiMethod = String(m.api_method);
@@ -641,11 +649,17 @@ const IT_METHODS_NOTE =
 const IT_OPS_BRIDGE_NOTE =
   '> Questa è la pagina di indice italiana: la pagina delle operazioni non è ancora tradotta in italiano — fare clic sul nome di un’operazione per aprire la sezione corrispondente della pagina inglese.';
 
+const ES_METHODS_NOTE =
+  '> Esta es la página de índice en español: todos los métodos están traducidos al español, los enlaces de las tablas llevan a las páginas de métodos en español.';
+
+const ES_OPS_BRIDGE_NOTE =
+  '> Esta es la página de índice en español: la página de operaciones aún no está traducida al español — haga clic en el nombre de una operación para abrir la sección correspondiente de la página en inglés.';
+
 /**
- * Strings for a bridge-only locale (remaining T13 locales de/es plus ko
+ * Strings for a bridge-only locale (remaining T13 locale ko
  * from T26, pattern set by ru): one generated index page per API whose method
  * rows ALL bridge to the English method pages (no locale method pages this
- * phase). Expands into a full LOCALES entry with the same shape as zh/ru/fr/it.
+ * phase). Expands into a full LOCALES entry with the same shape as zh/ru/fr/de/it.
  */
 function bridgeOnlyLocale(key, strings) {
   return {
@@ -671,8 +685,8 @@ function bridgeOnlyLocale(key, strings) {
 }
 
 /**
- * Locale registry for `--locale <code>` runs. zh, ru, fr, de and it are full
- * locales
+ * Locale registry for `--locale <code>` runs. zh, ru, fr, de, it and es are
+ * full locales
  * (purposes translation file -> translated method pages); every other entry
  * is a bridge-only locale (index pages with all method rows pointing at en) —
  * added via bridgeOnlyLocale() below.
@@ -781,19 +795,27 @@ const LOCALES = {
       colFlags: 'Stato',
     },
   },
-  es: bridgeOnlyLocale('es', {
-    methodsNote:
-      '> Esta es la página de índice en español: las páginas de métodos aún no están traducidas al español — todos los enlaces de la tabla llevan a las páginas de métodos en inglés.',
-    methodsHeading: 'Métodos',
-    colMethod: 'Método',
-    colSince: 'Desde la versión',
-    colFlags: 'Estado',
-    opsNote:
-      '> Esta es la página de índice en español: la página de operaciones aún no está traducida al español — haga clic en el nombre de una operación para abrir la sección correspondiente de la página en inglés.',
-    opsHeading: 'Operaciones',
-    colOp: 'Operación',
-    colFlags: 'Estado',
-  }),
+  es: {
+    key: 'es',
+    outDir: ES_OUT_DIR,
+    // T31 (phase 4): es is the sixth full locale — one translated method page
+    // per purpose in data/translations/es/purposes.yml (all 238 since the T22
+    // source-fill), mirroring the zh/ru/fr/de/it pattern.
+    purposesPath: ES_PURPOSES_PATH,
+    methods: {
+      note: ES_METHODS_NOTE,
+      heading: 'Métodos',
+      colMethod: 'Método',
+      colSince: 'Desde la versión',
+      colFlags: 'Estado',
+    },
+    ops: {
+      note: ES_OPS_BRIDGE_NOTE,
+      heading: 'Operaciones',
+      colOp: 'Operación',
+      colFlags: 'Estado',
+    },
+  },
   ko: bridgeOnlyLocale('ko', {
     methodsNote:
       '> 이것은 한국어 인덱스 페이지입니다: 메서드 페이지는 아직 한국어로 번역되지 않았습니다 — 표의 모든 링크는 영어 메서드 페이지로 연결됩니다.',

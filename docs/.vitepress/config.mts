@@ -716,7 +716,10 @@ export default defineConfig({
         sidebar: [
           {
             text: 'Referencia de API',
-            items: apiSidebar({ indexPrefix: '/es/api/', methodPrefix: '/api/' })
+            // T31 full locale: es index pages AND all 238 translated method
+            // pages are generated, so the sidebar children point into the es
+            // tree too (same shape as the zh/ru/fr/de/it sidebars since T27).
+            items: apiSidebar({ indexPrefix: '/es/api/', methodPrefix: '/es/api/' })
           }
         ],
         outline: { label: 'En esta página' },

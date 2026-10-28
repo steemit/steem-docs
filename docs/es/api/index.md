@@ -17,7 +17,7 @@ el compilador no puede leer title/description); los comentarios de servicio
 van solo después de él.
 -->
 
-A continuación se encuentra la referencia de las API JSON-RPC, generada en tiempo de compilación a partir de `data/apidefinitions/*.yml`. Las páginas de índice en español enumeran todos los métodos de cada API; las páginas de métodos aún no están traducidas — los enlaces de las tablas llevan a las páginas de métodos en inglés.
+A continuación se encuentra la referencia de las API JSON-RPC, generada en tiempo de compilación a partir de `data/apidefinitions/*.yml`. Las páginas de índice en español enumeran todos los métodos de cada API; las páginas de métodos están traducidas al español — los enlaces de las tablas llevan a las páginas de métodos en español.
 
 # Referencia de API
 
