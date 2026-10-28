@@ -153,3 +153,392 @@
     }
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"bridge.get_community", "params":{"name":"hive-123456","observer":"alice"}, "id":1}'
+  - api_method: bridge.normalize_post
+    purpose: |
+      Takes a steemd post object (as returned by `condenser_api.get_content`) and outputs the bridge-api normalized version.
+
+      Parameters: `post:object` (a steemd post object)
+    parameter_json: |
+      {
+        "author": "steemitblog",
+        "permlink": "steemit-update-october-25th-2026-steemit-challenge-season-34-week-10",
+        "category": "steemitchallenge",
+        "title": "Steemit Update [October 25th, 2026] : Steemit Challenge Season 34 - Week 10",
+        "body": "<div class=\"pull-right\">…</div>",
+        "json_metadata": {"app":"steemit/0.2","format":"markdown","tags":["steemitchallenge"]},
+        "created": "2026-10-25T13:56:33",
+        "last_update": "2026-10-25T13:56:33",
+        "depth": 0,
+        "children": 15,
+        "net_rshares": 33634754934517,
+        "promoted": "0.000 STEEM",
+        "active_votes": [{"voter":"donatello","rshares":"18175645866"}]
+      }
+    expected_response_json: |
+      {
+        "post_id": 114078646,
+        "author": "steemitblog",
+        "permlink": "steemit-update-october-25th-2026-steemit-challenge-season-34-week-10",
+        "category": "steemitchallenge",
+        "title": "Steemit Update [October 25th, 2026] : Steemit Challenge Season 34 - Week 10",
+        "body": "<div class=\"pull-right\">…</div>",
+        "json_metadata": {"app":"steemit/0.2","format":"markdown","tags":["steemitchallenge"]},
+        "created": "2026-10-25T13:56:33",
+        "updated": "2026-10-25T13:56:33",
+        "depth": 0,
+        "children": 15,
+        "net_rshares": 33634754934517,
+        "is_paidout": false,
+        "payout_at": "2026-11-01T13:56:33",
+        "payout": 4.272,
+        "pending_payout_value": "4.272 SBD",
+        "author_payout_value": "0.000 SBD",
+        "curator_payout_value": "0.000 SBD",
+        "promoted": null,
+        "replies": [],
+        "active_votes": [{"voter":"donatello","rshares":"18175645866"}],
+        "author_reputation": 77.9,
+        "stats": {"hide":false,"gray":false,"total_votes":179,"flag_weight":0},
+        "beneficiaries": [{"account":"null","weight":10000}],
+        "max_accepted_payout": "1000000.000 SBD",
+        "percent_steem_dollars": 10000,
+        "url": "/steemitchallenge/@steemitblog/steemit-update-october-25th-2026-steemit-challenge-season-34-week-10",
+        "blacklists": []
+      }
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"bridge.normalize_post", "params":{"author":"steemitblog","permlink":"steemit-update-october-25th-2026-steemit-challenge-season-34-week-10","category":"steemitchallenge","title":"Steemit Update","body":"…","json_metadata":{},"created":"2026-10-25T13:56:33","last_update":"2026-10-25T13:56:33","depth":0,"children":15,"net_rshares":33634754934517,"promoted":"0.000 STEEM","active_votes":[]}, "id":1}'
+  - api_method: bridge.get_post_header
+    purpose: |
+      Fetch basic post data: author, permlink, category, and depth.
+
+      Parameters: `author:string`; `permlink:string`
+    parameter_json: '{"author":"steemitblog","permlink":"steemit-update-october-25th-2026-steemit-challenge-season-34-week-10"}'
+    expected_response_json: '{"author":"steemitblog","category":"steemitchallenge","depth":0,"permlink":"steemit-update-october-25th-2026-steemit-challenge-season-34-week-10"}'
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"bridge.get_post_header", "params":{"author":"steemitblog","permlink":"steemit-update-october-25th-2026-steemit-challenge-season-34-week-10"}, "id":1}'
+  - api_method: bridge.get_discussion
+    purpose: |
+      Returns a full discussion thread -- the root post and its replies, keyed by `author/permlink`.  This is the hivemind replacement for the thread portion of `condenser_api.get_state`.
+
+      Parameters: `author:string`; `permlink:string`
+    parameter_json: '{"author":"steemitblog","permlink":"steemit-update-october-25th-2026-steemit-challenge-season-34-week-10"}'
+    expected_response_json: |
+      {
+        "steemitblog/steemit-update-october-25th-2026-steemit-challenge-season-34-week-10": {
+          "post_id": 114078646,
+          "author": "steemitblog",
+          "permlink": "steemit-update-october-25th-2026-steemit-challenge-season-34-week-10",
+          "category": "steemitchallenge",
+          "title": "Steemit Update [October 25th, 2026] : Steemit Challenge Season 34 - Week 10",
+          "body": "<div class=\"pull-right\">…</div>",
+          "json_metadata": {"app":"steemit/0.2","format":"markdown","tags":["steemitchallenge"]},
+          "created": "2026-10-25T13:56:33",
+          "updated": "2026-10-25T13:56:33",
+          "depth": 0,
+          "children": 15,
+          "net_rshares": 33634754934517,
+          "is_paidout": false,
+          "payout_at": "2026-11-01T13:56:33",
+          "payout": 4.272,
+          "pending_payout_value": "4.272 SBD",
+          "author_payout_value": "0.000 SBD",
+          "curator_payout_value": "0.000 SBD",
+          "promoted": null,
+          "replies": ["mireyalongart/tngvrk", "tahispadron/tngxr6"],
+          "active_votes": [{"voter":"donatello","rshares":"18175645866"}],
+          "author_reputation": 77.9,
+          "stats": {"hide":false,"gray":false,"total_votes":179,"flag_weight":0},
+          "beneficiaries": [{"account":"null","weight":10000}],
+          "max_accepted_payout": "1000000.000 SBD",
+          "percent_steem_dollars": 10000,
+          "url": "/steemitchallenge/@steemitblog/steemit-update-october-25th-2026-steemit-challenge-season-34-week-10",
+          "blacklists": []
+        },
+        "ahsansharif/tni1ib": {
+          "post_id": 114081320,
+          "author": "ahsansharif",
+          "permlink": "tni1ib",
+          "category": "steemitchallenge",
+          "title": "RE: Steemit Update [October 25th, 2026] : Steemit Challenge Season 34 - Week 10",
+          "body": "For the second challenge, you need to propose questions for Season 35 that do not involve the use of AI.",
+          "json_metadata": {"app":"steemit/0.2"},
+          "created": "2026-10-26T05:20:36",
+          "updated": "2026-10-26T05:20:36",
+          "depth": 2,
+          "children": 4,
+          "net_rshares": 23171453278013,
+          "is_paidout": false,
+          "payout_at": "2026-11-02T05:20:36",
+          "payout": 2.85,
+          "pending_payout_value": "2.850 SBD",
+          "author_payout_value": "0.000 SBD",
+          "curator_payout_value": "0.000 SBD",
+          "promoted": null,
+          "replies": ["jannat12/tni1mq", "steemcurator02/tnin5u"],
+          "active_votes": [{"voter":"steemcurator02","rshares":"22995470216866"}],
+          "author_reputation": 79.73,
+          "stats": {"hide":false,"gray":false,"total_votes":3,"flag_weight":0},
+          "beneficiaries": [],
+          "max_accepted_payout": "1000000.000 SBD",
+          "percent_steem_dollars": 10000,
+          "url": "/steemitchallenge/@steemitblog/steemit-update-october-25th-2026-steemit-challenge-season-34-week-10#@ahsansharif/tni1ib",
+          "blacklists": []
+        }
+      }
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"bridge.get_discussion", "params":{"author":"steemitblog","permlink":"steemit-update-october-25th-2026-steemit-challenge-season-34-week-10"}, "id":1}'
+  - api_method: bridge.get_post
+    purpose: |
+      Fetch a single post.
+
+      Parameters: `author:string`; `permlink:string`; `observer:string` (optional)
+    parameter_json: '{"author":"steemitblog","permlink":"steemit-update-october-25th-2026-steemit-challenge-season-34-week-10"}'
+    expected_response_json: |
+      {
+        "post_id": 114078646,
+        "author": "steemitblog",
+        "permlink": "steemit-update-october-25th-2026-steemit-challenge-season-34-week-10",
+        "category": "steemitchallenge",
+        "title": "Steemit Update [October 25th, 2026] : Steemit Challenge Season 34 - Week 10",
+        "body": "<div class=\"pull-right\">…</div>",
+        "json_metadata": {"app":"steemit/0.2","format":"markdown","tags":["steemitchallenge"]},
+        "created": "2026-10-25T13:56:33",
+        "updated": "2026-10-25T13:56:33",
+        "depth": 0,
+        "children": 15,
+        "net_rshares": 33634754934517,
+        "is_paidout": false,
+        "payout_at": "2026-11-01T13:56:33",
+        "payout": 4.272,
+        "pending_payout_value": "4.272 SBD",
+        "author_payout_value": "0.000 SBD",
+        "curator_payout_value": "0.000 SBD",
+        "promoted": null,
+        "replies": [],
+        "active_votes": [{"voter":"donatello","rshares":"18175645866"}],
+        "author_reputation": 77.9,
+        "stats": {"hide":false,"gray":false,"total_votes":179,"flag_weight":0},
+        "beneficiaries": [{"account":"null","weight":10000}],
+        "max_accepted_payout": "1000000.000 SBD",
+        "percent_steem_dollars": 10000,
+        "url": "/steemitchallenge/@steemitblog/steemit-update-october-25th-2026-steemit-challenge-season-34-week-10",
+        "blacklists": []
+      }
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"bridge.get_post", "params":{"author":"steemitblog","permlink":"steemit-update-october-25th-2026-steemit-challenge-season-34-week-10"}, "id":1}'
+  - api_method: bridge.get_account_posts
+    purpose: |
+      Get posts for an account -- blog, feed, comments, or replies.
+
+      Supported values for `sort`:
+        * `blog`
+        * `feed`
+        * `posts`
+        * `comments`
+        * `replies`
+        * `payout`
+
+      Parameters: `sort:string`; `account:string`; `start_author:string` (optional, defaults to empty); `start_permlink:string` (optional, defaults to empty); `limit:int` (optional, defaults to `20`, max `100`); `observer:string` (optional)
+
+      Also see: bridge.get_ranked_posts
+    parameter_json: '{"sort":"blog","account":"steemit","limit":1}'
+    expected_response_json: |
+      [
+        {
+          "post_id": 1,
+          "author": "steemit",
+          "permlink": "firstpost",
+          "category": "meta",
+          "title": "Welcome to Steem!",
+          "body": "Steemit is a social media platform where anyone can earn STEEM points by posting and liking posts.",
+          "json_metadata": {},
+          "created": "2016-03-30T18:30:18",
+          "updated": "2016-03-30T18:30:18",
+          "depth": 0,
+          "children": 445,
+          "net_rshares": 830053779138,
+          "is_paidout": true,
+          "payout_at": "2016-08-24T19:59:42",
+          "payout": 1.698,
+          "pending_payout_value": "0.000 SBD",
+          "author_payout_value": "0.942 SBD",
+          "curator_payout_value": "0.756 SBD",
+          "promoted": null,
+          "replies": [],
+          "active_votes": [{"voter":"dantheman","rshares":"375241"}],
+          "author_reputation": 35.01,
+          "stats": {"hide":false,"gray":false,"total_votes":92,"flag_weight":0},
+          "beneficiaries": [],
+          "max_accepted_payout": "1000000.000 SBD",
+          "percent_steem_dollars": 10000,
+          "url": "/meta/@steemit/firstpost",
+          "blacklists": []
+        }
+      ]
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"bridge.get_account_posts", "params":{"sort":"blog","account":"steemit","limit":1}, "id":1}'
+  - api_method: bridge.get_profile
+    purpose: |
+      Load account/profile data: metadata, reputation, follow stats, and blacklists.
+
+      Parameters: `account:string`; `observer:string` (optional)
+    parameter_json: '{"account":"steemit"}'
+    expected_response_json: |
+      {
+        "id": 32,
+        "name": "steemit",
+        "active": "2020-03-27T08:46:24",
+        "created": "2016-03-24T17:00:21",
+        "post_count": 1,
+        "reputation": 35.01,
+        "metadata": {
+          "profile": {
+            "about": "",
+            "cover_image": "",
+            "location": "",
+            "name": "",
+            "profile_image": "",
+            "website": ""
+          }
+        },
+        "stats": {"followers": 3550, "following": 0, "rank": 1354, "sp": 3502},
+        "blacklists": []
+      }
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"bridge.get_profile", "params":{"account":"steemit"}, "id":1}'
+  - api_method: bridge.get_trending_topics
+    purpose: |
+      Return top trending topics across pending posts (a mix of communities and tags).
+
+      Parameters: `limit:int` (optional, defaults to `10`, max `25`); `observer:string` (optional, not yet used)
+    parameter_json: '{"limit":2}'
+    expected_response_json: |
+      [
+        ["hive-108451", "SteemitCryptoAcademy"],
+        ["hive-172186", "Newcomers' Community"]
+      ]
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"bridge.get_trending_topics", "params":{"limit":2}, "id":1}'
+  - api_method: bridge.post_notifications
+    purpose: |
+      Load notifications for a specific post.
+
+      Parameters: `author:string`; `permlink:string`; `min_score:int` (optional, defaults to `25`); `last_id:int` (optional, seek from this notification id); `limit:int` (optional, defaults to `100`, max `100`)
+
+      Note: as of 2026-10-28, public nodes return an internal error for this call on posts that have notifications. The response below shows the intended shape.
+
+      Also see: bridge.account_notifications
+    parameter_json: '{"author":"steemitblog","permlink":"steemit-update-october-25th-2026-steemit-challenge-season-34-week-10","limit":2}'
+    expected_response_json: |
+      [{
+        "id": 3629306,
+        "type": "vote",
+        "score": 25,
+        "date": "2019-11-20T07:48:06",
+        "msg": "@bob voted on your post ($0.013)",
+        "url": "@alice/a-post-by-alice"
+      }]
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"bridge.post_notifications", "params":{"author":"steemitblog","permlink":"steemit-update-october-25th-2026-steemit-challenge-season-34-week-10","limit":2}, "id":1}'
+  - api_method: bridge.unread_notifications
+    purpose: |
+      Load notification status for a named account: the last-read time and the count of unread notifications scoring at least `min_score`.
+
+      Parameters: `account:string`; `min_score:int` (optional, defaults to `25`)
+
+      Also see: bridge.account_notifications
+    parameter_json: '{"account":"steemit"}'
+    expected_response_json: '{"lastread":"1970-01-01 00:00:00","unread":11922}'
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"bridge.unread_notifications", "params":{"account":"steemit"}, "id":1}'
+  - api_method: bridge.get_payout_stats
+    purpose: |
+      Get payout stats for building a treemap: total blog payout plus one `(url, label, payout, posts, authors)` tuple per top community.
+
+      Parameters: `limit:int` (optional, defaults to `250`, max `250`)
+    parameter_json: '{"limit":2}'
+    expected_response_json: |
+      {
+        "blogs": 14318.128,
+        "total": 39571.85,
+        "items": [
+          ["hive-129948", "আমার বাংলা ব্লগ", 6891.869, 288, 70],
+          ["hive-150122", "Steem Alliance", 2051.709, 74, 29]
+        ]
+      }
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"bridge.get_payout_stats", "params":{"limit":2}, "id":1}'
+  - api_method: bridge.get_community_context
+    purpose: |
+      For a community/account pair, returns the account's role, title, and subscribed state.
+
+      Parameters: `name:string` (community name, e.g.: `hive-123456`); `account:string`
+
+      Also see: bridge.get_community
+    parameter_json: '{"name":"hive-108451","account":"steemit"}'
+    expected_response_json: '{"role":"guest","title":"","subscribed":false}'
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"bridge.get_community_context", "params":{"name":"hive-108451","account":"steemit"}, "id":1}'
+  - api_method: bridge.list_communities
+    purpose: |
+      List all communities, paginated. Returns a lite community list.
+
+      Supported values for `sort`:
+        * `rank`
+        * `new`
+        * `subs`
+
+      Parameters: `last:string` (optional, defaults to empty); `limit:int` (optional, defaults to `100`, max `100`); `query:string` (optional, full-text search on title and about); `sort:string` (optional, defaults to `rank`); `observer:string` (optional)
+
+      Also see: bridge.get_community
+    parameter_json: '{"last":"","limit":2,"query":null,"sort":"rank","observer":null}'
+    expected_response_json: |
+      [
+        {
+          "about": "United Steemit Community",
+          "admins": ["blacks", "rme", "nusuranur"],
+          "avatar_url": "",
+          "context": {},
+          "created_at": "2022-10-02 16:30:15",
+          "id": 1751564,
+          "is_nsfw": false,
+          "lang": "en",
+          "name": "hive-150122",
+          "num_authors": 29,
+          "num_pending": 74,
+          "subscribers": 4837,
+          "sum_pending": 2052,
+          "title": "Steem Alliance",
+          "type_id": 1
+        }
+      ]
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"bridge.list_communities", "params":{"last":"","limit":2,"query":null,"sort":"rank","observer":null}, "id":1}'
+  - api_method: bridge.list_pop_communities
+    purpose: |
+      List communities by new subscriber count. Returns a lite community list.
+
+      Parameters: `limit:int` (optional, defaults to `25`, max `25`)
+
+      Note: as of 2026-10-28, public nodes return a server error for this call (the deployed hivemind build never binds the `cutoff` query parameter). The response below shows the intended shape.
+    parameter_json: '{"limit":2}'
+    expected_response_json: |
+      [
+        ["hive-123456", "Wonderland"],
+        ["hive-654321", "Tulgey Wood"]
+      ]
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"bridge.list_pop_communities", "params":{"limit":2}, "id":1}'
+  - api_method: bridge.list_subscribers
+    purpose: |
+      Lists subscribers of a community (up to 250, newest first), as `name`/`role`/`title`/`created_at` tuples.
+
+      Parameters: `community:string` (e.g.: `hive-123456`)
+    parameter_json: '{"community":"hive-108451"}'
+    expected_response_json: |
+      [
+        ["obizone45", "guest", null, "2026-10-20 16:09:09"],
+        ["hamzax", "guest", null, "2026-10-17 01:23:36"]
+      ]
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"bridge.list_subscribers", "params":{"community":"hive-108451"}, "id":1}'

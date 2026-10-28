@@ -1,0 +1,14 @@
+---
+- name: Hive
+  description: |
+    Status and diagnostic methods served by the hivemind API server.
+  methods:
+  - api_method: hive.db_head_state
+    purpose: |
+      Status/health check: returns the head block number and time of the hivemind database, and the age of the head block in seconds.
+
+      Parameters: none
+    parameter_json: '[]'
+    expected_response_json: '{"db_head_block":110820469,"db_head_time":"2026-10-28 04:31:42","db_head_age":8}'
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"hive.db_head_state", "params":[], "id":1}'

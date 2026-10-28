@@ -110,6 +110,29 @@
       "id":1}'
     - '{"jsonrpc":"2.0", "method":"follow_api.get_followers", "params":{"account":"alice","start":null,"type":"ignore","limit":100},
       "id":1}'
+  - api_method: follow_api.get_followers_by_page
+    purpose: |
+      Returns the followers for an account, by page.  (EOL)  Alias of `condenser_api.get_followers_by_page`: parameters are passed as a positional array -- `account:string`; `page:int` (1-based); `page_size:int` (optional, defaults to `100`, max `100`); `follow_type:string` (optional, defaults to `blog`).
+
+      **Note:** some nodes reject the named-parameter form with `-32602`; pass a positional array.
+
+      | `account` (string) | `page` (int) | `page_size` (int) | |
+      |--------------------|--------------|-------------------|-|
+      | `"steemit"` | `1` | `5` | Queries page 1 of the accounts following `steemit`, 5 per page. |
+      | `"alice"` | `2` | `100` | Queries page 2 of the accounts following `alice`, 100 per page. |
+
+      Also see: condenser_api.get_followers_by_page, Paginated API Methods
+    parameter_json:
+    - steemit
+    - 1
+    - 5
+    expected_response_json: |
+      [
+        {"follower":"etette","following":"steemit","reputation":73.4,"what":["blog"]},
+        {"follower":"victorlives","following":"steemit","reputation":60.17,"what":["blog"]}
+      ]
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"follow_api.get_followers_by_page", "params":["steemit",1,5], "id":1}'
   - api_method: follow_api.get_following
     since: HF9
     purpose: |
@@ -123,6 +146,29 @@
       "id":1}'
     - '{"jsonrpc":"2.0", "method":"follow_api.get_following", "params":{"account":"alice","start":null,"type":"ignore","limit":100},
       "id":1}'
+  - api_method: follow_api.get_following_by_page
+    purpose: |
+      Returns the accounts that an account follows, by page.  (EOL)  Alias of `condenser_api.get_following_by_page`: parameters are passed as a positional array -- `account:string`; `page:int` (1-based); `page_size:int` (optional, defaults to `100`, max `100`); `follow_type:string` (optional, defaults to `blog`).
+
+      **Note:** some nodes reject the named-parameter form with `-32602`; pass a positional array.
+
+      | `account` (string) | `page` (int) | `page_size` (int) | |
+      |--------------------|--------------|-------------------|-|
+      | `"steemitblog"` | `1` | `2` | Queries page 1 of the accounts `steemitblog` follows, 2 per page. |
+      | `"alice"` | `2` | `100` | Queries page 2 of the accounts `alice` follows, 100 per page. |
+
+      Also see: condenser_api.get_following_by_page, Paginated API Methods
+    parameter_json:
+    - steemitblog
+    - 1
+    - 2
+    expected_response_json: |
+      [
+        {"follower":"steemitblog","following":"rishabh99946","reputation":74.46,"what":["blog"]},
+        {"follower":"steemitblog","following":"oluwatobiloba","reputation":69.24,"what":["blog"]}
+      ]
+    curl_examples:
+    - '{"jsonrpc":"2.0", "method":"follow_api.get_following_by_page", "params":["steemitblog",1,2], "id":1}'
   - api_method: follow_api.get_reblogged_by
     since: HF14
     purpose: Returns a list of authors that have reblogged a post.

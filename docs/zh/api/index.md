@@ -6,7 +6,7 @@ description: "由 data/apidefinitions 生成的 JSON-RPC API 参考总览（中�
 <!--
 zh API 总览（T11，手写静态页）。本页是 docs/api/index.md（构建期生成）的中文
 对应版：卡片数量与计数必须与其保持同步（数据文件变化时 docs:gen 会更新英文
-总览，本页需人工同步）。17 个方法类 API 卡片指向 /zh/api/ 下的中文索引页；
+总览，本页需人工同步）。20 个方法类 API 卡片指向 /zh/api/ 下的中文索引页；
 2 个操作列表 API（broadcast_ops*）暂无中文版，直接桥接到英文页。
 注意：frontmatter 必须位于文件最前面（否则构建器无法解析 title/description），
 维护注释只能放在其后。
@@ -44,7 +44,7 @@ zh API 总览（T11，手写静态页）。本页是 docs/api/index.md（构建�
 
 <div class="api-card">
 
-[bridge](/zh/api/bridge/) <span class="badge badge-count">5 个方法</span>
+[bridge](/zh/api/bridge/) <span class="badge badge-count">19 个方法</span>
 
 <p class="api-card-summary">以 JSON-RPC 形式呈现 hivemind 数据库的解析结果。</p>
 
@@ -52,7 +52,23 @@ zh API 总览（T11，手写静态页）。本页是 docs/api/index.md（构建�
 
 <div class="api-card">
 
-[condenser_api](/zh/api/condenser_api/) <span class="badge badge-count">88 个方法</span>
+[call](/zh/api/call/) <span class="badge badge-count">1 个方法</span>
+
+<p class="api-card-summary">旧式 JSON-RPC `call` 约定适配器，由 hivemind API 服务器提供。</p>
+
+</div>
+
+<div class="api-card">
+
+[chain_api](/zh/api/chain_api/) <span class="badge badge-count">2 个方法</span>
+
+<p class="api-card-summary">区块/交易的直接推送端点。chain_api 插件在源码中仍有定义，但未在公共节点启用。</p>
+
+</div>
+
+<div class="api-card">
+
+[condenser_api](/zh/api/condenser_api/) <span class="badge badge-count">90 个方法</span>
 
 <p class="api-card-summary">为平滑迁移而设的聚合 API：包含当前存在的全部方法，沿用既有参数格式，老应用只需把请求指向 condenser_api 即可接入 Appbase。</p>
 
@@ -76,9 +92,17 @@ zh API 总览（T11，手写静态页）。本页是 docs/api/index.md（构建�
 
 <div class="api-card">
 
-[follow_api](/zh/api/follow_api/) <span class="badge badge-count">10 个方法</span>
+[follow_api](/zh/api/follow_api/) <span class="badge badge-count">12 个方法</span>
 
 <p class="api-card-summary">查询声誉与账户关注等社交关系数据。AppBase API，仍在开发中，接口可能变更。</p>
+
+</div>
+
+<div class="api-card">
+
+[hive](/zh/api/hive/) <span class="badge badge-count">1 个方法</span>
+
+<p class="api-card-summary">由 hivemind API 服务器提供的状态与诊断方法。</p>
 
 </div>
 
@@ -132,7 +156,7 @@ zh API 总览（T11，手写静态页）。本页是 docs/api/index.md（构建�
 
 <div class="api-card">
 
-[tags_api](/zh/api/tags_api/) <span class="badge badge-count">20 个方法</span>
+[tags_api](/zh/api/tags_api/) <span class="badge badge-count">21 个方法</span>
 
 <p class="api-card-summary">查询标签、帖子与讨论串。AppBase API，仍在开发中，接口可能变更。</p>
 

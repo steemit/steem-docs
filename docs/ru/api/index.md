@@ -8,7 +8,7 @@ description: "Сгенерированный обзор JSON-RPC API из data/a
 русское соответствие docs/api/index.md (генерируется на этапе сборки):
 количество карточек и счётчики должны оставаться синхронными с ней (при
 изменении файлов данных docs:gen обновляет английский обзор, эта страница
-обновляется вручную). 17 карточек методов API указывают на русские индексные
+обновляется вручную). 20 карточек методов API указывают на русские индексные
 страницы в /ru/api/; у 2 API списков операций (broadcast_ops*) русской версии
 пока нет — карточки ведут прямо на английские страницы.
 Внимание: frontmatter должен стоять в самом начале файла (иначе сборщик не
@@ -47,7 +47,7 @@ description: "Сгенерированный обзор JSON-RPC API из data/a
 
 <div class="api-card">
 
-[Bridge](/ru/api/bridge/) <span class="badge badge-count">5 методов</span>
+[Bridge](/ru/api/bridge/) <span class="badge badge-count">19 методов</span>
 
 <p class="api-card-summary">Представляет данные, интерпретируемые базой данных hivemind, в виде JSON-RPC.</p>
 
@@ -55,7 +55,23 @@ description: "Сгенерированный обзор JSON-RPC API из data/a
 
 <div class="api-card">
 
-[condenser_api](/ru/api/condenser_api/) <span class="badge badge-count">88 методов</span>
+[call](/ru/api/call/) <span class="badge badge-count">1 метод</span>
+
+<p class="api-card-summary">Адаптер соглашения legacy-вызовов JSON-RPC «call», предоставляемый сервером API hivemind.</p>
+
+</div>
+
+<div class="api-card">
+
+[chain_api](/ru/api/chain_api/) <span class="badge badge-count">2 метода</span>
+
+<p class="api-card-summary">Прямые конечные точки для отправки блоков и транзакций. Плагин chain_api определён в исходном коде, но не включён на публичных узлах.</p>
+
+</div>
+
+<div class="api-card">
+
+[condenser_api](/ru/api/condenser_api/) <span class="badge badge-count">90 методов</span>
 
 <p class="api-card-summary">Агрегирующий API для плавной миграции: содержит все существующие методы и сохраняет прежний формат параметров — старым приложениям достаточно направить запросы на condenser_api, чтобы работать с AppBase.</p>
 
@@ -79,9 +95,17 @@ description: "Сгенерированный обзор JSON-RPC API из data/a
 
 <div class="api-card">
 
-[Follow API](/ru/api/follow_api/) <span class="badge badge-count">10 методов</span>
+[Follow API](/ru/api/follow_api/) <span class="badge badge-count">12 методов</span>
 
 <p class="api-card-summary">Запрос данных о социальных связях: репутация, подписки аккаунтов. API AppBase, всё ещё в разработке; интерфейс может меняться.</p>
+
+</div>
+
+<div class="api-card">
+
+[hive](/ru/api/hive/) <span class="badge badge-count">1 метод</span>
+
+<p class="api-card-summary">Методы состояния и диагностики, предоставляемые сервером API hivemind.</p>
 
 </div>
 
@@ -135,7 +159,7 @@ description: "Сгенерированный обзор JSON-RPC API из data/a
 
 <div class="api-card">
 
-[Tags API](/ru/api/tags_api/) <span class="badge badge-count">20 методов</span>
+[Tags API](/ru/api/tags_api/) <span class="badge badge-count">21 методов</span>
 
 <p class="api-card-summary">Запрос тегов, постов и обсуждений. API AppBase, всё ещё в разработке; интерфейс может меняться.</p>
 

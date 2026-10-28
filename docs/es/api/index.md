@@ -8,7 +8,7 @@ página de API en español (T13, página estática escrita a mano). Esta página
 el equivalente en español de docs/api/index.md (generada en tiempo de
 compilación): el número de tarjetas y los contadores deben mantenerse
 sincronizados con ella (cuando cambian los archivos de datos, docs:gen
-actualiza el resumen en inglés; esta página se actualiza a mano). Las 17
+actualiza el resumen en inglés; esta página se actualiza a mano). Las 20
 tarjetas de API de métodos apuntan a las páginas de índice en español bajo
 /es/api/; las 2 API de listas de operaciones (broadcast_ops*) aún no tienen
 versión en español — sus tarjetas llevan directamente a las páginas en inglés.
@@ -49,7 +49,7 @@ A continuación se encuentra la referencia de las API JSON-RPC, generada en tiem
 
 <div class="api-card">
 
-[Bridge](/es/api/bridge/) <span class="badge badge-count">5 métodos</span>
+[Bridge](/es/api/bridge/) <span class="badge badge-count">19 métodos</span>
 
 <p class="api-card-summary">Expone en forma de JSON-RPC los datos interpretados por la base de datos hivemind.</p>
 
@@ -57,7 +57,23 @@ A continuación se encuentra la referencia de las API JSON-RPC, generada en tiem
 
 <div class="api-card">
 
-[condenser_api](/es/api/condenser_api/) <span class="badge badge-count">88 métodos</span>
+[call](/es/api/call/) <span class="badge badge-count">1 método</span>
+
+<p class="api-card-summary">Adaptador de la convención de llamadas JSON-RPC heredada «call», servido por el servidor API de hivemind.</p>
+
+</div>
+
+<div class="api-card">
+
+[chain_api](/es/api/chain_api/) <span class="badge badge-count">2 métodos</span>
+
+<p class="api-card-summary">Endpoints directos para el envío de bloques y transacciones. El plugin chain_api está definido en el código fuente pero no está habilitado en los nodos públicos.</p>
+
+</div>
+
+<div class="api-card">
+
+[condenser_api](/es/api/condenser_api/) <span class="badge badge-count">90 métodos</span>
 
 <p class="api-card-summary">API de agregación pensada para una migración sin sobresaltos: reúne todos los métodos existentes y conserva el formato histórico de los parámetros — las aplicaciones existentes solo tienen que dirigir sus peticiones a condenser_api para funcionar con Appbase.</p>
 
@@ -81,9 +97,17 @@ A continuación se encuentra la referencia de las API JSON-RPC, generada en tiem
 
 <div class="api-card">
 
-[Follow API](/es/api/follow_api/) <span class="badge badge-count">10 métodos</span>
+[Follow API](/es/api/follow_api/) <span class="badge badge-count">12 métodos</span>
 
 <p class="api-card-summary">Consulta de datos sociales: reputación, seguimientos entre cuentas. API de AppBase, todavía en desarrollo; la interfaz puede cambiar.</p>
+
+</div>
+
+<div class="api-card">
+
+[hive](/es/api/hive/) <span class="badge badge-count">1 método</span>
+
+<p class="api-card-summary">Métodos de estado y diagnóstico servidos por el servidor API de hivemind.</p>
 
 </div>
 
@@ -137,7 +161,7 @@ A continuación se encuentra la referencia de las API JSON-RPC, generada en tiem
 
 <div class="api-card">
 
-[Tags API](/es/api/tags_api/) <span class="badge badge-count">20 métodos</span>
+[Tags API](/es/api/tags_api/) <span class="badge badge-count">21 métodos</span>
 
 <p class="api-card-summary">Consulta de etiquetas, publicaciones y discusiones. API de AppBase, todavía en desarrollo; la interfaz puede cambiar.</p>
 

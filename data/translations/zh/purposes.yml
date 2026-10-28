@@ -1,5 +1,6 @@
 # ---------------------------------------------------------------------------
-# zh translations of API method purposes — batch 1-5（215 条全量完成）(phase2-plan §4-T12)
+# zh translations of API method purposes — batch 1-6（batch 1-5：215 条全量；
+# batch 6：T22 补页新增 23 条，共 238 条）(phase2-plan §4-T12 / phase3-plan §4-T22)
 #
 # api_method -> 简体中文 purpose 译文。原文以 data/apidefinitions/*.yml 中
 # 现有 en purpose 字段为准（含 T9 补写条目），不增不减不改语义；markdown
@@ -15,6 +16,11 @@
 # ---------------------------------------------------------------------------
 schema: zh-method-purposes/v1
 locale: zh-Hans
+# batch 6（T22 fill-missing）= 源码有而文档无的 23 个方法（21 活 + 2 chain_api
+# push 死），处置依据 data/audit/source-crosscheck-2026-10-28.json 的 add-page /
+# add-page-dead-note 清单。新命名空间：call（线名裸 `call`）、chain_api、hive。
+# 排序口径仍为 LC_ALL=C；机械核验（sort LC_ALL=C vs en_US.UTF-8）确认本批
+# 23 个键与既有键之间不产生新的 C/UTF-8 分歧对，既有 5 处分歧对不变。
 # batch 4+5（收尾批）= 第 151–215 个方法（database_api.list_votes 起、
 # witness_api.get_reserve_ratio 止）；C 序 #153/#154 的真分歧对
 # database_api.list_witness_votes↔list_witnesses 按 C 序归属本批。
@@ -28,7 +34,7 @@ locale: zh-Hans
 # list_witnesses（C 序 #153/#154）落在 batch4 窗口，batch4 起边界一律按本文件头注记的 C 序执行）；
 # batch 2 = 第 51–100 个方法（condenser_api.get_escrow 起）；
 # batch 1 = 第 1–50 个，条目保持原样。
-batch: 1-5
+batch: 1-6
 purposes:
   account_by_key_api.get_key_references: |-
     返回所有在 owner 或 active 权限（authority）中关联了该密钥的账户。
@@ -88,8 +94,48 @@ purposes:
       * `vote` - 投票者为作者投了一票
 
     `score` 值基于发起账户的排名。
+  bridge.get_account_posts: |-
+    获取某账户的帖子（post）——blog、feed、comments 或 replies。
+
+    `sort` 的支持取值：
+      * `blog`
+      * `feed`
+      * `posts`
+      * `comments`
+      * `replies`
+      * `payout`
+
+    参数：`sort:string`；`account:string`；`start_author:string`（可选，默认为空）；`start_permlink:string`（可选，默认为空）；`limit:int`（可选，默认 `20`，最大 `100`）；`observer:string`（可选）
+
+    另见：bridge.get_ranked_posts
   bridge.get_community: |-
     获取社区（community）详情。
+  bridge.get_community_context: |-
+    对给定的社区/账户组合，返回该账户的角色（role）、头衔（title）与订阅状态。
+
+    参数：`name:string`（社区名，例如：`hive-123456`）；`account:string`
+
+    另见：bridge.get_community
+  bridge.get_discussion: |-
+    返回完整的讨论串（thread）——根帖及其全部回复，以 `author/permlink` 为键。这是 hivemind 对 `condenser_api.get_state` 讨论串部分的替代。
+
+    参数：`author:string`；`permlink:string`
+  bridge.get_payout_stats: |-
+    获取用于构建矩形树图（treemap）的收益统计：全部博客收益总计，以及每个热门社区一条 `(url, label, payout, posts, authors)` 元组。
+
+    参数：`limit:int`（可选，默认 `250`，最大 `250`）
+  bridge.get_post: |-
+    获取单篇帖子。
+
+    参数：`author:string`；`permlink:string`；`observer:string`（可选）
+  bridge.get_post_header: |-
+    获取帖子的基础数据：author、permlink、category 与深度（depth）。
+
+    参数：`author:string`；`permlink:string`
+  bridge.get_profile: |-
+    加载账户/个人资料数据：元数据、声誉、关注统计与黑名单（blacklist）。
+
+    参数：`account:string`；`observer:string`（可选）
   bridge.get_ranked_posts: |-
     获取排序后的帖子（post）。
 
@@ -105,10 +151,75 @@ purposes:
     `tag` 的取值可以是任意有效标签（tag）。
 
     `observer` 的取值可以是任意有效账户或空字符串。
+  bridge.get_trending_topics: |-
+    返回待结算帖子中当前热门的话题（社区与标签的混合列表）。
+
+    参数：`limit:int`（可选，默认 `10`，最大 `25`）；`observer:string`（可选，暂未使用）
   bridge.list_all_subscriptions: |-
     列出某账户对一个社区（community）的全部订阅。
+  bridge.list_communities: |-
+    分页列出全部社区，返回精简社区列表。
+
+    `sort` 的支持取值：
+      * `rank`
+      * `new`
+      * `subs`
+
+    参数：`last:string`（可选，默认为空）；`limit:int`（可选，默认 `100`，最大 `100`）；`query:string`（可选，按标题与简介全文检索）；`sort:string`（可选，默认 `rank`）；`observer:string`（可选）
+
+    另见：bridge.get_community
   bridge.list_community_roles: |-
     列出社区（community）中每个账户的角色与标签（label）。
+  bridge.list_pop_communities: |-
+    按新增订阅者（subscriber）数量列出社区，返回精简社区列表。
+
+    参数：`limit:int`（可选，默认 `25`，最大 `25`）
+
+    注意：截至 2026-10-28，公共节点调用该方法会返回服务器错误（线上部署的 hivemind 构建未绑定 `cutoff` 查询参数）。下方响应展示的是预期形态。
+  bridge.list_subscribers: |-
+    列出某社区的订阅者（最多 250 条，最新在前），以 `name`/`role`/`title`/`created_at` 元组形式返回。
+
+    参数：`community:string`（例如：`hive-123456`）
+  bridge.normalize_post: |-
+    接收一个 steemd 帖子对象（即 `condenser_api.get_content` 的返回形态），输出 bridge-api 规范化后的版本。
+
+    参数：`post:object`（steemd 帖子对象）
+  bridge.post_notifications: |-
+    加载某篇帖子的通知。
+
+    参数：`author:string`；`permlink:string`；`min_score:int`（可选，默认 `25`）；`last_id:int`（可选，从该通知 id 起向前查询）；`limit:int`（可选，默认 `100`，最大 `100`）
+
+    注意：截至 2026-10-28，公共节点对带有通知的帖子调用该方法会返回内部错误。下方响应展示的是预期形态。
+
+    另见：bridge.account_notifications
+  bridge.unread_notifications: |-
+    加载指定账户的通知状态：最近已读时间，以及得分不低于 `min_score` 的未读通知数量。
+
+    参数：`account:string`；`min_score:int`（可选，默认 `25`）
+
+    另见：bridge.account_notifications
+  call: |-
+    路由旧式 `call` 方法请求。
+
+    参数：`api:string`（仅接受 `condenser_api`）；`method:string`（可路由的 condenser_api 方法之一：get_followers、get_following、get_followers_by_page、get_following_by_page、get_follow_count、get_content、get_content_replies、get_trending_tags、get_state、get_discussions_by_trending、get_discussions_by_hot、get_discussions_by_promoted、get_discussions_by_created、get_post_discussions_by_payout、get_comment_discussions_by_payout、get_discussions_by_blog、get_discussions_by_feed、get_discussions_by_comments、get_replies_by_last_update、get_discussions_by_author_before_date、get_blog、get_blog_entries、get_account_votes）；`params:array`（被路由方法的参数）
+
+    其他方法将返回错误。
+  chain_api.push_block: |-
+    **不可用：** chain_api 插件在源码中仍有定义，但未在公共节点启用——命名空间未注册。
+
+    向节点推送区块。
+
+    参数：`block:object`（已签名区块）；`currently_syncing:bool`（可选，默认 `false`）
+
+    返回 `success:bool`，失败时附带 `error:string`。
+  chain_api.push_transaction: |-
+    **不可用：** chain_api 插件在源码中仍有定义，但未在公共节点启用——命名空间未注册。
+
+    向节点推送交易。
+
+    参数：已签名交易对象本身（非包装结构）：`ref_block_num:int`；`ref_block_prefix:int`；`expiration:timestamp`；`operations:array`；`extensions:array`；`signatures:array`
+
+    返回 `success:bool`，失败时附带 `error:string`。
   condenser_api.broadcast_block: |-
     用于广播（broadcast）一个区块（block）。
 
@@ -373,6 +484,17 @@ purposes:
     | `"alice"` | `null` | `"ignore"` | `100` | 查询名为 `alice` 的账户的屏蔽（mute）关系，最多 100 条结果。 |
 
     另见：follow_api.get_followers、Paginated API Methods
+  condenser_api.get_followers_by_page: |-
+    按页返回某账户的关注者。  (EOL)  参数：`account:string`；`page:int`（从 1 开始）；`page_size:int`（可选，默认 `100`，最大 `100`）；`follow_type:string`（可选，例如：`blog`，默认 `blog`）
+
+    **注意：** 该方法由 hivemind 提供，参数以位置数组形式传入。部分节点会以 `-32602` 拒绝命名参数形式，请使用位置数组。
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemit"` | `1` | `5` | 查询关注 `steemit` 的账户第 1 页，每页 5 条。 |
+    | `"alice"` | `2` | `100` | 查询关注 `alice` 的账户第 2 页，每页 100 条。 |
+
+    另见：condenser_api.get_followers、follow_api.get_followers_by_page
   condenser_api.get_following: |-
     返回正在关注（following）某账户的账户列表。参数：`account:string`；`start:string`（起始账户）；`type:string`，例如：`blog`；`limit:int` 最大 1000
 
@@ -382,6 +504,17 @@ purposes:
     | `"alice"` | `null` | `"ignore"` | `100` | 查询名为 `alice` 的账户的屏蔽（mute）关系，最多 100 条结果。 |
 
     另见：follow_api.get_following、Paginated API Methods
+  condenser_api.get_following_by_page: |-
+    按页返回某账户正在关注的账户。  (EOL)  参数：`account:string`；`page:int`（从 1 开始）；`page_size:int`（可选，默认 `100`，最大 `100`）；`follow_type:string`（可选，例如：`blog`，默认 `blog`）
+
+    **注意：** 该方法由 hivemind 提供，参数以位置数组形式传入。部分节点会以 `-32602` 拒绝命名参数形式，请使用位置数组。
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemitblog"` | `1` | `2` | 查询 `steemitblog` 正在关注的账户第 1 页，每页 2 条。 |
+    | `"alice"` | `2` | `100` | 查询 `alice` 正在关注的账户第 2 页，每页 100 条。 |
+
+    另见：condenser_api.get_following、follow_api.get_following_by_page
   condenser_api.get_hardfork_version: |-
     返回当前硬分叉（hardfork）版本。
 
@@ -1233,12 +1366,38 @@ purposes:
     返回某账户的关注者（follower）列表。
 
     另见：Paginated API Methods
+  follow_api.get_followers_by_page: |-
+    按页返回某账户的关注者。  (EOL)  `condenser_api.get_followers_by_page` 的别名：参数以位置数组形式传入——`account:string`；`page:int`（从 1 开始）；`page_size:int`（可选，默认 `100`，最大 `100`）；`follow_type:string`（可选，默认 `blog`）。
+
+    **注意：** 部分节点会以 `-32602` 拒绝命名参数形式，请使用位置数组。
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemit"` | `1` | `5` | 查询关注 `steemit` 的账户第 1 页，每页 5 条。 |
+    | `"alice"` | `2` | `100` | 查询关注 `alice` 的账户第 2 页，每页 100 条。 |
+
+    另见：condenser_api.get_followers_by_page、Paginated API Methods
   follow_api.get_following: |-
     返回正在关注（following）某账户的账户列表。
 
     另见：Paginated API Methods
+  follow_api.get_following_by_page: |-
+    按页返回某账户正在关注的账户。  (EOL)  `condenser_api.get_following_by_page` 的别名：参数以位置数组形式传入——`account:string`；`page:int`（从 1 开始）；`page_size:int`（可选，默认 `100`，最大 `100`）；`follow_type:string`（可选，默认 `blog`）。
+
+    **注意：** 部分节点会以 `-32602` 拒绝命名参数形式，请使用位置数组。
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemitblog"` | `1` | `2` | 查询 `steemitblog` 正在关注的账户第 1 页，每页 2 条。 |
+    | `"alice"` | `2` | `100` | 查询 `alice` 正在关注的账户第 2 页，每页 100 条。 |
+
+    另见：condenser_api.get_following_by_page、Paginated API Methods
   follow_api.get_reblogged_by: |-
     返回转帖（reblog）过某篇帖子（post）的作者列表。
+  hive.db_head_state: |-
+    状态/健康检查：返回 hivemind 数据库的最新区块（head block）号与时间，以及最新区块的年龄（秒）。
+
+    参数：无
   jsonrpc.get_methods: |-
     返回 JSON RPC API 支持的方法列表。
   jsonrpc.get_signature: |-
@@ -1288,6 +1447,12 @@ purposes:
     另见：Paginated API Methods
   rewards_api.simulate_curve_payouts: |-
     按给定的收益发放曲线（payout curve）模拟奖励基金（reward fund）的收益发放，但不实际应用。
+  tags_api.get_account_votes: |-
+    **不支持：** hivemind 注册该方法名仅用于返回提示性错误："get_account_votes is no longer supported, for details see https://steemit.com/steemit/@steemitdev/additional-public-api-change"。
+
+    参数：`account:string`
+
+    另见：condenser_api.get_account_votes
   tags_api.get_active_votes: |-
     返回给定帖子（post）收到的全部投票（vote）。
   tags_api.get_comment_discussions_by_payout: |-

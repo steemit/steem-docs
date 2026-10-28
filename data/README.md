@@ -8,7 +8,7 @@ generated from it at build time and the files are never hand-edited here.
 
 ## Layout
 
-- `apidefinitions/*.yml` — 19 files: 17 API definition files (one per API) plus
+- `apidefinitions/*.yml` — 22 files: 20 API definition files (one per API) plus
   2 broadcast operation reference files (`broadcast_ops.yml`,
   `broadcast_ops_communities.yml`). The file name (without `.yml`) is the API's
   URL slug (e.g. `bridge.yml` → `/api/bridge/`).
