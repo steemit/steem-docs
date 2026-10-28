@@ -16,7 +16,7 @@ Achtung: Das Frontmatter muss ganz am Anfang der Datei stehen (sonst kann der
 Builder title/description nicht lesen); Hilfskommentare nur danach.
 -->
 
-Unten befindet sich die zur Build-Zeit aus `data/apidefinitions/*.yml` generierte JSON-RPC-API-Referenz. Die deutschen Indexseiten listen alle Methoden jeder API auf; die Methodenseiten sind noch nicht übersetzt — die Links in den Tabellen führen zu den englischen Methodenseiten.
+Unten befindet sich die zur Build-Zeit aus `data/apidefinitions/*.yml` generierte JSON-RPC-API-Referenz. Die deutschen Indexseiten listen alle Methoden jeder API auf; die Methodenseiten sind ins Deutsche übersetzt — die Links in den Tabellen führen zu den entsprechenden deutschen Methodenseiten.
 
 # API-Referenz
 

@@ -641,10 +641,13 @@ export default defineConfig({
           { text: 'Startseite', link: '/de/' },
           { text: 'API', link: '/de/api/' }
         ],
+        // T29 full locale: de index pages AND all 238 translated method pages
+        // are generated, so the sidebar children point into the de tree too
+        // (same shape as the zh sidebar since T12).
         sidebar: [
           {
             text: 'API-Referenz',
-            items: apiSidebar({ indexPrefix: '/de/api/', methodPrefix: '/api/' })
+            items: apiSidebar({ indexPrefix: '/de/api/', methodPrefix: '/de/api/' })
           }
         ],
         outline: { label: 'Auf dieser Seite' },
