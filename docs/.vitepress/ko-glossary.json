@@ -1,0 +1,162 @@
+{
+  "$meta": "ko 基线冻结表（T26，bridge-only 模式）。本表是未来 ko 方法页 purpose 翻译的强制基线：译法必须逐条遵循；新增或修改条目必须在 PR 说明中给出理由并同步更新本文件。本 PR（ko 铺开）不消费此表——ko 方法页暂缓，本轮只做 UI/首页/总览/索引。放在 docs/.vitepress/ 下（theme 同级数据文件）而非 docs/ko/*.md，是有意为之——它不是站点页面，不参与构建与页面计数。语义基准为 zh-glossary，对照 en 原文；witness 采用韩语 Steem 社区通用的『위트니스』，RC 与其它语言一致保留英文 Resource Credits (RC)。",
+  "version": "1.0-frozen",
+  "conventions": [
+    "토큰·API 이름(STEEM, SBD, RC, VESTS, condenser_api 등)은 영어 원형을 유지하고, 첫 등장 시 괄호로 한국어 설명을 덧붙인다.",
+    "메서드 이름, 파라미터 이름, 필드 이름은 영어 원형을 그대로 쓰고 번역하지 않는다.",
+    "용어를 처음 언급할 때는 『한국어 표기 (English)』 형식을 쓰고, 같은 페이지의 이후 등장에서는 한국어 표기나 약어를 쓴다.",
+    "이 표와 충돌하는 기존 번역은 모두 이 표 기준으로 바로잡는다."
+  ],
+  "terms": [
+    {
+      "en": "STEEM",
+      "ko": "STEEM (번역하지 않음)",
+      "note": "체인의 기본 유동 토큰. 토큰 이름은 항상 원형 그대로 표기한다."
+    },
+    {
+      "en": "STEEM Power (SP)",
+      "ko": "STEEM Power (SP)",
+      "note": "베스팅된 STEEM 형태로, 투표 가중치와 리소스 할당량을 결정한다. 한국 커뮤니티에서도 영어 용어가 그대로 정착되어 있으므로 원형을 유지하며, 첫 등장 시 약어 SP를 함께 표기한다."
+    },
+    {
+      "en": "HP",
+      "ko": "(사용하지 않음 — 항상 SP로 표기)",
+      "note": "일부 서드파티 인터페이스는 STEEM Power를 HP(Hive Power에서 유래)로 줄여 쓰기도 한다. 모호함을 피하기 위해 사이트 전체에서 SP로만 표기한다."
+    },
+    {
+      "en": "VESTS / vesting shares",
+      "ko": "베스팅 지분 (VESTS)",
+      "note": "STEEM Power (SP)의 최소 회계 단위. 1 SP는 일정량의 VESTS에 해당하며, API가 반환하는 값은 보통 VESTS 단위로 표시된다."
+    },
+    {
+      "en": "STEEM Dollars (SBD)",
+      "ko": "스팀 달러 (SBD)",
+      "note": "미국 달러에 페그된 체인 내부의 부채 토큰. 첫 등장 시 전체 명칭과 약어 SBD를 함께 표기한다."
+    },
+    {
+      "en": "RC (Resource Credits)",
+      "ko": "Resource Credits (RC) (약어 그대로 유지)",
+      "note": "베스팅 토큰과 계정 활동에 따라 배분되는 오퍼레이션 처리 할당량. 모든 트랜잭션은 RC를 소비한다. 다른 언어판과 마찬가지로 영어 약어를 그대로 유지한다(요약 카드와 동일)."
+    },
+    {
+      "en": "witness",
+      "ko": "위트니스 (witness)",
+      "note": "블록에 서명하고 참조 가격(feed price)을 게시하는 노드 운영자. 한국 Steem 커뮤니티의 통용 표기인 '위트니스'를 쓰고, 첫 등장 시 영어 원어를 병기한다. witness vote = 위트니스 투표."
+    },
+    {
+      "en": "curation",
+      "ko": "큐레이션",
+      "note": "투표를 통한 콘텐츠 발견·평가. curation rewards = 큐레이션 보상."
+    },
+    {
+      "en": "author reward",
+      "ko": "저자 보상",
+      "note": "게시물에 지급되는 SBD/SP 보상. 큐레이션 보상과 구분된다."
+    },
+    {
+      "en": "vesting",
+      "ko": "베스팅",
+      "note": "유동 토큰을 지분(STEEM Power)으로 전환하는 과정. 반대 과정은 '파워 다운(power down)'이라고 한다."
+    },
+    {
+      "en": "hardfork",
+      "ko": "하드포크",
+      "note": "프로토콜 업그레이드 이벤트. '하드포크' 또는 'HF23' 형태로만 표기하고 다른 수식은 붙이지 않는다."
+    },
+    {
+      "en": "dynamic global properties",
+      "ko": "동적 전역 속성",
+      "note": "체인의 실시간 전역 상태(head_block_number, time, supply 등) 모음. get_dynamic_global_properties가 반환한다."
+    },
+    {
+      "en": "account history",
+      "ko": "계정 기록",
+      "note": "한 계정의 체인 오퍼레이션 전체 이력. account_history_api / condenser_api.get_account_history가 제공한다."
+    },
+    {
+      "en": "block",
+      "ko": "블록",
+      "note": "체인의 기본 기록 단위. head block = 마지막으로 생성된 블록."
+    },
+    {
+      "en": "transaction",
+      "ko": "트랜잭션",
+      "note": "여러 오퍼레이션을 묶은 원자적 단위로, 브로드캐스트 전에 서명된다. 자산 이동 오퍼레이션인 '트랜스퍼(transfer)'와 혼동하지 않는다."
+    },
+    {
+      "en": "signing key",
+      "ko": "서명 키",
+      "note": "트랜잭션 서명에 쓰이는 키의 총칭. posting/active/owner는 각각의 전용 용어를 사용한다."
+    },
+    {
+      "en": "posting key",
+      "ko": "포스팅 키",
+      "note": "저권한 키: 게시, 투표, 팔로우 등 소셜 작업에 사용한다."
+    },
+    {
+      "en": "active key",
+      "ko": "액티브 키",
+      "note": "중간 권한 키: 토큰 전송, 위트니스 투표 등 금융·거버넌스 작업에 사용한다."
+    },
+    {
+      "en": "owner key",
+      "ko": "오너 키",
+      "note": "최고 권한 키로 나머지 모든 키를 교체할 수 있다. 평소에는 오프라인으로 보관한다."
+    },
+    {
+      "en": "memo key",
+      "ko": "메모 키",
+      "note": "전송 메모(memo)를 암·복호화하는 키."
+    },
+    {
+      "en": "permlink",
+      "ko": "퍼머링크 (permlink)",
+      "note": "저자 네임스페이스 안에서 콘텐츠를 식별하는 영구 주소. 코드와 파라미터에서는 소문자 원형을 그대로 쓴다."
+    },
+    {
+      "en": "proposal",
+      "ko": "프로포절 (제안)",
+      "note": "온체인 거버넌스 제안(DSPO) 메커니즘: 커뮤니티 투표로 일일 보상 배분을 결정한다."
+    },
+    {
+      "en": "feed price",
+      "ko": "피드 가격 (feed price)",
+      "note": "위트니스가 게시하는 SBD/STEEM 환율로, SBD 청산에 영향을 준다."
+    },
+    {
+      "en": "broadcast operation",
+      "ko": "브로드캐스트 오퍼레이션",
+      "note": "체인에 전송되는 작업 단위. broadcast_ops 페이지에 모든 오퍼레이션 유형이 정리되어 있다."
+    },
+    {
+      "en": "testnet / mainnet",
+      "ko": "테스트넷 / 메인넷",
+      "note": "YAML의 testnet/mainnet 필드는 메서드 가용성을 이 용어로 설명한다."
+    },
+    {
+      "en": "appbase / condenser",
+      "ko": "appbase / condenser (번역하지 않음)",
+      "note": "노드 소프트웨어와 호환 레이어의 이름. 원형을 그대로 유지한다."
+    },
+    {
+      "en": "reputation",
+      "ko": "평판",
+      "note": "콘텐츠가 받은 가중치 투표에서 누적되는 계정 평판 점수."
+    },
+    {
+      "en": "tag",
+      "ko": "태그",
+      "note": "게시물 분류 라벨. tags_api의 핵심 개념이다."
+    },
+    {
+      "en": "post",
+      "ko": "포스트 (게시물)",
+      "note": "체인의 글/댓글. 루트 포스트와 답글을 통칭한다."
+    },
+    {
+      "en": "thread",
+      "ko": "스레드",
+      "note": "루트 포스트와 모든 답글로 이루어진 토론 사슬."
+    }
+  ]
+}

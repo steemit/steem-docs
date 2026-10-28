@@ -10,7 +10,7 @@
     "dev": "pnpm docs:gen && vitepress dev docs",
     "build": "pnpm docs:gen && vitepress build docs",
     "preview": "vitepress preview docs",
-    "docs:gen": "node scripts/gen-api-docs.mjs && node scripts/gen-api-docs.mjs --locale zh && node scripts/gen-api-docs.mjs --locale ru && node scripts/gen-api-docs.mjs --locale fr && node scripts/gen-api-docs.mjs --locale de && node scripts/gen-api-docs.mjs --locale it && node scripts/gen-api-docs.mjs --locale es",
+    "docs:gen": "node scripts/gen-api-docs.mjs && node scripts/gen-api-docs.mjs --locale zh && node scripts/gen-api-docs.mjs --locale ru && node scripts/gen-api-docs.mjs --locale fr && node scripts/gen-api-docs.mjs --locale de && node scripts/gen-api-docs.mjs --locale it && node scripts/gen-api-docs.mjs --locale es && node scripts/gen-api-docs.mjs --locale ko",
     "validate:data": "node scripts/validate-data.mjs",
     "scrape:api-defs": "node scripts/scrape-api-defs.mjs",
     "test:curl": "node scripts/test-curl.mjs",

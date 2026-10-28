@@ -678,6 +678,19 @@ const LOCALES = {
     colOp: 'Operación',
     colFlags: 'Estado',
   }),
+  ko: bridgeOnlyLocale('ko', {
+    methodsNote:
+      '> 이것은 한국어 인덱스 페이지입니다: 메서드 페이지는 아직 한국어로 번역되지 않았습니다 — 표의 모든 링크는 영어 메서드 페이지로 연결됩니다.',
+    methodsHeading: '메서드',
+    colMethod: '메서드',
+    colSince: '도입 버전',
+    colFlags: '상태',
+    opsNote:
+      '> 이것은 한국어 인덱스 페이지입니다: 작업 페이지는 아직 한국어로 번역되지 않았습니다 — 작업 이름을 클릭하면 영어 페이지의 해당 섹션으로 이동합니다.',
+    opsHeading: '작업',
+    colOp: '작업',
+    colFlags: '상태',
+  }),
 };
 
 function flagCells(m, includeVirtual = false) {
@@ -1058,7 +1071,7 @@ function generateLocalePages(files, collected, locale) {
 // FAILS the build when any locale page no longer matches the manifest, so
 // the drift surfaces at build time instead of on the rendered page.
 // ---------------------------------------------------------------------------
-const OVERVIEW_GUARD_LOCALES = ['zh', 'ru', 'fr', 'de', 'it', 'es'];
+const OVERVIEW_GUARD_LOCALES = ['zh', 'ru', 'fr', 'de', 'it', 'es', 'ko'];
 
 function verifyLocaleOverviewCounts(manifestApis) {
   for (const code of OVERVIEW_GUARD_LOCALES) {
