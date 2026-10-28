@@ -482,7 +482,7 @@ function compareParams(name) {
 // ---------------------------------------------------------------------------
 
 const DISPOSITION_TABLE = [
-  { combo: 'src+ doc+ node-alive', id: 'all-good', action: 'keep the page as-is', basis: '常规组合：三源一致（node `changed` 行附带 contract-drift 注记 → T23 输入；alive 但带 deprecated/disabled 软标注的行附带 soft-flag 注记）' },
+  { combo: 'src+ doc+ node-alive', id: 'all-good', action: 'keep the page as-is', basis: '常规组合：三源一致（node `changed` 行附带 contract-drift 注记 → T23 输入；alive 但带 deprecated/disabled/removed 软标注的行附带 soft-flag 注记）' },
   { combo: 'src+ doc+ node-dead', id: 'annotation-refresh', action: '按死亡标注三族复核（决策 3）：deprecated 维持 / disabled 口径刷新为「源码仍定义；插件未在公共节点启用」/ removed 口径不成立（源码仍定义）→ 标注需刷新', basis: '决策 3-①②③ + 对照表' },
   { combo: 'src+ doc- node-alive', id: 'add-page', action: 'T22 补页（en+zh 方法页 + 手写总览页计数守卫）', basis: '对照表：源码有+文档无+节点活 → 补页（T22 输入）' },
   { combo: 'src+ doc- node-dead', id: 'add-page+dead-note', action: 'T22 补页且携带 dead-note 警示块', basis: '对照表：源码有+文档无+节点死 → 补页+警示块' },
@@ -558,8 +558,8 @@ for (const name of bodyNames) {
   if (hm?.dummy) {
     notes.push('hivemind 侧为 dummy 绑定（serve.py 注册了方法名但无独立实现，返回空壳）');
   }
-  if (disposition.id === 'all-good' && dm && (dm.flags.deprecated || dm.flags.disabled)) {
-    notes.push(`alive 但页面带 ${[dm.flags.removed && 'removed', dm.flags.disabled && 'disabled', dm.flags.deprecated && 'deprecated'].filter(Boolean).join('+')} 软标注（2018 抓取期语义）— 维持，T22/T23 复核时顺带确认`);
+  if (disposition.id === 'all-good' && dm && (dm.flags.deprecated || dm.flags.disabled || dm.flags.removed)) {
+    notes.push(`alive 但页面带 ${[dm.flags.removed && 'removed', dm.flags.disabled && 'disabled', dm.flags.deprecated && 'deprecated'].filter(Boolean).join('+')} 软标注（2018 抓取期语义）— 维持，T22/T23 复核时顺带确认${dm.flags.removed ? '（removed+alive 自相矛盾态，需重点复核）' : ''}`);
   }
   if (disposition.id === 'all-good' && node.drift === 'changed') {
     notes.push('节点契约与文档 parameter_json 不一致（drift verdict: changed）— all-good 维持页面，契约刷新归 T23');
@@ -611,7 +611,7 @@ const deprecatedKeep = refreshByFamily('deprecated-keep');
 const disabledRefresh = refreshByFamily('disabled-refresh');
 const removedUnsupported = refreshByFamily('removed-unsupported');
 const unflaggedDead = refreshByFamily('unflagged-dead');
-const softFlaggedAlive = allGood.filter((r) => r.doc && (r.doc.flags.deprecated || r.doc.flags.disabled) && r.node.drift !== 'changed');
+const softFlaggedAlive = allGood.filter((r) => r.doc && (r.doc.flags.deprecated || r.doc.flags.disabled || r.doc.flags.removed) && r.node.drift !== 'changed');
 const driftChanged = allGood.filter((r) => r.node.drift === 'changed');
 const doubleSource = rows.filter((r) => r.src === 'both');
 
@@ -661,7 +661,7 @@ if (removedUnsupported.length !== FAMILY_BASELINE.removedUnsupported.n) {
   failures.push(`decision-3 ③ amendment: removed-unsupported family is ${removedUnsupported.length} rows, expected 14 removed-flagged methods that ARE defined in the steem inventory`);
 }
 if (softFlaggedAlive.length !== FAMILY_BASELINE.softFlaggedAlive.n) {
-  failures.push(`soft-flagged-alive census is ${softFlaggedAlive.length}, expected 5 (2 deprecated + 3 disabled era-2018 soft flags on live methods)`);
+  failures.push(`soft-flagged-alive census is ${softFlaggedAlive.length}, expected 5 (2 deprecated + 3 disabled era-2018 soft flags on live methods; removed+alive would also count here — none expected)`);
 }
 if (unflaggedDead.length > 0) failures.push('dead documented methods without any death flag: ' + unflaggedDead.map((r) => r.api_method).join(', '));
 
@@ -810,7 +810,7 @@ for (const r of doubleSource) {
   lines.push(`| ${r.api_method} | ${ps.steem_style} | ${esc(sp)} | ${ps.hivemind_style} | ${esc(hp)} | ${ps.comparable ? (ps.mismatch ? '**YES**' : 'no') : 'not comparable'} |`);
 }
 lines.push('');
-lines.push(`Signature mismatches: ${doubleSource.filter((r) => r.param_style?.mismatch).length} of ${doubleSource.length} comparable rows — ${doubleSource.filter((r) => r.param_style?.mismatch).map((r) => r.api_method).join(', ')}.`);
+lines.push(`Signature mismatches: ${doubleSource.filter((r) => r.param_style?.mismatch).length} of ${doubleSource.filter((r) => r.param_style?.comparable).length} comparable rows (${doubleSource.length} double-source total) — ${doubleSource.filter((r) => r.param_style?.mismatch).map((r) => r.api_method).join(', ')}.`);
 lines.push('');
 lines.push('## ④ Exclusions (plan decision 2) — NOT matrix rows');
 lines.push('');

@@ -8,7 +8,7 @@ Combo→disposition table (every body row resolves through exactly one cell):
 
 | combo | disposition | action | basis |
 | --- | --- | --- | --- |
-| src+ doc+ node-alive | `all-good` | keep the page as-is | 常规组合：三源一致（node `changed` 行附带 contract-drift 注记 → T23 输入；alive 但带 deprecated/disabled 软标注的行附带 soft-flag 注记） |
+| src+ doc+ node-alive | `all-good` | keep the page as-is | 常规组合：三源一致（node `changed` 行附带 contract-drift 注记 → T23 输入；alive 但带 deprecated/disabled/removed 软标注的行附带 soft-flag 注记） |
 | src+ doc+ node-dead | `annotation-refresh` | 按死亡标注三族复核（决策 3）：deprecated 维持 / disabled 口径刷新为「源码仍定义；插件未在公共节点启用」/ removed 口径不成立（源码仍定义）→ 标注需刷新 | 决策 3-①②③ + 对照表 |
 | src+ doc- node-alive | `add-page` | T22 补页（en+zh 方法页 + 手写总览页计数守卫） | 对照表：源码有+文档无+节点活 → 补页（T22 输入） |
 | src+ doc- node-dead | `add-page+dead-note` | T22 补页且携带 dead-note 警示块 | 对照表：源码有+文档无+节点死 → 补页+警示块 |
@@ -106,7 +106,7 @@ Combo→disposition table (every body row resolves through exactly one cell):
 | tags_api.get_discussions_by_trending | named | tag, limit, filter_tags, select_authors, select_tags, truncate_body, start_author, start_permlink, parent_author, parent_permlink | named | start_author, start_permlink, limit, tag, truncate_body, filter_tags | **YES** |
 | tags_api.get_post_discussions_by_payout | named | tag, limit, filter_tags, select_authors, select_tags, truncate_body, start_author, start_permlink, parent_author, parent_permlink | named | start_author, start_permlink, limit, tag, truncate_body | **YES** |
 
-Signature mismatches: 10 of 42 comparable rows — follow_api.get_followers, follow_api.get_following, tags_api.get_comment_discussions_by_payout, tags_api.get_discussions_by_blog, tags_api.get_discussions_by_comments, tags_api.get_discussions_by_created, tags_api.get_discussions_by_hot, tags_api.get_discussions_by_promoted, tags_api.get_discussions_by_trending, tags_api.get_post_discussions_by_payout.
+Signature mismatches: 10 of 18 comparable rows (42 double-source total) — follow_api.get_followers, follow_api.get_following, tags_api.get_comment_discussions_by_payout, tags_api.get_discussions_by_blog, tags_api.get_discussions_by_comments, tags_api.get_discussions_by_created, tags_api.get_discussions_by_hot, tags_api.get_discussions_by_promoted, tags_api.get_discussions_by_trending, tags_api.get_post_discussions_by_payout.
 
 ## ④ Exclusions (plan decision 2) — NOT matrix rows
 

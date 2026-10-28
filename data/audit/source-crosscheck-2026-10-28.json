@@ -1,6 +1,6 @@
 {
   "tool": "source-crosscheck",
-  "generatedAt": "2026-10-28T04:08:22.724Z",
+  "generatedAt": "2026-10-28T04:23:37.394Z",
   "date": "2026-10-28",
   "mode": "write",
   "inputs": {
@@ -46,7 +46,7 @@
       "combo": "src+ doc+ node-alive",
       "id": "all-good",
       "action": "keep the page as-is",
-      "basis": "常规组合：三源一致（node `changed` 行附带 contract-drift 注记 → T23 输入；alive 但带 deprecated/disabled 软标注的行附带 soft-flag 注记）"
+      "basis": "常规组合：三源一致（node `changed` 行附带 contract-drift 注记 → T23 输入；alive 但带 deprecated/disabled/removed 软标注的行附带 soft-flag 注记）"
     },
     {
       "combo": "src+ doc+ node-dead",
