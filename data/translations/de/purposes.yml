@@ -30,7 +30,7 @@
 # 死方法照常翻译，不因死亡而省略。计数口径 = isDeadWithCause（badge+detail）：
 # 三族合计 35 个（T27 校准值，与 data/audit/drift-2026-10-28 一致）；
 # get_state / verify_account_authority / account_history_api.get_transaction
-# 三个裸 badge 无 detail 的遗留条目不计入 35。23 个三期新增方法（bridge 系 14、
+# 5 个裸 badge 无 detail 的遗留条目不计入 35（与 coverage 快照裸 badge 清单一致）。23 个三期新增方法（bridge 系 14、
 # condenser_api follow 分页对 2、chain_api 2、hive 1、tags 1、call 1 及 T22
 # 补页清单其余）全部在内。
 #

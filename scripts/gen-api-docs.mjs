@@ -33,13 +33,11 @@ const LIQUID_LOG_PATH = join(GEN_DIR, 'liquid-warnings.txt');
 // written; hand-written static pages under docs/<code>/ (home, API overview)
 // are never touched by this script. Full locales additionally get a method
 // page per purpose covered by their data/translations/<code>/purposes.yml —
-// zh (T12, all 238 since the T22 source-fill), ru (T27, same 238 key set) and
-// fr (T28, same 238 key set); the remaining bridge-only locales have NO
-// method pages this phase — every method row in their index tables bridges
-// to the English page by site-absolute path.
-// de (T29, same 238 key set); the remaining bridge-only locales have NO method
-// pages this phase — every method row in their index tables bridges to the
-// English page by site-absolute path.
+// zh (T12, all 238 since the T22 source-fill), ru (T27, same 238 key set),
+// fr (T28, same 238 key set) and de (T29, same 238 key set) are full locales;
+// the remaining bridge-only locales have NO method pages this phase — every
+// method row in their index tables bridges to the English page by
+// site-absolute path.
 const ZH_OUT_DIR = join(ROOT, 'docs/zh/api');
 const ZH_PURPOSES_PATH = join(ROOT, 'data/translations/zh/purposes.yml');
 const RU_OUT_DIR = join(ROOT, 'docs/ru/api');
@@ -334,7 +332,7 @@ function isDeadWithCause(m) {
  * methods (debug_node / chain_api / the T25 source-truth set) still exist in
  * steem source — their plugins are just not enabled on public nodes. Family
  * selection: removed wins over disabled (the three removed methods carry
- * both flags in the YAML), then disabled, then deprecated. zh/ru/fr mirror the
+ * both flags in the YAML), then disabled, then deprecated. zh/ru/fr/de mirror the
  * both flags in the YAML), then disabled, then deprecated. zh/ru/de mirror the
  * English sentences on locale-generated method pages.
  */
@@ -426,8 +424,7 @@ function expectedCurlResponsesSection(value, file, where) {
  * `locale` (locale mode only) picks the dead-note wording (en when omitted).
  * Titles, badges, detail lines, parameter/response blocks and curl cards are
  * rendered from the en data exactly like the en page (T12 scope: translate
- * purpose only — zh, ru and fr are the locales with method pages today).
- * purpose only — zh, ru and de are the locales with method pages today).
+ * purpose only — zh, ru, fr and de are the locales with method pages today).
  */
 function methodPage(m, file, translatedPurpose, locale) {
   const apiMethod = String(m.api_method);
@@ -660,8 +657,7 @@ function bridgeOnlyLocale(key, strings) {
 }
 
 /**
- * Locale registry for `--locale <code>` runs. zh, ru and fr are full locales
- * Locale registry for `--locale <code>` runs. zh, ru and de are full locales
+ * Locale registry for `--locale <code>` runs. zh, ru, fr and de are full locales
  * (purposes translation file -> translated method pages); every other entry
  * is a bridge-only locale (index pages with all method rows pointing at en) —
  * added via bridgeOnlyLocale() below.
@@ -727,32 +723,6 @@ const LOCALES = {
       colFlags: 'Statut',
     },
   },
-  de: bridgeOnlyLocale('de', {
-    methodsNote:
-      '> Dies ist die deutsche Indexseite: die Methodenseiten sind noch nicht ins Deutsche übersetzt — alle Links in der Tabelle führen zu den englischen Methodenseiten.',
-    methodsHeading: 'Methoden',
-    colMethod: 'Methode',
-    colSince: 'Seit Version',
-    colFlags: 'Status',
-    opsNote:
-      '> Dies ist die deutsche Indexseite: die Operationsseite ist noch nicht ins Deutsche übersetzt — klicken Sie auf den Namen einer Operation, um zum entsprechenden Abschnitt der englischen Seite zu gelangen.',
-    opsHeading: 'Operationen',
-    colOp: 'Operation',
-    colFlags: 'Status',
-  }),
-  fr: bridgeOnlyLocale('fr', {
-    methodsNote:
-      '> Ceci est la page d’index française : les pages de méthodes ne sont pas encore traduites en français — tous les liens de la table mènent aux pages de méthodes anglaises.',
-    methodsHeading: 'Méthodes',
-    colMethod: 'Méthode',
-    colSince: 'À partir de la version',
-    colFlags: 'Statut',
-    opsNote:
-      '> Ceci est la page d’index française : la page des opérations n’est pas encore traduite en français — cliquez sur le nom d’une opération pour ouvrir la section correspondante de la page anglaise.',
-    opsHeading: 'Opérations',
-    colOp: 'Opération',
-    colFlags: 'Statut',
-  }),
   de: {
     key: 'de',
     outDir: DE_OUT_DIR,
