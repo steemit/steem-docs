@@ -164,7 +164,10 @@ function syntheticCurl(apiMethod, parameterJson) {
   try {
     return JSON.stringify({ jsonrpc: '2.0', method: apiMethod, params: JSON.parse(compact), id: 1 });
   } catch {
-    return `{"jsonrpc":"2.0","method":"${apiMethod}","params":${compact},"id":1}`;
+    // Non-JSON parameter_json: re-serialize instead of interpolating raw text
+    // (raw interpolation would emit an invalid body). Warn so the data bug is visible.
+    console.warn(`[syntheticCurl] non-JSON parameter_json for ${apiMethod}; wrapping as JSON string`);
+    return JSON.stringify({ jsonrpc: '2.0', method: apiMethod, params: parameterJson, id: 1 });
   }
 }
 
