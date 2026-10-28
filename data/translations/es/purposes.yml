@@ -30,7 +30,7 @@
 # “next next vesting withdrawal” 与 accont/withdrawl 拼写等均照原文直译或
 # 原样保留。en 硬换行（Understanding Configuration Values、
 # Understanding Dynamic Global Properties、get_potential_signatures 段落、
-# verify_authority 句子共 6 处）在西班牙语中并为一行，语义不变。
+# verify_authority 句子共 7 处）在西班牙语中并为一行，语义不变。
 #
 # 死方法（deprecated/disabled/removed 三族）照常翻译，不因死亡而省略；
 # 机械核验（isDeadWithCause：死亡 flag + 非空 detail）确认全量 238 键共
@@ -397,7 +397,7 @@ purposes:
 
     Véase también: database_api.list_sbd_conversion_requests
   condenser_api.get_current_median_history_price: |-
-    Devuelve el precio medio histórico actual, es decir, el tipo de cambio STEEM:SBD publicado por los witness a través del precio de feed (feed price).
+    Devuelve el precio mediano histórico actual (median history price), es decir, el tipo de cambio STEEM:SBD publicado por los witness a través del precio de feed (feed price).
   condenser_api.get_discussions_by_active: |-
     Devuelve una lista de discusiones (discussion) por actividad (active).
 
@@ -504,7 +504,7 @@ purposes:
   condenser_api.get_followers_by_page: |-
     Devuelve los seguidores (follower) de una cuenta, por páginas. (EOL) Parámetros: `account:string`; `page:int` (base 0 — la página `0` devuelve la primera página, cada página adicional salta otras `page_size` filas); `page_size:int` (obligatorio, máximo `100`); `follow_type:string` (opcional, p. ej.: `blog`, `blog` por defecto)
 
-    **Nota:** el desplazamiento de filas es `page * page_size`. `page_size` es obligatorio; omitirlo devuelve `-32602` (tanto en forma posicional como nominada).
+    **Nota:** el desplazamiento de filas es `page * page_size`. `page_size` es obligatorio; omitirlo devuelve `-32602` (tanto en forma posicional como con nombre).
 
     | `account` (string) | `page` (int) | `page_size` (int) | |
     |--------------------|--------------|-------------------|-|
@@ -524,7 +524,7 @@ purposes:
   condenser_api.get_following_by_page: |-
     Devuelve las cuentas que una cuenta sigue, por páginas. (EOL) Parámetros: `account:string`; `page:int` (base 0 — la página `0` devuelve la primera página, cada página adicional salta otras `page_size` filas); `page_size:int` (obligatorio, máximo `100`); `follow_type:string` (opcional, p. ej.: `blog`, `blog` por defecto)
 
-    **Nota:** el desplazamiento de filas es `page * page_size`. `page_size` es obligatorio; omitirlo devuelve `-32602` (tanto en forma posicional como nominada).
+    **Nota:** el desplazamiento de filas es `page * page_size`. `page_size` es obligatorio; omitirlo devuelve `-32602` (tanto en forma posicional como con nombre).
 
     | `account` (string) | `page` (int) | `page_size` (int) | |
     |--------------------|--------------|-------------------|-|
@@ -1438,7 +1438,7 @@ purposes:
   network_broadcast_api.broadcast_transaction: |-
     Se usa para hacer broadcast de una transacción (transaction) (operación de broadcast).
   rc_api.find_rc_accounts: |-
-    Devuelve los Resource Credits (RC) disponibles de unas cuentas. Parámetros: `accounts:string array`
+    Devuelve los Resource Credits (RC) disponibles de las cuentas. Parámetros: `accounts:string array`
 
     | `accounts` (string) | |
     |---------------------|-|
@@ -1451,7 +1451,7 @@ purposes:
   rc_api.get_resource_pool: |-
     Trabajo en curso.  Véase: [#2563](https://github.com/steemit/steem/issues/2563), [PR#2678](https://github.com/steemit/steem/pull/2678)
   reputation_api.get_account_reputations: |-
-    Devuelve la reputación (reputation) de unas cuentas. Parámetros: `account:string`; `limit:int`
+    Devuelve la reputación (reputation) de las cuentas. Parámetros: `account:string`; `limit:int`
 
     * `limit` es hasta 1000.
 
