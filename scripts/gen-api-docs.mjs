@@ -741,7 +741,7 @@ const LOCALES = {
   de: {
     key: 'de',
     outDir: DE_OUT_DIR,
-    // T29 (phase 4): de is the third full locale — one translated method page
+    // T29 (phase 4): de is the fourth full locale — one translated method page
     // per purpose in data/translations/de/purposes.yml (all 238 since the T22
     // source-fill), mirroring the zh/ru pattern.
     purposesPath: DE_PURPOSES_PATH,
@@ -763,7 +763,7 @@ const LOCALES = {
   it: {
     key: 'it',
     outDir: IT_OUT_DIR,
-    // T30 (phase 4): it is the fourth full locale — one translated method page
+    // T30 (phase 4): it is the fifth full locale — one translated method page
     // per purpose in data/translations/it/purposes.yml (all 238 since the T22
     // source-fill), mirroring the zh/ru/fr pattern.
     purposesPath: IT_PURPOSES_PATH,

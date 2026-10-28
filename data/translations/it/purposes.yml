@@ -697,11 +697,11 @@ purposes:
 
     Vedere anche: database_api.get_version, Paginated API Methods
   condenser_api.get_vesting_delegations: |-
-    Restituisce le deleghe di vesting (vesting delegation) di un account. Parametri: `delegator_account:string`; `start_account:string`; `limit:int` fino a 1000
+    Restituisce le deleghe di vesting (vesting delegation) effettuate da un account. Parametri: `delegator_account:string`; `start_account:string`; `limit:int` fino a 1000
 
     | `delegator_account` (string) | `start_account` (string) | `limit` (int) | |
     |------------------------------|--------------------------|---------------|-|
-    | `"steemit"` | `null` | `10` | Interroga fino a 10 deleghe di vesting di "steemit". |
+    | `"steemit"` | `null` | `10` | Interroga fino a 10 deleghe di vesting effettuate da "steemit". |
 
     Vedere anche: database_api.list_vesting_delegations, Paginated API Methods, Paginated API Methods
   condenser_api.get_volume: |-
@@ -729,7 +729,7 @@ purposes:
   condenser_api.get_witness_count: |-
     Restituisce il numero totale di witness.
   condenser_api.get_witness_schedule: |-
-    Restituisce la programmazione dei witness (witness schedule) corrente.
+    Restituisce il witness schedule corrente (la programmazione dei witness).
 
     Vedere anche: database_api.get_witness_schedule
   condenser_api.get_witnesses: |-
@@ -948,7 +948,7 @@ purposes:
   database_api.get_version: |-
     Restituisce le versioni di blockchain, steem e FC al momento della compilazione. Restituisce anche la versione della chain id al momento del boot (*può* essere diversa dal valore al momento della compilazione solo quando si guarda una testnet)
   database_api.get_witness_schedule: |-
-    Restituisce la programmazione dei witness (witness schedule) corrente.
+    Restituisce il witness schedule corrente (la programmazione dei witness).
   database_api.list_account_recovery_requests: |-
     Restituisce un elenco di richieste di recupero (recovery request) dell’account. Parametri: `start:string`, `limit:int`, `order:string`
 
@@ -1341,7 +1341,7 @@ purposes:
   debug_node_api.debug_get_json_schema: |-
     Restituisce lo schema JSON usato per validare il JSON delle operazioni su un nodo di debug.
   debug_node_api.debug_get_witness_schedule: |-
-    Restituisce la programmazione dei witness (witness schedule) corrente su un nodo di debug.
+    Restituisce il witness schedule corrente (la programmazione dei witness) su un nodo di debug.
   debug_node_api.debug_has_hardfork: |-
     Restituisce se un dato hardfork è stato applicato su un nodo di debug.
   debug_node_api.debug_pop_block: |-
@@ -1435,7 +1435,7 @@ purposes:
   network_broadcast_api.broadcast_transaction: |-
     Usato per trasmettere (broadcast) una transazione (transaction).
   rc_api.find_rc_accounts: |-
-    Restituisce i Resource Credits (RC) disponibili degli account. Parametri: `accounts:string array`
+    Restituisce i Resource Credits (RC) disponibili per gli account. Parametri: `accounts:string array`
 
     | `accounts` (string) | |
     |---------------------|-|
