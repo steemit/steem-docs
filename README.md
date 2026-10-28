@@ -185,10 +185,10 @@ the gaps/deadRegression sections); 1 on usage errors or YAML parse failures.
 
 The phase-3 crosscheck that fuses the two source inventories
 (`data/source-inventory/steem.json`, 211 methods, and
-`data/source-inventory/hivemind.json`, 68 bindings), the YAML manifest (215
+`data/source-inventory/hivemind.json`, 68 bindings), the YAML manifest (238
 documented methods), and the latest committed `data/audit/drift-*.json`
 snapshot into one per-method disposition matrix. Every name in the universe
-(sources ∪ docs — 240 names today) lands in exactly one cell of the
+(sources ∪ docs — 241 names today) lands in exactly one cell of the
 src± × doc± × node-alive/dead grid, and each cell maps to exactly one
 disposal action (`all-good`, `annotation-refresh`, `add-page`,
 `add-page+dead-note`, `keep-annotation`, `removed-keep`); the
@@ -213,7 +213,7 @@ decision-3 death-annotation family census).
 ```sh
 pnpm audit:source-crosscheck                               # report-only
 pnpm audit:source-crosscheck -- --write                    # persist into data/audit/
-pnpm audit:source-crosscheck -- --drift data/audit/drift-2026-10-27.json --node1 https://api.steem.fans --node2 https://api.steemit.com
+pnpm audit:source-crosscheck -- --drift data/audit/drift-2026-10-28.json --node1 https://api.steem.fans --node2 https://api.steemit.com
 ```
 
 ### `pnpm check:curl-width` — Example block line-width assertion
