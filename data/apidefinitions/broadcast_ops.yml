@@ -1161,9 +1161,11 @@
         - '["vote2",{"voter":"steemit","author":"alice","permlink":"a-post-by-alice","rshares":[[{"nai":"@@904705667","decimals":0},0]],"extensions":[]}]'
     - name: smt_setup
       since: HF23
+      deprecated: true
       virtual: false
       purpose: |
-        Setup a Smart Media Token.  Each SMT has an associated descriptor object which has *permanent* configuration data. This data cannot be changed after launch.
+        **Deprecated** — SMT (Smart Media Tokens) operations have never been enabled on the Steem mainnet.
+                Setup a Smart Media Token.  Each SMT has an associated descriptor object which has *permanent* configuration data. This data cannot be changed after launch.
         
         **Parameters:**
         * `control_account` - The name of the controlling account.
@@ -1228,9 +1230,11 @@
         - '["smt_setup",{"control_account":"alice","symbol":{"nai": "@@000000000", "decimals": 0},"contribution_begin_time":"2019-08-26T11:22:39","contribution_end_time":"2019-08-26T11:22:39","launch_time":"2019-09-26T11:22:39","max_supply":1000000000000000,"steem_units_hard_cap":10000,"steem_units_soft_cap":1000,"steem_units_min":0,"initial_generation_policy":"{\"type\":\"smt_capped_generation_policy\",\"value\":{\"pre_soft_cap_unit\":{\"steem_unit\":[[\"alice\",100]],\"token_unit\":[[\"$from\",5],[\"alice\",1]]},\"post_soft_cap_unit\":{\"steem_unit\":[[\"alice\",100]],\"token_unit\":[[\"$from\",5],[\"alice\",1]]},\"min_steem_units_commitment\":{\"lower_bound\":1,\"upper_bound\":1,\"hash\":\"32edb6022c0921d99aa347e9cda5dc2db413f5574eebaaa8592234308ffebd2b\"},\"hard_cap_steem_units_commitment\":{\"lower_bound\":\"166666666666\",\"upper_bound\":\"166666666666\",\"hash\":\"93c5a6b892de788c5b54b63b91c4b692e36099b05d3af0d16d01c854723dda21\"},\"soft_cap_percent\":10000,\"min_unit_ratio\":1000,\"max_unit_ratio\":1000,\"extensions\":[]}}","extensions":[]}]'
     - name: smt_setup_emissions
       since: HF23
+      deprecated: true
       virtual: false
       purpose: |
-        Create Smart Media Token emissions (inflation).
+        **Deprecated** — SMT (Smart Media Tokens) operations have never been enabled on the Steem mainnet.
+                Create Smart Media Token emissions (inflation).
         
         **Parameters:**
         * `control_account` - The name of the controlling account.
@@ -1274,9 +1278,11 @@
         - '["smt_setup_emissions",{"control_account":"alice","symbol":{"nai":"@@904705667","decimals":0},"schedule_time":"2019-08-26T11:22:39","emissions_unit":{"token_unit":[["alice",1]]},"interval_seconds":21600,"interval_count":1,"lep_time":"2019-08-26T11:22:39","rep_time":"2019-08-26T11:22:39","lep_abs_amount":{"amount":"1","precision":0,"nai":"@@904705667"},"rep_abs_amount":{"amount":"1","precision":0,"nai":"@@904705667"},"lep_rel_amount_numerator":0,"rep_rel_amount_numerator":0,"rel_amount_denom_bits":0,"remove":false,"floor_emissions":false,"extensions":[]}]'
     - name: smt_set_setup_parameters
       since: HF23
+      deprecated: true
       virtual: false
       purpose: |
-        Creates Smart Media Token setup parameters.
+        **Deprecated** — SMT (Smart Media Tokens) operations have never been enabled on the Steem mainnet.
+                Creates Smart Media Token setup parameters.
        
         **Parameters:**
         * `control_account` - The name of the controlling account.
@@ -1298,9 +1304,11 @@
         - '["smt_set_setup_parameters",{"control_account":"alice","symbol":{"nai": "@@000000000", "decimals": 0},"setup_parameters":[{"type":"smt_param_allow_voting","value":{"value":true}}],"extensions":[]}]'
     - name: smt_set_runtime_parameters
       since: HF23
+      deprecated: true
       virtual: false
       purpose: |
-        Creates Smart Media Token runtime parameters.
+        **Deprecated** — SMT (Smart Media Tokens) operations have never been enabled on the Steem mainnet.
+                Creates Smart Media Token runtime parameters.
         
         **Parameters:**
         * `control_account` - The name of the controlling account.
@@ -1330,9 +1338,11 @@
         - '["smt_set_runtime_parameters",{"control_account":"alice","symbol":{"nai": "@@000000000", "decimals": 0},"runtime_parameters":[{"type":"smt_param_windows_v1","value":{"cashout_window_seconds":90001,"reverse_auction_window_seconds":110}},{"type":"smt_param_vote_regeneration_period_seconds_v1","value":{"vote_regeneration_period_seconds":7000,"votes_per_regeneration_period":1}},{"type":"smt_param_rewards_v1","value":{"content_constant":9005,"percent_curation_rewards":9006,"author_reward_curve":"quadratic","curation_reward_curve":"bounded_curation"}},{"type":"smt_param_allow_downvotes","value":{"value":true}}],"extensions":[]}]'
     - name: smt_create
       since: HF23
+      deprecated: true
       virtual: false
       purpose: |
-        Create a Smart Media Token.
+        **Deprecated** — SMT (Smart Media Tokens) operations have never been enabled on the Steem mainnet.
+                Create a Smart Media Token.
         
         This operation introduces new SMT into blockchain as identified by Numerical Asset Identifier (NAI). Also the SMT precision (decimal points) is explicitly provided.
         
@@ -1369,9 +1379,11 @@
         - '["smt_create",{"control_account":"alice","symbol":{"nai": "@@000000000", "decimals": 0},"smt_creation_fee":{"amount":"3000","precision":3,"nai":"@@000000013"},"precision":0,"extensions":[]}]'
     - name: smt_contribute
       since: HF23
+      deprecated: true
       virtual: false
       purpose: |
-        Contribute to a token ICO.
+        **Deprecated** — SMT (Smart Media Tokens) operations have never been enabled on the Steem mainnet.
+                Contribute to a token ICO.
         
         **Parameters:**
         * `contributor` The name of the contributor
