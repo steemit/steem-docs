@@ -1,0 +1,1540 @@
+# ---------------------------------------------------------------------------
+# es translations of API method purposes — batch 1-5（238 条全量）
+# (phase4-plan §1-T31；schema/风格沿用 zh-method-purposes/v1，batch 字段标
+# 语言内批次：batch 1 = C 序 #1-48、batch 2 = #49-96、batch 3 = #97-144、
+# batch 4 = #145-192、batch 5 = #193-238，按写入顺序)
+#
+# api_method -> traducción española del purpose。原文以 data/apidefinitions/*.yml 中
+# 现有 en purpose 字段为准，不增不减不改语义；markdown 结构（表格/列表/加粗/
+# 链接/代码 span）按原文保留，仅翻译文字内容；代码 span 内文字一律不动。
+#
+# 术语遵循 docs/.vitepress/es-glossary.json 的 30 条冻结基线（witness 保留英文、
+# “testigo” 仅作解释；acciones de vesting (VESTS)、dólares STEEM (SBD)、
+# Resource Credits (RC)、curación、hard fork、propiedades globales dinámicas、
+# historial de la cuenta、permlink (enlace permanente)、propuesta、post 等）；
+# 方法名、参数名、字段值、API 名与被引用文档页标题保留英文。术语首次出现按
+# glossary conventions 使用『traducción española (English)』格式；SMT 无冻结条目，
+# 按惯用展开 SMT (tokens de medios inteligentes)。行文为简洁说明句，不使用
+# 感叹号；表内引用账户名处照原文使用直引号。
+#
+# en 原文的既有缺陷语义如实保留，不擅自“修正”：condenser_api.list_proposal_votes
+# /list_proposals 的 Also see 行引用拼写 datbase_api（各 1 处）、
+# get_vesting_delegations 的 Also see 行 Paginated API Methods 重复、
+# get_blog_authors 表内 alice". 缺左引号、lookup_accounts 参数行缺冒号
+# （Parámetros`lower_bound_name）、lookup_accounts/lookup_witness_accounts 表行
+# 缺尾竖线、list_accounts/list_owner_histories/find_vesting_delegation_expirations
+# 等断表（表头/分隔/行 列数不齐）、list_limit_orders/list_witness_votes 表内
+# order 值串行（by_effective_date/by_withdraw_route/by_destination）、
+# get_witnesses_by_vote 表内 limit `1` 配文 “top 10”、find_rc_accounts 表内
+# 第二行只列 alice 而行文写 “alice" and "bob”、list_accounts 的
+# “next next vesting withdrawal” 与 accont/withdrawl 拼写等均照原文直译或
+# 原样保留。en 硬换行（Understanding Configuration Values、
+# Understanding Dynamic Global Properties、get_potential_signatures 段落、
+# verify_authority 句子共 7 处）在西班牙语中并为一行，语义不变。
+#
+# 死方法（deprecated/disabled/removed 三族）照常翻译，不因死亡而省略；
+# 机械核验（isDeadWithCause：死亡 flag + 非空 detail）确认全量 238 键共
+# 35 个死方法（disabled 25、removed 3、deprecated 7）；裸 badge 5 个
+# （get_state、verify_account_authority ×2 变体、account_history_api.get_transaction、
+# get_account_references）照常翻译；23 个三期新增方法（bridge 系 14、
+# condenser_api follow 分页对 2、chain_api 2、hive 1、tags 1、call 1 及
+# T22 补页清单其余）全部在内。
+#
+# 排序口径仍为 LC_ALL=C（字节序），是唯一口径。机械核验（LC_ALL=C sort 对
+# en_US.UTF-8 sort）确认全量 238 键共有 5 处 C/UTF-8 collation 分歧对：
+#   1. condenser_api.get_account_votes ↔ get_accounts（C 序 #39/#40）
+#   2. condenser_api.get_witness_schedule ↔ get_witnesses（C 序 #110/#111，
+#      UTF-8 下 schedule 排到 get_witnesses_by_vote 之后）
+#   3. condenser_api.list_proposal_votes ↔ list_proposals（C 序 #113/#114）
+#   4. database_api.list_proposal_votes ↔ list_proposals（C 序 #161/#162）
+#   5. database_api.list_witness_votes ↔ list_witnesses（C 序 #172/#173）
+# 各分歧对均整体落在同一 batch 窗口内，batch 边界一律按本头注记的 C 序执行。
+#
+# 消费方：scripts/gen-api-docs.mjs --locale es。
+# ---------------------------------------------------------------------------
+schema: zh-method-purposes/v1
+locale: es
+batch: 1-5
+purposes:
+  account_by_key_api.get_key_references: |-
+    Devuelve todas las cuentas que tienen la clave asociada a sus autoridades (authority) de propietario o activas.
+  account_history_api.enum_virtual_ops: |-
+    Devuelve las operaciones virtuales (virtual operation) dentro de un rango de bloques (block), con filtrado opcional por cuenta y por tipo de operación.
+  account_history_api.get_account_history: |-
+    Devuelve el historial de la cuenta (account history) — todas las operaciones de una cuenta dada.
+
+    Véase también: Paginated API Methods
+  account_history_api.get_ops_in_block: |-
+    Devuelve todas las operaciones contenidas en un bloque (block).
+  account_history_api.get_transaction: |-
+    Devuelve los detalles de una transacción (transaction) a partir de un id de transacción.
+  block_api.get_block: |-
+    Recupera el bloque (block) firmado completo del bloque referenciado, o null si no se encontró ningún bloque coincidente.
+
+    **Parámetros:**
+
+      * `block_num:int`
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | Consulta el primer bloque de todos. |
+    | `8675309` | Consulta el bloque número 8.675.309. |
+    | `62396745` | Consulta el bloque número 62.396.745. |
+  block_api.get_block_header: |-
+    Recupera la cabecera de bloque (block header) del bloque referenciado, o null si no se encontró ningún bloque coincidente.
+
+    **Parámetros:**
+      
+      * `block_num:int` - Altura del bloque cuya cabecera debe devolverse
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | Consulta las cabeceras del primer bloque de todos. |
+    | `8675309` | Consulta las cabeceras del bloque número 8.675.309. |
+    | `62396745` | Consulta las cabeceras del bloque número 62.396.745. |
+  bridge.account_notifications: |-
+    Notificaciones de cuenta (account notifications).
+
+    Valores admitidos para `type`:
+      * `new_community` - se creó una nueva comunidad (community)
+      * `set_role` - un mod/admin añade un rol (role) a una cuenta
+      * `set_props` - se establecieron propiedades para una comunidad
+      * `set_label` - se estableció un título/distintivo/etiqueta (label) para una cuenta
+      * `mute_post` - un post (publicación) fue silenciado (mute), con un motivo
+      * `unmute_post` - se quitó el silencio a un post, con un motivo
+      * `pin_post` - un post fue fijado (pin)
+      * `unpin_post` - se quitó el fijado de un post
+      * `flag_post` - un post fue marcado con flag por un miembro, con un motivo
+      * `error` - ofrece retroalimentación a los desarrolladores para operaciones (ops) que no se pueden interpretar
+      * `subscribe` - una cuenta se suscribió a una comunidad
+      * `reply` - un post recibió una respuesta
+      * `reblog` - un post fue reblogueado/repromocionado (reblogged/resteemed)
+      * `follow` - una cuenta siguió a otra cuenta
+      * `mention` - el autor menciona a una cuenta
+      * `vote` - el votante vota a un autor
+
+    El valor de `score` se basa en la clasificación (rank) de la cuenta de origen.
+  bridge.get_account_posts: |-
+    Obtiene los posts (publicación) de una cuenta — blog, feed, comentarios o respuestas.
+
+    Valores admitidos para `sort`:
+      * `blog`
+      * `feed`
+      * `posts`
+      * `comments`
+      * `replies`
+      * `payout`
+
+    Parámetros: `sort:string`; `account:string`; `start_author:string` (opcional, vacío por defecto); `start_permlink:string` (opcional, vacío por defecto); `limit:int` (opcional, `20` por defecto, máximo `100`); `observer:string` (opcional)
+
+    Véase también: bridge.get_ranked_posts
+  bridge.get_community: |-
+    Obtiene los detalles de una comunidad (community).
+  bridge.get_community_context: |-
+    Para un par comunidad/cuenta, devuelve el rol de la cuenta, su título y su estado de suscripción.
+
+    Parámetros: `name:string` (nombre de la comunidad, p. ej.: `hive-123456`); `account:string`
+
+    Véase también: bridge.get_community
+  bridge.get_discussion: |-
+    Devuelve un hilo de discusión (thread) completo — el post raíz y sus respuestas, indexados por `author/permlink`. Es el reemplazo de hivemind para la parte de hilo de `condenser_api.get_state`.
+
+    Parámetros: `author:string`; `permlink:string`
+  bridge.get_payout_stats: |-
+    Obtiene estadísticas de pagos (payout) para construir un treemap: el pago total del blog más una tupla `(url, label, payout, posts, authors)` por cada comunidad principal.
+
+    Parámetros: `limit:int` (opcional, `250` por defecto, máximo `250`)
+  bridge.get_post: |-
+    Obtiene un único post (publicación).
+
+    Parámetros: `author:string`; `permlink:string`; `observer:string` (opcional)
+  bridge.get_post_header: |-
+    Obtiene datos básicos de un post (publicación): autor, permlink (enlace permanente), categoría y profundidad.
+
+    Parámetros: `author:string`; `permlink:string`
+  bridge.get_profile: |-
+    Carga los datos de cuenta/perfil (profile): metadatos, reputación, estadísticas de seguimiento y listas negras (blacklist).
+
+    Parámetros: `account:string`; `observer:string` (opcional)
+  bridge.get_ranked_posts: |-
+    Obtiene posts (publicación) clasificados (ranked).
+
+    Valores admitidos para `sort`:
+      * `trending`
+      * `hot`
+      * `created`
+      * `promoted`
+      * `payout`
+      * `payout_comments`
+      * `muted`
+      
+    El valor de `tag` puede ser cualquier etiqueta (tag) válida.
+
+    El valor de `observer` puede ser cualquier cuenta válida o una cadena vacía.
+  bridge.get_trending_topics: |-
+    Devuelve los principales temas en tendencia (trending) entre los posts pendientes (una mezcla de comunidades y etiquetas).
+
+    Parámetros: `limit:int` (opcional, `10` por defecto, máximo `25`); `observer:string` (opcional, aún sin uso)
+  bridge.list_all_subscriptions: |-
+    Enumera todas las suscripciones (subscription) de una cuenta a una comunidad.
+  bridge.list_communities: |-
+    Enumera todas las comunidades (community), paginadas. Devuelve una lista ligera de comunidades.
+
+    Valores admitidos para `sort`:
+      * `rank`
+      * `new`
+      * `subs`
+
+    Parámetros: `last:string` (opcional, vacío por defecto); `limit:int` (opcional, `100` por defecto, máximo `100`); `query:string` (opcional, búsqueda de texto completo en el título y el «acerca de»); `sort:string` (opcional, `rank` por defecto); `observer:string` (opcional)
+
+    Véase también: bridge.get_community
+  bridge.list_community_roles: |-
+    Enumera los roles y las etiquetas (label) de cada cuenta de la comunidad.
+  bridge.list_pop_communities: |-
+    Enumera comunidades por número de nuevos suscriptores. Devuelve una lista ligera de comunidades.
+
+    Parámetros: `limit:int` (opcional, `25` por defecto, máximo `25`)
+
+    Nota: a fecha de 2026-10-28, los nodos públicos devuelven un error de servidor para esta llamada (la build de hivemind desplegada nunca vincula el parámetro de consulta `cutoff`). La respuesta de abajo muestra la forma prevista.
+  bridge.list_subscribers: |-
+    Enumera los suscriptores (subscriber) de una comunidad (hasta 250, los más nuevos primero), como tuplas `name`/`role`/`title`/`created_at`.
+
+    Parámetros: `community:string` (p. ej.: `hive-123456`)
+  bridge.normalize_post: |-
+    Toma un objeto post (publicación) de steemd (tal como lo devuelve `condenser_api.get_content`) y produce la versión normalizada (normalized) de la bridge-api.
+
+    Parámetros: `post:object` (un objeto post de steemd completo, exactamente como lo devuelve `condenser_api.get_content`, pasado envuelto en un array de un elemento: `params: [{ <post object> }]`)
+
+    **Nota:** el objeto post debe llevar el conjunto completo de campos de steemd — el ejemplo de abajo abrevia solo `body` por legibilidad. Pasar el objeto desnudo como `params` (sin envolver en array) devuelve `-32602`; un objeto incompleto (p. ej. entradas `active_votes` sin `percent`/`reputation`, o campos de pago ausentes como `cashout_time`) devuelve `-32000`.
+  bridge.post_notifications: |-
+    Carga las notificaciones (notification) de un post (publicación) concreto.
+
+    Parámetros: `author:string`; `permlink:string`; `min_score:int` (opcional, `25` por defecto); `last_id:int` (opcional, buscar a partir de este id de notificación); `limit:int` (opcional, `100` por defecto, máximo `100`)
+
+    Nota: a fecha de 2026-10-28, los nodos públicos devuelven un error interno para esta llamada en posts que tienen notificaciones. La respuesta de abajo muestra la forma prevista.
+
+    Véase también: bridge.account_notifications
+  bridge.unread_notifications: |-
+    Carga el estado de notificaciones (notification) de una cuenta dada: la hora de última lectura y el número de notificaciones no leídas con una puntuación de al menos `min_score`.
+
+    Parámetros: `account:string`; `min_score:int` (opcional, `25` por defecto)
+
+    Véase también: bridge.account_notifications
+  call: |-
+    Enruta las peticiones del método `call` en estilo legacy.
+
+    Parámetros: `api:string` (solo se acepta `condenser_api`); `method:string` (uno de los métodos enrutados de condenser_api: get_followers, get_following, get_followers_by_page, get_following_by_page, get_follow_count, get_content, get_content_replies, get_trending_tags, get_state, get_discussions_by_trending, get_discussions_by_hot, get_discussions_by_promoted, get_discussions_by_created, get_post_discussions_by_payout, get_comment_discussions_by_payout, get_discussions_by_blog, get_discussions_by_feed, get_discussions_by_comments, get_replies_by_last_update, get_discussions_by_author_before_date, get_blog, get_blog_entries, get_account_votes); `params:array` (los parámetros del método enrutado)
+
+    Cualquier otro método devuelve un error.
+  chain_api.push_block: |-
+    Envía un bloque (block) al nodo (push).
+
+    Parámetros: `block:object` (un bloque firmado); `currently_syncing:bool` (opcional, `false` por defecto)
+
+    Devuelve `success:bool` y, en caso de fallo, un `error:string`.
+  chain_api.push_transaction: |-
+    Envía una transacción (transaction) al nodo (push).
+
+    Parámetros: el propio objeto de transacción firmado, sin envolver: `ref_block_num:int`; `ref_block_prefix:int`; `expiration:timestamp`; `operations:array`; `extensions:array`; `signatures:array`
+
+    Devuelve `success:bool` y, en caso de fallo, un `error:string`.
+  condenser_api.broadcast_block: |-
+    Se usa para hacer broadcast de un bloque (block).
+
+    Véase también: network_broadcast_api.broadcast_block
+  condenser_api.broadcast_transaction: |-
+    Se usa para hacer broadcast de una transacción (transaction).
+
+    Véase también: network_broadcast_api.broadcast_transaction
+  condenser_api.broadcast_transaction_synchronous: |-
+    Se usa para hacer broadcast de una transacción (transaction) y espera a que se procese de forma síncrona.
+  condenser_api.find_proposals: |-
+    Encuentra propuestas (proposal) por `proposal.id` (no por `proposal.proposal_id`).
+
+    Véase también: database_api.find_proposals
+  condenser_api.get_account_bandwidth: |-
+    **Desactivado desde la versión 0.20.6, véase: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
+
+    Devuelve el ancho de banda (bandwidth) disponible de una cuenta. Parámetros: `account:string`; `type:string`, p. ej.: `forum` o `market`
+
+    | `account` (string) | `type` (string) | |
+    |--------------------|-----------------|-|
+    | `"steemit"` | `"forum"` | Consulta el ancho de banda de forum disponible para la cuenta llamada "steemit". |
+    | `"alice"` | `"market"` | Consulta el ancho de banda de market disponible para la cuenta llamada "alice". |
+
+    Véase: Forum/Market Bandwidth
+  condenser_api.get_account_count: |-
+    Devuelve el número de cuentas.
+  condenser_api.get_account_history: |-
+    Devuelve el historial de la cuenta (account history) — todas las operaciones de una cuenta dada. Parámetros: `account:string`; `start:int`. p. ej.: -1 para el historial inverso o cualquier número positivo; `limit:int` hasta 10000
+
+    | `account` (string) | `start` (int) | `limit` (int) | |
+    |--------------------|---------------|---------------|-|
+    | `"steemit"` | `1000` | `1000` | Consulta la cuenta llamada `steemit` empezando por el elemento más reciente del historial, hasta 1.000 resultados. |
+    | `"alice"` | `-1` | `10000` | Consulta la cuenta llamada `alice` empezando por el elemento más antiguo del historial, hasta 10.000 resultados. |
+
+    Véase también: account_history_api.get_account_history, Paginated API Methods
+  condenser_api.get_account_references: |-
+    **No implementado**
+  condenser_api.get_account_reputations: |-
+    Devuelve una lista de reputaciones (reputation) de cuentas. Parámetros: `account_lower_bound:string`; `limit:int` hasta 1000
+
+    | `account_lower_bound` (string) | `limit` (int) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `1` | Consulta las cuentas que empiezan por "steemit", un único resultado. |
+    | `"a"` | `10` | Consulta las cuentas que empiezan por "a", hasta 10 resultados. |
+
+    Véase también: follow_api.get_account_reputations
+  condenser_api.get_account_votes: |-
+    Devuelve todos los votos (vote) de una cuenta. Parámetros: `account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | Consulta los votos de "steemit". |
+    | `"alice"` | Consulta los votos de "alice". |
+  condenser_api.get_accounts: |-
+    Devuelve cuentas, consultadas por nombre. Parámetros: `account:string array`
+
+    | `account` (string array) | |
+    |-------------------|-|
+    | `["steemit"]` | Consulta la cuenta llamada "steemit". |
+    | `["steemit", "alice"]` | Consulta las cuentas llamadas "steemit" y "alice". |
+
+    Véase también: database_api.find_accounts
+  condenser_api.get_active_votes: |-
+    Devuelve todos los votos (vote) de un post (publicación) dado. Parámetros: `author:string`; `permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | Consulta los votos del contenido con slug `@steemit/firstpost` |
+    | `"alice"` | `"a-post-by-alice"` | Consulta los votos del contenido con slug `@alice/a-post-by-alice` |
+
+    Véase también: tags_api.get_active_votes
+  condenser_api.get_active_witnesses: |-
+    Devuelve la lista de witness (testigo) activos.
+
+    Véase también: database_api.get_active_witnesses
+  condenser_api.get_block: |-
+    Devuelve un bloque (block). Parámetros: `block_num:int`
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | Consulta el primer bloque de todos. |
+    | `8675309` | Consulta el bloque número 8.675.309. |
+    | `62396745` | Consulta el bloque número 62.396.745. |
+
+    Véase también: block_api.get_block
+  condenser_api.get_block_header: |-
+    Devuelve una cabecera de bloque (block header). Parámetros: `block_num:int`
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | Consulta las cabeceras del primer bloque de todos. |
+    | `8675309` | Consulta las cabeceras del bloque número 8.675.309. |
+    | `62396745` | Consulta las cabeceras del bloque número 62.396.745. |
+
+    Véase también: block_api.get_block_header
+  condenser_api.get_blog: |-
+    Devuelve la lista de entradas (entry) del blog de una cuenta. Parámetros: `account:string`; `start_entry_id:int`; `limit:int` hasta 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|------------------------|---------------|-|
+    | "steemit" | `0` | `1` | Consulta el blog de la cuenta llamada "steemit", hasta un resultado. |
+    | "alice" | `0` | `50` | Consulta el blog de la cuenta llamada "alice", hasta 50 resultados. |
+
+    Véase también: follow_api.get_blog, Paginated API Methods
+  condenser_api.get_blog_authors: |-
+    Devuelve una lista de autores cuyo contenido fue reblogueado (reblog) en el blog de una cuenta dada. Parámetros: `account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | Consulta la cuenta llamada "steemit". |
+    | `"alice"` | Consulta las cuentas llamadas alice". |
+
+    Véase también: follow_api.get_blog_authors
+  condenser_api.get_blog_entries: |-
+    Devuelve la lista de entradas (entry) del blog de una cuenta. Parámetros: `account:string`; `start_entry_id:int`; `limit:int` hasta 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|------------------------|---------------|-|
+    | "steemit" | `0` | `1` | Consulta las entradas del blog de la cuenta llamada "steemit", hasta un resultado. |
+    | "alice" | `0` | `50` | Consulta las entradas del blog de la cuenta llamada "alice", hasta 50 resultados. |
+
+    Véase también: follow_api.get_blog_entries, Paginated API Methods
+  condenser_api.get_chain_properties: |-
+    Devuelve las propiedades de la cadena (chain properties).
+  condenser_api.get_comment_discussions_by_payout: |-
+    Devuelve una lista de discusiones (discussion) de comentarios por pago (payout).
+
+    Véase también: tags_api.get_comment_discussions_by_payout
+  condenser_api.get_config: |-
+    Devuelve información sobre las constantes de compilación. Véase: Understanding Configuration Values
+
+    Véase también: database_api.get_config
+  condenser_api.get_content: |-
+    Devuelve el contenido (post o comentario). Parámetros: `author:string`; `permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | Consulta el contenido con slug `@steemit/firstpost` |
+    | `"alice"` | `"a-post-by-alice"` | Consulta el contenido con slug `@alice/a-post-by-alice` |
+  condenser_api.get_content_replies: |-
+    Devuelve una lista de respuestas. Parámetros: `author:string`; `permlink:string`
+
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | Consulta las respuestas del contenido con slug `@steemit/firstpost` |
+    | `"alice"` | `"a-post-by-alice"` | Consulta las respuestas del contenido con slug `@alice/a-post-by-alice` |
+
+    Véase también: tags_api.get_content_replies
+  condenser_api.get_conversion_requests: |-
+    Devuelve una lista de solicitudes de conversión (conversion request). Parámetros: `id:integer`
+
+    | `id` (int) | |
+    |-------------------|-|
+    | `1234` | Consulta una solicitud de conversión con el id 1234. |
+
+    Véase también: database_api.list_sbd_conversion_requests
+  condenser_api.get_current_median_history_price: |-
+    Devuelve el precio mediano histórico actual (median history price), es decir, el tipo de cambio STEEM:SBD publicado por los witness a través del precio de feed (feed price).
+  condenser_api.get_discussions_by_active: |-
+    Devuelve una lista de discusiones (discussion) por actividad (active).
+
+    Véase también: tags_api.get_discussions_by_active
+  condenser_api.get_discussions_by_author_before_date: |-
+    Devuelve una lista de discusiones (discussion) por autor antes de una fecha.
+
+    Véase también: tags_api.get_discussions_by_author_before_date, Paginated API Methods
+  condenser_api.get_discussions_by_blog: |-
+    Devuelve una lista de discusiones (discussion) por blog.
+
+    Véase también: tags_api.get_discussions_by_blog
+  condenser_api.get_discussions_by_cashout: |-
+    Devuelve una lista de discusiones (discussion) por cobro (cashout).
+
+    Véase también: tags_api.get_discussions_by_cashout
+  condenser_api.get_discussions_by_children: |-
+    Devuelve una lista de discusiones (discussion) por respuestas (children).
+
+    Véase también: tags_api.get_discussions_by_children
+  condenser_api.get_discussions_by_comments: |-
+    Devuelve una lista de discusiones (discussion) por comentarios.
+
+    Véase también: tags_api.get_discussions_by_comments
+  condenser_api.get_discussions_by_created: |-
+    Devuelve una lista de discusiones (discussion) por fecha de creación (created).
+
+    Véase también: tags_api.get_discussions_by_created
+  condenser_api.get_discussions_by_feed: |-
+    Devuelve una lista de discusiones (discussion) por feed.
+
+    Véase también: tags_api.get_discussions_by_feed
+  condenser_api.get_discussions_by_hot: |-
+    Devuelve una lista de discusiones (discussion) por popularidad (hot).
+
+    Véase también: tags_api.get_discussions_by_hot
+  condenser_api.get_discussions_by_promoted: |-
+    Devuelve una lista de discusiones (discussion) por promoción (promoted).
+
+    Véase también: tags_api.get_discussions_by_promoted
+  condenser_api.get_discussions_by_trending: |-
+    Devuelve una lista de discusiones (discussion) por tendencias (trending).
+
+    Véase también: tags_api.get_discussions_by_trending
+  condenser_api.get_discussions_by_votes: |-
+    Devuelve una lista de discusiones (discussion) por votos.
+
+    Véase también: tags_api.get_discussions_by_votes
+  condenser_api.get_dynamic_global_properties: |-
+    Devuelve las propiedades globales dinámicas (dynamic global properties) actuales. Véase: Understanding Dynamic Global Properties
+
+    Véase también: database_api.get_dynamic_global_properties
+  condenser_api.get_escrow: |-
+    Devuelve el escrow (depósito en garantía) de una cuenta determinada por id.
+
+    Véase también: database_api.list_escrows
+  condenser_api.get_expiring_vesting_delegations: |-
+    Devuelve las delegaciones de vesting (vesting delegation) que expiran de una cuenta. Parámetros: `account:string`, `after:timestamp`
+
+    | `account` (string) | `after` (timestamp) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"2018-01-01T00:00:00"` | Consulta el vesting que expira después del 1 de enero de 2018. |
+    | `"alice"` | `"2017-12-01T00:00:00"` | Consulta el vesting que expira después del 1 de diciembre de 2017. |
+  condenser_api.get_feed: |-
+    Devuelve una lista de elementos del feed de una cuenta. Parámetros: `account:string`; `start_entry_id:int`; `limit:int` hasta 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|---------------|---------------|-|
+    | `"steemit"` | `0` | `1` | Consulta la cuenta llamada `steemit` empezando por el primer elemento, hasta 1 resultado. |
+    | `"alice"` | `1` | `10` | Consulta la cuenta llamada `alice` empezando por el segundo elemento, hasta 10 resultados. |
+
+    Véase también: follow_api.get_feed, Paginated API Methods
+  condenser_api.get_feed_entries: |-
+    Devuelve una lista de elementos (entry) del feed de una cuenta. Parámetros: `account:string`; `start_entry_id:int`; `limit:int` hasta 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|---------------|---------------|-|
+    | `"steemit"` | `0` | `1` | Consulta la cuenta llamada `steemit` empezando por el primer elemento, hasta 1 resultado. |
+    | `"alice"` | `1` | `10` | Consulta la cuenta llamada `alice` empezando por el segundo elemento, hasta 10 resultados. |
+
+    Véase también: follow_api.get_feed_entries, Paginated API Methods
+  condenser_api.get_feed_history: |-
+    Devuelve el historial de los valores del precio de feed (feed price).
+
+    Véase también: database_api.get_feed_history
+  condenser_api.get_follow_count: |-
+    Devuelve el número de seguidores (follower) y de cuentas seguidas de una cuenta. Parámetros: `account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | Consulta la cuenta llamada `steemit`. |
+    | `"alice"` | Consulta la cuenta llamada `alice`. |
+
+    Véase también: follow_api.get_follow_count
+  condenser_api.get_followers: |-
+    Devuelve la lista de seguidores (follower) de una cuenta. Parámetros: `account:string`; `start:string` (cuenta desde la que empezar); `type:string` p. ej.: `blog`; `limit:int` hasta 1000
+
+    | `account` (string) | `start` (string) | `type` (string) | `limit` (int) | |
+    |--------------------|------------------|-----------------|---------------|-|
+    | `"steemit"` | `null` | `"blog"` | `10` | Consulta los seguidores de la cuenta llamada `steemit`, hasta 10 resultados. |
+    | `"alice"` | `null` | `"ignore"` | `100` | Consulta las cuentas silenciadas (mute) de la cuenta llamada `alice`, hasta 100 resultados. |
+
+    Véase también: follow_api.get_followers, Paginated API Methods
+  condenser_api.get_followers_by_page: |-
+    Devuelve los seguidores (follower) de una cuenta, por páginas. (EOL) Parámetros: `account:string`; `page:int` (base 0 — la página `0` devuelve la primera página, cada página adicional salta otras `page_size` filas); `page_size:int` (obligatorio, máximo `100`); `follow_type:string` (opcional, p. ej.: `blog`, `blog` por defecto)
+
+    **Nota:** el desplazamiento de filas es `page * page_size`. `page_size` es obligatorio; omitirlo devuelve `-32602` (tanto en forma posicional como con nombre).
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemit"` | `0` | `5` | Consulta la primera página (página `0`) de las cuentas que siguen a `steemit`, 5 por página. |
+    | `"alice"` | `1` | `100` | Consulta la página `1` — salta las primeras 100 filas — de las cuentas que siguen a `alice`, 100 por página. |
+
+    Véase también: condenser_api.get_followers, follow_api.get_followers_by_page
+  condenser_api.get_following: |-
+    Devuelve la lista de cuentas que siguen a una cuenta. Parámetros: `account:string`; `start:string` (cuenta desde la que empezar); `type:string` p. ej.: `blog`; `limit:int` hasta 1000
+
+    | `account` (string) | `start` (string) | `type` (string) | `limit` (int) | |
+    |--------------------|------------------|-----------------|---------------|-|
+    | `"steemit"` | `null` | `"blog"` | `10` | Consulta las cuentas seguidas de la cuenta llamada `steemit`, hasta 10 resultados. |
+    | `"alice"` | `null` | `"ignore"` | `100` | Consulta las cuentas silenciadas (mute) de la cuenta llamada `alice`, hasta 100 resultados. |
+
+    Véase también: follow_api.get_following, Paginated API Methods
+  condenser_api.get_following_by_page: |-
+    Devuelve las cuentas que una cuenta sigue, por páginas. (EOL) Parámetros: `account:string`; `page:int` (base 0 — la página `0` devuelve la primera página, cada página adicional salta otras `page_size` filas); `page_size:int` (obligatorio, máximo `100`); `follow_type:string` (opcional, p. ej.: `blog`, `blog` por defecto)
+
+    **Nota:** el desplazamiento de filas es `page * page_size`. `page_size` es obligatorio; omitirlo devuelve `-32602` (tanto en forma posicional como con nombre).
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemitblog"` | `0` | `2` | Consulta la primera página (página `0`) de las cuentas que `steemitblog` sigue, 2 por página. |
+    | `"alice"` | `1` | `100` | Consulta la página `1` — salta las primeras 100 filas — de las cuentas que `alice` sigue, 100 por página. |
+
+    Véase también: condenser_api.get_following, follow_api.get_following_by_page
+  condenser_api.get_hardfork_version: |-
+    Devuelve la versión de hard fork actual.
+
+    Véase también: database_api.get_hardfork_properties
+  condenser_api.get_key_references: |-
+    Devuelve todas las cuentas que tienen la clave asociada a sus autoridades (authority) de propietario o activas.
+
+    Véase también: account_by_key_api.get_key_references
+  condenser_api.get_market_history: |-
+    Devuelve el historial de mercado del mercado interno SBD:STEEM. Parámetros: `bucket_seconds:int`; `start:timestamp`; `end:timestamp`
+
+    | `bucket_seconds` (int) | `start` (timestamp) | `end` (timestamp) | |
+    |------------------------|---------------------|-------------------|-|
+    | `15` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | Consulta el historial de mercado entre el 1 de enero de 2018 y el 2 de enero de 2018, con segmentos de 15 segundos (bucket). |
+    | `60` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | Consulta el historial de mercado entre el 1 de enero de 2018 y el 2 de enero de 2018, con segmentos de un minuto. |
+    | `300` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | Consulta el historial de mercado entre el 1 de enero de 2018 y el 2 de enero de 2018, con segmentos de cinco minutos. |
+    | `3600` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | Consulta el historial de mercado entre el 1 de enero de 2018 y el 2 de enero de 2018, con segmentos de una hora. |
+    | `86400` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | Consulta el historial de mercado entre el 1 de enero de 2018 y el 2 de enero de 2018, con segmentos de un día. |
+
+    Véase también: market_history_api.get_market_history
+  condenser_api.get_market_history_buckets: |-
+    Devuelve los segundos de bucket (bucket seconds) registrados por el plugin.
+
+    Véase también: market_history_api.get_market_history_buckets
+  condenser_api.get_next_scheduled_hardfork: |-
+    Devuelve el próximo hard fork programado.
+          
+    Véase también: database_api.get_hardfork_properties
+  condenser_api.get_open_orders: |-
+    Devuelve las órdenes abiertas de una cuenta. `account:string`
+
+    Véase también: database_api.list_limit_orders
+  condenser_api.get_ops_in_block: |-
+    Devuelve todas las operaciones contenidas en un bloque (block). Parámetros: `block_num:int`; `only_virtual:boolean`
+
+    | `block_num` (int) | `only_virtual` (boolean) | |
+    |-------------------|--------------------------|-|
+    | `1` | `false` | Consulta las operaciones del bloque #1. |
+    | `5443322` | `true` | Consulta solo las operaciones virtuales del bloque #5.443.322. |
+
+    Véase también: account_history_api.get_ops_in_block
+  condenser_api.get_order_book: |-
+    Devuelve el libro de órdenes (order book) del mercado interno. Parámetros: `limit:int` hasta 500
+
+    | `limit` (int) | |
+    |--------------------|-|
+    | `10` | Consulta hasta 10 elementos del libro de órdenes. |
+    | `500` | Consulta hasta 500 elementos del libro de órdenes. |
+
+    Véase también: database_api.get_order_book, market_history_api.get_order_book
+  condenser_api.get_owner_history: |-
+    Devuelve el historial de propietario (owner) de una cuenta. Parámetros: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Consulta el historial de propietario de la cuenta llamada "steemit". |
+
+    Véase también: database_api.list_owner_histories
+  condenser_api.get_post_discussions_by_payout: |-
+    Devuelve una lista de discusiones (discussion) de posts (publicación) por pago (payout).
+
+    Véase también: tags_api.get_post_discussions_by_payout
+  condenser_api.get_potential_signatures: |-
+    Este método devolverá el conjunto de todas las claves públicas que podrían firmar una transacción (transaction) dada.
+
+    Véase también: database_api.get_potential_signatures
+  condenser_api.get_reblogged_by: |-
+    Devuelve una lista de autores que rebloguearon (reblog) un post (publicación). Parámetros: `author:string`; `permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | Consulta los reblogs del contenido con slug `@steemit/firstpost` |
+    | `"alice"` | `"a-post-by-alice"` | Consulta los reblogs del contenido con slug `@alice/a-post-by-alice` |
+
+    Véase también: follow_api.get_reblogged_by
+  condenser_api.get_recent_trades: |-
+    Devuelve las operaciones (trade) más recientes del mercado interno SBD:STEEM. Parámetros: `limit:int` hasta 1000
+
+    | `limit` (int) | |
+    |--------------------|-|
+    | `10` | Consulta hasta las 10 últimas operaciones. |
+    | `500` | Consulta hasta las 500 últimas operaciones. |
+
+    Véase también: market_history_api.get_recent_trades
+  condenser_api.get_recovery_request: |-
+    Devuelve la solicitud de recuperación (recovery request) de una cuenta. Parámetros: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Consulta las solicitudes de recuperación de la cuenta llamada "steemit". |
+
+    Véase también: database_api.list_account_recovery_requests
+  condenser_api.get_replies_by_last_update: |-
+    Devuelve una lista de respuestas por última actualización. `start_parent_author:string`, `start_permlink:string`, `limit:int` hasta 100
+
+    Véase también: tags_api.get_replies_by_last_update, Paginated API Methods
+  condenser_api.get_required_signatures: |-
+    Esta API toma una transacción (transaction) parcialmente firmada y un conjunto de claves públicas para las que el propietario tiene capacidad de firmar, y devuelve el subconjunto mínimo de claves públicas que deben añadir firmas a la transacción. Parámetros: `trx:object`; `available_keys:[string]`
+
+    Véase también: database_api.get_required_signatures
+  condenser_api.get_reward_fund: |-
+    Devuelve información sobre los fondos de recompensas (reward fund) actuales.
+
+    Véase también: database_api.get_reward_funds
+  condenser_api.get_savings_withdraw_from: |-
+    Devuelve los retiros de ahorros (savings withdraw) de una cuenta. Parámetros: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Consulta los retiros de ahorros de la cuenta llamada "steemit". |
+
+    Véase también: database_api.list_savings_withdrawals
+  condenser_api.get_savings_withdraw_to: |-
+    Devuelve los retiros de ahorros (savings withdraw) hacia una cuenta. Parámetros: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Consulta los retiros de ahorros de la cuenta llamada "steemit". |
+
+    Véase también: database_api.list_savings_withdrawals
+  condenser_api.get_state: |-
+    Devuelve el estado (state) de una ruta (path).  **Deprecado.**  Parámetros: `path:string`
+  condenser_api.get_tags_used_by_author: |-
+    Devuelve una lista de etiquetas (tag) usadas por un autor. Parámetros: `author:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Consulta las etiquetas usadas por la cuenta llamada "steemit". |
+
+    Véase también: tags_api.get_tags_used_by_author
+  condenser_api.get_ticker: |-
+    Devuelve el ticker de mercado (market ticker) del mercado interno SBD:STEEM.
+
+    Véase también: market_history_api.get_ticker
+  condenser_api.get_trade_history: |-
+    Devuelve el historial de operaciones (trade) del mercado interno SBD:STEEM. Parámetros: `start:timestamp`; `end:timestamp`; `limit:int` hasta 1000
+
+    | `start` (timestamp) | `end` (timestamp) | `limit` (int) | |
+    |---------------------|-------------------|---------------|-|
+    | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | 10 | Consulta hasta 10 operaciones entre el 1 de enero de 2018 y el 2 de enero de 2018. |
+
+    Véase también: market_history_api.get_trade_history
+  condenser_api.get_transaction: |-
+    Devuelve los detalles de una transacción (transaction) a partir de un id de transacción. Parámetros: `trx_id:string`
+
+    | `trx_id` (string) | |
+    |-------------------|-|
+    | `"6fde0190a97835ea6d9e651293e90c89911f933c"` | Consulta este id de transacción exacto. |
+
+    Véase también: account_history_api.get_transaction
+  condenser_api.get_transaction_hex: |-
+    Devuelve un volcado hexadecimal (hexdump) de la forma binaria serializada de una transacción (transaction).
+
+    Véase también: database_api.get_transaction_hex
+  condenser_api.get_trending_tags: |-
+    Devuelve la lista de etiquetas en tendencia (trending tag). Parámetro: `start_tag:string`; `limit:int` hasta 100
+
+    | `tag` (string) | `limit` (int) | |
+    |----------------|---------------|-|
+    | `null` | 100 | Consulta las 100 etiquetas en tendencia principales. |
+    | `"steem"` | 10 | Consulta las etiquetas posteriores a "steem", hasta 10 etiquetas. |
+
+    Véase también: tags_api.get_trending_tags, Paginated API Methods
+  condenser_api.get_version: |-
+    Devuelve las versiones de blockchain, steem y FC.
+
+    Véase también: database_api.get_version, Paginated API Methods
+  condenser_api.get_vesting_delegations: |-
+    Devuelve las delegaciones de vesting (vesting delegation) hechas por una cuenta. Parámetros: `delegator_account:string`; `start_account:string`; `limit:int` hasta 1000
+
+    | `delegator_account` (string) | `start_account` (string) | `limit` (int) | |
+    |------------------------------|--------------------------|---------------|-|
+    | `"steemit"` | `null` | `10` | Consulta hasta 10 delegaciones de vesting de "steemit". |
+
+    Véase también: database_api.list_vesting_delegations, Paginated API Methods, Paginated API Methods
+  condenser_api.get_volume: |-
+    Devuelve el volumen de mercado de las últimas 24 horas.
+
+    Véase también: market_history_api.get_volume
+  condenser_api.get_withdraw_routes: |-
+    Devuelve las rutas de retiro (withdraw route) de una cuenta. Parámetros: `account:string`; `type:string`
+
+    | `account` (string) | `type` (string) | |
+    |--------------------|-----------------|-|
+    | `"steemit"` | `"outgoing"` | Consulta las rutas de retiro salientes de "steemit". |
+    | `"steemit"` | `"incoming"` | Consulta las rutas de retiro entrantes de "steemit". |
+    | `"steemit"` | `"all"` | Consulta todas las rutas de retiro de "steemit". |
+
+    Véase también: database_api.list_withdraw_vesting_routes
+  condenser_api.get_witness_by_account: |-
+    Devuelve el witness (testigo) de una cuenta. Parámetros: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Consulta la cuenta witness de "steemit" (`null` si no existe). |
+
+    Véase también: database_api.list_witnesses
+  condenser_api.get_witness_count: |-
+    Devuelve el número total de witness (testigo).
+  condenser_api.get_witness_schedule: |-
+    Devuelve la programación de witness (witness schedule) actual.
+
+    Véase también: database_api.get_witness_schedule
+  condenser_api.get_witnesses: |-
+    Devuelve los witness (testigo) actuales.
+
+    Véase también: database_api.list_witnesses
+  condenser_api.get_witnesses_by_vote: |-
+    Devuelve los witness (testigo) actuales por votos. Parámetros: `start_name:string`; `limit:int` hasta 1000
+
+    | `account` (string) | `limit` (int) | |
+    |--------------------|---------------|-|
+    | `null` | `21` | Consulta los 21 votos a witness principales. |
+    | `"a"` | `1` | Consulta los 10 votos a witness principales que empiezan por "a". |
+
+    Véase también: database_api.list_witnesses
+  condenser_api.list_proposal_votes: |-
+    Devuelve todos los votos a propuestas (proposal vote), empezando por el votante o el `proposal.id` especificados. Parámetros: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
+
+    * `start` depende de `order` (ver más abajo)
+      * `voter` - votante de la propuesta  (cadena con el nombre de cuenta)
+      * `proposal.id` - id de la propuesta (int)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_voter_proposal` - ordenar por votante de la propuesta
+      * `by_proposal_voter` - ordenar por `proposal.id`
+    * `order_direction` puede ser uno de:
+      * `ascending`
+      * `descending`
+    * `status`
+      * `all`
+      * `inactive`
+      * `active`
+      * `expired`
+      * `votable`
+
+    | `start` (array) | `limit` (int) | `order` (string) | `order_direction` (string) | `status` (string) | |
+    |-------------------|-|-|-|-|-|
+    | `["alice"]` | 10 | `by_voter_proposal` | `ascending` | `active` | enumera 10 propuestas con estado active, ordenadas por votante, en orden ascendente |
+    | `[10]` | 1000 | `by_proposal_voter` | `ascending` | `votable` | enumera 1000 votos de la propuesta 10, ordenados por `proposal.id`, en orden ascendente |
+
+    Véase también: datbase_api.list_proposals
+  condenser_api.list_proposals: |-
+    Devuelve todas las propuestas (proposal), empezando por el creador o la fecha de inicio especificados. Parámetros: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
+
+    * `start` depende de `order` (ver más abajo)
+      * `creator` - creador de la propuesta  (cadena con el nombre de cuenta)
+      * `start_date` - fecha de inicio de la propuesta (cadena de fecha)
+      * `end_date` - fecha de fin de la propuesta (cadena de fecha)
+      * `total_votes` - votos totales de la propuesta (int)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_creator` - ordenar por creador de la propuesta
+      * `by_start_date` - ordenar por fecha de inicio de la propuesta
+      * `by_end_date` - ordenar por fecha de fin de la propuesta
+      * `by_total_votes` - ordenar por votos totales de la propuesta
+    * `order_direction` puede ser uno de:
+      * `ascending`
+      * `descending`
+    * `status`
+      * `all`
+      * `inactive`
+      * `active`
+      * `expired`
+      * `votable`
+
+    | `start` (array) | `limit` (int) | `order` (string) | `order_direction` (string) | `status` (string) | |
+    |-------------------|-|-|-|-|-|
+    | `[""]` | 10 | `by_creator` | `ascending` | `active` | enumera 10 propuestas con estado active, ordenadas por creador, en orden ascendente |
+    | `["2019-08-07T16:54:03"]` | 1000 | `by_start_date` | `ascending` | `inactive` | enumera 1000 propuestas con estado inactive, ordenadas por fecha de inicio, en orden ascendente, desde 2019-08-07T16:54:03 |
+    | `["a"]` | 1 | `by_creator` | `ascending` | `expired` | enumera 1 propuesta con estado expired, ordenada por creador, en orden ascendente, de cuentas que empiezan por "a" |
+    | `["alice"]` | 10 | `by_creator` | `ascending` | `all` | enumera 10 propuestas con cualquier estado, ordenadas por creador, en orden ascendente, de alice |
+    | `[""]` | 1000 | `by_creator` | `ascending` | `votable` | enumera 1000 propuestas votables, ordenadas por creador, en orden ascendente |
+    | `[10]` | 1000 | `by_total_votes` | `ascending` | `votable` | enumera 1000 propuestas votables, ordenadas por creador, en orden ascendente, con al menos 10 votos |
+
+    Véase también: datbase_api.list_proposals
+  condenser_api.lookup_account_names: |-
+    Busca nombres de cuenta.  `accounts:[string]`
+
+    Véase también: database_api.find_accounts
+  condenser_api.lookup_accounts: |-
+    Busca cuentas que empiecen por un nombre.  Parámetros`lower_bound_name:string`; `limit:int` hasta 1000
+
+    | `lower_bound_name` (string) | `limit` (int) | |
+    |--------------------|---------------|-|
+    | `"a"` | 10 | Consulta hasta 10 cuentas que empiecen por "a".
+
+    Véase también: database_api.list_accounts
+  condenser_api.lookup_witness_accounts: |-
+    Busca cuentas witness (testigo) que empiecen por un nombre.  Parámetros: `lower_bound_name:string`; `limit:int` hasta 1000
+
+    | `lower_bound_name` (string) | `limit` (int) | |
+    |--------------------|---------------|-|
+    | `"a"` | 10 | Consulta hasta 10 witness que empiecen por "a".
+
+    Véase también: database_api.list_witnesses
+  condenser_api.verify_account_authority: |-
+    **No implementado**
+
+    Véase también: database_api.verify_account_authority
+  condenser_api.verify_authority: |-
+    Devuelve true si la transacción (transaction) tiene todas las firmas requeridas.
+
+    Véase también: database_api.verify_authority
+  database_api.find_account_recovery_requests: |-
+    Devuelve una lista de solicitudes de recuperación (recovery request) de cuenta. Parámetros: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Consulta las solicitudes de recuperación de la cuenta llamada "steemit". |
+  database_api.find_accounts: |-
+    Devuelve cuentas, consultadas por nombre. Parámetros: `account:string array`
+
+    | `account` (string array) | |
+    |-------------------|-|
+    | `["steemit"]` | Consulta la cuenta llamada "steemit". |
+    | `["steemit", "alice"]` | Consulta las cuentas llamadas "steemit" y "alice". |
+  database_api.find_change_recovery_account_requests: |-
+    Devuelve una lista de solicitudes de cambio de cuenta de recuperación (recovery account). Parámetros: `account:array`
+
+    | `account` (array) | |
+    |--------------------|-|
+    | `["steemit"]` | Consulta las solicitudes de recuperación de la cuenta llamada "steemit". |
+  database_api.find_comments: |-
+    Busca comentarios (comment).
+  database_api.find_decline_voting_rights_requests: |-
+    Devuelve una lista de solicitudes de renuncia a los derechos de voto (decline voting rights).
+  database_api.find_escrows: |-
+    Devuelve una lista de escrow (depósito en garantía).
+  database_api.find_limit_orders: |-
+    Devuelve una lista de órdenes limitadas (limit order).
+  database_api.find_owner_histories: |-
+    Devuelve el historial de la autoridad de propietario (owner authority). Parámetros: `owner:string`
+
+    | `owner` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Consulta el historial de propietario de la cuenta llamada "steemit". |
+    | `"alice"` | Consulta el historial de propietario de la cuenta llamada "alice". |
+  database_api.find_proposals: |-
+    Encuentra propuestas (proposal) por `proposal.id` (no por `proposal.proposal_id`).
+  database_api.find_savings_withdrawals: |-
+    Devuelve la lista de retiros de ahorros (savings withdraw) de una cuenta. Parámetros: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Consulta los retiros de ahorros de la cuenta llamada "steemit". |
+  database_api.find_sbd_conversion_requests: |-
+    Devuelve la lista de solicitudes de conversión (conversion request) de SBD (dólares STEEM) de una cuenta. Parámetros: `account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | Consulta una solicitud de conversión de steemit. |
+    | `"alice"` | Consulta una solicitud de conversión de alice. |
+  database_api.find_smt_contributions: |-
+    Encuentra las contribuciones (contribution) SMT (tokens de medios inteligentes). Las contribuciones son necesarias para registrar las contribuciones individuales en un SMT durante la fase de ICO.
+
+    Véase: [Token Units](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#token-units), [Vesting Contributions](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#vesting-contributions)
+  database_api.find_smt_token_emissions: |-
+    Encuentra las emisiones (emission) SMT (tokens de medios inteligentes).
+
+    Véase: [Content Rewards](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#content-rewards), [Qualitative Discussion](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#qualitative-discussion)
+  database_api.find_smt_tokens: |-
+    Encuentra los SMT (tokens de medios inteligentes).
+
+    Véase: [Smart Media Tokens (SMTs)](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#smart-media-tokens-smts)
+  database_api.find_vesting_delegation_expirations: |-
+    Devuelve las delegaciones de vesting (vesting delegation) que expiran de una cuenta. Parámetros: `account:string`
+
+    | `account` (string) | | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | | Consulta el vesting que expira para `steemit`. |
+    | `"alice"` | | Consulta el vesting que expira para `alice`. |
+  database_api.find_vesting_delegations: |-
+    Devuelve la lista de delegaciones de vesting (vesting delegation) de una cuenta. Parámetros: `account:string`
+
+    | `account` (string) | | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | | Consulta el vesting para `steemit`. |
+    | `"alice"` | | Consulta el vesting para `alice`. |
+  database_api.find_votes: |-
+    Devuelve todos los votos (vote) de un post (publicación) dado. Parámetros: `author:string`; `permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | Consulta los votos del contenido con slug `@steemit/firstpost` |
+    | `"alice"` | `"a-post-by-alice"` | Consulta los votos del contenido con slug `@alice/a-post-by-alice` |
+  database_api.find_withdraw_vesting_routes: |-
+    Devuelve la lista de rutas de retiro de vesting (withdraw route) de una cuenta.
+  database_api.find_witnesses: |-
+    Busca witness (testigo).
+  database_api.get_active_witnesses: |-
+    Devuelve la lista de witness (testigo) activos.
+  database_api.get_config: |-
+    Devuelve información sobre las constantes de compilación. Algunas propiedades pueden no estar presentes.  Véase: Understanding Configuration Values
+  database_api.get_current_price_feed: |-
+    Devuelve el precio de feed (feed price) actual.
+  database_api.get_dynamic_global_properties: |-
+    Devuelve las propiedades globales dinámicas (dynamic global properties) actuales.  Véase: Understanding Dynamic Global Properties
+  database_api.get_feed_history: |-
+    Devuelve el historial de los valores del precio de feed (feed price).
+  database_api.get_hardfork_properties: |-
+    Devuelve las propiedades actuales sobre los hard forks de la blockchain.
+  database_api.get_nai_pool: |-
+    Devuelve un array de identificadores numéricos de activo (Numeric Asset Identifier, NAI) disponibles para ser usados por los nuevos SMT (tokens de medios inteligentes) que se creen.
+
+    Véase: [Numerical Asset Identifiers](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#numerical-asset-identifiers)
+  database_api.get_order_book: |-
+    Devuelve el libro de órdenes (order book).
+  database_api.get_potential_signatures: |-
+    Este método devolverá el conjunto de todas las claves públicas que podrían firmar una transacción (transaction) dada. Esta llamada puede ser usada por los wallets para filtrar su conjunto de claves públicas al subconjunto relevante antes de llamar a `get_required_signatures` para obtener el subconjunto mínimo.
+  database_api.get_required_signatures: |-
+    Esta API toma una transacción (transaction) parcialmente firmada y un conjunto de claves públicas para las que el propietario tiene capacidad de firmar, y devuelve el subconjunto mínimo de claves públicas que deben añadir firmas a la transacción.
+  database_api.get_reward_funds: |-
+    Devuelve información sobre los fondos de recompensas (reward fund) actuales.
+  database_api.get_transaction_hex: |-
+    Devuelve un volcado hexadecimal (hexdump) de la forma binaria serializada de una transacción (transaction).
+  database_api.get_version: |-
+    Devuelve las versiones de compilación de blockchain, steem y FC. También devuelve la versión de arranque del chain id (*puede* ser distinta del valor de compilación solo cuando se mira un testnet (red de pruebas))
+  database_api.get_witness_schedule: |-
+    Devuelve la programación de witness (witness schedule) actual.
+  database_api.list_account_recovery_requests: |-
+    Devuelve una lista de solicitudes de recuperación (recovery request) de cuenta. Parámetros: `start:string`, `limit:int`, `order:string`
+
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_account` - ordenar por nombre de cuenta (accont)
+      * `by_expiration` - ordenar por caducidad
+
+    | `account` (string) | `limit` (int) | `order` (string) | |
+    |--------------------|-|
+    | `"steemit"` | 10 | `"by_account"` | Consulta las solicitudes de recuperación de la cuenta llamada "steemit", ordenadas por nombre de cuenta. |
+    | `["1960-01-01T00:00:00"]` | 10 | `"by_expiration"`| Consulta las solicitudes de recuperación por fecha, ordenadas por caducidad. |
+  database_api.list_accounts: |-
+    Enumera cuentas ordenadas por la clave especificada.  Parámetros: `start:object`, `limit:int`, `order:string`
+
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_name` - ordenar por nombre de cuenta (accont)
+      * `by_proxy` - ordenar por proxy
+      * `by_next_vesting_withdrawal` - ordenar por el próximo próximo retiro de vesting (next next vesting withdrawal)
+
+    | `start` (object) | `limit` (int) | `order` (string) |
+    |-------------------|-|
+    | `""` | `10` | `"by_name"` Consulta hasta 10 cuentas empezando por el principio, ordenadas por nombre. |
+    | `["", ""]` | `10` | `"by_proxy"` Consulta hasta 10 cuentas empezando por el principio, ordenadas por proxy. |
+    | `["1960-01-01T00:00:00", ""]` | `10` | `"by_next_vesting_withdrawal"` Consulta hasta 10 cuentas empezando por el principio, ordenadas por el próximo retiro de vesting (withdrawl). |
+
+    Véase también: Paginated API Methods
+  database_api.list_change_recovery_account_requests: |-
+    Devuelve una lista de solicitudes de cambio de cuenta de recuperación (recovery account).  Parámetros: `start:object`, `limit:int`, `order:string`
+
+    * `start` depende de `order` (ver más abajo)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_account` - ordenar por cuenta
+        * `start` es una cadena de: `account`
+      * `by_effective_date` - ordenar por fecha de entrada en vigor
+        * `start` es un array de dos valores: `timestamp`, `account`
+
+    | `start` (object) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `""` | 10 | `"by_account"` | Consulta las primeras 10 solicitudes, ordenadas por cuenta |
+    | `["1960-01-01T00:00:00", ""]` | 10 | `"by_effective_date"` | Consulta las primeras 10 solicitudes, ordenadas por fecha de entrada en vigor |
+
+    Véase también: Paginated API Methods
+  database_api.list_comments: |-
+    Devuelve todos los comentarios (comment), empezando por las opciones especificadas.  Parámetros: `start:array`; `limit:int`; `order:string`
+
+    * `start` depende de `order` (ver más abajo)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_cashout_time` - ordenar por hora de cobro (cashout time)
+        * `start` es un array de un valor obligatorio y dos opcionales: `timestamp`, `author`, `permlink`
+      * `by_permlink` - ordenar por permlink
+        * `start` es un array de dos valores opcionales: `author`, `permlink`
+      * `by_root` - ordenar por raíz (root)
+        * `start` es un array de dos valores obligatorios y dos opcionales: `root_author`, `root_permlink`, `child_author`, `child_permlink`
+      * `by_parent` - ordenar por padre (parent)
+        * `start` es un array de dos valores obligatorios y dos opcionales: `parent_author`, `parent_permlink`, `child_author`, `child_permlink`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["1970-01-01T00:00:00", "", ""]` | 10 | `"by_cashout_time"` | Consulta los primeros 10 comentarios, ordenados por hora de cobro |
+    | `["", ""]` | 10 | `"by_permlink"` | Consulta los primeros 10 comentarios, ordenados por permlink |
+    | `["steemit","firstpost", "", ""]` | 10 | `"by_root"` | Consulta los siguientes 10 comentarios empezando en @steemit/firstpost, ordenados por raíz |
+    | `["steemit","firstpost", "", ""]` | 10 | `"by_parent"` | Consulta los siguientes 10 comentarios empezando en @steemit/firstpost, ordenados por padre |
+
+    Véase también: Paginated API Methods
+  database_api.list_decline_voting_rights_requests: |-
+    Devuelve una lista de solicitudes de renuncia a los derechos de voto (decline voting rights).  Parámetros: `start:object`; `limit:int`; `order:string`
+
+    * `start` depende de `order` (ver más abajo)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_account` - ordenar por cuenta
+        * `start` es una cadena: `account`
+      * `by_effective_date` - ordenar por fecha de entrada en vigor
+        * `start` es un array de dos valores: `timestamp`, `account`
+
+    | `start` (object) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `""` | 10 | `"by_account"` | Consulta las primeras 10 solicitudes, ordenadas por cuenta |
+    | `["1960-01-01T00:00:00", ""]` | 10 | `"by_effective_date"` | Consulta las primeras 10 solicitudes, ordenadas por fecha de entrada en vigor |
+
+    Véase también: Paginated API Methods
+  database_api.list_escrows: |-
+    Devuelve una lista de escrow (depósito en garantía).  Parámetros: `start:array`; `limit:int`; `order:string`
+
+    * `start` depende de `order` (ver más abajo)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_from_id` - ordenar por id
+        * `start` es un array de dos valores: `account`, `escrow_id`
+      * `by_ratification_deadline` - ordenar por plazo de ratificación
+        * `start` es un array de tres valores: `is_approved`, `timestamp`, `escrow_id`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["alice", 99]` | 10 | `"by_from_id"` | Consulta las primeras 10 solicitudes, ordenadas por id |
+    | `[true, "1960-01-01T00:00:00", 99]` | 10 | `"by_ratification_deadline"` | Consulta las primeras 10 solicitudes, ordenadas por plazo de ratificación |
+
+    Véase también: Paginated API Methods
+  database_api.list_limit_orders: |-
+    Devuelve una lista de órdenes limitadas (limit order).  Parámetros: `start:array`; `limit:int`; `order:string`
+
+    * `start` depende de `order` (ver más abajo)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_price` - ordenar por precio
+        * `start` es un array de dos valores: `price`, `order_type`
+      * `by_account` - ordenar por cuenta
+        * `start` es un array de dos valores: `account`, `order_id`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `[{"base": {"amount": "85405", "precision": 3, "nai": "@@000000021"}, "quote": {"amount": "17192", "precision": 3, "nai": "@@000000013"}}, 0]` | 10 | `"by_price"` | Consulta las primeras 10 solicitudes, ordenadas por precio |
+    | `["alice", 0]` | 10 | `"by_effective_date"` | Consulta las primeras 10 solicitudes, ordenadas por cuenta |
+
+    Véase también: Paginated API Methods
+  database_api.list_owner_histories: |-
+    Devuelve una lista de historiales de la autoridad de propietario (owner authority).  Parámetros: `start:array`, `limit:int`
+
+    | `start` (array) | `limit` (int) | |
+    |--------------------|-|-|
+    | `["steemit", "1970-01-01T00:00:00"]` | 10 | Consulta el historial de propietario empezando por la cuenta llamada "steemit" en "1970-01-01T00:00:00", límite de 10 resultados. |
+    | `["alice", "1970-01-01T00:00:00"]` | 10 | Consulta el historial de propietario empezando por la cuenta llamada "alice", límite de 10 resultados. |
+
+    Véase también: Paginated API Methods
+  database_api.list_proposal_votes: |-
+    Devuelve todos los votos a propuestas (proposal vote), empezando por el votante o el `proposal.id` especificados.  Parámetros: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
+
+    * `start` depende de `order` (ver más abajo)
+      * `voter` - votante de la propuesta  (cadena con el nombre de cuenta)
+      * `proposal.id` - id de la propuesta (int)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_voter_proposal` - ordenar por votante de la propuesta
+      * `by_proposal_voter` - ordenar por `proposal.id`
+    * `order_direction` puede ser uno de:
+      * `ascending`
+      * `descending`
+    * `status`
+      * `all`
+      * `inactive`
+      * `active`
+      * `expired`
+      * `votable`
+
+    | `start` (array) | `limit` (int) | `order` (string) | `order_direction` (string) | `status` (string) | |
+    |-------------------|-|-|-|-|-|
+    | `["alice"]` | 10 | `by_voter_proposal` | `ascending` | `active` | enumera 10 propuestas con estado active, ordenadas por votante, en orden ascendente |
+    | `[10]` | 1000 | `by_proposal_voter` | `ascending` | `votable` | enumera 1000 votos de la propuesta 10, ordenados por `proposal.id`, en orden ascendente |
+
+    Véase también: Paginated API Methods
+  database_api.list_proposals: |-
+    Devuelve todas las propuestas (proposal), empezando por el creador o la fecha de inicio especificados.  Parámetros: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
+
+    * `start` depende de `order` (ver más abajo)
+      * `creator` - creador de la propuesta  (cadena con el nombre de cuenta)
+      * `start_date` - fecha de inicio de la propuesta (cadena de fecha)
+      * `end_date` - fecha de fin de la propuesta (cadena de fecha)
+      * `total_votes` - votos totales de la propuesta (int)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_creator` - ordenar por creador de la propuesta
+      * `by_start_date` - ordenar por fecha de inicio de la propuesta
+      * `by_end_date` - ordenar por fecha de fin de la propuesta
+      * `by_total_votes` - ordenar por votos totales de la propuesta
+    * `order_direction` puede ser uno de:
+      * `ascending`
+      * `descending`
+    * `status`
+      * `all`
+      * `inactive`
+      * `active`
+      * `expired`
+      * `votable`
+
+    | `start` (array) | `limit` (int) | `order` (string) | `order_direction` (string) | `status` (string) | |
+    |-------------------|-|-|-|-|-|
+    | `[""]` | 10 | `by_creator` | `ascending` | `active` | enumera 10 propuestas con estado active, ordenadas por creador, en orden ascendente |
+    | `["2019-08-07T16:54:03"]` | 1000 | `by_start_date` | `ascending` | `inactive` | enumera 1000 propuestas con estado inactive, ordenadas por fecha de inicio, en orden ascendente, desde 2019-08-07T16:54:03 |
+    | `["a"]` | 1 | `by_creator` | `ascending` | `expired` | enumera 1 propuesta con estado expired, ordenada por creador, en orden ascendente, de cuentas que empiezan por "a" |
+    | `["alice"]` | 10 | `by_creator` | `ascending` | `all` | enumera 10 propuestas con cualquier estado, ordenadas por creador, en orden ascendente, de alice |
+    | `[""]` | 1000 | `by_creator` | `ascending` | `votable` | enumera 1000 propuestas votables, ordenadas por creador, en orden ascendente |
+    | `[10]` | 1000 | `by_total_votes` | `ascending` | `votable` | enumera 1000 propuestas votables, ordenadas por creador, en orden ascendente, con al menos 10 votos |
+
+    Véase también: Paginated API Methods
+  database_api.list_savings_withdrawals: |-
+    Devuelve una lista de retiros de ahorros (savings withdraw).  Parámetros: `start:object`, `limit:int`, `order:string`
+
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_from_id` - ordenar por id
+        * `start` es un array de dos valores: `account`, `request_id`
+      * `by_complete_from_id` - ordenar por id (completado)
+        * `start` es un array de tres valores: `timestamp`, `account`, `request_id`
+      * `by_to_complete` - ordenar por completado
+        * `start` es un array de tres valores: `account`, `timestamp`, `order_id`
+
+    | `start` (object) | `limit` (int) | `order` (string) | |
+    |--------------------|-|-|-|
+    | `[0]` | `10` | `"by_from_id"` | Consulta el retiro de ahorros por id. |
+    | `["2018-12-07T16:54:03", "steemit", 0]` | `10` | `"by_complete_from_id"` | Consulta el retiro de ahorros por id (completado). |
+    | `["", "1970-01-01T00:00:00", 0]` | `10` | `"by_to_complete"` | Consulta el retiro de ahorros completado. |
+
+    Véase también: Paginated API Methods
+  database_api.list_sbd_conversion_requests: |-
+    Devuelve la lista de solicitudes de conversión (conversion request) de SBD (dólares STEEM) de una cuenta.  Parámetros: `start:array`, `limit:int`, `order:string`
+
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_account` - ordenar por nombre de cuenta (accont)
+        * `start` es un array de dos valores: `account`, `request_id`
+      * `by_conversion_date` - ordenar por fecha de conversión
+        * `start` es un array de dos valores: `timestamp`, `request_id`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |-------------------|-|-|-|
+    | `["steemit", 0]` | 10 | `by_account` | Consulta una solicitud de conversión de steemit, límite de 10 resultados, orden por nombre de cuenta. |
+    | `["2018-12-07T16:54:03", 0]` | 10 | `by_conversion_date`| Consulta una solicitud de conversión desde esta fecha, límite de 10 resultados, orden por fecha de conversión. |
+
+    Véase también: Paginated API Methods
+  database_api.list_smt_contributions: |-
+    Enumera las contribuciones (contribution) SMT (tokens de medios inteligentes).  Las contribuciones son necesarias para registrar las contribuciones individuales en un SMT durante la fase de ICO.  Parámetros: `start:array`; `limit:int`; `order:string`
+
+    * `start` depende de `order` (ver más abajo)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_symbol_id` - ordenar por símbolo
+      * `by_symbol_contributor` - ordenar por `symbol`, `contributor` y `contribution_id`
+
+    | `start` (array) | `limit` (int) | `order` (string) |
+    |-------------------|-|-|-|-|-|
+    | `[{"nai": "@@422838704", "decimals": 0}, 0]` | 10 | `by_symbol_id` | enumera 10 contribuciones, ordenadas por símbolo, id |
+    | `[{"nai": "@@422838704", "decimals": 0}, "alice", 0]` | 10 | `by_symbol_contributor` | enumera 10 contribuciones, ordenadas por símbolo, contribuidor, id |
+
+    Véase: [Token Units](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#token-units), [Vesting Contributions](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#vesting-contributions)
+
+    Véase también: Paginated API Methods
+  database_api.list_smt_token_emissions: |-
+    Enumera las emisiones (emission) SMT (tokens de medios inteligentes).  Parámetros: `start:array`; `limit:int`; `order:string`
+
+    * `start` depende de `order` (ver más abajo)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_symbol_time` - ordenar por símbolo y hora
+
+    | `start` (array) | `limit` (int) | `order` (string) |
+    |-------------------|-|-|-|-|-|
+    | `[{"nai": "@@422838704", "decimals": 0}, "2019-08-07T16:54:03"]` | 10 | `by_symbol_time` | enumera 10 emisiones, ordenadas por símbolo, marca de tiempo |
+
+    Véase: [Content Rewards](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#content-rewards), [Qualitative Discussion](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#qualitative-discussion)
+
+    Véase también: Paginated API Methods
+  database_api.list_smt_tokens: |-
+    Enumera los SMT (tokens de medios inteligentes).  Parámetros: `start:object`; `limit:int`; `order:string`
+
+    * `start` depende de `order` (ver más abajo)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_symbol` - ordenar por símbolo
+      * `by_control_account` - ordenar por cuenta de control
+
+    | `start` (object) | `limit` (int) | `order` (string) |
+    |-------------------|-|-|-|-|-|
+    | `{"nai": "@@422838704", "decimals": 0}` | 10 | `by_symbol` | enumera 10 tokens, ordenados por símbolo |
+    | `""` | 10 | `by_control_account` | enumera 10 tokens, ordenados por cuenta de control |
+    | `["", {"nai": "@@422838704", "decimals": 0}]` | 10 | `by_control_account` | enumera 10 tokens, ordenados por cuenta de control, símbolo |
+
+    Véase: [Smart Media Tokens (SMTs)](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#smart-media-tokens-smts)
+
+    Véase también: Paginated API Methods
+  database_api.list_vesting_delegation_expirations: |-
+    Devuelve una lista de caducidades de delegación de vesting (vesting delegation expiration).  Parámetros: `start:array`, `limit:int`, `order:string`
+
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_expiration` - ordenar por caducidad
+        * `start` es un array de dos valores: `timestamp`, `expiration_id`
+      * `by_account_expiration` - ordenar por cuenta y caducidad
+        * `start` es un array de dos valores: `account`, `timestamp`, `expiration_id`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |-------------------|-|-|-|
+    | `["1970-01-01T00:00:00", 0]` | 10 | `by_expiration` | Consulta las delegaciones, límite de 10 resultados, orden por caducidad. |
+    | `["alice", "1970-01-01T00:00:00", 0]` | 10 | `by_account_expiration`| Consulta la delegación desde esta fecha, límite de 10 resultados, orden por cuenta y caducidad. |
+
+    Véase también: Paginated API Methods
+  database_api.list_vesting_delegations: |-
+    Devuelve una lista de delegaciones de vesting (vesting delegation).  Parámetros: `start:array`, `limit:int`, `order:string`
+
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_delegation` - ordenar por delegaciones
+        * `start` es un array de dos valores: `delegator`, `delegatee`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |-------------------|-|-|-|
+    | `["", ""]` | 10 | `by_delegation` | Consulta las delegaciones, límite de 10 resultados, orden por delegaciones. |
+
+    Véase también: Paginated API Methods
+  database_api.list_votes: |-
+    Devuelve todos los votos (vote), empezando por el votante y/o el autor y permlink especificados.  Parámetros: `start:array`; `limit:int`; `order:string`
+
+    * `start` depende de `order` (ver más abajo)
+      * `voter` es opcional
+      * `author` y `permlink` son opcionales, pero si uno está en blanco, ambos deben estarlo
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_comment_voter` - ordenar por votante del comentario
+        * `start` es un array de tres valores opcionales: `author`, `permlink`, `voter`
+      * `by_voter_comment` - ordenar por comentario del votante
+        * `start` es un array de tres valores opcionales: `voter`, `author`, `permlink`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["", "", ""]` | 10 | `"by_comment_voter"` | Consulta los primeros 10 votos, ordenados por votante del comentario |
+    | `["", "", ""]` | 10 | `"by_voter_comment"` | Consulta los primeros 10 votos, ordenados por comentario del votante |
+    | `["xeroc", "vanteem-config", ""]` | 10 | `"by_comment_voter"` | Consulta los siguientes 10 votos empezando en el post `@xeroc/vanteem-config`, ordenados por votante del comentario |
+    | `["alice", "xeroc", "vanteem-config"]` | 10 | `"by_voter_comment"` | Consulta los siguientes 10 votos empezando por alice en el post `@xeroc/vanteem-config`, ordenados por comentario del votante |
+
+    Véase también: Paginated API Methods
+  database_api.list_withdraw_vesting_routes: |-
+    Devuelve una lista de rutas de retiro de vesting (withdraw route).  Parámetros: `start:array`; `limit:int`; `order:string`
+
+    * `start` depende de `order` (ver más abajo)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_withdraw_route` - ordenar por ruta de retiro
+        * `start` es un array de dos valores: `from_account`, `to_account`
+      * `by_destination` - ordenar por destino
+        * `start` es un array de dos valores: `to_account`, `route_id`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["temp", ""]` | 10 | `"by_withdraw_route"` | Consulta las primeras 10 rutas, ordenadas por ruta de retiro |
+    | `["", 0]` | 10 | `"by_destination"` | Consulta las primeras 10 rutas, ordenadas por destino |
+
+    Véase también: Paginated API Methods
+  database_api.list_witness_votes: |-
+    Devuelve una lista de votos a witness (witness vote).  Parámetros: `start:array`; `limit:int`; `order:string`
+
+    * `start` depende de `order` (ver más abajo)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_account_witness` - ordenar por cuenta y witness
+        * `start` es un array de dos valores: `account`, `witness`
+      * `by_witness_account` - ordenar por witness y cuenta
+        * `start` es un array de dos valores: `witness`, `account`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["", ""]` | 10 | `"by_withdraw_route"` | Consulta los primeros 10 votos, ordenados por cuenta y witness |
+    | `["", ""]` | 10 | `"by_destination"` | Consulta los primeros 10 votos, ordenados por witness y cuenta |
+
+    Véase también: Paginated API Methods
+  database_api.list_witnesses: |-
+    Devuelve la lista de witness (testigo).  Parámetros: `start:object`; `limit:int`; `order:string`
+
+    * `start` depende de `order` (ver más abajo)
+    * `limit` es hasta 1000.
+    * `order` puede ser uno de:
+      * `by_name` - ordenar por nombre
+        * `start` es un valor de cadena: `account`
+      * `by_vote_name` - ordenar por votos, nombre
+        * `start` es un array de dos valores: `votes`, `account`
+      * `by_schedule_time` - ordenar por hora programada
+        * `start` es un array de dos valores: `virtual_scheduled_time`, `account`
+
+    | `start` (object) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `""` | 10 | `"by_name"` | Consulta los primeros 10 witness, ordenados por nombre de cuenta |
+    | `[0, ""]` | 10 | `"by_vote_name"` | Consulta los primeros 10 witness, ordenados por votos |
+    | `["473718186844702107410533306", "alice"]` | 10 | `"by_schedule_time"` | Consulta los primeros 10 witness, ordenados por programación |
+
+    Véase también: Paginated API Methods
+  database_api.verify_account_authority: |-
+    **No implementado**
+  database_api.verify_authority: |-
+    Devuelve true si la transacción (transaction) tiene todas las firmas requeridas, en caso contrario lanza una excepción.
+  database_api.verify_signatures: |-
+    Esta es una API de propósito general que comprueba firmas contra cuentas para un hash sha256 arbitrario usando las estructuras de autoridad (authority) existentes.
+  debug_node_api.debug_generate_blocks: |-
+    Genera bloques (block) localmente.
+  debug_node_api.debug_generate_blocks_until: |-
+    Genera bloques (block) localmente hasta una hora de último bloque (head block) especificada. Puede generarlos de forma dispersa.
+  debug_node_api.debug_get_hardfork_property_object: |-
+    Devuelve el objeto de propiedades de hard fork, informando de los hard forks aplicados en un nodo de depuración (debug node).
+  debug_node_api.debug_get_json_schema: |-
+    Devuelve el esquema JSON (JSON schema) usado para validar el JSON de operaciones en un nodo de depuración (debug node).
+  debug_node_api.debug_get_witness_schedule: |-
+    Devuelve la programación de witness (witness schedule) actual en un nodo de depuración (debug node).
+  debug_node_api.debug_has_hardfork: |-
+    Devuelve si un hard fork dado se ha aplicado en un nodo de depuración (debug node).
+  debug_node_api.debug_pop_block: |-
+    Extrae un bloque (block) de la blockchain y lo devuelve.
+  debug_node_api.debug_push_blocks: |-
+    Inserta bloques (block) desde una base de datos existente.
+  debug_node_api.debug_set_hardfork: |-
+    Aplica un hard fork en un nodo de depuración (debug node), por delante del calendario normal.
+  follow_api.get_account_reputations: |-
+    Devuelve una lista de reputaciones (reputation) de cuentas.
+
+    Véase también: Paginated API Methods
+  follow_api.get_blog: |-
+    Devuelve la lista de entradas (entry) del blog de una cuenta.
+
+    Véase también: Paginated API Methods
+  follow_api.get_blog_authors: |-
+    Devuelve una lista de autores cuyo contenido fue reblogueado (reblog) en el blog de una cuenta dada.
+
+    Véase también: Paginated API Methods
+  follow_api.get_blog_entries: |-
+    Devuelve la lista de entradas (entry) del blog de una cuenta.
+
+    Véase también: Paginated API Methods
+  follow_api.get_feed: |-
+    Devuelve una lista de elementos del feed de una cuenta.
+
+    Véase también: Paginated API Methods
+  follow_api.get_feed_entries: |-
+    Devuelve una lista de elementos (entry) del feed de una cuenta.
+
+    Véase también: Paginated API Methods
+  follow_api.get_follow_count: |-
+    Devuelve el número de seguidores (follower) de una cuenta.
+  follow_api.get_followers: |-
+    Devuelve la lista de seguidores (follower) de una cuenta.
+
+    Véase también: Paginated API Methods
+  follow_api.get_followers_by_page: |-
+    Devuelve los seguidores (follower) de una cuenta, por páginas.  (EOL)  Alias de `condenser_api.get_followers_by_page`: los parámetros se pasan como un array posicional — `account:string`; `page:int` (base 0 — la página `0` devuelve la primera página, cada página adicional salta otras `page_size` filas); `page_size:int` (obligatorio, máximo `100`); `follow_type:string` (opcional, `blog` por defecto).
+
+    **Nota:** el desplazamiento de filas es `page * page_size`. `page_size` es obligatorio; omitirlo devuelve `-32602`.
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemit"` | `0` | `5` | Consulta la primera página (página `0`) de las cuentas que siguen a `steemit`, 5 por página. |
+    | `"alice"` | `1` | `100` | Consulta la página `1` — salta las primeras 100 filas — de las cuentas que siguen a `alice`, 100 por página. |
+
+    Véase también: condenser_api.get_followers_by_page, Paginated API Methods
+  follow_api.get_following: |-
+    Devuelve la lista de cuentas que siguen a una cuenta.
+
+    Véase también: Paginated API Methods
+  follow_api.get_following_by_page: |-
+    Devuelve las cuentas que una cuenta sigue, por páginas.  (EOL)  Alias de `condenser_api.get_following_by_page`: los parámetros se pasan como un array posicional — `account:string`; `page:int` (base 0 — la página `0` devuelve la primera página, cada página adicional salta otras `page_size` filas); `page_size:int` (obligatorio, máximo `100`); `follow_type:string` (opcional, `blog` por defecto).
+
+    **Nota:** el desplazamiento de filas es `page * page_size`. `page_size` es obligatorio; omitirlo devuelve `-32602`.
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemitblog"` | `0` | `2` | Consulta la primera página (página `0`) de las cuentas que `steemitblog` sigue, 2 por página. |
+    | `"alice"` | `1` | `100` | Consulta la página `1` — salta las primeras 100 filas — de las cuentas que `alice` sigue, 100 por página. |
+
+    Véase también: condenser_api.get_following_by_page, Paginated API Methods
+  follow_api.get_reblogged_by: |-
+    Devuelve una lista de autores que rebloguearon (reblog) un post (publicación).
+  hive.db_head_state: |-
+    Comprobación de estado/salud (health check): devuelve el número y la hora del último bloque (head block) de la base de datos de hivemind, y la antigüedad del último bloque en segundos.
+
+    Parámetros: ninguno
+  jsonrpc.get_methods: |-
+    Devuelve una lista de los métodos admitidos por la API JSON RPC.
+  jsonrpc.get_signature: |-
+    Devuelve la información de firma (signature) de un método JSON RPC, incluidos los argumentos y el JSON de respuesta esperado.
+  market_history_api.get_market_history: |-
+    Devuelve el historial de mercado del mercado interno SBD:STEEM (dólares STEEM).
+  market_history_api.get_market_history_buckets: |-
+    Devuelve los segundos de bucket (bucket seconds) registrados por el plugin.
+  market_history_api.get_order_book: |-
+    Devuelve el libro de órdenes (order book) del mercado interno.
+  market_history_api.get_recent_trades: |-
+    Devuelve las operaciones (trade) más recientes del mercado interno SBD:STEEM.
+  market_history_api.get_ticker: |-
+    Devuelve el ticker de mercado (market ticker) del mercado interno SBD:STEEM.
+  market_history_api.get_trade_history: |-
+    Devuelve el historial de operaciones (trade) del mercado interno SBD:STEEM.
+  market_history_api.get_volume: |-
+    Devuelve el volumen de mercado de las últimas 24 horas.
+  network_broadcast_api.broadcast_block: |-
+    Se usa para hacer broadcast de un bloque (block) (operación de broadcast).
+  network_broadcast_api.broadcast_transaction: |-
+    Se usa para hacer broadcast de una transacción (transaction) (operación de broadcast).
+  rc_api.find_rc_accounts: |-
+    Devuelve los Resource Credits (RC) disponibles de las cuentas. Parámetros: `accounts:string array`
+
+    | `accounts` (string) | |
+    |---------------------|-|
+    | `"steemit"` | Consulta los Resource Credits disponibles de la cuenta llamada "steemit". |
+    | `"alice"` | Consulta los Resource Credits disponibles de las cuentas llamadas "alice" y "bob". |
+  rc_api.get_resource_params: |-
+    Exporta todas las constantes de tamaño de recurso relevantes, en particular los parámetros de tiempo de ejecución basados en medidas.
+
+    Véase: [#2980](https://github.com/steemit/steem/issues/2980)
+  rc_api.get_resource_pool: |-
+    Trabajo en curso.  Véase: [#2563](https://github.com/steemit/steem/issues/2563), [PR#2678](https://github.com/steemit/steem/pull/2678)
+  reputation_api.get_account_reputations: |-
+    Devuelve la reputación (reputation) de las cuentas. Parámetros: `account:string`; `limit:int`
+
+    * `limit` es hasta 1000.
+
+    | `account` (string) | `limit` (int) | |
+    |--------------------|-|
+    | `"steemit"` | 10 | Consulta la reputación de la cuenta llamada "steemit". |
+
+    Véase [#1425](https://github.com/steemit/steem/issues/1425)
+
+    Véase también: Paginated API Methods
+  rewards_api.simulate_curve_payouts: |-
+    Simula los pagos del fondo de recompensas (reward fund) para una curva de pagos dada, sin aplicarlos.
+  tags_api.get_account_votes: |-
+    **No admitido:** hivemind registra este nombre de método solo para devolver un error informativo: "get_account_votes is no longer supported, for details see https://steemit.com/steemit/@steemitdev/additional-public-api-change".
+
+    Parámetros: `account:string`
+
+    Véase también: condenser_api.get_account_votes
+  tags_api.get_active_votes: |-
+    Devuelve todos los votos (vote) de un post (publicación) dado.
+  tags_api.get_comment_discussions_by_payout: |-
+    Devuelve una lista de discusiones (discussion) de comentarios por pago (payout).
+  tags_api.get_content_replies: |-
+    Devuelve una lista de respuestas.
+  tags_api.get_discussion: |-
+    Devuelve la discusión (discussion) a partir de un autor y un permlink (enlace permanente).
+  tags_api.get_discussions_by_active: |-
+    Devuelve una lista de discusiones (discussion) por actividad (active).
+  tags_api.get_discussions_by_author_before_date: |-
+    Devuelve una lista de discusiones (discussion) por autor antes de una fecha.
+
+    Véase también: Paginated API Methods
+  tags_api.get_discussions_by_blog: |-
+    Devuelve una lista de discusiones (discussion) por blog.
+  tags_api.get_discussions_by_cashout: |-
+    Devuelve una lista de discusiones (discussion) por cobro (cashout).
+  tags_api.get_discussions_by_children: |-
+    Devuelve una lista de discusiones (discussion) por respuestas (children).
+  tags_api.get_discussions_by_comments: |-
+    Devuelve una lista de discusiones (discussion) por comentarios.
+  tags_api.get_discussions_by_created: |-
+    Devuelve una lista de discusiones (discussion) por fecha de creación (created).
+  tags_api.get_discussions_by_feed: |-
+    Devuelve una lista de discusiones (discussion) por feed.
+  tags_api.get_discussions_by_hot: |-
+    Devuelve una lista de discusiones (discussion) por popularidad (hot).
+  tags_api.get_discussions_by_promoted: |-
+    Devuelve una lista de discusiones (discussion) por promoción (promoted).
+  tags_api.get_discussions_by_trending: |-
+    Devuelve una lista de discusiones (discussion) por tendencias (trending).
+  tags_api.get_discussions_by_votes: |-
+    Devuelve una lista de discusiones (discussion) por votos.
+  tags_api.get_post_discussions_by_payout: |-
+    Devuelve una lista de discusiones (discussion) de posts (publicación) por pago (payout).
+  tags_api.get_replies_by_last_update: |-
+    Devuelve una lista de respuestas por última actualización.
+
+    Véase también: Paginated API Methods
+  tags_api.get_tags_used_by_author: |-
+    Devuelve una lista de etiquetas (tag) usadas por un autor.
+  tags_api.get_trending_tags: |-
+    Devuelve la lista de etiquetas en tendencia (trending tag).
+
+    Véase también: Paginated API Methods
+  transaction_status_api.find_transaction: |-
+    Devuelve el estado de un id de transacción (transaction id) dado.  Parámetros: `trx_id:string`; `expiration:timestamp` (opcional)
+
+    El resultado contendrá uno de los siguientes valores de `status`:
+
+    | Estado | Significado |
+    |--------|---------|
+    | `unknown` | Hora de expiración en el futuro, transacción (transaction) no incluida en bloque (block) ni en el mempool (cola de transacciones en espera) |
+    | `within_mempool` | Transacción en el mempool (cola de transacciones en espera) |
+    | `within_reversible_block` | Transacción incluida en un bloque, el bloque aún no es irreversible |
+    | `within_irreversible_block` | Transacción incluida en un bloque, el bloque es irreversible |
+    | `expired_reversible` | La transacción ha expirado, la transacción no es irreversible (podría estar en un fork) |
+    | `expired_irreversible` | La transacción ha expirado, la transacción es irreversible (no puede estar en un fork) |
+    | `too_old` | La transacción es demasiado antigua, no tengo constancia de ella |
+  witness_api.get_account_bandwidth: |-
+    **Desactivado desde la versión 0.20.6, véase: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
+
+    Devuelve el ancho de banda (bandwidth) disponible de una cuenta.  Véase: Forum/Market Bandwidth
+  witness_api.get_reserve_ratio: |-
+    **Desactivado desde la versión 0.20.6, véase: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
+
+    Devuelve el ratio de reserva (reserve ratio) actual.
