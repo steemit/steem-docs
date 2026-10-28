@@ -103,12 +103,12 @@ Also see: Broadcast Transaction
 | [update_proposal_votes](/api/broadcast_ops/#update-proposal-votes) |  |
 | [claim_reward_balance2](/api/broadcast_ops/#claim-reward-balance2) |  |
 | [vote2](/api/broadcast_ops/#vote2) |  |
-| [smt_setup](/api/broadcast_ops/#smt-setup) |  |
-| [smt_setup_emissions](/api/broadcast_ops/#smt-setup-emissions) |  |
-| [smt_set_setup_parameters](/api/broadcast_ops/#smt-set-setup-parameters) |  |
-| [smt_set_runtime_parameters](/api/broadcast_ops/#smt-set-runtime-parameters) |  |
-| [smt_create](/api/broadcast_ops/#smt-create) |  |
-| [smt_contribute](/api/broadcast_ops/#smt-contribute) |  |
+| [smt_setup](/api/broadcast_ops/#smt-setup) | deprecated |
+| [smt_setup_emissions](/api/broadcast_ops/#smt-setup-emissions) | deprecated |
+| [smt_set_setup_parameters](/api/broadcast_ops/#smt-set-setup-parameters) | deprecated |
+| [smt_set_runtime_parameters](/api/broadcast_ops/#smt-set-runtime-parameters) | deprecated |
+| [smt_create](/api/broadcast_ops/#smt-create) | deprecated |
+| [smt_contribute](/api/broadcast_ops/#smt-contribute) | deprecated |
 | [clear_null_account_balance](/api/broadcast_ops/#clear-null-account-balance) | virtual, deprecated |
 | [proposal_pay](/api/broadcast_ops/#proposal-pay) | virtual |
 | [sps_fund](/api/broadcast_ops/#sps-fund) | virtual |
