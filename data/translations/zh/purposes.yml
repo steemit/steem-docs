@@ -158,6 +158,7 @@ purposes:
   bridge.list_all_subscriptions: |-
     列出某账户对一个社区（community）的全部订阅。
   bridge.list_communities: |-
+    **注意：** 响应样例为文档编制时点的实测捕获，链上状态变化后可能漂移。
     分页列出全部社区，返回精简社区列表。
 
     `sort` 的支持取值：
@@ -181,6 +182,7 @@ purposes:
 
     参数：`community:string`（例如：`hive-123456`）
   bridge.normalize_post: |-
+    **注意：** 响应样例为文档编制时点的实测捕获，链上状态变化后可能漂移。
     接收一个 steemd 帖子对象（即 `condenser_api.get_content` 的返回形态），输出 bridge-api 规范化后的版本。
 
     参数：`post:object`（完整的 steemd 帖子对象，须与 `condenser_api.get_content` 的实际返回形态一致，以单元素数组形式传入：`params: [{ <帖子对象> }]`）
@@ -487,6 +489,7 @@ purposes:
 
     另见：follow_api.get_followers、Paginated API Methods
   condenser_api.get_followers_by_page: |-
+    **注意：** 响应样例为文档编制时点的实测捕获，链上状态变化后可能漂移。
     按页返回某账户的关注者。  (EOL)  参数：`account:string`；`page:int`（从 0 开始——`page` 为 `0` 时返回第一页，每加一页多跳过 `page_size` 行）；`page_size:int`（必填，最大 `100`）；`follow_type:string`（可选，例如：`blog`，默认 `blog`）
 
     **注意：** 行偏移为 `page * page_size`；`page_size` 为必填，省略时返回 `-32602`（位置数组与命名参数形式均如此）。
@@ -507,6 +510,7 @@ purposes:
 
     另见：follow_api.get_following、Paginated API Methods
   condenser_api.get_following_by_page: |-
+    **注意：** 响应样例为文档编制时点的实测捕获，链上状态变化后可能漂移。
     按页返回某账户正在关注的账户。  (EOL)  参数：`account:string`；`page:int`（从 0 开始——`page` 为 `0` 时返回第一页，每加一页多跳过 `page_size` 行）；`page_size:int`（必填，最大 `100`）；`follow_type:string`（可选，例如：`blog`，默认 `blog`）
 
     **注意：** 行偏移为 `page * page_size`；`page_size` 为必填，省略时返回 `-32602`（位置数组与命名参数形式均如此）。
@@ -1369,6 +1373,7 @@ purposes:
 
     另见：Paginated API Methods
   follow_api.get_followers_by_page: |-
+    **注意：** 响应样例为文档编制时点的实测捕获，链上状态变化后可能漂移。
     按页返回某账户的关注者。  (EOL)  `condenser_api.get_followers_by_page` 的别名：参数以位置数组形式传入——`account:string`；`page:int`（从 0 开始——`page` 为 `0` 时返回第一页，每加一页多跳过 `page_size` 行）；`page_size:int`（必填，最大 `100`）；`follow_type:string`（可选，默认 `blog`）。
 
     **注意：** 行偏移为 `page * page_size`；`page_size` 为必填，省略时返回 `-32602`。
@@ -1384,6 +1389,7 @@ purposes:
 
     另见：Paginated API Methods
   follow_api.get_following_by_page: |-
+    **注意：** 响应样例为文档编制时点的实测捕获，链上状态变化后可能漂移。
     按页返回某账户正在关注的账户。  (EOL)  `condenser_api.get_following_by_page` 的别名：参数以位置数组形式传入——`account:string`；`page:int`（从 0 开始——`page` 为 `0` 时返回第一页，每加一页多跳过 `page_size` 行）；`page_size:int`（必填，最大 `100`）；`follow_type:string`（可选，默认 `blog`）。
 
     **注意：** 行偏移为 `page * page_size`；`page_size` 为必填，省略时返回 `-32602`。

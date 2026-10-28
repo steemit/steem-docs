@@ -131,6 +131,7 @@
         {"follower":"etette","following":"steemit","reputation":73.4,"what":["blog",""]},
         {"follower":"victorlives","following":"steemit","reputation":60.17,"what":["blog",""]}
       ]
+      Note: response examples are captured at documentation-build time and may drift as chain state changes.
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"follow_api.get_followers_by_page", "params":["steemit",0,5], "id":1}'
   - api_method: follow_api.get_following
@@ -167,6 +168,7 @@
         {"follower":"steemitblog","following":"rishabh99946","reputation":74.46,"what":["blog",""]},
         {"follower":"steemitblog","following":"oluwatobiloba","reputation":69.24,"what":["blog",""]}
       ]
+      Note: response examples are captured at documentation-build time and may drift as chain state changes.
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"follow_api.get_following_by_page", "params":["steemitblog",0,2], "id":1}'
   - api_method: follow_api.get_reblogged_by
