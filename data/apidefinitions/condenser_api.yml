@@ -2095,7 +2095,7 @@
       ]
     curl_examples:
     - '{"jsonrpc":"2.0", "method":"condenser_api.list_proposals", "params":[[""], 10, "by_creator", "ascending", "active"], "id":1}'
-    - '{"jsonrpc":"2.0", "method":"condenser_api.list_proposals", "params":[["2019-08-07T16:54:03"], 1000, "order_direction": "ascending", "inactive"], "id":1}'
+    - '{"jsonrpc":"2.0", "method":"condenser_api.list_proposals", "params":[["2019-08-07T16:54:03"], 1000, "by_start_date", "ascending", "inactive"], "id":1}'
     - '{"jsonrpc":"2.0", "method":"condenser_api.list_proposals", "params":[["a"], 1, "by_creator", "ascending", "expired"], "id":1}'
     - '{"jsonrpc":"2.0", "method":"condenser_api.list_proposals", "params":[["alice"], 10, "by_creator", "ascending", "all"], "id":1}'
     - '{"jsonrpc":"2.0", "method":"condenser_api.list_proposals", "params":[[""], 1000, "by_creator", "ascending", "votable"], "id":1}'

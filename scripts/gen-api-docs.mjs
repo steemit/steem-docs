@@ -38,7 +38,8 @@ const LIQUID_LOG_PATH = join(GEN_DIR, 'liquid-warnings.txt');
 const ZH_OUT_DIR = join(ROOT, 'docs/zh/api');
 const ZH_PURPOSES_PATH = join(ROOT, 'data/translations/zh/purposes.yml');
 const RU_OUT_DIR = join(ROOT, 'docs/ru/api');
-const API_URL = 'https://api.steem.fans';
+// T23 (user decision): every generated curl command targets api.steemit.com.
+const API_URL = 'https://api.steemit.com';
 
 const isMissing = (v) => v === undefined || v === null || v === '';
 
@@ -154,6 +155,74 @@ function compactJson(value) {
 }
 
 /**
+ * Bare JSON-RPC envelope for methods without curl_examples (T23 fallback):
+ * returns the body string, formatted into a full command by
+ * bashCurlCommand() exactly like the stored examples. Never throws.
+ */
+function syntheticCurl(apiMethod, parameterJson) {
+  const compact = compactJson(parameterJson);
+  try {
+    return JSON.stringify({ jsonrpc: '2.0', method: apiMethod, params: JSON.parse(compact), id: 1 });
+  } catch {
+    return `{"jsonrpc":"2.0","method":"${apiMethod}","params":${compact},"id":1}`;
+  }
+}
+
+/**
+ * T23: one complete wrapped curl command from a stored bare JSON-RPC body
+ * string. The body is parsed and re-printed with a 2-space indent, embedded
+ * in a single-quoted --data-binary payload with backslash continuations and
+ * a Content-Type header. Target line width is <=80
+ * (scripts/check-curl-width.mjs); bodies carrying unbreakable tokens (hex
+ * signatures up to ~160 columns) are wrapped visually by CSS
+ * (.code-card pre { white-space: pre-wrap }), so they stay warnings, never
+ * hard failures. Never throws: an unparseable body is embedded verbatim.
+ */
+function bashCurlCommand(bodyString) {
+  const raw = String(bodyString).trim();
+  let pretty;
+  try {
+    pretty = JSON.stringify(JSON.parse(raw), null, 2);
+  } catch {
+    pretty = raw;
+  }
+  // Shell-safe single-quoted string: escape embedded ' as '\'' (defensive —
+  // the T23 data census found zero single quotes in all 359 stored bodies).
+  const lines = pretty.split('\n').map((l) => l.replace(/'/g, `'\\''`));
+  const bodyLines = lines.map((l, i) => {
+    let out = i === 0 ? `  --data-binary '${l}` : l.length > 0 ? `  ${l}` : l;
+    if (i === lines.length - 1) out += `'`; // close the quoted payload
+    return out;
+  });
+  return [`curl -s ${API_URL} \\`, `  -H 'Content-Type: application/json' \\`, ...bodyLines].join('\n');
+}
+
+/**
+ * T23: the `## Example` section. Every curl_examples entry renders as its
+ * own wrapped command in a `bash` fence (card title BASH) — all N of them,
+ * keeping 1:1 positional pairing with expected_curl_responses — while the
+ * legacy renderer showed only the first. Methods without any stored example
+ * fall back to the synthetic envelope. Dead methods (badge + detail cause)
+ * carry a shell comment line inside every bash block next to the existing
+ * warning paragraph. N > 1 gets `### Example N` sub-headings.
+ */
+function exampleSection(m, apiMethod) {
+  const stored = Array.isArray(m.curl_examples)
+    ? m.curl_examples.filter((e) => typeof e === 'string' && e.trim())
+    : [];
+  const bodies = stored.length > 0 ? stored : [syntheticCurl(apiMethod, m.parameter_json)];
+  const deadComment = isDeadWithCause(m) ? '# NOTE: this method is no longer served by public nodes\n' : '';
+  const card = (body) => codeCard('BASH', 'example', fence('bash', deadComment + bashCurlCommand(body)));
+  const parts = ['## Example', ''];
+  if (bodies.length === 1) {
+    parts.push(card(bodies[0]), '');
+  } else {
+    bodies.forEach((body, i) => parts.push(`### Example ${i + 1}`, '', card(body), ''));
+  }
+  return parts;
+}
+
+/**
  * Roles/params on ops are legacy folded lists: `- voter\n  author\n  permlink`
   * parses as ONE string "voter author permlink weight". Split on whitespace so
  * the normalized JSON shows the individual entries.
@@ -197,16 +266,6 @@ const codeCard = (title, variant, inner) =>
     '',
     '</div>',
   ].join('\n');
-
-/**
- * Fence language for a curl example: a few legacy entries store a bare
- * JSON-RPC body (condenser_api.get_block, database_api.find_savings_withdrawals)
- * — those render as json; anything else stays a bash line.
- */
-function curlExampleLang(text) {
-  const s = String(text).trimStart();
-  return s.startsWith('{') || s.startsWith('[') ? 'json' : 'bash';
-}
 
 function frontmatter({ title, description, outline = true }) {
   const lines = ['---', `title: ${JSON.stringify(title)}`];
@@ -267,12 +326,6 @@ function networkLine(m) {
   return parts.join(' ');
 }
 
-function syntheticCurl(apiMethod, parameterJson) {
-  // The body is a single-quoted shell string: escape embedded single quotes.
-  const params = compactJson(parameterJson).replace(/'/g, `'\\''`);
-  return `curl -s ${API_URL} --data '{"jsonrpc":"2.0","method":"${apiMethod}","params":${params},"id":1}'`;
-}
-
 function expectedCurlResponsesSection(value, file, where) {
   if (!Array.isArray(value) || value.length === 0) return null;
   const blocks = [];
@@ -329,19 +382,10 @@ function methodPage(m, file, translatedPurpose) {
     parts.push('## Parameters', '', codeCard('PARAMETERS', 'params', fence('json', params)), '');
   }
 
-  const curlExample = Array.isArray(m.curl_examples)
-    ? m.curl_examples.find((e) => typeof e === 'string' && e.trim())
-    : undefined;
-  const curlBody = curlExample ?? syntheticCurl(apiMethod, m.parameter_json);
   if (isDeadWithCause(m)) {
     parts.push('<p class="dead-note">⚠ This RPC method is no longer provided by public nodes.</p>', '');
   }
-  parts.push(
-    '## Example curl',
-    '',
-    codeCard('CURL', 'example', fence(curlExampleLang(curlBody), curlBody)),
-    ''
-  );
+  parts.push(...exampleSection(m, apiMethod));
 
   const response = jsonBlock(m.expected_response_json, { omitEmptyArray: true });
   if (response !== null) {
