@@ -1,6 +1,6 @@
 {
-  "$meta": "ko 基线冻结表（T26，bridge-only 模式）。本表是未来 ko 方法页 purpose 翻译的强制基线：译法必须逐条遵循；新增或修改条目必须在 PR 说明中给出理由并同步更新本文件。本 PR（ko 铺开）不消费此表——ko 方法页暂缓，本轮只做 UI/首页/总览/索引。放在 docs/.vitepress/ 下（theme 同级数据文件）而非 docs/ko/*.md，是有意为之——它不是站点页面，不参与构建与页面计数。语义基准为 zh-glossary，对照 en 原文；witness 采用韩语 Steem 社区通用的『위트니스』，RC 与其它语言一致保留英文 Resource Credits (RC)。",
-  "version": "1.0-frozen",
+  "$meta": "ko 术语冻结表（T26 建立；T32 复审修复轮更新至 v1.1）。本表是 ko 方法页 purpose 翻译的强制基线：译法必须逐条遵循；新增或修改条目必须在 PR 说明中给出理由并同步更新本文件。ko 方法页已于 T32 全量铺开（238 页，与 zh/ru/fr/de/it/es 同规格），全部 purpose 消费本表，首现括注按 conventions 使用『한국어 표기 (English)』格式。本轮 v1.1 按『新增或修改条目须回写本文件』规则新增 4 条页面已落地但表内缺条的决策：SMT (스마트 미디어 토큰)、대역폭 (bandwidth)、심볼 (symbol)、숫자 자산 식별자 (NAI)；并修正 HP 条目 note 的括注空格。放在 docs/.vitepress/ 下（theme 同级数据文件）而非 docs/ko/*.md，是有意为之——它不是站点页面，不参与构建与页面计数。语义基准为 zh-glossary，对照 en 原文；witness 采用韩语 Steem 社区通用的『위트니스』，RC 与其它语言一致保留英文 Resource Credits (RC)。",
+  "version": "1.1",
   "conventions": [
     "토큰·API 이름(STEEM, SBD, RC, VESTS, condenser_api 등)은 영어 원형을 유지하고, 첫 등장 시 괄호로 한국어 설명을 덧붙인다.",
     "메서드 이름, 파라미터 이름, 필드 이름은 영어 원형을 그대로 쓰고 번역하지 않는다.",
@@ -21,7 +21,7 @@
     {
       "en": "HP",
       "ko": "(사용하지 않음 — 항상 SP로 표기)",
-      "note": "일부 서드파티 인터페이스는 STEEM Power를 HP(Hive Power에서 유래)로 줄여 쓰기도 한다. 모호함을 피하기 위해 사이트 전체에서 SP로만 표기한다."
+      "note": "일부 서드파티 인터페이스는 STEEM Power를 HP (Hive Power에서 유래)로 줄여 쓰기도 한다. 모호함을 피하기 위해 사이트 전체에서 SP로만 표기한다."
     },
     {
       "en": "VESTS / vesting shares",
@@ -157,6 +157,26 @@
       "en": "thread",
       "ko": "스레드",
       "note": "루트 포스트와 모든 답글로 이루어진 토론 사슬."
+    },
+    {
+      "en": "SMT (Smart Media Tokens)",
+      "ko": "SMT (스마트 미디어 토큰)",
+      "note": "스마트 미디어 토큰(Smart Media Tokens)의 약어. 페이지 첫 등장 시 한국어 설명을 괄호로 병기하고 이후에는 SMT만 쓴다. SMT 관련 메서드(database_api.find_smt_tokens 등)는 deprecated 상태이다."
+    },
+    {
+      "en": "bandwidth",
+      "ko": "대역폭 (bandwidth)",
+      "note": "계정이 체인에서 사용할 수 있는 리소스 할당량. condenser_api.get_account_bandwidth의 `forum`/`market` 유형과 Forum/Market Bandwidth 문서에서 등장한다."
+    },
+    {
+      "en": "symbol",
+      "ko": "심볼 (symbol)",
+      "note": "자산을 식별하는 티커(STEEM, SBD, VESTS) 또는 NAI 형태의 값. database_api SMT 메서드의 `by_symbol*` 정렬 키에서 등장한다."
+    },
+    {
+      "en": "NAI (Numeric Asset Identifier)",
+      "ko": "숫자 자산 식별자 (NAI)",
+      "note": "자산을 숫자로 식별하는 표기(@@ 형 접두 10진수, 예: @@422838704). database_api.get_nai_pool과 SMT 메서드의 `nai` 필드에서 등장한다."
     }
   ]
 }

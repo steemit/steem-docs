@@ -15,7 +15,7 @@ description: "data/apidefinitions에서 생성한 JSON-RPC API 개요 (한국어
 title/description을 읽을 수 없습니다), 서비스 주석은 그 뒤에만 위치합니다.
 -->
 
-다음은 `data/apidefinitions/*.yml`에서 빌드 시점에 생성한 JSON-RPC API 레퍼런스입니다. 한국어 인덱스 페이지는 각 API의 모든 메서드를 나열하며, 메서드 페이지는 아직 번역되지 않았습니다 — 표의 링크는 영어 메서드 페이지로 연결됩니다.
+다음은 `data/apidefinitions/*.yml`에서 빌드 시점에 생성한 JSON-RPC API 레퍼런스입니다. 한국어 인덱스 페이지는 각 API의 모든 메서드를 나열하며, 메서드 페이지는 한국어로 번역되어 있습니다 — 표의 링크는 한국어 메서드 페이지로 연결됩니다.
 
 # API 레퍼런스
 

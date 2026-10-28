@@ -28,17 +28,18 @@ const OUT_DIR = join(ROOT, 'docs/api');
 const GEN_DIR = join(ROOT, 'docs/.vitepress/gen');
 const MANIFEST_PATH = join(GEN_DIR, 'api-manifest.json');
 const LIQUID_LOG_PATH = join(GEN_DIR, 'liquid-warnings.txt');
-// Partial locales (T11 zh pilot, T13 ru/fr/de/it/es rollouts): bridge index
+// Partial locales (T11 zh pilot, T13 ru/fr/de/it/es/ko rollouts): bridge index
 // pages, generated with --locale <code>. Only the <stem>/index.md subtrees are
 // written; hand-written static pages under docs/<code>/ (home, API overview)
 // are never touched by this script. Full locales additionally get a method
 // page per purpose covered by their data/translations/<code>/purposes.yml —
 // zh (T12, all 238 since the T22 source-fill), ru (T27, same 238 key set),
 // fr (T28, same 238 key set), de (T29, same 238 key set), it (T30, same
-// 238 key set) and es (T31, same 238 key set) are full locales; the remaining
-// bridge-only locales have NO
-// method pages this phase — every method row in their index tables bridges
-// to the English page by site-absolute path.
+// 238 key set), es (T31, same 238 key set) and ko (T32, same 238 key set)
+// are full locales; since T32 there are no bridge-only locales left. A
+// bridge-only locale (if one is ever added again) would have NO method pages
+// — every method row in its index tables would bridge to the English page by
+// site-absolute path.
 const ZH_OUT_DIR = join(ROOT, 'docs/zh/api');
 const ZH_PURPOSES_PATH = join(ROOT, 'data/translations/zh/purposes.yml');
 const RU_OUT_DIR = join(ROOT, 'docs/ru/api');
@@ -51,6 +52,8 @@ const IT_OUT_DIR = join(ROOT, 'docs/it/api');
 const IT_PURPOSES_PATH = join(ROOT, 'data/translations/it/purposes.yml');
 const ES_OUT_DIR = join(ROOT, 'docs/es/api');
 const ES_PURPOSES_PATH = join(ROOT, 'data/translations/es/purposes.yml');
+const KO_OUT_DIR = join(ROOT, 'docs/ko/api');
+const KO_PURPOSES_PATH = join(ROOT, 'data/translations/ko/purposes.yml');
 // T23 (user decision): every generated curl command targets api.steemit.com.
 const API_URL = 'https://api.steemit.com';
 
@@ -379,6 +382,11 @@ const DEAD_NOTES = {
     deprecated:
       '⚠ Este método está deprecado (de la era SMT, tokens de medios inteligentes) y ya no es proporcionado por los nodos públicos.',
   },
+  ko: {
+    removed: '⚠ 이 RPC 메서드는 더 이상 퍼블릭 노드에서 제공되지 않습니다.',
+    disabled: '⚠ steem 소스 코드에 정의되어 있지만, 퍼블릭 노드에서는 활성화되지 않았습니다.',
+    deprecated: '⚠ 이 메서드는 지원 중단 (deprecated, SMT 시대)되었으며 더 이상 퍼블릭 노드에서 제공되지 않습니다.',
+  },
 };
 
 /** Death family of a method carrying at least one death badge. */
@@ -655,11 +663,18 @@ const ES_METHODS_NOTE =
 const ES_OPS_BRIDGE_NOTE =
   '> Esta es la página de índice en español: la página de operaciones aún no está traducida al español — haga clic en el nombre de una operación para abrir la sección correspondiente de la página en inglés.';
 
+const KO_METHODS_NOTE =
+  '> 이것은 한국어 인덱스 페이지입니다: 모든 메서드가 한국어로 번역되어 있습니다. 표의 링크는 한국어 메서드 페이지로 연결됩니다.';
+
+const KO_OPS_BRIDGE_NOTE =
+  '> 이것은 한국어 인덱스 페이지입니다: 작업 페이지는 아직 한국어로 번역되지 않았습니다 — 작업 이름을 클릭하면 영어 페이지의 해당 섹션으로 이동합니다.';
+
 /**
- * Strings for a bridge-only locale (remaining T13 locale ko
- * from T26, pattern set by ru): one generated index page per API whose method
- * rows ALL bridge to the English method pages (no locale method pages this
- * phase). Expands into a full LOCALES entry with the same shape as zh/ru/fr/de/it.
+ * Strings for a bridge-only locale (pattern set by ru): one generated index
+ * page per API whose method rows ALL bridge to the English method pages (no
+ * locale method pages). Expands into a full LOCALES entry with the same shape
+ * as the full-locale entries. Unused since T32 flipped the last bridge-only
+ * locale (ko) to full — retained in case a future locale ships bridge-only.
  */
 function bridgeOnlyLocale(key, strings) {
   return {
@@ -685,11 +700,11 @@ function bridgeOnlyLocale(key, strings) {
 }
 
 /**
- * Locale registry for `--locale <code>` runs. zh, ru, fr, de, it and es are
- * full locales
- * (purposes translation file -> translated method pages); every other entry
- * is a bridge-only locale (index pages with all method rows pointing at en) —
- * added via bridgeOnlyLocale() below.
+ * Locale registry for `--locale <code>` runs. All seven locales (zh, ru, fr,
+ * de, it, es and ko) are full locales (purposes translation file -> translated
+ * method pages, mirroring the zh pattern); there are no bridge-only locales
+ * left since T32. The bridgeOnlyLocale() helper above is retained for a
+ * potential future bridge-only locale.
  */
 const LOCALES = {
   zh: {
@@ -816,19 +831,27 @@ const LOCALES = {
       colFlags: 'Estado',
     },
   },
-  ko: bridgeOnlyLocale('ko', {
-    methodsNote:
-      '> 이것은 한국어 인덱스 페이지입니다: 메서드 페이지는 아직 한국어로 번역되지 않았습니다 — 표의 모든 링크는 영어 메서드 페이지로 연결됩니다.',
-    methodsHeading: '메서드',
-    colMethod: '메서드',
-    colSince: '도입 버전',
-    colFlags: '상태',
-    opsNote:
-      '> 이것은 한국어 인덱스 페이지입니다: 작업 페이지는 아직 한국어로 번역되지 않았습니다 — 작업 이름을 클릭하면 영어 페이지의 해당 섹션으로 이동합니다.',
-    opsHeading: '작업',
-    colOp: '작업',
-    colFlags: '상태',
-  }),
+  ko: {
+    key: 'ko',
+    outDir: KO_OUT_DIR,
+    // T32 (phase 4): ko is the seventh full locale — one translated method page
+    // per purpose in data/translations/ko/purposes.yml (all 238 since the T22
+    // source-fill), mirroring the zh/ru/fr/de/it/es pattern.
+    purposesPath: KO_PURPOSES_PATH,
+    methods: {
+      note: KO_METHODS_NOTE,
+      heading: '메서드',
+      colMethod: '메서드',
+      colSince: '도입 버전',
+      colFlags: '상태',
+    },
+    ops: {
+      note: KO_OPS_BRIDGE_NOTE,
+      heading: '작업',
+      colOp: '작업',
+      colFlags: '상태',
+    },
+  },
 };
 
 function flagCells(m, includeVirtual = false) {
@@ -1068,12 +1091,13 @@ function generateEnApis(files, collected) {
 }
 
 /**
- * Load a locale purposes translation file (zh only today): api_method ->
+ * Load a locale purposes translation file: api_method ->
  * purpose translation. Lenient by design — a missing/unusable entry means
  * "no locale page for that method" (index keeps bridging to en), never a
  * crash. Unknown keys (no matching api_method in data/) are reported so stale
- * translations cannot hide silently. Bridge-only locales (ru today) load
- * nothing: their indexes link every method row straight to the en page.
+ * translations cannot hide silently. A locale without a purposes path
+ * (bridge-only mode; none since T32 flipped ko) loads nothing: its indexes
+ * link every method row straight to the en page.
  */
 function loadPurposes(locale) {
   const map = new Map();
@@ -1119,8 +1143,9 @@ function loadPurposes(locale) {
 }
 
 /**
- * Partial-locale generation: the 19 API bridge index pages under
- * docs/<code>/api/ plus (zh only) one method page per translated purpose. The
+ * Partial-locale generation: the API index pages under docs/<code>/api/ (one
+ * per manifest API) plus, when the locale registers a purposes file, one
+ * method page per translated purpose. The
  * hand-written docs/<code>/api/index.md overview and docs/<code>/*.md static
  * pages are NEVER touched: no rm of the locale outDir itself — only per-stem
  * dirs are replaced, and stale stem dirs (APIs removed from the YAML) are
