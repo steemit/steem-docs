@@ -558,14 +558,13 @@ export default defineConfig({
           { text: 'Главная', link: '/ru/' },
           { text: 'API', link: '/ru/api/' }
         ],
-        // T13 partial locale: ru has NO method pages, so the collapsible
-        // GROUP nodes (API index pages) point into the ru tree while the
-        // method CHILDREN bridge to the en tree — the same mixed-prefix
-        // pattern the T11-era zh sidebar used before T12 filled it in.
+        // T27 full locale: ru index pages AND all 238 translated method pages
+        // are generated, so the sidebar children point into the ru tree too
+        // (same shape as the zh sidebar since T12).
         sidebar: [
           {
             text: 'Справочник API',
-            items: apiSidebar({ indexPrefix: '/ru/api/', methodPrefix: '/api/' })
+            items: apiSidebar({ indexPrefix: '/ru/api/', methodPrefix: '/ru/api/' })
           }
         ],
         // Default-theme UI strings (VitePress default theme overridables).
