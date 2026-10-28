@@ -180,12 +180,18 @@ instead. Same input repo state → byte-identical output.
   3. `DEFINE_API_ARGS(name, vector< variant >, ret)` (expands to the same
      typedef; 85/87 condenser args) → `"positional"`;
   4. struct + `FC_REFLECT(X_args, (m1)(m2)…)` → `"named"`, member order =
-     JSON key order (`FC_REFLECT_DERIVED` base chain followed);
+     JSON key order (`FC_REFLECT_DERIVED` base chain followed). For named
+     methods `params` is a **plain string array** (parameter names in
+     request order; the array index is the position);
   5. typedef alias chains resolved recursively with a cycle guard and a
      namespace hint for qualified targets
      (`reputation::get_account_reputations_args`); an alias landing outside
      the plugins tree (e.g. `steem::chain::signed_transaction`) →
      `"named"`, `params: null`.
+  Note the empty-params asymmetry: `"void"` methods have `params: []`
+  (source declares an empty args struct), while `named` methods with an
+  unresolvable alias have `params: null` (parameter names cannot be
+  enumerated statically) — T21 consumers must distinguish the two.
 
 ### Extraction rules — hivemind (`scripts/source-inventory/extract-hivemind.py`)
 
