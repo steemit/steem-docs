@@ -601,13 +601,13 @@ export default defineConfig({
           { text: 'Accueil', link: '/fr/' },
           { text: 'API', link: '/fr/api/' }
         ],
-        // T13 partial locale: fr has NO method pages, so the collapsible
-        // GROUP nodes (API index pages) point into the fr tree while the
-        // method CHILDREN bridge to the en tree — same as ru.
+        // T28 full locale: fr index pages AND all 238 translated method pages
+        // are generated, so the sidebar children point into the fr tree too
+        // (same shape as the zh/ru sidebars since T27).
         sidebar: [
           {
             text: 'Référence API',
-            items: apiSidebar({ indexPrefix: '/fr/api/', methodPrefix: '/api/' })
+            items: apiSidebar({ indexPrefix: '/fr/api/', methodPrefix: '/fr/api/' })
           }
         ],
         // Search modal strings live in the TOP-LEVEL search block (see the

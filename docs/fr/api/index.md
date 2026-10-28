@@ -17,7 +17,7 @@ builder ne peut pas lire title/description) ; les commentaires utilitaires ne
 se placent qu'après lui.
 -->
 
-Voici la référence de l’API JSON-RPC, générée à la construction à partir de `data/apidefinitions/*.yml`. Les pages d’index françaises listent toutes les méthodes de chaque API ; les pages de méthodes ne sont pas encore traduites — les liens des tableaux mènent aux pages de méthodes anglaises.
+Voici la référence de l’API JSON-RPC, générée à la construction à partir de `data/apidefinitions/*.yml`. Les pages d’index françaises listent toutes les méthodes de chaque API ; les pages de méthodes sont traduites en français — les liens des tableaux mènent aux pages de méthodes françaises.
 
 # Référence API
 
