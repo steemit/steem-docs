@@ -188,6 +188,8 @@ function zhQueryTokenize(text: string) {
 //   docs/{fr,de,it,es}/*.md -> hand-written static pages, same shape as ru
 //   docs/{fr,de,it,es}/api/ -> GENERATED bridge index pages
 //                        (docs:gen --locale <code>); method pages deferred
+//   docs/ko/*.md       -> hand-written ko static pages, same shape as es (T26)
+//   docs/ko/api/       -> GENERATED bridge index pages (docs:gen --locale ko)
 //
 // Merge semantics (official resolveSiteDataByRoute): each page's themeConfig
 // is `{ ...topLevel.themeConfig, ...locales[localeIndex].themeConfig }` — a
@@ -281,15 +283,16 @@ export default defineConfig({
             tokenize: buildSearchTokenize
           }
         },
-        // T13 — ru + fr/de/it/es search-modal UI strings, keyed by locale
-        // index so only those locales' pages pick them up (en resolves no
-        // matching key -> default English UI; zh replaces the whole search
+        // T13/T26 — ru + fr/de/it/es/ko search-modal UI strings, keyed by
+        // locale index so only those locales' pages pick them up (en resolves
+        // no matching key -> default English UI; zh replaces the whole search
         // object below). NO tokenizer override anywhere for these locales:
         // Russian words are whitespace/punctuation-delimited (the shared
         // build tokenizer, which only special-cases CJK runs, indexes
-        // Cyrillic terms whole — identical to MiniSearch's default), and the
-        // fr/de/it/es locales are Latin-script like en — MiniSearch's default
-        // query tokenizer matches them as-is.
+        // Cyrillic terms whole — identical to MiniSearch's default), the
+        // fr/de/it/es locales are Latin-script like en, and ko is
+        // space-delimited Hangul — MiniSearch's default query tokenizer
+        // matches them all as-is.
         locales: {
           ru: {
             translations: {
@@ -402,6 +405,29 @@ export default defineConfig({
                   navigateDownKeyAriaLabel: 'Flecha abajo',
                   closeText: 'Cerrar',
                   closeKeyAriaLabel: 'Cerrar'
+                }
+              }
+            }
+          },
+          ko: {
+            translations: {
+              button: {
+                buttonText: '검색',
+                buttonAriaLabel: '검색'
+              },
+              modal: {
+                displayDetails: '상세 목록 표시',
+                resetButtonTitle: '검색 초기화',
+                backButtonTitle: '뒤로',
+                noResultsText: '검색 결과가 없습니다',
+                footer: {
+                  selectText: '선택',
+                  selectKeyAriaLabel: '선택',
+                  navigateText: '이동',
+                  navigateUpKeyAriaLabel: '위쪽 화살표',
+                  navigateDownKeyAriaLabel: '아래쪽 화살표',
+                  closeText: '닫기',
+                  closeKeyAriaLabel: '닫기'
                 }
               }
             }
@@ -702,6 +728,46 @@ export default defineConfig({
           quote: 'La página solicitada no existe o ha sido movida.',
           linkLabel: 'ir al inicio',
           linkText: 'Volver al inicio'
+        }
+      }
+    },
+    ko: {
+      label: '한국어',
+      lang: 'ko',
+      // Switcher target while i18nRouting is off: always the ko homepage.
+      link: '/ko/',
+      themeConfig: {
+        nav: [
+          { text: '홈', link: '/ko/' },
+          { text: 'API', link: '/ko/api/' }
+        ],
+        // T26 partial locale: ko has NO method pages, so the collapsible
+        // GROUP nodes (API index pages) point into the ko tree while the
+        // method CHILDREN bridge to the en tree — same as ru/fr/de/it/es.
+        sidebar: [
+          {
+            text: 'API 레퍼런스',
+            items: apiSidebar({ indexPrefix: '/ko/api/', methodPrefix: '/api/' })
+          }
+        ],
+        // Search modal strings live in the TOP-LEVEL search block (see the
+        // locales key there) — ko deliberately sets no `search` here, so its
+        // pages reuse the shared provider/options configuration (default
+        // tokenization suits space-delimited Hangul).
+        outline: { label: '이 페이지에서' },
+        docFooter: { prev: '이전 페이지', next: '다음 페이지' },
+        returnToTopLabel: '맨 위로',
+        sidebarMenuLabel: '메뉴',
+        darkModeSwitchLabel: '테마',
+        lightModeSwitchTitle: '라이트 모드로 전환',
+        darkModeSwitchTitle: '다크 모드로 전환',
+        skipToContentLabel: '본문으로 건너뛰기',
+        langMenuLabel: '언어 변경',
+        notFound: {
+          title: '페이지를 찾을 수 없습니다',
+          quote: '요청한 페이지가 존재하지 않거나 이동되었습니다.',
+          linkLabel: '홈으로 이동',
+          linkText: '홈으로'
         }
       }
     }
