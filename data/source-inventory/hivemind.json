@@ -1,0 +1,1299 @@
+{
+  "repo": "hivemind_legacy",
+  "commit": "278775b",
+  "branch": "pr398",
+  "bindings": 68,
+  "namespaces": {
+    "bridge": {
+      "methods": [
+        {
+          "name": "normalize_post",
+          "params": [
+            {
+              "name": "post"
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_post_header",
+          "params": [
+            {
+              "name": "author"
+            },
+            {
+              "name": "permlink"
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussion",
+          "params": [
+            {
+              "name": "author"
+            },
+            {
+              "name": "permlink"
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_post",
+          "params": [
+            {
+              "name": "author"
+            },
+            {
+              "name": "permlink"
+            },
+            {
+              "name": "observer",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_account_posts",
+          "params": [
+            {
+              "name": "sort"
+            },
+            {
+              "name": "account"
+            },
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "observer",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_ranked_posts",
+          "params": [
+            {
+              "name": "sort"
+            },
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "observer",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_profile",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "observer",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_trending_topics",
+          "params": [
+            {
+              "name": "limit",
+              "default": 10
+            },
+            {
+              "name": "observer",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "post_notifications",
+          "params": [
+            {
+              "name": "author"
+            },
+            {
+              "name": "permlink"
+            },
+            {
+              "name": "min_score",
+              "default": 25
+            },
+            {
+              "name": "last_id",
+              "default": null
+            },
+            {
+              "name": "limit",
+              "default": 100
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "account_notifications",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "min_score",
+              "default": 25
+            },
+            {
+              "name": "last_id",
+              "default": null
+            },
+            {
+              "name": "limit",
+              "default": 100
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "unread_notifications",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "min_score",
+              "default": 25
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_payout_stats",
+          "params": [
+            {
+              "name": "limit",
+              "default": 250
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_community",
+          "params": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "observer",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_community_context",
+          "params": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "account"
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "list_communities",
+          "params": [
+            {
+              "name": "last",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 100
+            },
+            {
+              "name": "query",
+              "default": null
+            },
+            {
+              "name": "sort",
+              "default": "rank"
+            },
+            {
+              "name": "observer",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "list_pop_communities",
+          "params": [
+            {
+              "name": "limit",
+              "default": 25
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "list_community_roles",
+          "params": [
+            {
+              "name": "community"
+            },
+            {
+              "name": "last",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 50
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "list_subscribers",
+          "params": [
+            {
+              "name": "community"
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "list_all_subscriptions",
+          "params": [
+            {
+              "name": "account"
+            }
+          ],
+          "type": null
+        }
+      ]
+    },
+    "call": {
+      "methods": [
+        {
+          "name": "call",
+          "params": [
+            {
+              "name": "api"
+            },
+            {
+              "name": "method"
+            },
+            {
+              "name": "params"
+            }
+          ],
+          "type": null
+        }
+      ]
+    },
+    "condenser_api": {
+      "methods": [
+        {
+          "name": "get_followers",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "start"
+            },
+            {
+              "name": "follow_type",
+              "default": null
+            },
+            {
+              "name": "limit",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_following",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "start"
+            },
+            {
+              "name": "follow_type",
+              "default": null
+            },
+            {
+              "name": "limit",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_followers_by_page",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "page"
+            },
+            {
+              "name": "page_size",
+              "default": null
+            },
+            {
+              "name": "follow_type",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_following_by_page",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "page"
+            },
+            {
+              "name": "page_size",
+              "default": null
+            },
+            {
+              "name": "follow_type",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_follow_count",
+          "params": [
+            {
+              "name": "account"
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_content",
+          "params": [
+            {
+              "name": "author"
+            },
+            {
+              "name": "permlink"
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_content_replies",
+          "params": [
+            {
+              "name": "author"
+            },
+            {
+              "name": "permlink"
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_state",
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_trending_tags",
+          "params": [
+            {
+              "name": "start_tag",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 250
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_trending",
+          "params": [
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            },
+            {
+              "name": "filter_tags",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_hot",
+          "params": [
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            },
+            {
+              "name": "filter_tags",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_promoted",
+          "params": [
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            },
+            {
+              "name": "filter_tags",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_created",
+          "params": [
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            },
+            {
+              "name": "filter_tags",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_blog",
+          "params": [
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            },
+            {
+              "name": "filter_tags",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_feed",
+          "params": [
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            },
+            {
+              "name": "filter_tags",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_comments",
+          "params": [
+            {
+              "name": "start_author",
+              "default": null
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            },
+            {
+              "name": "filter_tags",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_replies_by_last_update",
+          "params": [
+            {
+              "name": "start_author",
+              "default": null
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_author_before_date",
+          "params": [
+            {
+              "name": "author",
+              "default": null
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "before_date",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 10
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_post_discussions_by_payout",
+          "params": [
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_comment_discussions_by_payout",
+          "params": [
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_blog",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "start_entry_id",
+              "default": 0
+            },
+            {
+              "name": "limit",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_blog_entries",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "start_entry_id",
+              "default": 0
+            },
+            {
+              "name": "limit",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_account_reputations",
+          "params": [
+            {
+              "name": "account_lower_bound",
+              "default": null
+            },
+            {
+              "name": "limit",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_reblogged_by",
+          "params": [
+            {
+              "name": "author"
+            },
+            {
+              "name": "permlink"
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_transaction",
+          "params": [
+            {
+              "name": "trx_id"
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_account_votes",
+          "params": [
+            {
+              "name": "account"
+            }
+          ],
+          "type": null,
+          "dummy": true
+        }
+      ]
+    },
+    "follow_api": {
+      "methods": [
+        {
+          "name": "get_followers",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "start"
+            },
+            {
+              "name": "follow_type",
+              "default": null
+            },
+            {
+              "name": "limit",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_following",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "start"
+            },
+            {
+              "name": "follow_type",
+              "default": null
+            },
+            {
+              "name": "limit",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_followers_by_page",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "page"
+            },
+            {
+              "name": "page_size",
+              "default": null
+            },
+            {
+              "name": "follow_type",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_following_by_page",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "page"
+            },
+            {
+              "name": "page_size",
+              "default": null
+            },
+            {
+              "name": "follow_type",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_follow_count",
+          "params": [
+            {
+              "name": "account"
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_account_reputations",
+          "params": [
+            {
+              "name": "account_lower_bound",
+              "default": null
+            },
+            {
+              "name": "limit",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_blog",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "start_entry_id",
+              "default": 0
+            },
+            {
+              "name": "limit",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_blog_entries",
+          "params": [
+            {
+              "name": "account"
+            },
+            {
+              "name": "start_entry_id",
+              "default": 0
+            },
+            {
+              "name": "limit",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_reblogged_by",
+          "params": [
+            {
+              "name": "author"
+            },
+            {
+              "name": "permlink"
+            }
+          ],
+          "type": null
+        }
+      ]
+    },
+    "hive": {
+      "methods": [
+        {
+          "name": "db_head_state",
+          "params": [],
+          "type": null
+        }
+      ]
+    },
+    "tags_api": {
+      "methods": [
+        {
+          "name": "get_account_votes",
+          "params": [
+            {
+              "name": "account"
+            }
+          ],
+          "type": null,
+          "dummy": true
+        },
+        {
+          "name": "get_discussion",
+          "params": [
+            {
+              "name": "author"
+            },
+            {
+              "name": "permlink"
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_content_replies",
+          "params": [
+            {
+              "name": "author"
+            },
+            {
+              "name": "permlink"
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_trending",
+          "params": [
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            },
+            {
+              "name": "filter_tags",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_hot",
+          "params": [
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            },
+            {
+              "name": "filter_tags",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_promoted",
+          "params": [
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            },
+            {
+              "name": "filter_tags",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_created",
+          "params": [
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            },
+            {
+              "name": "filter_tags",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_blog",
+          "params": [
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            },
+            {
+              "name": "filter_tags",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_comments",
+          "params": [
+            {
+              "name": "start_author",
+              "default": null
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            },
+            {
+              "name": "filter_tags",
+              "default": null
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_discussions_by_author_before_date",
+          "params": [
+            {
+              "name": "author",
+              "default": null
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "before_date",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 10
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_post_discussions_by_payout",
+          "params": [
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            }
+          ],
+          "type": null
+        },
+        {
+          "name": "get_comment_discussions_by_payout",
+          "params": [
+            {
+              "name": "start_author",
+              "default": ""
+            },
+            {
+              "name": "start_permlink",
+              "default": ""
+            },
+            {
+              "name": "limit",
+              "default": 20
+            },
+            {
+              "name": "tag",
+              "default": null
+            },
+            {
+              "name": "truncate_body",
+              "default": 0
+            }
+          ],
+          "type": null
+        }
+      ]
+    }
+  }
+}

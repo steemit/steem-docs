@@ -141,6 +141,85 @@ flagged.
   leniency). The validator re-indents that line **in memory** only; the source
   files remain untouched.
 
+## Source inventory (`source-inventory/`)
+
+Machine-readable JSON-RPC interface inventories extracted from the **source
+repos** (phase-3 source baseline; the node snapshot of phase 2 is demoted to a
+cross-reference). Files are generated — never hand-edit; re-run the extractors
+instead. Same input repo state → byte-identical output.
+
+- `steem.json` — from the steem C++ repo (branch pinned in the file, e.g.
+  `ingest_plugin` @ `52dcfab`).
+  Shape: `{repo, commit, branch, apis: {<api>: {methods: [{name, conditional,
+  param_style, params, source}]}}}`. `source` is `file:line` of the declaration
+  inside the steem repo. `conditional: true` marks methods inside an
+  `#ifdef STEEM_ENABLE_SMT` region (compile switch, default OFF).
+- `hivemind.json` — from hivemind_legacy (branch `pr398` @ `278775b`).
+  Shape: `{repo, commit, branch, bindings, namespaces: {<ns>: {methods:
+  [{name, params, type, dummy?}]}}}`. `params` entries are `{name,
+  default?}` (leading `context` and `*args/**kwargs` excluded); `type` is
+  always null (hivemind has no signature annotations); `dummy: true` marks
+  stub registrations whose body is a single raise.
+
+### Extraction rules — steem (`scripts/source-inventory/extract-steem.mjs`)
+
+- Method names = `DECLARE_API( (m1)(m2)… )` blocks. Six accepted forms:
+  comments mixed into the block (stripped first, line numbers preserved);
+  `#ifdef STEEM_ENABLE_SMT` regions (→ `conditional`); the jsonrpc block in
+  `json_rpc_plugin.cpp` (scan set includes .cpp); `test_api_plugin.hpp` (found
+  by content scan, not by an `<api>_api.hpp` name template); compact
+  sequences; and `DECLARE_API_IMPL`/`DEFINE_API_IMPL` never match (the matcher
+  requires whitespace between `DECLARE_API` and `(`). API namespace =
+  `JSON_RPC_REGISTER_API("…")` string literal when present, else the
+  `libraries/plugins/apis/<dir>` directory name.
+- Params = 5 resolution states for `<method>_args` (per-API scope first, then
+  the whole `libraries/plugins` tree — args may live outside `apis/`, e.g.
+  `debug_generate_blocks_args` in `plugins/debug_node`):
+  1. `typedef void_type X_args` → `param_style: "void"`, `params: []`;
+  2. bare `typedef vector< variant > X_args` → `"positional"`, `params: null`;
+  3. `DEFINE_API_ARGS(name, vector< variant >, ret)` (expands to the same
+     typedef; 85/87 condenser args) → `"positional"`;
+  4. struct + `FC_REFLECT(X_args, (m1)(m2)…)` → `"named"`, member order =
+     JSON key order (`FC_REFLECT_DERIVED` base chain followed). For named
+     methods `params` is a **plain string array** (parameter names in
+     request order; the array index is the position);
+  5. typedef alias chains resolved recursively with a cycle guard and a
+     namespace hint for qualified targets
+     (`reputation::get_account_reputations_args`); an alias landing outside
+     the plugins tree (e.g. `steem::chain::signed_transaction`) →
+     `"named"`, `params: null`.
+  Note the empty-params asymmetry: `"void"` methods have `params: []`
+  (source declares an empty args struct), while `named` methods with an
+  unresolvable alias have `params: null` (parameter names cannot be
+  enumerated statically) — T21 consumers must distinguish the two.
+
+### Extraction rules — hivemind (`scripts/source-inventory/extract-hivemind.py`)
+
+- Registration truth = `hive/server/serve.py`'s **7 `methods.add(**{…})`
+  calls** (3 dict comprehensions + 4 literal dicts). `def`s in
+  `hive_api/community.py` etc. that are never registered do not enter the
+  inventory. Comprehension keys give the namespace prefix
+  (`'condenser_api.' + method.__name__`); alias imports and `functools.wraps`
+  keep the function's own name, so `__name__` resolves statically. Literal
+  dict keys are the authoritative full names. `follow_api.*`/`tags_api.*`
+  are aliases of `condenser_api` implementations; `hive_api` package
+  functions register under `bridge.`; there is no `hive_api.*` namespace.
+
+### Reconciliation
+
+```sh
+node scripts/source-inventory/extract-steem.mjs   # --steem-dir, --out
+python3 scripts/source-inventory/extract-hivemind.py  # --repo, --out
+node scripts/source-inventory/assert-inventory.mjs
+```
+
+Baseline: steem **211** methods (204 unconditional + 7 SMT conditional;
+condenser 87 / database 57 / tags 20 / follow 10 / debug_node 9 / market 7 /
+rc 3 / account_history 4 / test_api 2 / jsonrpc 2 / rest 1–2 each),
+hivemind **68** bindings (condenser_api 26 incl 1 dummy / bridge 19 /
+tags_api 12 incl 1 dummy / follow_api 9 / hive 1 / call 1). If the source
+repos move, re-run the extractors and re-reconcile before trusting counts.
+
 ## Validation
 
 ```sh
