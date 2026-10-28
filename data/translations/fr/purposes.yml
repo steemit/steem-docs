@@ -93,16 +93,16 @@ purposes:
       * `unmute_post` - la mise en sourdine (unmute) d'un post a été levée, avec un motif
       * `pin_post` - un post a été épinglé (pin)
       * `unpin_post` - un post a été désépinglé (unpin)
-      * `flag_post` - un post a été marqué d'un flag (flag) par un membre, avec un motif
+      * `flag_post` - un post a été signalé (flagged) par un membre, avec un motif
       * `error` - fournit un retour aux développeurs pour les opérations qui ne peuvent pas être interprétées
       * `subscribe` - un compte s'est abonné à une communauté
       * `reply` - un post a reçu une réponse (reply)
       * `reblog` - un post a été reblogué (reblogged/resteemed)
-      * `follow` - un compte s'est abonné à un autre compte
+      * `follow` - un compte suit un autre compte
       * `mention` - l'auteur mentionne un compte
       * `vote` - le votant vote pour un auteur
 
-    La valeur `score` est basée sur le rang (rank) du compte à l'origine.
+    La valeur `score` est basée sur le rang (rank) du compte d'origine.
   bridge.get_account_posts: |-
     Obtient les posts (publication) d'un compte — blog, flux (feed), commentaires ou réponses.
 

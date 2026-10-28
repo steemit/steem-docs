@@ -352,7 +352,7 @@ const DEAD_NOTES = {
     removed: '⚠ Cette méthode RPC n’est plus fournie par les nœuds publics.',
     disabled: '⚠ Définie dans le code source de steem, mais non activée sur les nœuds publics.',
     deprecated:
-      '⚠ Cette méthode est dépréciée (ère SMT (jetons médiatiques intelligents)) et n’est plus fournie par les nœuds publics.',
+      '⚠ Cette méthode est dépréciée (ère SMT, jetons médiatiques intelligents) et n’est plus fournie par les nœuds publics.',
   },
 };
 
