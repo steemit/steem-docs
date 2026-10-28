@@ -15,7 +15,8 @@
     "scrape:api-defs": "node scripts/scrape-api-defs.mjs",
     "test:curl": "node scripts/test-curl.mjs",
     "audit:drift": "node scripts/audit-drift.mjs",
-    "audit:coverage": "node scripts/coverage-sweep.mjs"
+    "audit:coverage": "node scripts/coverage-sweep.mjs",
+    "audit:source-crosscheck": "node scripts/audit-source-crosscheck.mjs"
   },
   "devDependencies": {
     "vitepress": "^1.6.4",
