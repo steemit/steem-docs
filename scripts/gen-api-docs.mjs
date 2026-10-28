@@ -359,6 +359,7 @@ const DEAD_NOTES = {
     disabled: '⚠ Définie dans le code source de steem, mais non activée sur les nœuds publics.',
     deprecated:
       '⚠ Cette méthode est dépréciée (ère SMT, jetons médiatiques intelligents) et n’est plus fournie par les nœuds publics.',
+  },
   de: {
     removed: '⚠ Diese RPC-Methode wird von öffentlichen Knoten nicht mehr bereitgestellt.',
     disabled: '⚠ Im steem-Quellcode definiert, auf öffentlichen Knoten aber nicht aktiviert.',
