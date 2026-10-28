@@ -1,0 +1,1524 @@
+# ---------------------------------------------------------------------------
+# ru translations of API method purposes — batch 1-5（238 条全量）
+# (phase4-plan §1-T27；schema/风格沿用 zh-method-purposes/v1，batch 字段标
+# 语言内批次：batch 1 = C 序 #1-48、batch 2 = #49-96、batch 3 = #97-144、
+# batch 4 = #145-192、batch 5 = #193-238，按写入顺序)
+#
+# api_method -> русский перевод purpose。原文以 data/apidefinitions/*.yml 中
+# 现有 en purpose 字段为准，不增不减不改语义；markdown 结构（表格/列表/加粗/
+# 链接）按原文保留，仅翻译文字内容。
+#
+# 术语遵循 docs/.vitepress/ru-glossary.json 的 30 条冻结基线（свидетель、
+# курация、доли вестинга (VESTS)、ресурсные кредиты (RC) 等）；方法名、
+# 参数名、字段值、API 名与被引用文档页标题保留英文。术语首次出现按 glossary
+# conventions 使用『俄语译法 (English)』格式；行文为简洁说明句，不使用感叹号。
+#
+# en 原文的既有缺陷语义如实保留，不擅自“修正”：datbase_api.list_proposals
+# 引用拼写（condenser_api.list_proposal_votes/list_proposals 各 1 处）、
+# get_vesting_delegations 另见行 Paginated API Methods 重复、
+# get_blog_authors 表内 alice". 缺左引号、list_accounts/list_owner_histories
+# 等断表（列数不齐）、list_limit_orders/list_witness_votes 表内 order 值串行
+# （by_effective_date/by_withdraw_route/by_destination）、
+# "next next vesting withdrawal" 等均照原文直译或原样保留。
+#
+# 死方法（deprecated/disabled/removed 三族 32 个）照常翻译，不因死亡而省略；
+# 23 个三期新增方法（bridge 系 14、condenser_api follow 分页对 2、chain_api 2、
+# hive 1、tags 1、call 1 及 T22 补页清单其余）全部在内。
+#
+# 排序口径仍为 LC_ALL=C（字节序），是唯一口径。机械核验（LC_ALL=C sort 对
+# en_US.UTF-8 sort）确认全量 238 键共有 5 处 C/UTF-8 collation 分歧对：
+#   1. condenser_api.get_account_votes ↔ get_accounts（C #39/#40）
+#   2. condenser_api.get_witness_schedule ↔ get_witnesses（C #110/#111，
+#      UTF-8 下 schedule 排到 get_witnesses_by_vote 之后）
+#   3. condenser_api.list_proposal_votes ↔ list_proposals（C #113/#114）
+#   4. database_api.list_proposal_votes ↔ list_proposals（C #161/#162）
+#   5. database_api.list_witness_votes ↔ list_witnesses（C #172/#173）
+# 各分歧对均整体落在同一 batch 窗口内，batch 边界一律按本头注记的 C 序执行。
+#
+# 消费方：scripts/gen-api-docs.mjs --locale ru。
+# ---------------------------------------------------------------------------
+schema: zh-method-purposes/v1
+locale: ru
+batch: 1-5
+purposes:
+  account_by_key_api.get_key_references: |-
+    Возвращает все аккаунты, у которых данный ключ ассоциирован с полномочиями (authority) owner или active.
+  account_history_api.enum_virtual_ops: |-
+    Возвращает виртуальные операции (virtual operation) в диапазоне блоков (block) с возможностью фильтрации по аккаунту и типу операции.
+  account_history_api.get_account_history: |-
+    Возвращает историю аккаунта (account history) — все операции заданного аккаунта.
+
+    См. также: Paginated API Methods
+  account_history_api.get_ops_in_block: |-
+    Возвращает все операции, содержащиеся в блоке (block).
+  account_history_api.get_transaction: |-
+    Возвращает подробные сведения о транзакции (transaction) по идентификатору транзакции (transaction id).
+  block_api.get_block: |-
+    Извлекает полный подписанный блок (block) по указанной ссылке, либо null, если совпадающий блок не найден.
+
+    **Parameters:**
+
+      * `block_num:int`
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | Запрос самого первого блока. |
+    | `8675309` | Запрос блока с номером 8 675 309. |
+    | `62396745` | Запрос блока с номером 62 396 745. |
+  block_api.get_block_header: |-
+    Извлекает заголовок блока (block header) по указанной ссылке, либо null, если совпадающий блок не найден.
+
+    **Parameters:**
+
+      * `block_num:int` - высота блока (block), заголовок которого нужно вернуть
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | Запрос заголовка самого первого блока. |
+    | `8675309` | Запрос заголовка блока с номером 8 675 309. |
+    | `62396745` | Запрос заголовка блока с номером 62 396 745. |
+  bridge.account_notifications: |-
+    Уведомления (notification) аккаунта.
+
+    Поддерживаемые значения `type`:
+      * `new_community` - создано новое сообщество (community)
+      * `set_role` - модератор/администратор добавляет аккаунту роль
+      * `set_props` - заданы свойства сообщества
+      * `set_label` - аккаунту присвоены звание/значок/метка (title/badge/label)
+      * `mute_post` - пост заглушён (muted), с указанием причины
+      * `unmute_post` - с поста снята заглушка (unmuted), с указанием причины
+      * `pin_post` - пост закреплён (pinned)
+      * `unpin_post` - пост откреплён (unpinned)
+      * `flag_post` - пост помечен флагом (flag) участником, с указанием причины
+      * `error` - обратная связь для разработчиков по операциям, которые не удаётся интерпретировать
+      * `subscribe` - аккаунт подписался на сообщество
+      * `reply` - на пост дан ответ
+      * `reblog` - пост реблогнут (reblogged/resteemed)
+      * `follow` - аккаунт подписался на другой аккаунт
+      * `mention` - автор упомянул аккаунт
+      * `vote` - голосующий отдал голос за автора
+
+    Значение `score` определяется рангом (rank) аккаунта-источника.
+  bridge.get_account_posts: |-
+    Возвращает посты (post) аккаунта — блог (blog), ленту (feed), комментарии или ответы.
+
+    Поддерживаемые значения `sort`:
+      * `blog`
+      * `feed`
+      * `posts`
+      * `comments`
+      * `replies`
+      * `payout`
+
+    Параметры: `sort:string`; `account:string`; `start_author:string` (необязательный, по умолчанию пусто); `start_permlink:string` (необязательный, по умолчанию пусто); `limit:int` (необязательный, по умолчанию `20`, максимум `100`); `observer:string` (необязательный)
+
+    См. также: bridge.get_ranked_posts
+  bridge.get_community: |-
+    Возвращает сведения о сообществе (community).
+  bridge.get_community_context: |-
+    Для пары сообщество/аккаунт возвращает роль аккаунта, звание и состояние подписки (subscription).
+
+    Параметры: `name:string` (имя сообщества, например: `hive-123456`); `account:string`
+
+    См. также: bridge.get_community
+  bridge.get_discussion: |-
+    Возвращает полную ветку обсуждения (тред) — корневой пост (post) и его ответы, с ключами вида `author/permlink`. Это замена hivemind для части `condenser_api.get_state`, отвечающей за ветку.
+
+    Параметры: `author:string`; `permlink:string`
+  bridge.get_payout_stats: |-
+    Возвращает статистику выплат (payout) для построения картограммы (treemap): суммарная выплата блога плюс один кортеж (tuple) `(url, label, payout, posts, authors)` для каждого сообщества из топа.
+
+    Параметры: `limit:int` (необязательный, по умолчанию `250`, максимум `250`)
+  bridge.get_post: |-
+    Возвращает отдельный пост (post).
+
+    Параметры: `author:string`; `permlink:string`; `observer:string` (необязательный)
+  bridge.get_post_header: |-
+    Возвращает базовые данные поста (post): автор, пермалинк (permlink), категория и глубина.
+
+    Параметры: `author:string`; `permlink:string`
+  bridge.get_profile: |-
+    Загружает данные аккаунта/профиля (profile): метаданные, репутацию, статистику подписок (follow) и чёрные списки (blacklist).
+
+    Параметры: `account:string`; `observer:string` (необязательный)
+  bridge.get_ranked_posts: |-
+    Возвращает ранжированные посты (post).
+
+    Поддерживаемые значения `sort`:
+      * `trending`
+      * `hot`
+      * `created`
+      * `promoted`
+      * `payout`
+      * `payout_comments`
+      * `muted`
+
+    Значение `tag` может быть любым допустимым тегом (tag).
+
+    Значение `observer` может быть любым допустимым аккаунтом или пустой строкой.
+  bridge.get_trending_topics: |-
+    Возвращает главные популярные темы (trending topics) среди постов (post), ожидающих выплаты (pending), — смесь сообществ (community) и тегов (tag).
+
+    Параметры: `limit:int` (необязательный, по умолчанию `10`, максимум `25`); `observer:string` (необязательный, пока не используется)
+  bridge.list_all_subscriptions: |-
+    Перечисляет все подписки (subscription) аккаунта на сообщества (community).
+  bridge.list_communities: |-
+    Перечисляет все сообщества (community) с постраничным выводом (pagination). Возвращает облегчённый список сообществ.
+
+    Поддерживаемые значения `sort`:
+      * `rank`
+      * `new`
+      * `subs`
+
+    Параметры: `last:string` (необязательный, по умолчанию пусто); `limit:int` (необязательный, по умолчанию `100`, максимум `100`); `query:string` (необязательный, полнотекстовый поиск по названию и описанию); `sort:string` (необязательный, по умолчанию `rank`); `observer:string` (необязательный)
+
+    См. также: bridge.get_community
+  bridge.list_community_roles: |-
+    Перечисляет роли сообщества (community) и метки (label) для каждого аккаунта в сообществе.
+  bridge.list_pop_communities: |-
+    Перечисляет сообщества (community) по числу новых подписчиков (subscriber). Возвращает облегчённый список сообществ.
+
+    Параметры: `limit:int` (необязательный, по умолчанию `25`, максимум `25`)
+
+    Примечание: по состоянию на 2026-10-28 публичные узлы возвращают на этот вызов серверную ошибку (в развёрнутой сборке hivemind параметр запроса `cutoff` никогда не привязывается). Отклик ниже показывает ожидаемую форму ответа.
+  bridge.list_subscribers: |-
+    Перечисляет подписчиков (subscriber) сообщества (community) (до 250, начиная с новейших) в виде кортежей (tuple) `name`/`role`/`title`/`created_at`.
+
+    Параметры: `community:string` (например: `hive-123456`)
+  bridge.normalize_post: |-
+    Принимает объект поста (post) steemd (в том виде, в каком его возвращает `condenser_api.get_content`) и выдаёт нормализованную версию bridge-api.
+
+    Параметры: `post:object` (полный объект поста steemd, ровно в том виде, в каком его возвращает `condenser_api.get_content`; передаётся завёрнутым в одноэлементный массив: `params: [{ <post object> }]`)
+
+    **Примечание:** объект поста должен нести полный набор полей steemd — пример ниже для читаемости сокращает только `body`. Передача «голого» объекта как `params` (без обёртки в массив) возвращает `-32602`; неполный объект (например, записи `active_votes` без `percent`/`reputation` или отсутствующие поля выплаты (payout), такие как `cashout_time`) возвращает `-32000`.
+  bridge.post_notifications: |-
+    Загружает уведомления (notification) для конкретного поста (post).
+
+    Параметры: `author:string`; `permlink:string`; `min_score:int` (необязательный, по умолчанию `25`); `last_id:int` (необязательный, искать начиная с этого идентификатора уведомления); `limit:int` (необязательный, по умолчанию `100`, максимум `100`)
+
+    Примечание: по состоянию на 2026-10-28 публичные узлы возвращают на этот вызов внутреннюю ошибку для постов, у которых есть уведомления. Отклик ниже показывает ожидаемую форму ответа.
+
+    См. также: bridge.account_notifications
+  bridge.unread_notifications: |-
+    Загружает состояние уведомлений (notification) для указанного аккаунта: время последнего чтения и число непрочитанных уведомлений с оценкой не ниже `min_score`.
+
+    Параметры: `account:string`; `min_score:int` (необязательный, по умолчанию `25`)
+
+    См. также: bridge.account_notifications
+  call: |-
+    Маршрутизирует запросы метода `call` в устаревшем стиле.
+
+    Параметры: `api:string` (принимается только `condenser_api`); `method:string` (один из маршрутизируемых методов condenser_api: get_followers, get_following, get_followers_by_page, get_following_by_page, get_follow_count, get_content, get_content_replies, get_trending_tags, get_state, get_discussions_by_trending, get_discussions_by_hot, get_discussions_by_promoted, get_discussions_by_created, get_post_discussions_by_payout, get_comment_discussions_by_payout, get_discussions_by_blog, get_discussions_by_feed, get_discussions_by_comments, get_replies_by_last_update, get_discussions_by_author_before_date, get_blog, get_blog_entries, get_account_votes); `params:array` (параметры маршрутизируемого метода)
+
+    Любой другой метод возвращает ошибку.
+  chain_api.push_block: |-
+    Проталкивает блок (block) на узел.
+
+    Параметры: `block:object` (подписанный блок); `currently_syncing:bool` (необязательный, по умолчанию `false`)
+
+    Возвращает `success:bool` и, при сбое, `error:string`.
+  chain_api.push_transaction: |-
+    Проталкивает транзакцию (transaction) на узел.
+
+    Параметры: сам объект подписанной транзакции, без обёртки: `ref_block_num:int`; `ref_block_prefix:int`; `expiration:timestamp`; `operations:array`; `extensions:array`; `signatures:array`
+
+    Возвращает `success:bool` и, при сбое, `error:string`.
+  condenser_api.broadcast_block: |-
+    Используется для широковещания (broadcast) блока (block).
+
+    См. также: network_broadcast_api.broadcast_block
+  condenser_api.broadcast_transaction: |-
+    Используется для широковещания (broadcast) транзакции (transaction).
+
+    См. также: network_broadcast_api.broadcast_transaction
+  condenser_api.broadcast_transaction_synchronous: |-
+    Используется для широковещания транзакции (transaction) и синхронно дожидается её обработки.
+  condenser_api.find_proposals: |-
+    Ищет предложения (proposal) по `proposal.id` (а не `proposal.proposal_id`).
+
+    См. также: database_api.find_proposals
+  condenser_api.get_account_bandwidth: |-
+    **Отключён с версии 0.20.6, см.: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
+
+    Возвращает доступную пропускную способность (bandwidth) аккаунта. Параметры: `account:string`; `type:string`, например: `forum` или `market`
+
+    | `account` (string) | `type` (string) | |
+    |--------------------|-----------------|-|
+    | `"steemit"` | `"forum"` | Запрос доступной пропускной способности forum для аккаунта с именем "steemit". |
+    | `"alice"` | `"market"` | Запрос доступной пропускной способности market для аккаунта с именем "alice". |
+
+    См.: Forum/Market Bandwidth
+  condenser_api.get_account_count: |-
+    Возвращает количество аккаунтов.
+  condenser_api.get_account_history: |-
+    Возвращает историю аккаунта (account history) — все операции заданного аккаунта. Параметры: `account:string`; `start:int`, например: -1 для истории в обратном порядке или любое положительное число; `limit:int` до 10000
+
+    | `account` (string) | `start` (int) | `limit` (int) | |
+    |--------------------|---------------|---------------|-|
+    | `"steemit"` | `1000` | `1000` | Запрос аккаунта с именем `steemit` начиная с последнего элемента истории, до 1 000 результатов. |
+    | `"alice"` | `-1` | `10000` | Запрос аккаунта с именем `alice` начиная с самого старого элемента истории, до 10 000 результатов. |
+
+    См. также: account_history_api.get_account_history, Paginated API Methods
+  condenser_api.get_account_references: |-
+    **Не реализовано**
+  condenser_api.get_account_reputations: |-
+    Возвращает список репутаций (reputation) аккаунтов. Параметры: `account_lower_bound:string`; `limit:int` до 1000
+
+    | `account_lower_bound` (string) | `limit` (int) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `1` | Запрос аккаунтов, начинающихся с "steemit", только один результат. |
+    | `"a"` | `10` | Запрос аккаунтов, начинающихся с "a", до 10 результатов. |
+
+    См. также: follow_api.get_account_reputations
+  condenser_api.get_account_votes: |-
+    Возвращает все голоса (vote) аккаунта. Параметры: `account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | Запрос голосов, отданных "steemit". |
+    | `"alice"` | Запрос голосов, отданных "alice". |
+  condenser_api.get_accounts: |-
+    Возвращает аккаунты, найденные по имени. Параметры: `account:string array`
+
+    | `account` (string array) | |
+    |-------------------|-|
+    | `["steemit"]` | Запрос аккаунта с именем "steemit". |
+    | `["steemit", "alice"]` | Запрос аккаунтов с именами "steemit" и "alice". |
+
+    См. также: database_api.find_accounts
+  condenser_api.get_active_votes: |-
+    Возвращает все голоса (vote) за заданный пост (post). Параметры: `author:string`; `permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | Запрос голосов за контент со слагом (slug) `@steemit/firstpost` |
+    | `"alice"` | `"a-post-by-alice"` | Запрос голосов за контент со слагом (slug) `@alice/a-post-by-alice` |
+
+    См. также: tags_api.get_active_votes
+  condenser_api.get_active_witnesses: |-
+    Возвращает список активных свидетелей (witness).
+
+    См. также: database_api.get_active_witnesses
+  condenser_api.get_block: |-
+    Возвращает блок (block). Параметры: `block_num:int`
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | Запрос самого первого блока. |
+    | `8675309` | Запрос блока с номером 8 675 309. |
+    | `62396745` | Запрос блока с номером 62 396 745. |
+
+    См. также: block_api.get_block
+  condenser_api.get_block_header: |-
+    Возвращает заголовок блока (block header). Параметры: `block_num:int`
+
+    | `block_num` (int) | |
+    |-------------------|-|
+    | `1` | Запрос заголовка самого первого блока. |
+    | `8675309` | Запрос заголовка блока с номером 8 675 309. |
+    | `62396745` | Запрос заголовка блока с номером 62 396 745. |
+
+    См. также: block_api.get_block_header
+  condenser_api.get_blog: |-
+    Возвращает список записей блога (blog) для аккаунта. Параметры: `account:string`; `start_entry_id:int`; `limit:int` до 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|------------------------|---------------|-|
+    | "steemit" | `0` | `1` | Запрос блога аккаунта с именем "steemit", до одного результата. |
+    | "alice" | `0` | `50` | Запрос блога аккаунта с именем "alice", до 50 результатов. |
+
+    См. также: follow_api.get_blog, Paginated API Methods
+  condenser_api.get_blog_authors: |-
+    Возвращает список авторов, чей контент был реблогнут (reblog) в заданном аккаунте блога (blog). Параметры: `account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | Запрос аккаунта с именем "steemit". |
+    | `"alice"` | Запрос аккаунтов с именем alice". |
+
+    См. также: follow_api.get_blog_authors
+  condenser_api.get_blog_entries: |-
+    Возвращает список записей блога (blog) для аккаунта. Параметры: `account:string`; `start_entry_id:int`; `limit:int` до 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|------------------------|---------------|-|
+    | "steemit" | `0` | `1` | Запрос записей блога аккаунта с именем "steemit", до одного результата. |
+    | "alice" | `0` | `50` | Запрос записей блога аккаунта с именем "alice", до 50 результатов. |
+
+    См. также: follow_api.get_blog_entries, Paginated API Methods
+  condenser_api.get_chain_properties: |-
+    Возвращает свойства цепочки (chain properties).
+  condenser_api.get_comment_discussions_by_payout: |-
+    Возвращает список обсуждений (discussion), упорядоченный по payout.
+
+    См. также: tags_api.get_comment_discussions_by_payout
+  condenser_api.get_config: |-
+    Возвращает сведения о константах времени компиляции. См.: Understanding Configuration Values
+
+    См. также: database_api.get_config
+  condenser_api.get_content: |-
+    Возвращает контент (content) — пост (post) или комментарий (comment). Параметры: `author:string`; `permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | Запрос контента со слагом (slug) `@steemit/firstpost` |
+    | `"alice"` | `"a-post-by-alice"` | Запрос контента со слагом (slug) `@alice/a-post-by-alice` |
+  condenser_api.get_content_replies: |-
+    Возвращает список ответов (reply). Параметры: `author:string`; `permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | Запрос ответов для слага (slug) `@steemit/firstpost` |
+    | `"alice"` | `"a-post-by-alice"` | Запрос ответов для слага (slug) `@alice/a-post-by-alice` |
+
+    См. также: tags_api.get_content_replies
+  condenser_api.get_conversion_requests: |-
+    Возвращает список заявок на конвертацию (conversion request). Параметры: `id:integer`
+
+    | `id` (int) | |
+    |-------------------|-|
+    | `1234` | Запрос заявки на конвертацию с id 1234. |
+
+    См. также: database_api.list_sbd_conversion_requests
+  condenser_api.get_current_median_history_price: |-
+    Возвращает текущую медианную историческую цену (median history price), то есть курс обмена STEEM:SBD, публикуемый свидетелями (witness).
+  condenser_api.get_discussions_by_active: |-
+    Возвращает список обсуждений (discussion), упорядоченный по active.
+
+    См. также: tags_api.get_discussions_by_active
+  condenser_api.get_discussions_by_author_before_date: |-
+    Возвращает список обсуждений (discussion) по автору до заданной даты.
+
+    См. также: tags_api.get_discussions_by_author_before_date, Paginated API Methods
+  condenser_api.get_discussions_by_blog: |-
+    Возвращает список обсуждений (discussion) по блогу (blog).
+
+    См. также: tags_api.get_discussions_by_blog
+  condenser_api.get_discussions_by_cashout: |-
+    Возвращает список обсуждений (discussion), упорядоченный по cashout.
+
+    См. также: tags_api.get_discussions_by_cashout
+  condenser_api.get_discussions_by_children: |-
+    Возвращает список обсуждений (discussion), упорядоченный по children.
+
+    См. также: tags_api.get_discussions_by_children
+  condenser_api.get_discussions_by_comments: |-
+    Возвращает список обсуждений (discussion), упорядоченный по comments.
+
+    См. также: tags_api.get_discussions_by_comments
+  condenser_api.get_discussions_by_created: |-
+    Возвращает список обсуждений (discussion), упорядоченный по created.
+
+    См. также: tags_api.get_discussions_by_created
+  condenser_api.get_discussions_by_feed: |-
+    Возвращает список обсуждений (discussion) по ленте (feed).
+
+    См. также: tags_api.get_discussions_by_feed
+  condenser_api.get_discussions_by_hot: |-
+    Возвращает список обсуждений (discussion), упорядоченный по hot.
+
+    См. также: tags_api.get_discussions_by_hot
+  condenser_api.get_discussions_by_promoted: |-
+    Возвращает список обсуждений (discussion), упорядоченный по promoted.
+
+    См. также: tags_api.get_discussions_by_promoted
+  condenser_api.get_discussions_by_trending: |-
+    Возвращает список обсуждений (discussion), упорядоченный по trending.
+
+    См. также: tags_api.get_discussions_by_trending
+  condenser_api.get_discussions_by_votes: |-
+    Возвращает список обсуждений (discussion), упорядоченный по votes.
+
+    См. также: tags_api.get_discussions_by_votes
+  condenser_api.get_dynamic_global_properties: |-
+    Возвращает текущие динамические глобальные свойства (dynamic global properties). См.: Understanding Dynamic Global Properties
+
+    См. также: database_api.get_dynamic_global_properties
+  condenser_api.get_escrow: |-
+    Возвращает эскроу (escrow) для указанного аккаунта по идентификатору (id).
+
+    См. также: database_api.list_escrows
+  condenser_api.get_expiring_vesting_delegations: |-
+    Возвращает истекающие делегирования вестинга (vesting delegation) для аккаунта. Параметры: `account:string`, `after:timestamp`
+
+    | `account` (string) | `after` (timestamp) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"2018-01-01T00:00:00"` | Запрос истекающего вестинга (vesting) после 1 января 2018 года. |
+    | `"alice"` | `"2017-12-01T00:00:00"` | Запрос истекающего вестинга (vesting) после 1 декабря 2017 года. |
+  condenser_api.get_feed: |-
+    Возвращает список элементов ленты (feed) аккаунта. Параметры: `account:string`; `start_entry_id:int`; `limit:int` до 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|---------------|---------------|-|
+    | `"steemit"` | `0` | `1` | Запрос аккаунта с именем `steemit` начиная с первого элемента, до 1 результата. |
+    | `"alice"` | `1` | `10` | Запрос аккаунта с именем `alice` начиная со второго элемента, до 10 результатов. |
+
+    См. также: follow_api.get_feed, Paginated API Methods
+  condenser_api.get_feed_entries: |-
+    Возвращает список записей (entry) в ленте (feed) аккаунта. Параметры: `account:string`; `start_entry_id:int`; `limit:int` до 500
+
+    | `account` (string) | `start_entry_id` (int) | `limit` (int) | |
+    |-------------------|---------------|---------------|-|
+    | `"steemit"` | `0` | `1` | Запрос аккаунта с именем `steemit` начиная с первого элемента, до 1 результата. |
+    | `"alice"` | `1` | `10` | Запрос аккаунта с именем `alice` начиная со второго элемента, до 10 результатов. |
+
+    См. также: follow_api.get_feed_entries, Paginated API Methods
+  condenser_api.get_feed_history: |-
+    Возвращает историю значений цены фида (feed price).
+
+    См. также: database_api.get_feed_history
+  condenser_api.get_follow_count: |-
+    Возвращает счётчики подписчиков (follower) и подписок (following) аккаунта. Параметры: `account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | Запрос аккаунта с именем `steemit`. |
+    | `"alice"` | Запрос аккаунта с именем `alice`. |
+
+    См. также: follow_api.get_follow_count
+  condenser_api.get_followers: |-
+    Возвращает список подписчиков (follower) аккаунта. Параметры: `account:string`; `start:string` (аккаунт, с которого начать); `type:string`, например: `blog`; `limit:int` до 1000
+
+    | `account` (string) | `start` (string) | `type` (string) | `limit` (int) | |
+    |--------------------|------------------|-----------------|---------------|-|
+    | `"steemit"` | `null` | `"blog"` | `10` | Запрос подписок (follow) аккаунта с именем `steemit`, до 10 результатов. |
+    | `"alice"` | `null` | `"ignore"` | `100` | Запрос заглушек (mute) аккаунта с именем `alice`, до 100 результатов. |
+
+    См. также: follow_api.get_followers, Paginated API Methods
+  condenser_api.get_followers_by_page: |-
+    Возвращает подписчиков (follower) аккаунта постранично. (EOL) Параметры: `account:string`; `page:int` (от нуля — страница `0` возвращает первую страницу, каждая следующая пропускает ещё `page_size` строк); `page_size:int` (обязательный, максимум `100`); `follow_type:string` (необязательный, например: `blog`, по умолчанию `blog`)
+
+    **Примечание:** смещение строки равно `page * page_size`. `page_size` обязателен; при его отсутствии возвращается `-32602` (как в позиционной, так и в именованной форме).
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemit"` | `0` | `5` | Запрос первой страницы (страница `0`) аккаунтов, подписанных на `steemit`, по 5 на страницу. |
+    | `"alice"` | `1` | `100` | Запрос страницы `1` — пропускает первые 100 строк — аккаунтов, подписанных на `alice`, по 100 на страницу. |
+
+    См. также: condenser_api.get_followers, follow_api.get_followers_by_page
+  condenser_api.get_following: |-
+    Возвращает список аккаунтов, на которые подписан заданный аккаунт. Параметры: `account:string`; `start:string` (аккаунт, с которого начать); `type:string`, например: `blog`; `limit:int` до 1000
+
+    | `account` (string) | `start` (string) | `type` (string) | `limit` (int) | |
+    |--------------------|------------------|-----------------|---------------|-|
+    | `"steemit"` | `null` | `"blog"` | `10` | Запрос подписок (follow) аккаунта с именем `steemit`, до 10 результатов. |
+    | `"alice"` | `null` | `"ignore"` | `100` | Запрос заглушек (mute) аккаунта с именем `alice`, до 100 результатов. |
+
+    См. также: follow_api.get_following, Paginated API Methods
+  condenser_api.get_following_by_page: |-
+    Возвращает аккаунты, на которые подписан аккаунт, постранично. (EOL) Параметры: `account:string`; `page:int` (от нуля — страница `0` возвращает первую страницу, каждая следующая пропускает ещё `page_size` строк); `page_size:int` (обязательный, максимум `100`); `follow_type:string` (необязательный, например: `blog`, по умолчанию `blog`)
+
+    **Примечание:** смещение строки равно `page * page_size`. `page_size` обязателен; при его отсутствии возвращается `-32602` (как в позиционной, так и в именованной форме).
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemitblog"` | `0` | `2` | Запрос первой страницы (страница `0`) аккаунтов, на которые подписан `steemitblog`, по 2 на страницу. |
+    | `"alice"` | `1` | `100` | Запрос страницы `1` — пропускает первые 100 строк — аккаунтов, на которые подписан `alice`, по 100 на страницу. |
+
+    См. также: condenser_api.get_following, follow_api.get_following_by_page
+  condenser_api.get_hardfork_version: |-
+    Возвращает текущую версию хардфорка (hardfork).
+
+    См. также: database_api.get_hardfork_properties
+  condenser_api.get_key_references: |-
+    Возвращает все аккаунты, у которых данный ключ ассоциирован с полномочиями (authority) owner или active.
+
+    См. также: account_by_key_api.get_key_references
+  condenser_api.get_market_history: |-
+    Возвращает историю рынка (market history) для внутреннего рынка SBD:STEEM. Параметры: `bucket_seconds:int`; `start:timestamp`; `end:timestamp`
+
+    | `bucket_seconds` (int) | `start` (timestamp) | `end` (timestamp) | |
+    |------------------------|---------------------|-------------------|-|
+    | `15` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | Запрос истории рынка с 1 января 2018 года по 2 января 2018 года с сегментацией по 15 секунд. |
+    | `60` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | Запрос истории рынка с 1 января 2018 года по 2 января 2018 года с сегментацией по одной минуте. |
+    | `300` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | Запрос истории рынка с 1 января 2018 года по 2 января 2018 года с сегментацией по пять минут. |
+    | `3600` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | Запрос истории рынка с 1 января 2018 года по 2 января 2018 года с сегментацией по одному часу. |
+    | `86400` | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | Запрос истории рынка с 1 января 2018 года по 2 января 2018 года с сегментацией по одним суткам. |
+
+    См. также: market_history_api.get_market_history
+  condenser_api.get_market_history_buckets: |-
+    Возвращает отслеживаемые плагином размеры сегментов (bucket seconds) в секундах.
+
+    См. также: market_history_api.get_market_history_buckets
+  condenser_api.get_next_scheduled_hardfork: |-
+    Возвращает следующий запланированный хардфорк (hardfork).
+
+    См. также: database_api.get_hardfork_properties
+  condenser_api.get_open_orders: |-
+    Возвращает открытые ордера (open order) аккаунта. `account:string`
+
+    См. также: database_api.list_limit_orders
+  condenser_api.get_ops_in_block: |-
+    Возвращает все операции, содержащиеся в блоке (block). Параметры: `block_num:int`; `only_virtual:boolean`
+
+    | `block_num` (int) | `only_virtual` (boolean) | |
+    |-------------------|--------------------------|-|
+    | `1` | `false` | Запрос операций в блоке №1. |
+    | `5443322` | `true` | Запрос только виртуальных операций (virtual operation) в блоке №5 443 322. |
+
+    См. также: account_history_api.get_ops_in_block
+  condenser_api.get_order_book: |-
+    Возвращает стакан заявок (order book) внутреннего рынка. Параметры: `limit:int` до 500
+
+    | `limit` (int) | |
+    |--------------------|-|
+    | `10` | Запрос до 10 заявок в стакане. |
+    | `500` | Запрос до 500 заявок в стакане. |
+
+    См. также: database_api.get_order_book, market_history_api.get_order_book
+  condenser_api.get_owner_history: |-
+    Возвращает историю смены владельца (owner history) аккаунта. Параметры: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Запрос истории владельца для аккаунта с именем "steemit". |
+
+    См. также: database_api.list_owner_histories
+  condenser_api.get_post_discussions_by_payout: |-
+    Возвращает список обсуждений постов (post), упорядоченный по payout.
+
+    См. также: tags_api.get_post_discussions_by_payout
+  condenser_api.get_potential_signatures: |-
+    Возвращает множество всех публичных ключей, которые потенциально могут подписать заданную транзакцию (transaction).
+
+    См. также: database_api.get_potential_signatures
+  condenser_api.get_reblogged_by: |-
+    Возвращает список авторов, сделавших реблог (reblog) поста (post). Параметры: `author:string`; `permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | Запрос реблогов (reblog) для контента со слагом (slug) `@steemit/firstpost` |
+    | `"alice"` | `"a-post-by-alice"` | Запрос реблогов (reblog) для контента со слагом (slug) `@alice/a-post-by-alice` |
+
+    См. также: follow_api.get_reblogged_by
+  condenser_api.get_recent_trades: |-
+    Возвращает последние сделки (trade) на внутреннем рынке SBD:STEEM. Параметры: `limit:int` до 1000
+
+    | `limit` (int) | |
+    |--------------------|-|
+    | `10` | Запрос до 10 последних сделок. |
+    | `500` | Запрос до 500 последних сделок. |
+
+    См. также: market_history_api.get_recent_trades
+  condenser_api.get_recovery_request: |-
+    Возвращает заявку на восстановление (recovery request) аккаунта. Параметры: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Запрос заявок на восстановление для аккаунта с именем "steemit". |
+
+    См. также: database_api.list_account_recovery_requests
+  condenser_api.get_replies_by_last_update: |-
+    Возвращает список ответов (reply) по последнему обновлению. `start_parent_author:string`, `start_permlink:string`, `limit:int` до 100
+
+    См. также: tags_api.get_replies_by_last_update, Paginated API Methods
+  condenser_api.get_required_signatures: |-
+    Метод принимает частично подписанную транзакцию (transaction) и набор публичных ключей, которыми владелец способен подписать, и возвращает минимальное подмножество публичных ключей, которые должны добавить подписи к транзакции. Параметры: `trx:object`; `available_keys:[string]`
+
+    См. также: database_api.get_required_signatures
+  condenser_api.get_reward_fund: |-
+    Возвращает сведения о текущих фондах вознаграждений (reward fund).
+
+    См. также: database_api.get_reward_funds
+  condenser_api.get_savings_withdraw_from: |-
+    Возвращает выводы в сбережения (savings withdraw) аккаунта. Параметры: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Запрос выводов в сбережения для аккаунта с именем "steemit". |
+
+    См. также: database_api.list_savings_withdrawals
+  condenser_api.get_savings_withdraw_to: |-
+    Возвращает выводы в сбережения (savings withdraw), адресованные аккаунту. Параметры: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Запрос выводов в сбережения для аккаунта с именем "steemit". |
+
+    См. также: database_api.list_savings_withdrawals
+  condenser_api.get_state: |-
+    Возвращает состояние (state) пути. **Устарел.** Параметры: `path:string`
+  condenser_api.get_tags_used_by_author: |-
+    Возвращает список тегов (tag), используемых автором. Параметры: `author:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Запрос тегов, используемых аккаунтом с именем "steemit". |
+
+    См. также: tags_api.get_tags_used_by_author
+  condenser_api.get_ticker: |-
+    Возвращает рыночный тикер (ticker) для внутреннего рынка SBD:STEEM.
+
+    См. также: market_history_api.get_ticker
+  condenser_api.get_trade_history: |-
+    Возвращает историю сделок (trade history) для внутреннего рынка SBD:STEEM. Параметры: `start:timestamp`; `end:timestamp`; `limit:int` до 1000
+
+    | `start` (timestamp) | `end` (timestamp) | `limit` (int) | |
+    |---------------------|-------------------|---------------|-|
+    | `"2018-01-01T00:00:00"` | `"2018-01-02T00:00:00"` | 10 | Запрос до 10 сделок между 1 января 2018 года и 2 января 2018 года. |
+
+    См. также: market_history_api.get_trade_history
+  condenser_api.get_transaction: |-
+    Возвращает подробные сведения о транзакции (transaction) по идентификатору транзакции (transaction id). Параметры: `trx_id:string`
+
+    | `trx_id` (string) | |
+    |-------------------|-|
+    | `"6fde0190a97835ea6d9e651293e90c89911f933c"` | Запрос именно этого идентификатора транзакции. |
+
+    См. также: account_history_api.get_transaction
+  condenser_api.get_transaction_hex: |-
+    Возвращает hex-дамп сериализованной двоичной формы транзакции (transaction).
+
+    См. также: database_api.get_transaction_hex
+  condenser_api.get_trending_tags: |-
+    Возвращает список актуальных тегов (trending tags). Параметр: `start_tag:string`; `limit:int` до 100
+
+    | `tag` (string) | `limit` (int) | |
+    |----------------|---------------|-|
+    | `null` | 100 | Запрос топ-100 актуальных тегов. |
+    | `"steem"` | 10 | Запрос тегов после "steem", до 10 тегов. |
+
+    См. также: tags_api.get_trending_tags, Paginated API Methods
+  condenser_api.get_version: |-
+    Возвращает версии блокчейна, steem и FC.
+
+    См. также: database_api.get_version, Paginated API Methods
+  condenser_api.get_vesting_delegations: |-
+    Возвращает делегирования вестинга (vesting delegation), сделанные аккаунтом. Параметры: `delegator_account:string`; `start_account:string`; `limit:int` до 1000
+
+    | `delegator_account` (string) | `start_account` (string) | `limit` (int) | |
+    |------------------------------|--------------------------|---------------|-|
+    | `"steemit"` | `null` | `10` | Запрос до 10 делегирований вестинга (vesting delegation) от "steemit". |
+
+    См. также: database_api.list_vesting_delegations, Paginated API Methods, Paginated API Methods
+  condenser_api.get_volume: |-
+    Возвращает рыночный объём (volume) за последние 24 часа.
+
+    См. также: market_history_api.get_volume
+  condenser_api.get_withdraw_routes: |-
+    Возвращает маршруты вывода (withdraw route) аккаунта. Параметры: `account:string`; `type:string`
+
+    | `account` (string) | `type` (string) | |
+    |--------------------|-----------------|-|
+    | `"steemit"` | `"outgoing"` | Запрос исходящих маршрутов вывода (withdraw route) для "steemit". |
+    | `"steemit"` | `"incoming"` | Запрос входящих маршрутов вывода (withdraw route) для "steemit". |
+    | `"steemit"` | `"all"` | Запрос всех маршрутов вывода (withdraw route) для "steemit". |
+
+    См. также: database_api.list_withdraw_vesting_routes
+  condenser_api.get_witness_by_account: |-
+    Возвращает свидетеля (witness) аккаунта. Параметры: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Запрос аккаунта свидетеля для "steemit" (или `null`, если такого нет). |
+
+    См. также: database_api.list_witnesses
+  condenser_api.get_witness_count: |-
+    Возвращает общее число свидетелей (witness).
+  condenser_api.get_witness_schedule: |-
+    Возвращает текущее расписание свидетелей (witness schedule).
+
+    См. также: database_api.get_witness_schedule
+  condenser_api.get_witnesses: |-
+    Возвращает текущих свидетелей (witness).
+
+    См. также: database_api.list_witnesses
+  condenser_api.get_witnesses_by_vote: |-
+    Возвращает текущих свидетелей (witness) по голосам. Параметры: `start_name:string`; `limit:int` до 1000
+
+    | `account` (string) | `limit` (int) | |
+    |--------------------|---------------|-|
+    | `null` | `21` | Запрос топ-21 голосов за свидетелей. |
+    | `"a"` | `1` | Запрос топ-10 голосов за свидетелей, начинающихся с "a". |
+
+    См. также: database_api.list_witnesses
+  condenser_api.list_proposal_votes: |-
+    Возвращает все голоса за предложения (proposal vote), начиная с указанного голосующего или `proposal.id`. Параметры: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
+
+    * `start` зависит от `order` (см. ниже)
+      * `voter` - голосующий за предложение (строка с именем аккаунта)
+      * `proposal.id` - идентификатор предложения (int)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_voter_proposal` - упорядочение по голосующему за предложение
+      * `by_proposal_voter` - упорядочение по `proposal.id`
+    * `order_direction` может быть одним из:
+      * `ascending`
+      * `descending`
+    * `status`
+      * `all`
+      * `inactive`
+      * `active`
+      * `expired`
+      * `votable`
+
+    | `start` (array) | `limit` (int) | `order` (string) | `order_direction` (string) | `status` (string) | |
+    |-------------------|-|-|-|-|-|
+    | `["alice"]` | 10 | `by_voter_proposal` | `ascending` | `active` | список 10 предложений со статусом active, упорядоченных по голосующему, по возрастанию |
+    | `[10]` | 1000 | `by_proposal_voter` | `ascending` | `votable` | список 1000 голосов по предложению 10, упорядоченных по `proposal.id`, по возрастанию |
+
+    См. также: datbase_api.list_proposals
+  condenser_api.list_proposals: |-
+    Возвращает все предложения (proposal), начиная с указанного создателя или даты начала. Параметры: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
+
+    * `start` зависит от `order` (см. ниже)
+      * `creator` - создатель предложения (строка с именем аккаунта)
+      * `start_date` - дата начала предложения (строка с датой)
+      * `end_date` - дата окончания предложения (строка с датой)
+      * `total_votes` - всего голосов у предложения (int)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_creator` - упорядочение по создателю предложения
+      * `by_start_date` - упорядочение по дате начала предложения
+      * `by_end_date` - упорядочение по дате окончания предложения
+      * `by_total_votes` - упорядочение по числу голосов предложения
+    * `order_direction` может быть одним из:
+      * `ascending`
+      * `descending`
+    * `status`
+      * `all`
+      * `inactive`
+      * `active`
+      * `expired`
+      * `votable`
+
+    | `start` (array) | `limit` (int) | `order` (string) | `order_direction` (string) | `status` (string) | |
+    |-------------------|-|-|-|-|-|
+    | `[""]` | 10 | `by_creator` | `ascending` | `active` | список 10 предложений со статусом active, упорядоченных по создателю, по возрастанию |
+    | `["2019-08-07T16:54:03"]` | 1000 | `by_start_date` | `ascending` | `inactive` | список 1000 предложений со статусом inactive, упорядоченных по дате начала, по возрастанию, начиная с 2019-08-07T16:54:03 |
+    | `["a"]` | 1 | `by_creator` | `ascending` | `expired` | список 1 предложения со статусом expired, упорядоченных по создателю, по возрастанию, по аккаунтам, начинающимся с "a" |
+    | `["alice"]` | 10 | `by_creator` | `ascending` | `all` | список 10 предложений с любым статусом, упорядоченных по создателю, по возрастанию, по alice |
+    | `[""]` | 1000 | `by_creator` | `ascending` | `votable` | список 1000 доступных для голосования (votable) предложений, упорядоченных по создателю, по возрастанию |
+    | `[10]` | 1000 | `by_total_votes` | `ascending` | `votable` | список 1000 доступных для голосования (votable) предложений, упорядоченных по создателю, по возрастанию, с не менее чем 10 голосами |
+
+    См. также: datbase_api.list_proposals
+  condenser_api.lookup_account_names: |-
+    Ищет имена аккаунтов. `accounts:[string]`
+
+    См. также: database_api.find_accounts
+  condenser_api.lookup_accounts: |-
+    Ищет аккаунты, начинающиеся с заданного имени. Параметры: `lower_bound_name:string`; `limit:int` до 1000
+
+    | `lower_bound_name` (string) | `limit` (int) | |
+    |--------------------|---------------|-|
+    | `"a"` | 10 | Запрос до 10 аккаунтов, начинающихся с "a". |
+
+    См. также: database_api.list_accounts
+  condenser_api.lookup_witness_accounts: |-
+    Ищет аккаунты свидетелей (witness), начинающиеся с заданного имени. Параметры: `lower_bound_name:string`; `limit:int` до 1000
+
+    | `lower_bound_name` (string) | `limit` (int) | |
+    |--------------------|---------------|-|
+    | `"a"` | 10 | Запрос до 10 свидетелей, начинающихся с "a". |
+
+    См. также: database_api.list_witnesses
+  condenser_api.verify_account_authority: |-
+    **Не реализовано**
+
+    См. также: database_api.verify_account_authority
+  condenser_api.verify_authority: |-
+    Возвращает true, если у транзакции (transaction) есть все требуемые подписи.
+
+    См. также: database_api.verify_authority
+  database_api.find_account_recovery_requests: |-
+    Возвращает список заявок на восстановление аккаунта (account recovery request). Параметры: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Запрос заявок на восстановление для аккаунта с именем "steemit". |
+  database_api.find_accounts: |-
+    Возвращает аккаунты, найденные по имени. Параметры: `account:string array`
+
+    | `account` (string array) | |
+    |-------------------|-|
+    | `["steemit"]` | Запрос аккаунта с именем "steemit". |
+    | `["steemit", "alice"]` | Запрос аккаунтов с именами "steemit" и "alice". |
+  database_api.find_change_recovery_account_requests: |-
+    Возвращает список заявок на смену аккаунта восстановления (recovery account). Параметры: `account:array`
+
+    | `account` (array) | |
+    |--------------------|-|
+    | `["steemit"]` | Запрос заявок на восстановление для аккаунта с именем "steemit". |
+  database_api.find_comments: |-
+    Ищет комментарии (comment).
+  database_api.find_decline_voting_rights_requests: |-
+    Возвращает список заявок на отказ от права голоса (decline voting rights).
+  database_api.find_escrows: |-
+    Возвращает список эскроу (escrow).
+  database_api.find_limit_orders: |-
+    Возвращает список лимитных ордеров (limit order).
+  database_api.find_owner_histories: |-
+    Возвращает историю полномочий (authority) владельца. Параметры: `owner:string`
+
+    | `owner` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Запрос истории владельца для аккаунта с именем "steemit". |
+    | `"alice"` | Запрос истории владельца для аккаунта с именем "alice". |
+  database_api.find_proposals: |-
+    Ищет предложения (proposal) по `proposal.id` (а не `proposal.proposal_id`).
+  database_api.find_savings_withdrawals: |-
+    Возвращает список выводов в сбережения (savings withdraw) для аккаунта. Параметры: `account:string`
+
+    | `account` (string) | |
+    |--------------------|-|
+    | `"steemit"` | Запрос выводов в сбережения для аккаунта с именем "steemit". |
+  database_api.find_sbd_conversion_requests: |-
+    Возвращает список заявок на конвертацию SBD (SBD conversion request) для аккаунта. Параметры: `account:string`
+
+    | `account` (string) | |
+    |-------------------|-|
+    | `"steemit"` | Запрос заявки на конвертацию для steemit. |
+    | `"alice"` | Запрос заявки на конвертацию для alice. |
+  database_api.find_smt_contributions: |-
+    Ищет взносы SMT (SMT contribution). Взносы нужны, чтобы отслеживать индивидуальные взносы в SMT на фазе ICO.
+
+    См.: [Token Units](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#token-units), [Vesting Contributions](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#vesting-contributions)
+  database_api.find_smt_token_emissions: |-
+    Ищет эмиссии SMT (SMT emission).
+
+    См.: [Content Rewards](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#content-rewards), [Qualitative Discussion](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#qualitative-discussion)
+  database_api.find_smt_tokens: |-
+    Ищет SMT (Smart Media Tokens).
+
+    См.: [Smart Media Tokens (SMTs)](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#smart-media-tokens-smts)
+  database_api.find_vesting_delegation_expirations: |-
+    Возвращает истекающие делегирования вестинга (vesting delegation expiration) для аккаунта. Параметры: `account:string`
+
+    | `account` (string) | | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | | Запрос истекающего вестинга (vesting) для `steemit`. |
+    | `"alice"` | | Запрос истекающего вестинга (vesting) для `alice`. |
+  database_api.find_vesting_delegations: |-
+    Возвращает список делегирований вестинга (vesting delegation) для аккаунта. Параметры: `account:string`
+
+    | `account` (string) | | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | | Запрос вестинга (vesting) для `steemit`. |
+    | `"alice"` | | Запрос вестинга (vesting) для `alice`. |
+  database_api.find_votes: |-
+    Возвращает все голоса (vote) за заданный пост (post). Параметры: `author:string`; `permlink:string`
+
+    | `author` (string) | `permlink` (string) | |
+    |----------------------------|---------------|-|
+    | `"steemit"` | `"firstpost"` | Запрос голосов за контент со слагом (slug) `@steemit/firstpost` |
+    | `"alice"` | `"a-post-by-alice"` | Запрос голосов за контент со слагом (slug) `@alice/a-post-by-alice` |
+  database_api.find_withdraw_vesting_routes: |-
+    Возвращает список маршрутов вывода вестинга (vesting withdraw route) для аккаунта.
+  database_api.find_witnesses: |-
+    Ищет свидетелей (witness).
+  database_api.get_active_witnesses: |-
+    Возвращает список активных свидетелей (witness).
+  database_api.get_config: |-
+    Возвращает сведения о константах времени компиляции. Некоторые свойства могут отсутствовать. См.: Understanding Configuration Values
+  database_api.get_current_price_feed: |-
+    Возвращает текущую цену фида (feed price).
+  database_api.get_dynamic_global_properties: |-
+    Возвращает текущие динамические глобальные свойства (dynamic global properties). См.: Understanding Dynamic Global Properties
+  database_api.get_feed_history: |-
+    Возвращает историю значений цены фида (feed price).
+  database_api.get_hardfork_properties: |-
+    Возвращает текущие свойства хардфорков (hardfork) блокчейна.
+  database_api.get_nai_pool: |-
+    Возвращает массив идентификаторов числовых активов (Numeric Asset Identifier, NAI), доступных для использования в новых создаваемых SMT.
+
+    См.: [Numerical Asset Identifiers](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#numerical-asset-identifiers)
+  database_api.get_order_book: |-
+    Возвращает стакан заявок (order book).
+  database_api.get_potential_signatures: |-
+    Возвращает множество всех публичных ключей, которые потенциально могут подписать заданную транзакцию (transaction). Этот вызов могут использовать кошельки, чтобы перед вызовом `get_required_signatures` (получение минимального подмножества) отфильтровать свой набор публичных ключей до релевантного подмножества.
+  database_api.get_required_signatures: |-
+    Метод принимает частично подписанную транзакцию (transaction) и набор публичных ключей, которыми владелец способен подписать, и возвращает минимальное подмножество публичных ключей, которые должны добавить подписи к транзакции.
+  database_api.get_reward_funds: |-
+    Возвращает сведения о текущих фондах вознаграждений (reward fund).
+  database_api.get_transaction_hex: |-
+    Возвращает hex-дамп сериализованной двоичной формы транзакции (transaction).
+  database_api.get_version: |-
+    Возвращает версии блокчейна, steem и FC, зафиксированные на этапе компиляции. Также возвращает версию идентификатора цепочки (chain id), определяемую на этапе загрузки (*может* отличаться от значения времени компиляции только в тестовой сети (testnet))
+  database_api.get_witness_schedule: |-
+    Возвращает текущее расписание свидетелей (witness schedule).
+  database_api.list_account_recovery_requests: |-
+    Возвращает список заявок на восстановление аккаунта (account recovery request). Параметры: `start:string`, `limit:int`, `order:string`
+
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_account` - упорядочение по имени аккаунта
+      * `by_expiration` - упорядочение по сроку истечения (expiration)
+
+    | `account` (string) | `limit` (int) | `order` (string) | |
+    |--------------------|-|
+    | `"steemit"` | 10 | `"by_account"` | Запрос заявок на восстановление для аккаунта с именем "steemit", упорядоченных по имени аккаунта. |
+    | `["1960-01-01T00:00:00"]` | 10 | `"by_expiration"`| Запрос заявок на восстановление на эту дату, упорядоченных по сроку истечения. |
+  database_api.list_accounts: |-
+    Перечисляет аккаунты, упорядоченные по указанному ключу. Параметры: `start:object`, `limit:int`, `order:string`
+
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_name` - упорядочение по имени аккаунта
+      * `by_proxy` - упорядочение по прокси (proxy)
+      * `by_next_vesting_withdrawal` - упорядочение по следующему-следующему выводу вестинга (vesting withdrawal)
+
+    | `start` (object) | `limit` (int) | `order` (string) |
+    |-------------------|-|
+    | `""` | `10` | `"by_name"` Запрос до 10 аккаунтов с самого начала, упорядоченных по имени. |
+    | `["", ""]` | `10` | `"by_proxy"` Запрос до 10 аккаунтов с самого начала, упорядоченных по прокси. |
+    | `["1960-01-01T00:00:00", ""]` | `10` | `"by_next_vesting_withdrawal"` Запрос до 10 аккаунтов с самого начала, упорядоченных по времени следующего вывода вестинга. |
+
+    См. также: Paginated API Methods
+  database_api.list_change_recovery_account_requests: |-
+    Возвращает список заявок на смену аккаунта восстановления (recovery account). Параметры: `start:object`, `limit:int`, `order:string`
+
+    * `start` зависит от `order` (см. ниже)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_account` - упорядочение по аккаунту
+        * `start` - строка вида: `account`
+      * `by_effective_date` - упорядочение по дате вступления в силу (effective date)
+        * `start` - массив из двух значений: `timestamp`, `account`
+
+    | `start` (object) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `""` | 10 | `"by_account"` | Запрос первых 10 заявок, сортировка по аккаунту |
+    | `["1960-01-01T00:00:00", ""]` | 10 | `"by_effective_date"` | Запрос первых 10 заявок, сортировка по дате вступления в силу |
+
+    См. также: Paginated API Methods
+  database_api.list_comments: |-
+    Возвращает все комментарии (comment), начиная с указанных опций. Параметры: `start:array`; `limit:int`; `order:string`
+
+    * `start` зависит от `order` (см. ниже)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_cashout_time` - упорядочение по времени выплаты (cashout time)
+        * `start` - массив из одного обязательного и двух необязательных значений: `timestamp`, `author`, `permlink`
+      * `by_permlink` - упорядочение по пермалинку (permlink)
+        * `start` - массив из двух необязательных значений: `author`, `permlink`
+      * `by_root` - упорядочение по корню (root)
+        * `start` - массив из двух обязательных и двух необязательных значений: `root_author`, `root_permlink`, `child_author`, `child_permlink`
+      * `by_parent` - упорядочение по родителю (parent)
+        * `start` - массив из двух обязательных и двух необязательных значений: `parent_author`, `parent_permlink`, `child_author`, `child_permlink`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["1970-01-01T00:00:00", "", ""]` | 10 | `"by_cashout_time"` | Запрос первых 10 комментариев, сортировка по времени выплаты |
+    | `["", ""]` | 10 | `"by_permlink"` | Запрос первых 10 комментариев, сортировка по пермалинку |
+    | `["steemit","firstpost", "", ""]` | 10 | `"by_root"` | Запрос следующих 10 комментариев начиная с @steemit/firstpost, сортировка по корню |
+    | `["steemit","firstpost", "", ""]` | 10 | `"by_parent"` | Запрос следующих 10 комментариев начиная с @steemit/firstpost, сортировка по родителю |
+
+    См. также: Paginated API Methods
+  database_api.list_decline_voting_rights_requests: |-
+    Возвращает список заявок на отказ от права голоса (decline voting rights). Параметры: `start:object`; `limit:int`; `order:string`
+
+    * `start` зависит от `order` (см. ниже)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_account` - упорядочение по аккаунту
+        * `start` - строка: `account`
+      * `by_effective_date` - упорядочение по дате вступления в силу (effective date)
+        * `start` - массив из двух значений: `timestamp`, `account`
+
+    | `start` (object) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `""` | 10 | `"by_account"` | Запрос первых 10 заявок, сортировка по аккаунту |
+    | `["1960-01-01T00:00:00", ""]` | 10 | `"by_effective_date"` | Запрос первых 10 заявок, сортировка по дате вступления в силу |
+
+    См. также: Paginated API Methods
+  database_api.list_escrows: |-
+    Возвращает список эскроу (escrow). Параметры: `start:array`; `limit:int`; `order:string`
+
+    * `start` зависит от `order` (см. ниже)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_from_id` - упорядочение по идентификатору (id)
+        * `start` - массив из двух значений: `account`, `escrow_id`
+      * `by_ratification_deadline` - упорядочение по сроку ратификации (ratification deadline)
+        * `start` - массив из трёх значений: `is_approved`, `timestamp`, `escrow_id`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["alice", 99]` | 10 | `"by_from_id"` | Запрос первых 10 заявок, сортировка по идентификатору |
+    | `[true, "1960-01-01T00:00:00", 99]` | 10 | `"by_ratification_deadline"` | Запрос первых 10 заявок, сортировка по сроку ратификации |
+
+    См. также: Paginated API Methods
+  database_api.list_limit_orders: |-
+    Возвращает список лимитных ордеров (limit order). Параметры: `start:array`; `limit:int`; `order:string`
+
+    * `start` зависит от `order` (см. ниже)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_price` - упорядочение по цене
+        * `start` - массив из двух значений: `price`, `order_type`
+      * `by_account` - упорядочение по аккаунту
+        * `start` - массив из двух значений: `account`, `order_id`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `[{"base": {"amount": "85405", "precision": 3, "nai": "@@000000021"}, "quote": {"amount": "17192", "precision": 3, "nai": "@@000000013"}}, 0]` | 10 | `"by_price"` | Запрос первых 10 заявок, сортировка по цене |
+    | `["alice", 0]` | 10 | `"by_effective_date"` | Запрос первых 10 заявок, сортировка по аккаунту |
+
+    См. также: Paginated API Methods
+  database_api.list_owner_histories: |-
+    Возвращает список историй полномочий (authority) владельца. Параметры: `start:array`, `limit:int`
+
+    | `start` (array) | `limit` (int) | |
+    |--------------------|-|-|
+    | `["steemit", "1970-01-01T00:00:00"]` | 10 | Запрос истории владельца начиная с аккаунта с именем "steemit" на "1970-01-01T00:00:00", до 10 результатов. |
+    | `["alice", "1970-01-01T00:00:00"]` | 10 | Запрос истории владельца начиная с аккаунта с именем "alice", до 10 результатов. |
+
+    См. также: Paginated API Methods
+  database_api.list_proposal_votes: |-
+    Возвращает все голоса за предложения (proposal vote), начиная с указанного голосующего или `proposal.id`. Параметры: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
+
+    * `start` зависит от `order` (см. ниже)
+      * `voter` - голосующий за предложение (строка с именем аккаунта)
+      * `proposal.id` - идентификатор предложения (int)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_voter_proposal` - упорядочение по голосующему за предложение
+      * `by_proposal_voter` - упорядочение по `proposal.id`
+    * `order_direction` может быть одним из:
+      * `ascending`
+      * `descending`
+    * `status`
+      * `all`
+      * `inactive`
+      * `active`
+      * `expired`
+      * `votable`
+
+    | `start` (array) | `limit` (int) | `order` (string) | `order_direction` (string) | `status` (string) | |
+    |-------------------|-|-|-|-|-|
+    | `["alice"]` | 10 | `by_voter_proposal` | `ascending` | `active` | список 10 предложений со статусом active, упорядоченных по голосующему, по возрастанию |
+    | `[10]` | 1000 | `by_proposal_voter` | `ascending` | `votable` | список 1000 голосов по предложению 10, упорядоченных по `proposal.id`, по возрастанию |
+
+    См. также: Paginated API Methods
+  database_api.list_proposals: |-
+    Возвращает все предложения (proposal), начиная с указанного создателя или даты начала. Параметры: `start:array`; `limit:int`; `order:string`; `order_direction:string`; `status:string`
+
+    * `start` зависит от `order` (см. ниже)
+      * `creator` - создатель предложения (строка с именем аккаунта)
+      * `start_date` - дата начала предложения (строка с датой)
+      * `end_date` - дата окончания предложения (строка с датой)
+      * `total_votes` - всего голосов у предложения (int)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_creator` - упорядочение по создателю предложения
+      * `by_start_date` - упорядочение по дате начала предложения
+      * `by_end_date` - упорядочение по дате окончания предложения
+      * `by_total_votes` - упорядочение по числу голосов предложения
+    * `order_direction` может быть одним из:
+      * `ascending`
+      * `descending`
+    * `status`
+      * `all`
+      * `inactive`
+      * `active`
+      * `expired`
+      * `votable`
+
+    | `start` (array) | `limit` (int) | `order` (string) | `order_direction` (string) | `status` (string) | |
+    |-------------------|-|-|-|-|-|
+    | `[""]` | 10 | `by_creator` | `ascending` | `active` | список 10 предложений со статусом active, упорядоченных по создателю, по возрастанию |
+    | `["2019-08-07T16:54:03"]` | 1000 | `by_start_date` | `ascending` | `inactive` | список 1000 предложений со статусом inactive, упорядоченных по дате начала, по возрастанию, начиная с 2019-08-07T16:54:03 |
+    | `["a"]` | 1 | `by_creator` | `ascending` | `expired` | список 1 предложения со статусом expired, упорядоченных по создателю, по возрастанию, по аккаунтам, начинающимся с "a" |
+    | `["alice"]` | 10 | `by_creator` | `ascending` | `all` | список 10 предложений с любым статусом, упорядоченных по создателю, по возрастанию, по alice |
+    | `[""]` | 1000 | `by_creator` | `ascending` | `votable` | список 1000 доступных для голосования (votable) предложений, упорядоченных по создателю, по возрастанию |
+    | `[10]` | 1000 | `by_total_votes` | `ascending` | `votable` | список 1000 доступных для голосования (votable) предложений, упорядоченных по создателю, по возрастанию, с не менее чем 10 голосами |
+
+    См. также: Paginated API Methods
+  database_api.list_savings_withdrawals: |-
+    Возвращает список выводов в сбережения (savings withdraw). Параметры: `start:object`, `limit:int`, `order:string`
+
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_from_id` - упорядочение по идентификатору (id)
+        * `start` - массив из двух значений: `account`, `request_id`
+      * `by_complete_from_id` - упорядочение по идентификатору (завершённые)
+        * `start` - массив из трёх значений: `timestamp`, `account`, `request_id`
+      * `by_to_complete` - упорядочение по завершённости (complete)
+        * `start` - массив из трёх значений: `account`, `timestamp`, `order_id`
+
+    | `start` (object) | `limit` (int) | `order` (string) | |
+    |--------------------|-|-|-|
+    | `[0]` | `10` | `"by_from_id"` | Запрос выводов в сбережения по идентификатору. |
+    | `["2018-12-07T16:54:03", "steemit", 0]` | `10` | `"by_complete_from_id"` | Запрос выводов в сбережения по идентификатору (завершённые). |
+    | `["", "1970-01-01T00:00:00", 0]` | `10` | `"by_to_complete"` | Запрос завершённых выводов в сбережения. |
+
+    См. также: Paginated API Methods
+  database_api.list_sbd_conversion_requests: |-
+    Возвращает список заявок на конвертацию SBD (SBD conversion request) для аккаунта. Параметры: `start:array`, `limit:int`, `order:string`
+
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_account` - упорядочение по имени аккаунта
+        * `start` - массив из двух значений: `account`, `request_id`
+      * `by_conversion_date` - упорядочение по дате конвертации (conversion date)
+        * `start` - массив из двух значений: `timestamp`, `request_id`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |-------------------|-|-|-|
+    | `["steemit", 0]` | 10 | `by_account` | Запрос заявки на конвертацию для steemit, до 10 результатов, упорядоченных по имени аккаунта. |
+    | `["2018-12-07T16:54:03", 0]` | 10 | `by_conversion_date`| Запрос заявок на конвертацию начиная с этой даты, до 10 результатов, упорядоченных по дате конвертации. |
+
+    См. также: Paginated API Methods
+  database_api.list_smt_contributions: |-
+    Перечисляет взносы SMT (SMT contribution). Взносы нужны, чтобы отслеживать индивидуальные взносы в SMT на фазе ICO. Параметры: `start:array`; `limit:int`; `order:string`
+
+    * `start` зависит от `order` (см. ниже)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_symbol_id` - упорядочение по символу (symbol)
+      * `by_symbol_contributor` - упорядочение по `symbol`, `contributor` и `contribution_id`
+
+    | `start` (array) | `limit` (int) | `order` (string) |
+    |-------------------|-|-|-|-|-|
+    | `[{"nai": "@@422838704", "decimals": 0}, 0]` | 10 | `by_symbol_id` | список 10 взносов, упорядоченных по символу, id |
+    | `[{"nai": "@@422838704", "decimals": 0}, "alice", 0]` | 10 | `by_symbol_contributor` | список 10 взносов, упорядоченных по символу, участнику, id |
+
+    См.: [Token Units](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#token-units), [Vesting Contributions](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#vesting-contributions)
+
+    См. также: Paginated API Methods
+  database_api.list_smt_token_emissions: |-
+    Перечисляет эмиссии SMT (SMT emission). Параметры: `start:array`; `limit:int`; `order:string`
+
+    * `start` зависит от `order` (см. ниже)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_symbol_time` - упорядочение по символу и времени
+
+    | `start` (array) | `limit` (int) | `order` (string) |
+    |-------------------|-|-|-|-|-|
+    | `[{"nai": "@@422838704", "decimals": 0}, "2019-08-07T16:54:03"]` | 10 | `by_symbol_time` | список 10 эмиссий, упорядоченных по символу, метке времени |
+
+    См.: [Content Rewards](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#content-rewards), [Qualitative Discussion](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#qualitative-discussion)
+
+    См. также: Paginated API Methods
+  database_api.list_smt_tokens: |-
+    Перечисляет SMT (Smart Media Tokens). Параметры: `start:object`; `limit:int`; `order:string`
+
+    * `start` зависит от `order` (см. ниже)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_symbol` - упорядочение по символу (symbol)
+      * `by_control_account` - упорядочение по управляющему аккаунту (control account)
+
+    | `start` (object) | `limit` (int) | `order` (string) |
+    |-------------------|-|-|-|-|-|
+    | `{"nai": "@@422838704", "decimals": 0}` | 10 | `by_symbol` | список 10 токенов, упорядоченных по символу |
+    | `""` | 10 | `by_control_account` | список 10 токенов, упорядоченных по управляющему аккаунту |
+    | `["", {"nai": "@@422838704", "decimals": 0}]` | 10 | `by_control_account` | список 10 токенов, упорядоченных по управляющему аккаунту, символу |
+
+    См.: [Smart Media Tokens (SMTs)](https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md#smart-media-tokens-smts)
+
+    См. также: Paginated API Methods
+  database_api.list_vesting_delegation_expirations: |-
+    Возвращает список истечений делегирований вестинга (vesting delegation expiration). Параметры: `start:array`, `limit:int`, `order:string`
+
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_expiration` - упорядочение по сроку истечения (expiration)
+        * `start` - массив из двух значений: `timestamp`, `expiration_id`
+      * `by_account_expiration` - упорядочение по аккаунту и сроку истечения
+        * `start` - массив из двух значений: `account`, `timestamp`, `expiration_id`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |-------------------|-|-|-|
+    | `["1970-01-01T00:00:00", 0]` | 10 | `by_expiration` | Запрос делегирований, до 10 результатов, упорядоченных по сроку истечения. |
+    | `["alice", "1970-01-01T00:00:00", 0]` | 10 | `by_account_expiration`| Запрос делегирований начиная с этой даты, до 10 результатов, упорядоченных по аккаунту и сроку истечения. |
+
+    См. также: Paginated API Methods
+  database_api.list_vesting_delegations: |-
+    Возвращает список делегирований вестинга (vesting delegation). Параметры: `start:array`, `limit:int`, `order:string`
+
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_delegation` - упорядочение по делегированиям
+        * `start` - массив из двух значений: `delegator`, `delegatee`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |-------------------|-|-|-|
+    | `["", ""]` | 10 | `by_delegation` | Запрос делегирований, до 10 результатов, упорядоченных по делегированиям. |
+
+    См. также: Paginated API Methods
+  database_api.list_votes: |-
+    Возвращает все голоса (vote), начиная с указанного голосующего и/или автора с пермалинком (permlink). Параметры: `start:array`; `limit:int`; `order:string`
+
+    * `start` зависит от `order` (см. ниже)
+      * `voter` - необязательный
+      * `author` и `permlink` - необязательные, но если один из них пуст, оба должны быть пустыми
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_comment_voter` - упорядочение по голосующему за комментарий
+        * `start` - массив из трёх необязательных значений: `author`, `permlink`, `voter`
+      * `by_voter_comment` - упорядочение по голосующему и комментарию
+        * `start` - массив из трёх необязательных значений: `voter`, `author`, `permlink`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["", "", ""]` | 10 | `"by_comment_voter"` | Запрос первых 10 голосов, сортировка по голосующему за комментарий |
+    | `["", "", ""]` | 10 | `"by_voter_comment"` | Запрос первых 10 голосов, сортировка по голосующему и комментарию |
+    | `["xeroc", "vanteem-config", ""]` | 10 | `"by_comment_voter"` | Запрос следующих 10 голосов начиная с поста (post) `@xeroc/vanteem-config`, сортировка по голосующему за комментарий |
+    | `["alice", "xeroc", "vanteem-config"]` | 10 | `"by_voter_comment"` | Запрос следующих 10 голосов начиная с alice по посту `@xeroc/vanteem-config`, сортировка по голосующему и комментарию |
+
+    См. также: Paginated API Methods
+  database_api.list_withdraw_vesting_routes: |-
+    Возвращает список маршрутов вывода вестинга (vesting withdraw route). Параметры: `start:array`; `limit:int`; `order:string`
+
+    * `start` зависит от `order` (см. ниже)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_withdraw_route` - упорядочение по маршруту вывода (withdraw route)
+        * `start` - массив из двух значений: `from_account`, `to_account`
+      * `by_destination` - упорядочение по получателю (destination)
+        * `start` - массив из двух значений: `to_account`, `route_id`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["temp", ""]` | 10 | `"by_withdraw_route"` | Запрос первых 10 маршрутов, сортировка по маршруту вывода |
+    | `["", 0]` | 10 | `"by_destination"` | Запрос первых 10 маршрутов, сортировка по получателю |
+
+    См. также: Paginated API Methods
+  database_api.list_witness_votes: |-
+    Возвращает список голосов за свидетелей (witness vote). Параметры: `start:array`; `limit:int`; `order:string`
+
+    * `start` зависит от `order` (см. ниже)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_account_witness` - упорядочение по паре аккаунт-свидетель
+        * `start` - массив из двух значений: `account`, `witness`
+      * `by_witness_account` - упорядочение по паре свидетель-аккаунт
+        * `start` - массив из двух значений: `witness`, `account`
+
+    | `start` (array) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `["", ""]` | 10 | `"by_withdraw_route"` | Запрос первых 10 голосов, сортировка по паре аккаунт-свидетель |
+    | `["", ""]` | 10 | `"by_destination"` | Запрос первых 10 голосов, сортировка по паре свидетель-аккаунт |
+
+    См. также: Paginated API Methods
+  database_api.list_witnesses: |-
+    Возвращает список свидетелей (witness). Параметры: `start:object`; `limit:int`; `order:string`
+
+    * `start` зависит от `order` (см. ниже)
+    * `limit` - до 1000.
+    * `order` может быть одним из:
+      * `by_name` - упорядочение по имени
+        * `start` - строковое значение: `account`
+      * `by_vote_name` - упорядочение по голосам, имени
+        * `start` - массив из двух значений: `votes`, `account`
+      * `by_schedule_time` - упорядочение по времени расписания (schedule time)
+        * `start` - массив из двух значений: `virtual_scheduled_time`, `account`
+
+    | `start` (object) | `limit` (int) | `order` (string) | |
+    |----------------------------|---------------|-|
+    | `""` | 10 | `"by_name"` | Запрос первых 10 свидетелей, сортировка по имени аккаунта |
+    | `[0, ""]` | 10 | `"by_vote_name"` | Запрос первых 10 свидетелей, сортировка по голосам |
+    | `["473718186844702107410533306", "alice"]` | 10 | `"by_schedule_time"` | Запрос первых 10 свидетелей, сортировка по расписанию |
+
+    См. также: Paginated API Methods
+  database_api.verify_account_authority: |-
+    **Не реализовано**
+  database_api.verify_authority: |-
+    Возвращает true, если у транзакции (transaction) есть все требуемые подписи, иначе выбрасывает исключение.
+  database_api.verify_signatures: |-
+    Многоцелевой метод, который проверяет подписи против аккаунтов для произвольного хеша sha256 с использованием существующих структур полномочий (authority).
+  debug_node_api.debug_generate_blocks: |-
+    Генерирует блоки (block) локально.
+  debug_node_api.debug_generate_blocks_until: |-
+    Генерирует блоки (block) локально до заданного времени головного блока (head block). Может генерировать их с пропусками.
+  debug_node_api.debug_get_hardfork_property_object: |-
+    Возвращает объект свойств хардфорка (hardfork), сообщающий о хардфорках, применённых на отладочном узле (debug node).
+  debug_node_api.debug_get_json_schema: |-
+    Возвращает JSON-схему, используемую для проверки JSON операций на отладочном узле (debug node).
+  debug_node_api.debug_get_witness_schedule: |-
+    Возвращает текущее расписание свидетелей (witness schedule) на отладочном узле (debug node).
+  debug_node_api.debug_has_hardfork: |-
+    Сообщает, применён ли заданный хардфорк (hardfork) на отладочном узле (debug node).
+  debug_node_api.debug_pop_block: |-
+    Снимает блок (block) с блокчейна, возвращая его.
+  debug_node_api.debug_push_blocks: |-
+    Проталкивает блоки (block) из существующей базы данных.
+  debug_node_api.debug_set_hardfork: |-
+    Применяет хардфорк (hardfork) на отладочном узле (debug node) с опережением обычного графика.
+  follow_api.get_account_reputations: |-
+    Возвращает список репутаций (reputation) аккаунтов.
+
+    См. также: Paginated API Methods
+  follow_api.get_blog: |-
+    Возвращает список записей блога (blog) для аккаунта.
+
+    См. также: Paginated API Methods
+  follow_api.get_blog_authors: |-
+    Возвращает список авторов, чей контент был реблогнут (reblog) в заданном аккаунте блога (blog).
+
+    См. также: Paginated API Methods
+  follow_api.get_blog_entries: |-
+    Возвращает список записей блога (blog) для аккаунта.
+
+    См. также: Paginated API Methods
+  follow_api.get_feed: |-
+    Возвращает список элементов ленты (feed) аккаунта.
+
+    См. также: Paginated API Methods
+  follow_api.get_feed_entries: |-
+    Возвращает список записей (entry) в ленте (feed) аккаунта.
+
+    См. также: Paginated API Methods
+  follow_api.get_follow_count: |-
+    Возвращает счётчик подписчиков (follower) аккаунта.
+  follow_api.get_followers: |-
+    Возвращает список подписчиков (follower) аккаунта.
+
+    См. также: Paginated API Methods
+  follow_api.get_followers_by_page: |-
+    Возвращает подписчиков (follower) аккаунта постранично. (EOL) Псевдоним `condenser_api.get_followers_by_page`: параметры передаются позиционным массивом — `account:string`; `page:int` (от нуля — страница `0` возвращает первую страницу, каждая следующая пропускает ещё `page_size` строк); `page_size:int` (обязательный, максимум `100`); `follow_type:string` (необязательный, по умолчанию `blog`).
+
+    **Примечание:** смещение строки равно `page * page_size`. `page_size` обязателен; при его отсутствии возвращается `-32602`.
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemit"` | `0` | `5` | Запрос первой страницы (страница `0`) аккаунтов, подписанных на `steemit`, по 5 на страницу. |
+    | `"alice"` | `1` | `100` | Запрос страницы `1` — пропускает первые 100 строк — аккаунтов, подписанных на `alice`, по 100 на страницу. |
+
+    См. также: condenser_api.get_followers_by_page, Paginated API Methods
+  follow_api.get_following: |-
+    Возвращает список аккаунтов, на которые подписан заданный аккаунт.
+
+    См. также: Paginated API Methods
+  follow_api.get_following_by_page: |-
+    Возвращает аккаунты, на которые подписан аккаунт, постранично. (EOL) Псевдоним `condenser_api.get_following_by_page`: параметры передаются позиционным массивом — `account:string`; `page:int` (от нуля — страница `0` возвращает первую страницу, каждая следующая пропускает ещё `page_size` строк); `page_size:int` (обязательный, максимум `100`); `follow_type:string` (необязательный, по умолчанию `blog`).
+
+    **Примечание:** смещение строки равно `page * page_size`. `page_size` обязателен; при его отсутствии возвращается `-32602`.
+
+    | `account` (string) | `page` (int) | `page_size` (int) | |
+    |--------------------|--------------|-------------------|-|
+    | `"steemitblog"` | `0` | `2` | Запрос первой страницы (страница `0`) аккаунтов, на которые подписан `steemitblog`, по 2 на страницу. |
+    | `"alice"` | `1` | `100` | Запрос страницы `1` — пропускает первые 100 строк — аккаунтов, на которые подписан `alice`, по 100 на страницу. |
+
+    См. также: condenser_api.get_following_by_page, Paginated API Methods
+  follow_api.get_reblogged_by: |-
+    Возвращает список авторов, сделавших реблог (reblog) поста (post).
+  hive.db_head_state: |-
+    Проверка состояния/работоспособности: возвращает номер и время головного блока (head block) базы данных hivemind, а также возраст головного блока в секундах.
+
+    Параметры: отсутствуют
+  jsonrpc.get_methods: |-
+    Возвращает список методов, поддерживаемых JSON RPC API.
+  jsonrpc.get_signature: |-
+    Возвращает сведения о сигнатуре метода JSON RPC, включая аргументы и ожидаемый JSON ответа.
+  market_history_api.get_market_history: |-
+    Возвращает историю рынка (market history) для внутреннего рынка SBD:STEEM.
+  market_history_api.get_market_history_buckets: |-
+    Возвращает отслеживаемые плагином размеры сегментов (bucket seconds) в секундах.
+  market_history_api.get_order_book: |-
+    Возвращает стакан заявок (order book) внутреннего рынка.
+  market_history_api.get_recent_trades: |-
+    Возвращает последние сделки (trade) на внутреннем рынке SBD:STEEM.
+  market_history_api.get_ticker: |-
+    Возвращает рыночный тикер (ticker) для внутреннего рынка SBD:STEEM.
+  market_history_api.get_trade_history: |-
+    Возвращает историю сделок (trade history) для внутреннего рынка SBD:STEEM.
+  market_history_api.get_volume: |-
+    Возвращает рыночный объём (volume) за последние 24 часа.
+  network_broadcast_api.broadcast_block: |-
+    Используется для широковещания (broadcast) блока (block).
+  network_broadcast_api.broadcast_transaction: |-
+    Используется для широковещания (broadcast) транзакции (transaction).
+  rc_api.find_rc_accounts: |-
+    Возвращает доступные ресурсные кредиты (RC) аккаунтов. Параметры: `accounts:string array`
+
+    | `accounts` (string) | |
+    |---------------------|-|
+    | `"steemit"` | Запрос доступных ресурсных кредитов (Resource Credits) для аккаунта с именем "steemit". |
+    | `"alice"` | Запрос доступных ресурсных кредитов (Resource Credits) для аккаунтов с именами "alice" и "bob". |
+  rc_api.get_resource_params: |-
+    Экспортирует все относящиеся к делу константы размеров ресурсов, в частности параметры времени выполнения, основанные на измерениях.
+
+    См.: [#2980](https://github.com/steemit/steem/issues/2980)
+  rc_api.get_resource_pool: |-
+    Работа в процессе. См.: [#2563](https://github.com/steemit/steem/issues/2563), [PR#2678](https://github.com/steemit/steem/pull/2678)
+  reputation_api.get_account_reputations: |-
+    Возвращает репутацию (reputation) аккаунтов. Параметры: `account:string`; `limit:int`
+
+    * `limit` - до 1000.
+
+    | `account` (string) | `limit` (int) | |
+    |--------------------|-|
+    | `"steemit"` | 10 | Запрос репутации для аккаунта с именем "steemit". |
+
+    См. [#1425](https://github.com/steemit/steem/issues/1425)
+
+    См. также: Paginated API Methods
+  rewards_api.simulate_curve_payouts: |-
+    Моделирует выплаты из фонда вознаграждений (reward fund) по заданной кривой выплат (payout curve) без их применения.
+  tags_api.get_account_votes: |-
+    **Не поддерживается:** hivemind регистрирует это имя метода только для возврата информационной ошибки: "get_account_votes is no longer supported, for details see https://steemit.com/steemit/@steemitdev/additional-public-api-change".
+
+    Параметры: `account:string`
+
+    См. также: condenser_api.get_account_votes
+  tags_api.get_active_votes: |-
+    Возвращает все голоса (vote) за заданный пост (post).
+  tags_api.get_comment_discussions_by_payout: |-
+    Возвращает список обсуждений (discussion), упорядоченный по payout.
+  tags_api.get_content_replies: |-
+    Возвращает список ответов (reply).
+  tags_api.get_discussion: |-
+    Возвращает обсуждение (discussion) по заданным автору и пермалинку (permlink).
+  tags_api.get_discussions_by_active: |-
+    Возвращает список обсуждений (discussion), упорядоченный по active.
+  tags_api.get_discussions_by_author_before_date: |-
+    Возвращает список обсуждений (discussion) по автору до заданной даты.
+
+    См. также: Paginated API Methods
+  tags_api.get_discussions_by_blog: |-
+    Возвращает список обсуждений (discussion) по блогу (blog).
+  tags_api.get_discussions_by_cashout: |-
+    Возвращает список обсуждений (discussion), упорядоченный по cashout.
+  tags_api.get_discussions_by_children: |-
+    Возвращает список обсуждений (discussion), упорядоченный по children.
+  tags_api.get_discussions_by_comments: |-
+    Возвращает список обсуждений (discussion), упорядоченный по comments.
+  tags_api.get_discussions_by_created: |-
+    Возвращает список обсуждений (discussion), упорядоченный по created.
+  tags_api.get_discussions_by_feed: |-
+    Возвращает список обсуждений (discussion) по ленте (feed).
+  tags_api.get_discussions_by_hot: |-
+    Возвращает список обсуждений (discussion), упорядоченный по hot.
+  tags_api.get_discussions_by_promoted: |-
+    Возвращает список обсуждений (discussion), упорядоченный по promoted.
+  tags_api.get_discussions_by_trending: |-
+    Возвращает список обсуждений (discussion), упорядоченный по trending.
+  tags_api.get_discussions_by_votes: |-
+    Возвращает список обсуждений (discussion), упорядоченный по votes.
+  tags_api.get_post_discussions_by_payout: |-
+    Возвращает список обсуждений постов (post), упорядоченный по payout.
+  tags_api.get_replies_by_last_update: |-
+    Возвращает список ответов (reply) по последнему обновлению.
+
+    См. также: Paginated API Methods
+  tags_api.get_tags_used_by_author: |-
+    Возвращает список тегов (tag), используемых автором.
+  tags_api.get_trending_tags: |-
+    Возвращает список актуальных тегов (trending tags).
+
+    См. также: Paginated API Methods
+  transaction_status_api.find_transaction: |-
+    Возвращает статус заданной транзакции (transaction) по её идентификатору (transaction id). Параметры: `trx_id:string`; `expiration:timestamp` (необязательный)
+
+    Результат будет содержать одно из следующих значений `status`:
+
+    | Статус | Значение |
+    |--------|---------|
+    | `unknown` | Время истечения в будущем, транзакция не включена в блок (block) или пул памяти (mempool) |
+    | `within_mempool` | Транзакция в пуле памяти (mempool) |
+    | `within_reversible_block` | Транзакция включена в блок, блок ещё не является необратимым |
+    | `within_irreversible_block` | Транзакция включена в блок, блок необратимый |
+    | `expired_reversible` | Срок транзакции истёк, транзакция не является необратимой (может находиться в форке) |
+    | `expired_irreversible` | Срок транзакции истёк, транзакция необратима (не может находиться в форке) |
+    | `too_old` | Транзакция слишком старая, о ней ничего не известно |
+  witness_api.get_account_bandwidth: |-
+    **Отключён с версии 0.20.6, см.: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
+
+    Возвращает доступную пропускную способность (bandwidth) аккаунта. См.: Forum/Market Bandwidth
+  witness_api.get_reserve_ratio: |-
+    **Отключён с версии 0.20.6, см.: [#3029](https://github.com/steemit/steem/issues/3029#issuecomment-428404844)**
+
+    Возвращает текущий резервный коэффициент (reserve ratio).

@@ -31,14 +31,16 @@ const LIQUID_LOG_PATH = join(GEN_DIR, 'liquid-warnings.txt');
 // Partial locales (T11 zh pilot, T13 ru/fr/de/it/es rollouts): bridge index
 // pages, generated with --locale <code>. Only the <stem>/index.md subtrees are
 // written; hand-written static pages under docs/<code>/ (home, API overview)
-// are never touched by this script. zh additionally gets a method page per
-// purpose covered by data/translations/zh/purposes.yml (T12, all 238 since
-// the T22 source-fill); the
-// other locales have NO method pages this phase — every method row in their
-// index tables bridges to the English page by site-absolute path.
+// are never touched by this script. Full locales additionally get a method
+// page per purpose covered by their data/translations/<code>/purposes.yml —
+// zh (T12, all 238 since the T22 source-fill) and ru (T27, same 238 key set);
+// the remaining bridge-only locales have NO method pages this phase — every
+// method row in their index tables bridges to the English page by
+// site-absolute path.
 const ZH_OUT_DIR = join(ROOT, 'docs/zh/api');
 const ZH_PURPOSES_PATH = join(ROOT, 'data/translations/zh/purposes.yml');
 const RU_OUT_DIR = join(ROOT, 'docs/ru/api');
+const RU_PURPOSES_PATH = join(ROOT, 'data/translations/ru/purposes.yml');
 // T23 (user decision): every generated curl command targets api.steemit.com.
 const API_URL = 'https://api.steemit.com';
 
@@ -325,7 +327,7 @@ function isDeadWithCause(m) {
  * methods (debug_node / chain_api / the T25 source-truth set) still exist in
  * steem source — their plugins are just not enabled on public nodes. Family
  * selection: removed wins over disabled (the three removed methods carry
- * both flags in the YAML), then disabled, then deprecated. zh mirrors the
+ * both flags in the YAML), then disabled, then deprecated. zh/ru mirror the
  * English sentences on locale-generated method pages.
  */
 const DEAD_NOTES = {
@@ -338,6 +340,11 @@ const DEAD_NOTES = {
     removed: '⚠ 此 RPC 方法已不再由公共节点提供。',
     disabled: '⚠ 该方法在 steem 源码中有定义，但公共节点未启用。',
     deprecated: '⚠ 此方法已弃用（SMT 时代），公共节点已不再提供。',
+  },
+  ru: {
+    removed: '⚠ Этот RPC-метод больше не предоставляется публичными узлами.',
+    disabled: '⚠ Определён в исходном коде steem, но не включён на публичных узлах.',
+    deprecated: '⚠ Этот метод устарел (эпоха SMT) и больше не предоставляется публичными узлами.',
   },
 };
 
@@ -400,7 +407,7 @@ function expectedCurlResponsesSection(value, file, where) {
  * `locale` (locale mode only) picks the dead-note wording (en when omitted).
  * Titles, badges, detail lines, parameter/response blocks and curl cards are
  * rendered from the en data exactly like the en page (T12 scope: translate
- * purpose only — and only zh has method pages at all).
+ * purpose only — zh and ru are the locales with method pages today).
  */
 function methodPage(m, file, translatedPurpose, locale) {
   const apiMethod = String(m.api_method);
@@ -578,8 +585,9 @@ function overviewPage(apis) {
 // row links to its zh page,
 // so the zh note below no longer mentions en bridging. The per-row branch
 // stays as a safety net — an uncovered method (stale translation key) would
-// still bridge to the English page. ru has NO method pages this phase (user
-// decision, phase-2 plan §3.4): all rows bridge to en and the note says so.
+// still bridge to the English page. T27 does the same for ru (purposes file
+// registered, full-locale note); the per-row branch keeps covering any row
+// a future data change would leave untranslated.
 // ---------------------------------------------------------------------------
 
 const ZH_BRIDGE_NOTE =
@@ -588,8 +596,8 @@ const ZH_BRIDGE_NOTE =
 const ZH_OPS_BRIDGE_NOTE =
   '> 本页为中文索引页：该 API 的操作列表页暂未提供中文版。点击操作名跳转到英文页面的对应小节。';
 
-const RU_BRIDGE_NOTE =
-  '> Это русская индексная страница: страницы методов пока не переведены на русский язык — все ссылки в таблице ведут на английские страницы методов.';
+const RU_METHODS_NOTE =
+  '> Это русская индексная страница: все методы переведены на русский язык, ссылки в таблицах ведут на русские страницы методов.';
 
 const RU_OPS_BRIDGE_NOTE =
   '> Это русская индексная страница: страница операций пока не переведена на русский язык — нажмите имя операции, чтобы перейти к соответствующему разделу английской страницы.';
@@ -624,9 +632,9 @@ function bridgeOnlyLocale(key, strings) {
 }
 
 /**
- * Locale registry for `--locale <code>` runs. zh is the full pilot (purposes
- * translation file -> translated method pages); every other entry is a
- * bridge-only locale (index pages with all method rows pointing at en) —
+ * Locale registry for `--locale <code>` runs. zh and ru are full locales
+ * (purposes translation file -> translated method pages); every other entry
+ * is a bridge-only locale (index pages with all method rows pointing at en) —
  * added via bridgeOnlyLocale() below.
  */
 const LOCALES = {
@@ -651,11 +659,12 @@ const LOCALES = {
   ru: {
     key: 'ru',
     outDir: RU_OUT_DIR,
-    // No purposes file this phase: ru method pages are deferred, so every
-    // row in every index table bridges to the English page.
-    purposesPath: null,
+    // T27 (phase 4): ru is the second full locale — one translated method page
+    // per purpose in data/translations/ru/purposes.yml (all 238 since the T22
+    // source-fill), mirroring the zh pattern.
+    purposesPath: RU_PURPOSES_PATH,
     methods: {
-      note: RU_BRIDGE_NOTE,
+      note: RU_METHODS_NOTE,
       heading: 'Методы',
       colMethod: 'Метод',
       colSince: 'Начиная с версии',
@@ -1068,8 +1077,8 @@ function generateLocalePages(files, collected, locale) {
       }
       // A translated method links to its locale page (same tree, so a
       // site-absolute path is still required for the dead-link checker);
-      // everything else keeps bridging to the English page — for ru that is
-      // every row, by design.
+      // everything else keeps bridging to the English page — for the
+      // bridge-only locales that is every row, by design.
       const href = hasTranslated
         ? `/${locale.key}/api/${stem}/${tableCell(short)}.html`
         : `/api/${stem}/${tableCell(short)}.html`;
