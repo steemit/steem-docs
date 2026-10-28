@@ -1,6 +1,6 @@
 {
   "tool": "source-crosscheck",
-  "generatedAt": "2026-10-28T04:23:37.394Z",
+  "generatedAt": "2026-10-28T05:59:41.760Z",
   "date": "2026-10-28",
   "mode": "write",
   "inputs": {
@@ -25,12 +25,12 @@
     },
     "manifest": {
       "dir": "data/apidefinitions/",
-      "files": 19,
-      "methods": 215
+      "files": 22,
+      "methods": 238
     },
     "drift": {
-      "file": "data/audit/drift-2026-10-27.json",
-      "date": "2026-10-27",
+      "file": "data/audit/drift-2026-10-28.json",
+      "date": "2026-10-28",
       "nodes": {
         "fans": "https://api.steem.fans",
         "steemit": "https://api.steemit.com"
@@ -98,28 +98,28 @@
     }
   ],
   "stats": {
-    "universe": 240,
-    "body": 236,
+    "universe": 241,
+    "body": 237,
     "excluded": 4,
     "combos": {
-      "src+ doc+ node-alive": 180,
-      "src+ doc- node-alive": 21,
-      "src+ doc- node-dead": 2,
-      "src- doc+ node-dead": 3,
-      "src+ doc+ node-dead": 30
+      "src+ doc+ node-alive": 200,
+      "src- doc+ node-alive": 1,
+      "src+ doc- node-alive": 1,
+      "src+ doc+ node-dead": 32,
+      "src- doc+ node-dead": 3
     },
-    "addPage": 21,
-    "addPageDeadNote": 2,
+    "addPage": 1,
+    "addPageDeadNote": 0,
     "annotationRefresh": {
-      "total": 30,
+      "total": 32,
       "deprecatedKeep": 7,
-      "disabledRefresh": 9,
+      "disabledRefresh": 11,
       "removedUnsupported": 14,
       "unflaggedDead": 0
     },
     "removedKeep": 3,
-    "keepAnnotation": 0,
-    "allGood": 180,
+    "keepAnnotation": 1,
+    "allGood": 200,
     "softFlaggedAlive": 5,
     "driftChanged": 3,
     "doubleSource": 42,
@@ -129,382 +129,6 @@
   },
   "lists": {
     "addPage": [
-      {
-        "api_method": "bridge.get_account_posts",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "sort"
-            },
-            {
-              "name": "account"
-            },
-            {
-              "name": "start_author",
-              "default": ""
-            },
-            {
-              "name": "start_permlink",
-              "default": ""
-            },
-            {
-              "name": "limit",
-              "default": 20
-            },
-            {
-              "name": "observer",
-              "default": null
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "bridge.get_community_context",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "name"
-            },
-            {
-              "name": "account"
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "bridge.get_discussion",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "author"
-            },
-            {
-              "name": "permlink"
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "bridge.get_payout_stats",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "limit",
-              "default": 250
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "bridge.get_post",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "author"
-            },
-            {
-              "name": "permlink"
-            },
-            {
-              "name": "observer",
-              "default": null
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "bridge.get_post_header",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "author"
-            },
-            {
-              "name": "permlink"
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "bridge.get_profile",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "account"
-            },
-            {
-              "name": "observer",
-              "default": null
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "bridge.get_trending_topics",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "limit",
-              "default": 10
-            },
-            {
-              "name": "observer",
-              "default": null
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "bridge.list_communities",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "last",
-              "default": ""
-            },
-            {
-              "name": "limit",
-              "default": 100
-            },
-            {
-              "name": "query",
-              "default": null
-            },
-            {
-              "name": "sort",
-              "default": "rank"
-            },
-            {
-              "name": "observer",
-              "default": null
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "bridge.list_pop_communities",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "limit",
-              "default": 25
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "bridge.list_subscribers",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "community"
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "bridge.normalize_post",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "post"
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "bridge.post_notifications",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "author"
-            },
-            {
-              "name": "permlink"
-            },
-            {
-              "name": "min_score",
-              "default": 25
-            },
-            {
-              "name": "last_id",
-              "default": null
-            },
-            {
-              "name": "limit",
-              "default": 100
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "bridge.unread_notifications",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "account"
-            },
-            {
-              "name": "min_score",
-              "default": 25
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
       {
         "api_method": "call.call",
         "src": "hivemind",
@@ -531,215 +155,9 @@
           "type": null
         },
         "note": "线名为裸 `call`（legacy call 约定，hivemind serve.py:119）；清单名 `call.call` 是 T20 命名空间拼接的产物 — 实测按线名携带 call 约定数组参数探测"
-      },
-      {
-        "api_method": "condenser_api.get_followers_by_page",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "account"
-            },
-            {
-              "name": "page"
-            },
-            {
-              "name": "page_size",
-              "default": null
-            },
-            {
-              "name": "follow_type",
-              "default": null
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "condenser_api.get_following_by_page",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "account"
-            },
-            {
-              "name": "page"
-            },
-            {
-              "name": "page_size",
-              "default": null
-            },
-            {
-              "name": "follow_type",
-              "default": null
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "follow_api.get_followers_by_page",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "account"
-            },
-            {
-              "name": "page"
-            },
-            {
-              "name": "page_size",
-              "default": null
-            },
-            {
-              "name": "follow_type",
-              "default": null
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "follow_api.get_following_by_page",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "account"
-            },
-            {
-              "name": "page"
-            },
-            {
-              "name": "page_size",
-              "default": null
-            },
-            {
-              "name": "follow_type",
-              "default": null
-            }
-          ],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "hive.db_head_state",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [],
-          "dummy": false,
-          "type": null
-        },
-        "note": null
-      },
-      {
-        "api_method": "tags_api.get_account_votes",
-        "src": "hivemind",
-        "param_style": null,
-        "node": {
-          "status": "alive",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": null,
-        "hivemind": {
-          "params": [
-            {
-              "name": "account"
-            }
-          ],
-          "dummy": true,
-          "type": null
-        },
-        "note": "hivemind 侧为 dummy 绑定（serve.py 注册了方法名但无独立实现，返回空壳）"
       }
     ],
-    "addPageDeadNote": [
-      {
-        "api_method": "chain_api.push_block",
-        "src": "steem",
-        "param_style": null,
-        "node": {
-          "status": "dead",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": {
-          "param_style": "named",
-          "params": [
-            "block",
-            "currently_syncing"
-          ],
-          "conditional": false,
-          "source": "libraries/plugins/apis/chain_api/include/steem/plugins/chain_api/chain_api.hpp:41"
-        },
-        "hivemind": null,
-        "note": null
-      },
-      {
-        "api_method": "chain_api.push_transaction",
-        "src": "steem",
-        "param_style": null,
-        "node": {
-          "status": "dead",
-          "drift": null,
-          "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
-        },
-        "steem": {
-          "param_style": "named",
-          "params": null,
-          "conditional": false,
-          "source": "libraries/plugins/apis/chain_api/include/steem/plugins/chain_api/chain_api.hpp:42"
-        },
-        "hivemind": null,
-        "note": null
-      }
-    ],
+    "addPageDeadNote": [],
     "annotationRefresh": {
       "deprecatedKeep": [
         "database_api.find_smt_contributions",
@@ -751,6 +169,8 @@
         "database_api.list_smt_tokens"
       ],
       "disabledRefresh": [
+        "chain_api.push_block",
+        "chain_api.push_transaction",
         "debug_node_api.debug_generate_blocks",
         "debug_node_api.debug_generate_blocks_until",
         "debug_node_api.debug_get_hardfork_property_object",
@@ -847,7 +267,9 @@
         }
       }
     ],
-    "keepAnnotation": [],
+    "keepAnnotation": [
+      "call"
+    ],
     "softFlaggedAlive": [
       {
         "api_method": "account_history_api.get_transaction",
@@ -1583,7 +1005,7 @@
       },
       "node": {
         "status": "alive",
-        "source": "drift-snapshot 2026-10-27"
+        "source": "drift-snapshot 2026-10-28"
       },
       "reason": "JSON-RPC infrastructure self-description (get_methods/get_signature); protocol plumbing, not a business API (plan decision 2)"
     },
@@ -1600,7 +1022,7 @@
       },
       "node": {
         "status": "alive",
-        "source": "drift-snapshot 2026-10-27"
+        "source": "drift-snapshot 2026-10-28"
       },
       "reason": "JSON-RPC infrastructure self-description (get_methods/get_signature); protocol plumbing, not a business API (plan decision 2)"
     },
@@ -1673,7 +1095,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -1707,7 +1129,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -1742,7 +1164,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -1776,7 +1198,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -1809,7 +1231,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -1842,7 +1264,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -1875,7 +1297,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -1921,7 +1343,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -1963,18 +1385,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "bridge.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -2005,7 +1434,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -2031,18 +1460,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "bridge.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -2061,18 +1497,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "bridge.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -2089,18 +1532,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "bridge.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -2123,18 +1573,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "bridge.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -2153,18 +1610,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "bridge.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -2184,18 +1648,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "bridge.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -2242,7 +1713,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -2270,18 +1741,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "bridge.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -2308,7 +1786,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -2348,18 +1826,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "bridge.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -2394,7 +1879,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -2418,18 +1903,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "bridge.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -2445,18 +1937,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "bridge.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -2472,18 +1971,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "bridge.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -2514,18 +2020,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "bridge.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -2545,18 +2058,51 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "bridge.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
+      }
+    },
+    {
+      "api_method": "call",
+      "src": "none",
+      "steem": null,
+      "hivemind": null,
+      "doc": {
+        "file": "call.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
+      "node": {
+        "status": "alive",
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
+      },
+      "param_style": null,
+      "combo": "src- doc+ node-alive",
+      "disposition": {
+        "id": "keep-annotation",
+        "note": null,
+        "basis": "对照表：源码无+文档有+节点活 → keep-annotation（witness 型）"
       }
     },
     {
@@ -2605,18 +2151,26 @@
         "source": "libraries/plugins/apis/chain_api/include/steem/plugins/chain_api/chain_api.hpp:41"
       },
       "hivemind": null,
-      "doc": null,
+      "doc": {
+        "file": "chain_api.yml",
+        "flags": {
+          "removed": false,
+          "disabled": true,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "dead",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "dead",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-dead",
+      "combo": "src+ doc+ node-dead",
       "disposition": {
-        "id": "add-page+dead-note",
-        "note": null,
-        "basis": "对照表：源码有+文档无+节点死 → add-page+dead-note"
+        "id": "annotation-refresh",
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -2629,18 +2183,26 @@
         "source": "libraries/plugins/apis/chain_api/include/steem/plugins/chain_api/chain_api.hpp:42"
       },
       "hivemind": null,
-      "doc": null,
+      "doc": {
+        "file": "chain_api.yml",
+        "flags": {
+          "removed": false,
+          "disabled": true,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "dead",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "dead",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-dead",
+      "combo": "src+ doc+ node-dead",
       "disposition": {
-        "id": "add-page+dead-note",
-        "note": null,
-        "basis": "对照表：源码有+文档无+节点死 → add-page+dead-note"
+        "id": "annotation-refresh",
+        "family": "disabled-refresh",
+        "note": "口径刷新为「源码仍定义；插件未在公共节点启用」（决策 3-②）",
+        "basis": "对照表 + 决策 3-②"
       }
     },
     {
@@ -2664,7 +2226,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -2695,7 +2257,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -2726,7 +2288,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -2757,7 +2319,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -2783,7 +2345,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src- doc+ node-dead",
@@ -2814,7 +2376,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -2845,7 +2407,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -2876,7 +2438,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -2920,7 +2482,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -2964,7 +2526,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -3000,7 +2562,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -3031,7 +2593,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -3062,7 +2624,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -3093,7 +2655,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -3124,7 +2686,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -3171,7 +2733,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -3207,7 +2769,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -3254,7 +2816,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -3290,7 +2852,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -3346,7 +2908,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -3382,7 +2944,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -3424,7 +2986,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -3471,7 +3033,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -3507,7 +3069,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -3538,7 +3100,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -3569,7 +3131,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -3621,7 +3183,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -3686,7 +3248,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -3722,7 +3284,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -3753,7 +3315,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -3809,7 +3371,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -3874,7 +3436,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -3939,7 +3501,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -4004,7 +3566,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -4069,7 +3631,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -4134,7 +3696,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -4170,7 +3732,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4201,7 +3763,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4232,7 +3794,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4263,7 +3825,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4294,7 +3856,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4325,7 +3887,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4356,7 +3918,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4395,7 +3957,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -4450,7 +4012,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -4489,18 +4051,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "condenser_api.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -4543,7 +4112,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -4582,18 +4151,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "condenser_api.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -4617,7 +4193,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4648,7 +4224,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4679,7 +4255,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4710,7 +4286,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4741,7 +4317,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4772,7 +4348,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4803,7 +4379,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4834,7 +4410,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4865,7 +4441,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4921,7 +4497,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -4957,7 +4533,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -4999,7 +4575,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -5035,7 +4611,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5066,7 +4642,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5118,7 +4694,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -5154,7 +4730,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5185,7 +4761,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5216,7 +4792,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5247,7 +4823,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5286,7 +4862,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -5322,7 +4898,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5353,7 +4929,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5384,7 +4960,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5423,7 +4999,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -5459,7 +5035,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5503,7 +5079,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "positional",
@@ -5539,7 +5115,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5570,7 +5146,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5601,7 +5177,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5632,7 +5208,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5663,7 +5239,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5694,7 +5270,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5725,7 +5301,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5756,7 +5332,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5787,7 +5363,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5818,7 +5394,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5849,7 +5425,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5880,7 +5456,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5911,7 +5487,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5942,7 +5518,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -5973,7 +5549,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6004,7 +5580,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6037,7 +5613,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6070,7 +5646,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6103,7 +5679,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6136,7 +5712,7 @@
       "node": {
         "status": "alive",
         "drift": "changed",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6169,7 +5745,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6202,7 +5778,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6235,7 +5811,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6268,7 +5844,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6301,7 +5877,7 @@
       "node": {
         "status": "alive",
         "drift": "changed",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6334,7 +5910,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6367,7 +5943,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6400,7 +5976,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -6434,7 +6010,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -6469,7 +6045,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -6503,7 +6079,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6536,7 +6112,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6570,7 +6146,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6604,7 +6180,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6637,7 +6213,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6668,7 +6244,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6699,7 +6275,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6730,7 +6306,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6761,7 +6337,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6792,7 +6368,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6823,7 +6399,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6854,7 +6430,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -6888,7 +6464,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6921,7 +6497,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6955,7 +6531,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -6986,7 +6562,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7019,7 +6595,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7050,7 +6626,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7081,7 +6657,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7116,7 +6692,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7151,7 +6727,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7186,7 +6762,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7221,7 +6797,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7256,7 +6832,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7291,7 +6867,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7326,7 +6902,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7360,7 +6936,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7397,7 +6973,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7434,7 +7010,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7469,7 +7045,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7504,7 +7080,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7539,7 +7115,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -7575,7 +7151,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -7611,7 +7187,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -7647,7 +7223,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7682,7 +7258,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7717,7 +7293,7 @@
       "node": {
         "status": "alive",
         "drift": "changed",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7752,7 +7328,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7787,7 +7363,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7822,7 +7398,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7856,7 +7432,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7889,7 +7465,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7927,7 +7503,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -7964,7 +7540,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -8000,7 +7576,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -8032,7 +7608,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -8064,7 +7640,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -8096,7 +7672,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -8130,7 +7706,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -8162,7 +7738,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -8198,7 +7774,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -8232,7 +7808,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -8280,7 +7856,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -8344,7 +7920,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -8392,7 +7968,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -8444,7 +8020,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -8494,7 +8070,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -8530,7 +8106,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -8572,7 +8148,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -8638,7 +8214,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -8689,18 +8265,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "follow_api.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -8748,7 +8331,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -8799,18 +8382,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "follow_api.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -8848,7 +8438,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -8880,18 +8470,25 @@
         "dummy": false,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "hive.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": null,
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -8919,7 +8516,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -8950,7 +8547,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -8983,7 +8580,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -9016,7 +8613,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -9047,7 +8644,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -9082,7 +8679,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -9113,7 +8710,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -9146,7 +8743,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -9180,7 +8777,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -9213,7 +8810,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -9244,7 +8841,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -9275,7 +8872,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -9309,7 +8906,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-alive",
@@ -9343,7 +8940,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -9367,18 +8964,25 @@
         "dummy": true,
         "type": null
       },
-      "doc": null,
+      "doc": {
+        "file": "tags_api.yml",
+        "flags": {
+          "removed": false,
+          "disabled": false,
+          "deprecated": false
+        }
+      },
       "node": {
         "status": "alive",
-        "drift": null,
-        "source": "live-probe 2026-10-28 (fans+steemit, empty-params existence probe)"
+        "drift": "alive",
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
-      "combo": "src+ doc- node-alive",
+      "combo": "src+ doc+ node-alive",
       "disposition": {
-        "id": "add-page",
+        "id": "all-good",
         "note": "hivemind 侧为 dummy 绑定（serve.py 注册了方法名但无独立实现，返回空壳）",
-        "basis": "对照表：源码有+文档无+节点活 → add-page（T22 输入）"
+        "basis": "对照表：src+ doc+ node-alive → all-good"
       }
     },
     {
@@ -9405,7 +9009,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -9473,7 +9077,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -9542,7 +9146,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -9600,7 +9204,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -9655,7 +9259,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -9713,7 +9317,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -9801,7 +9405,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -9868,7 +9472,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -9911,7 +9515,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -9979,7 +9583,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -10074,7 +9678,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -10141,7 +9745,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -10213,7 +9817,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -10309,7 +9913,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -10405,7 +10009,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -10472,7 +10076,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -10540,7 +10144,7 @@
       "node": {
         "status": "alive",
         "drift": "alive",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": {
         "steem_style": "named",
@@ -10599,7 +10203,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -10633,7 +10237,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -10668,7 +10272,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -10703,7 +10307,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src+ doc+ node-dead",
@@ -10730,7 +10334,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src- doc+ node-dead",
@@ -10756,7 +10360,7 @@
       "node": {
         "status": "dead",
         "drift": "dead",
-        "source": "drift-snapshot 2026-10-27 (drift-2026-10-27.json)"
+        "source": "drift-snapshot 2026-10-28 (drift-2026-10-28.json)"
       },
       "param_style": null,
       "combo": "src- doc+ node-dead",

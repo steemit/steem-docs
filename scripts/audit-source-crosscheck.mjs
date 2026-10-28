@@ -3,12 +3,13 @@
 // three baselines this project now keeps into one per-method verdict —
 //
 //   source  (what still defines it)  ← data/source-inventory/{steem,hivemind}.json (T20)
-//   docs    (what the site covers)   ← data/apidefinitions/*.yml (215 methods)
+//   docs    (what the site covers)   ← data/apidefinitions/*.yml (238 methods)
 //   node    (what a public node serves) ← latest committed data/audit/drift-*.json
 //
 // Every method in the universe (steem 211 ∪ hivemind 68 ∪ every documented
 // name, which contributes the witness_api 2 + condenser_api.get_account_bandwidth
-// doc-legacy rows) lands in exactly one cell of the 8-combo grid
+// + the `call` wire-name page as doc-legacy rows) lands in exactly one cell
+// of the 8-combo grid
 // (src± × doc± × node alive/dead) and each cell maps to exactly one disposal
 // action — the combo→disposition table below is the review artifact:
 //
@@ -71,11 +72,12 @@
 // Hard assertions (exit 1 on violation — these are contract checks, not
 // findings): inventory counts (steem 211 = 204 + 7 SMT-conditional across the
 // plan §1 census; hivemind 68 bindings / 6 namespaces / 2 dummies), manifest
-// 215 == drift snapshot scope, universe accounting (body ∪ excluded ==
+// 238 == drift snapshot scope, universe accounting (body ∪ excluded ==
 // universe, every source/doc name lands exactly once), the witness_api
 // double-check (both methods must resolve to src-none + doc + dead →
-// removed-keep), and the decision-3 family census (deprecated 7 / disabled 9 /
-// removed-keep 3 / removed-unsupported 14 / soft-flagged-alive 5).
+// removed-keep), and the decision-3 family census (deprecated 7 / disabled 11
+// = 9 debug_node_api + 2 chain_api filled post-T22 / removed-keep 3 /
+// removed-unsupported 14 / soft-flagged-alive 5).
 //
 // CLI:
 //   --node1 <url> --node2 <url>  probe nodes for undocumented names
@@ -643,7 +645,18 @@ if (!cab || cab.disposition.id !== 'removed-keep') failures.push('condenser_api.
 // Decision-3 family census.
 const FAMILY_BASELINE = {
   deprecatedKeep: { n: 7, members: ['database_api.find_smt_contributions', 'database_api.find_smt_token_emissions', 'database_api.find_smt_tokens', 'database_api.get_nai_pool', 'database_api.list_smt_contributions', 'database_api.list_smt_token_emissions', 'database_api.list_smt_tokens'] },
-  disabledRefresh: { n: 9, api: 'debug_node_api' },
+  // Post-T22: the two chain_api pages (filled with the decision-3-② wording
+  // baked in) join the 9 debug_node_api methods in the disabled family.
+  disabledRefresh: {
+    n: 11,
+    members: [
+      'debug_node_api.debug_generate_blocks', 'debug_node_api.debug_generate_blocks_until',
+      'debug_node_api.debug_get_hardfork_property_object', 'debug_node_api.debug_get_json_schema',
+      'debug_node_api.debug_get_witness_schedule', 'debug_node_api.debug_has_hardfork',
+      'debug_node_api.debug_pop_block', 'debug_node_api.debug_push_blocks', 'debug_node_api.debug_set_hardfork',
+      'chain_api.push_block', 'chain_api.push_transaction',
+    ],
+  },
   removedKeep: { n: 3, members: ['condenser_api.get_account_bandwidth', 'witness_api.get_account_bandwidth', 'witness_api.get_reserve_ratio'] },
   removedUnsupported: { n: 14 },
   softFlaggedAlive: { n: 5 },
@@ -651,8 +664,8 @@ const FAMILY_BASELINE = {
 if (deprecatedKeep.length !== FAMILY_BASELINE.deprecatedKeep.n || deprecatedKeep.map((r) => r.api_method).sort().join(',') !== [...FAMILY_BASELINE.deprecatedKeep.members].sort().join(',')) {
   failures.push(`decision-3 ①: deprecated-keep family is [${deprecatedKeep.map((r) => r.api_method).join(', ')}], expected the 7 SMT-era database_api methods`);
 }
-if (disabledRefresh.length !== FAMILY_BASELINE.disabledRefresh.n || disabledRefresh.some((r) => !r.api_method.startsWith(FAMILY_BASELINE.disabledRefresh.api))) {
-  failures.push(`decision-3 ②: disabled-refresh family is ${disabledRefresh.length} rows, expected exactly the 9 debug_node_api methods`);
+if (disabledRefresh.length !== FAMILY_BASELINE.disabledRefresh.n || disabledRefresh.map((r) => r.api_method).sort().join(',') !== [...FAMILY_BASELINE.disabledRefresh.members].sort().join(',')) {
+  failures.push(`decision-3 ②: disabled-refresh family is [${disabledRefresh.map((r) => r.api_method).join(', ')}], expected the 9 debug_node_api methods + the 2 chain_api pages filled post-T22`);
 }
 if (removedKeep.length !== FAMILY_BASELINE.removedKeep.n || removedKeep.map((r) => r.api_method).sort().join(',') !== [...FAMILY_BASELINE.removedKeep.members].sort().join(',')) {
   failures.push(`decision-3 ③: removed-keep family is [${removedKeep.map((r) => r.api_method).join(', ')}], expected the 3 source-absent documented dead methods`);
