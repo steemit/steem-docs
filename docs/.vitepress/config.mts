@@ -454,8 +454,8 @@ export default defineConfig({
         // sidebar group, separate from the generated API Reference group.
         // En-only for now: the devportal chapters were never translated, so
         // locale sidebars deliberately keep the API-only shape (a locale entry
-        // here would 404 on swap). Later phase-5 tasks (Services, Resources,
-        // Testnet) append their index pages to this group one PR at a time.
+        // here would 404 on swap). Later phase-5 tasks (Resources, Testnet)
+        // add their groups here one PR at a time.
         sidebar: [
           {
             text: 'Guides',
@@ -463,6 +463,15 @@ export default defineConfig({
               { text: 'Introduction', link: '/introduction/' },
               { text: 'Quickstart', link: '/quickstart/' },
               { text: 'Glossary', link: '/glossary/' }
+            ]
+          },
+          {
+            text: 'Services',
+            items: [
+              { text: 'Overview', link: '/services/' },
+              { text: 'ImageHoster', link: '/services/imagehoster' },
+              { text: 'Jussi', link: '/services/jussi' },
+              { text: 'Steem DAO', link: '/services/steem-dao' }
             ]
           },
           {
