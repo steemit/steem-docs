@@ -92,6 +92,18 @@ if (!sameEntry(chainBasics[chainBasics.length - 2], chainBasics[0]) ||
 
 // ---------------------------------------------------------------------------
 
+// Per-term anchor ids (old devportal pages exposed a slug anchor per term;
+// review round 1 flagged the deep-link regression). Slugs are kebab-case;
+// collisions get a -2/-3... suffix so every id on the page is unique (the
+// duplicated Chain Basics tail entries are the known collision case).
+const slugCounts = new Map();
+function termSlug(term) {
+  let slug = term.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'term';
+  const seen = slugCounts.get(slug) || 0;
+  slugCounts.set(slug, seen + 1);
+  return seen === 0 ? slug : `${slug}-${seen + 1}`;
+}
+
 const lines = [];
 lines.push('---');
 lines.push('title: Glossary');
@@ -112,6 +124,8 @@ for (const section of sections) {
   lines.push('');
   lines.push(`## ${section.name}`);
   for (const item of section.items) {
+    lines.push('');
+    lines.push(`<a id="term-${termSlug(item.term)}"></a>`);
     lines.push('');
     lines.push(`**${item.term}**`);
     lines.push('');
@@ -135,4 +149,4 @@ console.log('Glossary page generated:');
 sections.forEach((s, i) => {
   console.log(`  ${String(i + 1).padStart(2)}. ${s.name.padEnd(14)} ${s.items.length} terms`);
 });
-console.log(`  total: ${totalTerms} terms / ${sections.length} sections -> docs/glossary/index.md (${markdown.length} bytes)`);
+console.log(`  total: ${totalTerms} terms / ${sections.length} sections -> docs/glossary/index.md (${Buffer.byteLength(markdown, 'utf8')} bytes)`);
