@@ -454,15 +454,18 @@ export default defineConfig({
         // sidebar group, separate from the generated API Reference group.
         // En-only for now: the devportal chapters were never translated, so
         // locale sidebars deliberately keep the API-only shape (a locale entry
-        // here would 404 on swap). Later phase-5 tasks (Resources, Testnet)
-        // add their groups here one PR at a time.
+        // here would 404 on swap). Phase-5 chapters are complete: single-page
+        // chapters (Introduction, Quickstart, Glossary, Resources, Testnet)
+        // sit in Guides; multi-page Services has its own group below.
         sidebar: [
           {
             text: 'Guides',
             items: [
               { text: 'Introduction', link: '/introduction/' },
               { text: 'Quickstart', link: '/quickstart/' },
-              { text: 'Glossary', link: '/glossary/' }
+              { text: 'Glossary', link: '/glossary/' },
+              { text: 'Resources', link: '/resources/' },
+              { text: 'Testnet', link: '/testnet/' }
             ]
           },
           {
