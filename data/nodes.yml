@@ -1,9 +1,8 @@
-# Steem public API nodes — migrated from steemit/devportal _quickstart/steemd_nodes.md
-# ("Public Nodes" table: 9 rows). Every node was re-tested for JSON-RPC liveness on
-# 2026-10-31 (UTC) before migration: POST get_dynamic_global_properties with a
-# 15-second timeout. steem.61bts.com (@ety001) answered a non-JSON-RPC placeholder
-# page and is NOT migrated; the remaining 8 nodes returned a valid result with a
-# mutually consistent head block (110919094-110919095).
+# Steem public API nodes — replaced 2026-10-31 (UTC) with the community monitor
+# list (17 nodes). Every node was probed for JSON-RPC liveness the same day:
+# POST condenser_api.get_dynamic_global_properties with a 15-second timeout;
+# all listed nodes answered with a mutually consistent head block
+# (110920872-110920874).
 #
 # The list is community-maintained: before adding/removing a row, re-test the node
 # (curl -m 15 -X POST https://<node>/ -H 'Content-Type: application/json' \
@@ -16,20 +15,44 @@
 updated: '2026-10-31'
 # Node used for the generated page's curl example (must be one of `nodes` below).
 example: https://api.steemit.com
+# Order per site-owner request: the official api.steemit.com first, then the
+# community monitor list (2026-10-31 screenshot order). 17 of the 21 listed
+# addresses answered the probe; the 4 that did not are not listed (re-test
+# before adding): api3.justyy.com (Cloudflare browser challenge blocks
+# non-browser clients), api.steemmemory.com (empty response),
+# api.steems.top (HTTP 500), api.wherein.io (empty response).
 nodes:
-- url: https://api.steem.fans
-  owner: '@ety001'
-- url: https://api.steemyy.com
-  owner: '@justyy'
-- url: https://steem.justyy.com
-  owner: '@justyy'
-- url: https://steem.senior.workers.dev
-  owner: '@justyy'
-- url: https://api.justyy.com
+- url: https://api.steemit.com
+  owner: '@steemit'
+- url: https://steemyy.com/node/
   owner: '@justyy'
 - url: https://api2.justyy.com
   owner: '@justyy'
+- url: https://api.justyy.com
+  owner: '@justyy'
+- url: https://steem.justyy.com
+  owner: '@justyy'
+- url: https://api.steemyy.com
+  owner: '@justyy'
+- url: https://api2.steemyy.com
+  owner: '@justyy'
+- url: https://steem.senior.workers.dev
+  owner: '@justyy'
 - url: https://api.steemitdev.com
   owner: '@steemit'
-- url: https://api.steemit.com
-  owner: '@steemit'
+- url: https://api.steem.fans
+  owner: '@ety001'
+- url: https://api.pennsif.net
+  owner: '@pennsif'
+- url: https://steemd.steemworld.org
+  owner: '@steemchiller'
+- url: https://api.symbionts.io
+  owner: '@symbionts'
+- url: https://steemapi.boylikegirl.club
+  owner: '@boylikegirl.wit'
+- url: https://api.campingclub.me
+  owner: '@visionaer3003'
+- url: https://cn.steems.top
+  owner: '@maiyude'
+- url: https://api.moecki.online
+  owner: '@moecki'
