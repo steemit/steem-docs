@@ -11,15 +11,13 @@ Connecting to the Steem blockchain takes two decisions: pick a **client library*
 
 ## Choose a library
 
-Accessing Steem data is easy from a number of community client libraries, depending on your infrastructure and objectives:
+Accessing Steem data is easy from the official client libraries, depending on your infrastructure and objectives:
 
 | Language | Library | Description |
 | --- | --- | --- |
-| JavaScript | [steem-js](https://github.com/steemit/steem-js) | Pure JavaScript Steem crypto library for Node.js and browsers; can be used to construct, sign, and broadcast transactions. |
-| TypeScript | [dsteem](https://github.com/jnordberg/dsteem) | A TypeScript Steem crypto library for Node.js and browsers. Steemit Inc also maintains [a version of this library](https://github.com/steemit/dsteem). |
-| Python | [beem](https://github.com/holgern/beem) | A Python library to interact with the Steem blockchain; includes the CLI tool `beempy`. |
-| Ruby | [Radiator](https://github.com/inertia186/radiator) | A Ruby API client to interact with the Steem blockchain. |
-| Java | [SteemJ](https://github.com/marvin-we/steem-java-api-wrapper) | An API wrapper for Steem written in Java. |
+| JavaScript / TypeScript | [steem-js](https://github.com/steemit/steem-js) | Pure JavaScript Steem crypto library for Node.js and browsers; can be used to construct, sign, and broadcast transactions. |
+| Go | [steemgosdk](https://github.com/steemit/steemgosdk) | A Go SDK for interacting with the Steem blockchain: high-level abstractions for common operations, transaction signing and broadcasting, key management. Under active development. |
+| Python | [steem-python](https://github.com/steemit/steem-python) | The official Steem library for Python; comes with a BIP38 encrypted wallet and the `steempy` CLI tool. |
 
 All of these libraries speak JSON-RPC to a `steemd` node — the connection setup in the next section applies to every one of them.
 
