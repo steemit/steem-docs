@@ -12,6 +12,7 @@
     "preview": "vitepress preview docs",
     "docs:gen": "node scripts/gen-api-docs.mjs && node scripts/gen-api-docs.mjs --locale zh && node scripts/gen-api-docs.mjs --locale ru && node scripts/gen-api-docs.mjs --locale fr && node scripts/gen-api-docs.mjs --locale de && node scripts/gen-api-docs.mjs --locale it && node scripts/gen-api-docs.mjs --locale es && node scripts/gen-api-docs.mjs --locale ko",
     "gen:glossary": "node scripts/gen-glossary.mjs",
+    "gen:nodes": "node scripts/gen-nodes.mjs",
     "validate:data": "node scripts/validate-data.mjs",
     "scrape:api-defs": "node scripts/scrape-api-defs.mjs",
     "test:curl": "node scripts/test-curl.mjs",
