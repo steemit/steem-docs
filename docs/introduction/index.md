@@ -13,7 +13,7 @@ The sidebar mirrors the site's actual structure:
 
 - **API Reference** — the JSON-RPC reference for the [condenser_api](/api/condenser_api/) and the appbase API namespaces (account history, follow, market history, witness, and more), with every method documented on its own page. A generated [API index](/api/) lists all APIs and their methods.
 - **Guides** — task-oriented documentation: the [Introduction](/introduction/) (this page), the [Quickstart](/quickstart/) guide with the community [public nodes](/quickstart/) list, the [Glossary](/glossary/) of Steem terms, plus [Resources](/resources/) and [Testnet](/testnet/) sections that are being prepared.
-- **Services** — documentation for the services around the chain: the [ImageHoster](/services/imagehoster/) image service, [Jussi](/services/jussi/) (documentation being prepared) and [Steem DAO](/services/steem-dao/) (to be organized).
+- **Services** — documentation for the services around the chain: the [ImageHoster](/services/imagehoster.html) image service, [Jussi](/services/jussi.html) (documentation being prepared) and [Steem DAO](/services/steem-dao.html) (to be organized).
 
 ## Languages
 
