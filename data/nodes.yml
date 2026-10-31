@@ -1,0 +1,35 @@
+# Steem public API nodes — migrated from steemit/devportal _quickstart/steemd_nodes.md
+# ("Public Nodes" table: 9 rows). Every node was re-tested for JSON-RPC liveness on
+# 2026-10-31 (UTC) before migration: POST get_dynamic_global_properties with a
+# 15-second timeout. steem.61bts.com (@ety001) answered a non-JSON-RPC placeholder
+# page and is NOT migrated; the remaining 8 nodes returned a valid result with a
+# mutually consistent head block (110919094-110919095).
+#
+# The list is community-maintained: before adding/removing a row, re-test the node
+# (curl -m 15 -X POST https://<node>/ -H 'Content-Type: application/json' \
+#  -d '{"jsonrpc":"2.0","method":"condenser_api.get_dynamic_global_properties",
+#      "params":[],"id":1}'), update `updated` and the EXPECTED_* constants in
+# scripts/gen-nodes.mjs, then re-run `pnpm gen:nodes`.
+#
+# Rendered by scripts/gen-nodes.mjs -> docs/quickstart/index.md (the generated page
+# is committed; do not edit it by hand).
+updated: '2026-10-31'
+# Node used for the generated page's curl example (must be one of `nodes` below).
+example: https://api.steemit.com
+nodes:
+- url: https://api.steem.fans
+  owner: '@ety001'
+- url: https://api.steemyy.com
+  owner: '@justyy'
+- url: https://steem.justyy.com
+  owner: '@justyy'
+- url: https://steem.senior.workers.dev
+  owner: '@justyy'
+- url: https://api.justyy.com
+  owner: '@justyy'
+- url: https://api2.justyy.com
+  owner: '@justyy'
+- url: https://api.steemitdev.com
+  owner: '@steemit'
+- url: https://api.steemit.com
+  owner: '@steemit'
