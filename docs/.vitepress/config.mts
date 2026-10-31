@@ -450,7 +450,20 @@ export default defineConfig({
           { text: 'Home', link: '/' },
           { text: 'API', link: '/api/' }
         ],
+        // Non-API chapters (phase-5 six-chapter migration) live in their own
+        // sidebar group, separate from the generated API Reference group.
+        // En-only for now: the devportal chapters were never translated, so
+        // locale sidebars deliberately keep the API-only shape (a locale entry
+        // here would 404 on swap). Later phase-5 tasks (Introduction,
+        // Quickstart, Services, Resources, Testnet) append their index pages
+        // to this group one PR at a time.
         sidebar: [
+          {
+            text: 'Guides',
+            items: [
+              { text: 'Glossary', link: '/glossary/' }
+            ]
+          },
           {
             text: 'API Reference',
             items: apiSidebar()
