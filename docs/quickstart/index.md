@@ -29,14 +29,23 @@ Although `steemd` fully supports WebSockets (`wss://` and `ws://`), public nodes
 
 | URL | Operator |
 | --- | --- |
-| https://api.steem.fans | @ety001 |
-| https://api.steemyy.com | @justyy |
-| https://steem.justyy.com | @justyy |
-| https://steem.senior.workers.dev | @justyy |
-| https://api.justyy.com | @justyy |
-| https://api2.justyy.com | @justyy |
-| https://api.steemitdev.com | @steemit |
 | https://api.steemit.com | @steemit |
+| https://steemyy.com/node/ | @justyy |
+| https://api2.justyy.com | @justyy |
+| https://api.justyy.com | @justyy |
+| https://steem.justyy.com | @justyy |
+| https://api.steemyy.com | @justyy |
+| https://api2.steemyy.com | @justyy |
+| https://steem.senior.workers.dev | @justyy |
+| https://api.steemitdev.com | @steemit |
+| https://api.steem.fans | @ety001 |
+| https://api.pennsif.net | @pennsif |
+| https://steemd.steemworld.org | @steemchiller |
+| https://api.symbionts.io | @symbionts |
+| https://steemapi.boylikegirl.club | @boylikegirl.wit |
+| https://api.campingclub.me | @visionaer3003 |
+| https://cn.steems.top | @maiyude |
+| https://api.moecki.online | @moecki |
 
 This list is community-maintained and can change at any time. Each node above was verified live with a direct JSON-RPC call on 2026-10-31; nodes that failed the test have been removed. If a node stops responding, switch to another entry from the table.
 

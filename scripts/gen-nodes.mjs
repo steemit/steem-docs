@@ -37,7 +37,7 @@ const OUT_PATH = join(ROOT, 'docs/quickstart/index.md');
 // listed 9 public nodes; 1 was dead at test time -> 8 rows. These constants are
 // the provenance anchor: changing the node list requires a fresh liveness test
 // of EVERY node and a conscious update of both values.
-const EXPECTED_NODE_COUNT = 8;
+const EXPECTED_NODE_COUNT = 17;
 const EXPECTED_UPDATED = '2026-10-31'; // liveness-test date this count is valid for
 const HARD_LINE_CAP = 170; // same bash line-width discipline as check:curl-width
 
@@ -73,12 +73,14 @@ if (!/^\d{4}-\d{2}-\d{2}$/.test(String(data.updated)) || data.updated !== EXPECT
        '(YYYY-MM-DD) — the page only claims liveness for the tested date');
 }
 
-// G4 — shape: every node is an HTTPS URL plus an @owner handle (the old table's
-// Owner column). Scheme-less hosts from the old table are stored with https://
-// because the old page itself noted "All nodes listed use HTTPS".
+// G4 — shape: every node is an HTTPS URL (optionally with a path — sanctioned
+// case: https://steemyy.com/node/, an RPC endpoint living under a path on the
+// steemyy portal host) plus an @owner handle (the old table's Owner column).
+// Scheme-less hosts from the old table are stored with https:// because the
+// old page itself noted "All nodes listed use HTTPS".
 for (const node of data.nodes) {
-  if (typeof node.url !== 'string' || !/^https:\/\/[a-z0-9.-]+(?::\d+)?\/?$/.test(node.url)) {
-    fail(`G4 shape: node url '${node?.url}' is not a bare https URL`);
+  if (typeof node.url !== 'string' || !/^https:\/\/[a-z0-9.-]+(?::\d+)?(?:\/[a-z0-9._-]+)*\/?$/.test(node.url)) {
+    fail(`G4 shape: node url '${node?.url}' is not a well-formed https URL`);
   }
   if (typeof node.owner !== 'string' || !/^@[a-z0-9.-]+$/.test(node.owner)) {
     fail(`G4 shape: node '${node.url}' owner '${node?.owner}' is not an @handle`);
