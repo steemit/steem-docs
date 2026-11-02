@@ -700,7 +700,7 @@ export default defineConfig({
         sidebar: [
           {
             // T6-1: generated de glossary page (docs/de/glossary/index.md).
-            text: 'Anleitung',
+            text: 'Anleitungen',
             items: [
               { text: 'Glossar', link: '/de/glossary/' }
             ]

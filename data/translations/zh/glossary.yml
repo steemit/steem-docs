@@ -28,14 +28,14 @@ sections:
       账户在区块链上可使用资源的额度限制（也称为 RC）。
   - term: 权益份额（VESTS）
     def: |-
-      STEEM 权益（Steem Power）由此衍生的基本记账单位。
+      STEEM 权益（SP）由此衍生的基本记账单位。
   - term: STEEM（货币）
     def: |-
-      区块链的货币，STEEM 权益（Steem Power）的流动形态。
+      区块链的货币，STEEM 权益的流动形态。
   - term: STEEM 美元（SBD）
     def: |-
       Steem Backed Dollar，价值 1 美元的 STEEM。
-  - term: STEEM 权益（Steem Power）
+  - term: STEEM 权益（SP）
     def: |-
       STEEM 的锁定形态，赋予账户在平台上的影响力。
   - term: 交易（Transaction）
@@ -103,10 +103,10 @@ sections:
       「生产」Steem 区块链网络，持有真实的 STEEM 并发生实际的交易（transaction）。
   - term: 委托（Delegation）
     def: |-
-      将 STEEM 权益（Steem Power）出让给另一账户以用于内容影响力（不可花费，出让者可在 5 天后撤回）。
+      将 STEEM 权益（SP）出让给另一账户以用于内容影响力（不可花费，出让者可在 5 天后撤回）。
   - term: PowerUp
     def: |-
-      将 STEEM 转换为 STEEM 权益（Steem Power），反向操作为解押（PowerDown）。
+      将 STEEM 转换为 STEEM 权益（SP），反向操作为解押（PowerDown）。
   - term: 奖励池（Reward Pool）
     def: |-
       每天，固定数量的 STEEM 代币会被分配到网络奖励基金（reward fund）中，通常称为「奖励池」（reward pool）。这些代币会分配给发帖和投票的作者与策展人。
@@ -123,7 +123,7 @@ sections:
     def: |-
       <p>
         追踪投票力（voting power），在 5 天内从 0 线性恢复到最大值的
-        100%。它是 STEEM 权益（Steem Power）、委托（delegation）与进行中的
+        100%。它是 STEEM 权益（SP）、委托（delegation）与进行中的
         解押（power down）的函数，追踪未消耗的奖励基金份额。
       </p>
 
@@ -154,7 +154,7 @@ sections:
       委托权益证明（Delegated Proof of Stake）。
   - term: 代理（Proxy）
     def: |-
-      将 STEEM 权益（Steem Power）出让给另一账户，用于 DPOS 治理与 SPS 审批（不可花费，可即时撤回）。
+      将 STEEM 权益（SP）出让给另一账户，用于 DPOS 治理与 SPS 审批（不可花费，可即时撤回）。
   - term: 节点（Node）
     def: |-
       节点是运行在服务器上的 Steem 区块链实例。

@@ -41,13 +41,13 @@ description: Steem 区块链的常用术语。
 
 **权益份额（VESTS）**
 
-STEEM 权益（Steem Power）由此衍生的基本记账单位。
+STEEM 权益（SP）由此衍生的基本记账单位。
 
 <a id="term-steem-currency"></a>
 
 **STEEM（货币）**
 
-区块链的货币，STEEM 权益（Steem Power）的流动形态。
+区块链的货币，STEEM 权益的流动形态。
 
 <a id="term-sbd"></a>
 
@@ -57,7 +57,7 @@ Steem Backed Dollar，价值 1 美元的 STEEM。
 
 <a id="term-steem-power"></a>
 
-**STEEM 权益（Steem Power）**
+**STEEM 权益（SP）**
 
 STEEM 的锁定形态，赋予账户在平台上的影响力。
 
@@ -191,13 +191,13 @@ Wallet Import Format/私钥，必须保密，因为它能访问账户。
 
 **委托（Delegation）**
 
-将 STEEM 权益（Steem Power）出让给另一账户以用于内容影响力（不可花费，出让者可在 5 天后撤回）。
+将 STEEM 权益（SP）出让给另一账户以用于内容影响力（不可花费，出让者可在 5 天后撤回）。
 
 <a id="term-powerup"></a>
 
 **PowerUp**
 
-将 STEEM 转换为 STEEM 权益（Steem Power），反向操作为解押（PowerDown）。
+将 STEEM 转换为 STEEM 权益（SP），反向操作为解押（PowerDown）。
 
 <a id="term-reward-pool"></a>
 
@@ -229,7 +229,7 @@ Multi Index Rocksdb Adapter，将 Steem 的数据库后端从内存映射文件�
 
 <p>
   追踪投票力（voting power），在 5 天内从 0 线性恢复到最大值的
-  100%。它是 STEEM 权益（Steem Power）、委托（delegation）与进行中的
+  100%。它是 STEEM 权益（SP）、委托（delegation）与进行中的
   解押（power down）的函数，追踪未消耗的奖励基金份额。
 </p>
 
@@ -278,7 +278,7 @@ Multi Index Rocksdb Adapter，将 Steem 的数据库后端从内存映射文件�
 
 **代理（Proxy）**
 
-将 STEEM 权益（Steem Power）出让给另一账户，用于 DPOS 治理与 SPS 审批（不可花费，可即时撤回）。
+将 STEEM 权益（SP）出让给另一账户，用于 DPOS 治理与 SPS 审批（不可花费，可即时撤回）。
 
 <a id="term-node"></a>
 
