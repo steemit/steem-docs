@@ -515,7 +515,7 @@ export default defineConfig({
             text: '指南',
             items: [
               { text: '介绍', link: '/zh/introduction/' },
-              { text: '快速开始', link: '/zh/quickstart/' }
+              { text: '快速开始', link: '/zh/quickstart/' },
               { text: '术语表', link: '/zh/glossary/' }
             ]
           },
@@ -606,7 +606,7 @@ export default defineConfig({
             text: 'Руководства',
             items: [
               { text: 'Введение', link: '/ru/introduction/' },
-              { text: 'Быстрый старт', link: '/ru/quickstart/' }
+              { text: 'Быстрый старт', link: '/ru/quickstart/' },
               { text: 'Глоссарий', link: '/ru/glossary/' }
             ]
           },
@@ -659,7 +659,7 @@ export default defineConfig({
             text: 'Guides',
             items: [
               { text: 'Introduction', link: '/fr/introduction/' },
-              { text: 'Démarrage rapide', link: '/fr/quickstart/' }
+              { text: 'Démarrage rapide', link: '/fr/quickstart/' },
               { text: 'Glossaire', link: '/fr/glossary/' }
             ]
           },
@@ -709,7 +709,7 @@ export default defineConfig({
             text: 'Anleitungen',
             items: [
               { text: 'Einführung', link: '/de/introduction/' },
-              { text: 'Schnellstart', link: '/de/quickstart/' }
+              { text: 'Schnellstart', link: '/de/quickstart/' },
               { text: 'Glossar', link: '/de/glossary/' }
             ]
           },
@@ -752,7 +752,7 @@ export default defineConfig({
             text: 'Guide',
             items: [
               { text: 'Introduzione', link: '/it/introduction/' },
-              { text: 'Avvio rapido', link: '/it/quickstart/' }
+              { text: 'Avvio rapido', link: '/it/quickstart/' },
               { text: 'Glossario', link: '/it/glossary/' }
             ]
           },
@@ -798,7 +798,7 @@ export default defineConfig({
             text: 'Guías',
             items: [
               { text: 'Introducción', link: '/es/introduction/' },
-              { text: 'Inicio rápido', link: '/es/quickstart/' }
+              { text: 'Inicio rápido', link: '/es/quickstart/' },
               { text: 'Glosario', link: '/es/glossary/' }
             ]
           },
@@ -847,7 +847,7 @@ export default defineConfig({
             text: '가이드',
             items: [
               { text: '소개', link: '/ko/introduction/' },
-              { text: '빠른 시작', link: '/ko/quickstart/' }
+              { text: '빠른 시작', link: '/ko/quickstart/' },
               { text: '용어집', link: '/ko/glossary/' }
             ]
           },
