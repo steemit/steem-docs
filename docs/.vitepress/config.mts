@@ -259,8 +259,11 @@ export default defineConfig({
     // en tree is home + api tree only, so every page is now mirrored 1:1 and
     // the switcher can safely swap the current path (langs.js:
     // normalizeLink(link, i18nRouting !== false && correspondingLink, ...)).
-    // Caveat: future non-API en pages (phase-5 six chapters / tutorials) will
-    // swap to missing pages until they are mirrored per locale.
+    // Phase 6 (T6-1..T6-3) mirrored the six guide chapters (glossary,
+    // introduction, quickstart, services x3, resources, testnet) into all
+    // seven locales, so the entire page set is mirrored 1:1. If future
+    // en-only pages are added (e.g. tutorials when rebuilt), they will swap
+    // to missing pages until they are mirrored per locale.
     // MUST live here at the TOP-level themeConfig: resolveSiteDataByRoute
     // merges `{...topLevel.themeConfig, ...locales[route].themeConfig}`
     // (shallow), so a locales.root copy would never reach a zh page.
