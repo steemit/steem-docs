@@ -511,12 +511,24 @@ export default defineConfig({
         // (see apiSidebar opts comment).
         sidebar: [
           {
-            // T6-1 + T6-2: translated guides (Introduction + Quickstart + Glossary pages).
+            // T6-1 + T6-2 + T6-3: translated guides (Introduction / Quickstart / Glossary / Resources / Testnet pages).
             text: '指南',
             items: [
               { text: '介绍', link: '/zh/introduction/' },
               { text: '快速开始', link: '/zh/quickstart/' },
-              { text: '术语表', link: '/zh/glossary/' }
+              { text: '术语表', link: '/zh/glossary/' },
+              { text: '资源', link: '/zh/resources/' },
+              { text: '测试网', link: '/zh/testnet/' }
+            ]
+          },
+          {
+            text: '服务',
+            items: [
+              { text: '概览', link: '/zh/services/' },
+              { text: 'ImageHoster', link: '/zh/services/imagehoster' },
+              { text: 'Jussi', link: '/zh/services/jussi' },
+              { text: 'Steem DAO', link: '/zh/services/steem-dao' }
+
             ]
           },
           {
@@ -602,12 +614,24 @@ export default defineConfig({
         // (same shape as the zh sidebar since T12).
         sidebar: [
           {
-            // T6-1 + T6-2: translated guides (Introduction + Quickstart + Glossary pages).
+            // T6-1 + T6-2 + T6-3: translated guides (Introduction / Quickstart / Glossary / Resources / Testnet pages).
             text: 'Руководства',
             items: [
               { text: 'Введение', link: '/ru/introduction/' },
               { text: 'Быстрый старт', link: '/ru/quickstart/' },
-              { text: 'Глоссарий', link: '/ru/glossary/' }
+              { text: 'Глоссарий', link: '/ru/glossary/' },
+              { text: 'Ресурсы', link: '/ru/resources/' },
+              { text: 'Тестовая сеть', link: '/ru/testnet/' }
+            ]
+          },
+          {
+            text: 'Сервисы',
+            items: [
+              { text: 'Обзор', link: '/ru/services/' },
+              { text: 'ImageHoster', link: '/ru/services/imagehoster' },
+              { text: 'Jussi', link: '/ru/services/jussi' },
+              { text: 'Steem DAO', link: '/ru/services/steem-dao' }
+
             ]
           },
           {
@@ -655,12 +679,24 @@ export default defineConfig({
         // (same shape as the zh/ru sidebars since T27).
         sidebar: [
           {
-            // T6-1 + T6-2: translated guides (Introduction + Quickstart + Glossary pages).
+            // T6-1 + T6-2 + T6-3: translated guides (Introduction / Quickstart / Glossary / Resources / Testnet pages).
             text: 'Guides',
             items: [
               { text: 'Introduction', link: '/fr/introduction/' },
               { text: 'Démarrage rapide', link: '/fr/quickstart/' },
-              { text: 'Glossaire', link: '/fr/glossary/' }
+              { text: 'Glossaire', link: '/fr/glossary/' },
+              { text: 'Ressources', link: '/fr/resources/' },
+              { text: 'Réseau de test', link: '/fr/testnet/' }
+            ]
+          },
+          {
+            text: 'Services',
+            items: [
+              { text: "Vue d'ensemble", link: '/fr/services/' },
+              { text: 'ImageHoster', link: '/fr/services/imagehoster' },
+              { text: 'Jussi', link: '/fr/services/jussi' },
+              { text: 'Steem DAO', link: '/fr/services/steem-dao' }
+
             ]
           },
           {
@@ -705,12 +741,24 @@ export default defineConfig({
         // (same shape as the zh sidebar since T12).
         sidebar: [
           {
-            // T6-1 + T6-2: translated guides (Introduction + Quickstart + Glossary pages).
-            text: 'Anleitungen',
+            // T6-1 + T6-2 + T6-3: translated guides (Introduction / Quickstart / Glossary / Resources / Testnet pages).
+            text: 'Anleitung',
             items: [
               { text: 'Einführung', link: '/de/introduction/' },
               { text: 'Schnellstart', link: '/de/quickstart/' },
-              { text: 'Glossar', link: '/de/glossary/' }
+              { text: 'Glossar', link: '/de/glossary/' },
+              { text: 'Ressourcen', link: '/de/resources/' },
+              { text: 'Testnet', link: '/de/testnet/' }
+            ]
+          },
+          {
+            text: 'Dienste',
+            items: [
+              { text: 'Übersicht', link: '/de/services/' },
+              { text: 'ImageHoster', link: '/de/services/imagehoster' },
+              { text: 'Jussi', link: '/de/services/jussi' },
+              { text: 'Steem DAO', link: '/de/services/steem-dao' }
+
             ]
           },
           {
@@ -748,12 +796,24 @@ export default defineConfig({
         ],
         sidebar: [
           {
-            // T6-1 + T6-2: translated guides (Introduction + Quickstart + Glossary pages).
+            // T6-1 + T6-2 + T6-3: translated guides (Introduction / Quickstart / Glossary / Resources / Testnet pages).
             text: 'Guide',
             items: [
               { text: 'Introduzione', link: '/it/introduction/' },
               { text: 'Avvio rapido', link: '/it/quickstart/' },
-              { text: 'Glossario', link: '/it/glossary/' }
+              { text: 'Glossario', link: '/it/glossary/' },
+              { text: 'Risorse', link: '/it/resources/' },
+              { text: 'Testnet', link: '/it/testnet/' }
+            ]
+          },
+          {
+            text: 'Servizi',
+            items: [
+              { text: 'Panoramica', link: '/it/services/' },
+              { text: 'ImageHoster', link: '/it/services/imagehoster' },
+              { text: 'Jussi', link: '/it/services/jussi' },
+              { text: 'Steem DAO', link: '/it/services/steem-dao' }
+
             ]
           },
           {
@@ -794,12 +854,24 @@ export default defineConfig({
         ],
         sidebar: [
           {
-            // T6-1 + T6-2: translated guides (Introduction + Quickstart + Glossary pages).
+            // T6-1 + T6-2 + T6-3: translated guides (Introduction / Quickstart / Glossary / Resources / Testnet pages).
             text: 'Guías',
             items: [
               { text: 'Introducción', link: '/es/introduction/' },
               { text: 'Inicio rápido', link: '/es/quickstart/' },
-              { text: 'Glosario', link: '/es/glossary/' }
+              { text: 'Glosario', link: '/es/glossary/' },
+              { text: 'Recursos', link: '/es/resources/' },
+              { text: 'Testnet', link: '/es/testnet/' }
+            ]
+          },
+          {
+            text: 'Servicios',
+            items: [
+              { text: 'Visión general', link: '/es/services/' },
+              { text: 'ImageHoster', link: '/es/services/imagehoster' },
+              { text: 'Jussi', link: '/es/services/jussi' },
+              { text: 'Steem DAO', link: '/es/services/steem-dao' }
+
             ]
           },
           {
@@ -843,12 +915,24 @@ export default defineConfig({
         // tree too (same shape as the zh/ru/fr/de/it/es sidebars since T27).
         sidebar: [
           {
-            // T6-1 + T6-2: translated guides (Introduction + Quickstart + Glossary pages).
+            // T6-1 + T6-2 + T6-3: translated guides (Introduction / Quickstart / Glossary / Resources / Testnet pages).
             text: '가이드',
             items: [
               { text: '소개', link: '/ko/introduction/' },
               { text: '빠른 시작', link: '/ko/quickstart/' },
-              { text: '용어집', link: '/ko/glossary/' }
+              { text: '용어집', link: '/ko/glossary/' },
+              { text: '리소스', link: '/ko/resources/' },
+              { text: '테스트넷', link: '/ko/testnet/' }
+            ]
+          },
+          {
+            text: '서비스',
+            items: [
+              { text: '개요', link: '/ko/services/' },
+              { text: 'ImageHoster', link: '/ko/services/imagehoster' },
+              { text: 'Jussi', link: '/ko/services/jussi' },
+              { text: 'Steem DAO', link: '/ko/services/steem-dao' }
+
             ]
           },
           {
