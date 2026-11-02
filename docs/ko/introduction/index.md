@@ -21,6 +21,6 @@ API 레퍼런스는 여덟 개 언어 — English, 简体中文, Русский,
 
 ## 외부 리소스
 
-- [github.com/steemit](https://github.com/steemit) — Steem의 GitHub 조직으로, 블록체인 노드 소프트웨어([steemit/steem](https://github.com/steemit/steem))와 관련 저장소의 고향입니다.
+- [github.com/steemit](https://github.com/steemit) — Steem의 GitHub 조직으로, 블록체인 노드 소프트웨어([steemit/steem](https://github.com/steemit/steem))와 관련 저장소의 중심지입니다.
 - [steemit.com FAQ](https://steemit.com/faq.html) — Steem, 그 토큰, 그리고 거버넌스에 대한 자주 묻는 질문의 답변.
 - [steem-docs](https://github.com/steemit/steem-docs) — 이 사이트의 소스입니다. 오류나 누락을 발견하면 issue를 열거나 pull request를 보내 주세요.

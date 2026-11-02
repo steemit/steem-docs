@@ -5,7 +5,7 @@ description: Was die Entwicklerdokumentation für Steem abdeckt und wie die Webs
 
 # Einführung
 
-Diese Website ist die Entwicklerdokumentation für die Steem-Blockchain. Ihr Kern ist eine vollständige JSON-RPC-API-Referenz: Jede API-Methode hat eine eigene Seite, generiert zur Build-Zeit aus einer einzigen YAML-Wahrheitsquelle — einzeln adressierbar, vollständig durchsuchbar und in acht Sprachen verfügbar.
+Diese Website ist die Entwicklerdokumentation für die Steem-Blockchain. Ihr Kern ist eine vollständige JSON-RPC-API-Referenz: Jede API-Methode hat eine eigene Seite, generiert zur Build-Zeit aus einer einzigen YAML-Datei als Single Source of Truth — einzeln adressierbar, vollständig durchsuchbar und in acht Sprachen verfügbar.
 
 ## Wie die Website aufgebaut ist
 

@@ -19,7 +19,7 @@ Steem 블록체인에 연결하려면 두 가지를 결정해야 합니다. 자�
 | Go | [steemgosdk](https://github.com/steemit/steemgosdk) | A Go SDK for interacting with the Steem blockchain: high-level abstractions for common operations, transaction signing and broadcasting, key management. Under active development. |
 | Python | [steem-python](https://github.com/steemit/steem-python) | The official Steem library for Python; comes with a BIP38 encrypted wallet and the `steempy` CLI tool. |
 
-이 라이브러리들은 모두 JSON-RPC로 `steemd` 노드와 통신합니다 — 다음 절의 연결 설정은 그 어느 하나에도 똑같이 적용됩니다.
+이 라이브러리들은 모두 JSON-RPC로 `steemd` 노드와 통신합니다 — 다음 절의 연결 설정은 그중 어느 라이브러리에도 똑같이 적용됩니다.
 
 ## 노드에 연결
 

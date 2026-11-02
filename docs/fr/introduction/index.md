@@ -5,7 +5,7 @@ description: Ce que couvre la documentation développeur de Steem et comment le 
 
 # Introduction
 
-Ce site est la documentation développeur de la blockchain Steem. Son cœur est une référence JSON-RPC API complète : chaque méthode API possède sa propre page, générée à la construction à partir d’une unique source de vérité YAML — adressable individuellement, entièrement cherchable et disponible en huit langues.
+Ce site est la documentation développeur de la blockchain Steem. Son cœur est une référence JSON-RPC API complète : chaque méthode API possède sa propre page, générée à la construction à partir d’une unique source de vérité YAML — adressable individuellement, entièrement interrogeable et disponible en huit langues.
 
 ## Comment le site est organisé
 

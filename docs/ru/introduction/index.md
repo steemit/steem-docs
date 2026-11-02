@@ -21,6 +21,6 @@ description: Что охватывает документация разрабо
 
 ## Внешние ресурсы
 
-- [github.com/steemit](https://github.com/steemit) — организация Steem на GitHub, дом нодового программного обеспечения блокчейна ([steemit/steem](https://github.com/steemit/steem)) и смежных репозиториев.
+- [github.com/steemit](https://github.com/steemit) — организация Steem на GitHub, родной дом узлового программного обеспечения блокчейна ([steemit/steem](https://github.com/steemit/steem)) и смежных репозиториев.
 - [steemit.com FAQ](https://steemit.com/faq.html) — ответы на частые вопросы о Steem, его токенах и управлении.
 - [steem-docs](https://github.com/steemit/steem-docs) — исходный код этого сайта. Нашли ошибку или пробел — откройте issue или отправьте pull request.

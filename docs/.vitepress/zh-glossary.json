@@ -1,5 +1,5 @@
 {
-  "$meta": "zh 术语冻结基线（T11 batch 3，phase2-plan §4-T11）。本表是 T12 方法页 purpose 翻译及后续 zh 批次的强制基线：译法必须逐条遵循；新增或修改条目必须在 PR 说明中给出理由并同步更新本文件。放在 docs/.vitepress/ 下（theme 同级数据文件）而非 docs/zh/*.md，是有意为之——它不是站点页面，不参与构建与页面计数（zh 页面数硬性规格 = 21）。",
+  "$meta": "zh 术语冻结基线（T11 batch 3，phase2-plan §4-T11）。本表是 T12 方法页 purpose 翻译及后续 zh 批次的强制基线：译法必须逐条遵循；新增或修改条目必须在 PR 说明中给出理由并同步更新本文件。放在 docs/.vitepress/ 下（theme 同级数据文件）而非 docs/zh/*.md，是有意为之——它不是站点页面，不参与构建与页面计数。",
   "version": "1.0-frozen",
   "conventions": [
     "代币与 API 名称（STEEM、SBD、RC、VESTS、condenser_api 等）保留英文原词，首次出现时括注中文解释。",
