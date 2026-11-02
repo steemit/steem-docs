@@ -1,0 +1,279 @@
+# ---------------------------------------------------------------------------
+# fr translations of the Steem glossary — mirror of data/glossary.yml
+# (5 sections / 79 terms, same order, same counts: 40/9/8/18/4).
+#
+# Consumed by `node scripts/gen-glossary.mjs --locale fr` ->
+# docs/fr/glossary/index.md. Terminology follows the frozen baseline
+# docs/.vitepress/fr-glossary.json (30 entries) entry by entry; corpus
+# reference: data/translations/fr/purposes.yml. Code names (STEEM, SBD, RC,
+# VESTS, SP, condenser_api, sort-order keys such as Trending/Hot/...) stay in
+# English. First occurrence uses the 『terme français (English)』 annotation.
+# Source defects are carried over verbatim (the duplicated Chain Basics tail
+# terms, the awkward source wording) — no fixes. No exclamation marks.
+# ---------------------------------------------------------------------------
+sections:
+- name: Bases de la chaîne
+  items:
+  - term: Blockchain
+    def: |-
+      Registre décentralisé et protocole de consensus.
+  - term: Steem (blockchain)
+    def: |-
+      Nom de la blockchain et de la plateforme.
+  - term: Bande passante (Bandwidth)
+    def: |-
+      Ancienne limite de données que chaque compte pouvait envoyer/utiliser (remplacée par les Resource Credits (RC)).
+  - term: Resource Credits (RC)
+    def: |-
+      Limite de ressources de la blockchain que chaque compte peut utiliser (également connues sous le nom de RC).
+  - term: Parts de vesting (VESTS)
+    def: |-
+      Unité de comptabilité fondamentale dont découle le STEEM Power.
+  - term: STEEM (devise)
+    def: |-
+      Devise de la blockchain, forme liquide du STEEM Power.
+  - term: Dollars STEEM (SBD)
+    def: |-
+      Steem Backed Dollar, 1 $ de STEEM.
+  - term: STEEM Power
+    def: |-
+      Forme verrouillée du STEEM qui donne au compte une influence sur la plateforme.
+  - term: Transaction
+    def: |-
+      Opérations/activité/requêtes d’écriture adressées à la blockchain. Une transaction est une mise à jour soumise à la blockchain Steem. Cela peut inclure des transferts de tokens, des posts/commentaires, des votes, etc.
+  - term: Bloc (Block)
+    def: |-
+      Toutes les trois secondes, la blockchain Steem produit un nouveau bloc. Chaque fois qu’un nouveau bloc est produit, le réseau distribué est mis à jour avec toutes les transactions intervenues dans ce bloc.
+  - term: En-tête de bloc (Block Header)
+    def: |-
+      Informations sur le bloc, la root, le witness qui a signé, etc.
+  - term: Prix de flux (Price feed)
+    def: |-
+      Flux entretenu par les witness afin d’assurer la stabilité du prix SBD/STEEM.
+  - term: Compte (Account)
+    def: |-
+      Un compte est un conteneur pour toute l’activité associée au portefeuille d’un utilisateur donné sur la blockchain. Cela inclut tous ses tokens, posts, commentaires, upvotes, transferts (transfer), etc.
+  - term: Autorité (Authority)
+    def: |-
+      Chaque compte dispose de plusieurs autorités et clés pour gérer différentes permissions sur la plateforme.
+  - term: Propriétaire (Owner)
+    def: |-
+      Autorité/permission de propriétaire d’un compte donné.
+  - term: Clé (Key)
+    def: |-
+      Les clés servent à authentifier les transactions. Chaque clé contient une paire publique/privée. Lorsqu’une transaction est soumise à la blockchain Steem, le propriétaire du compte la signe avec sa clé privée. La blockchain peut déterminer que la transaction est valide en vérifiant la signature à l’aide de la clé publique de la paire.
+  - term: Clé publique (Public Key)
+    def: |-
+      Clé publique d’une autorité donnée du compte.
+  - term: Clé privée (Private Key)
+    def: |-
+      Clé privée servant à signer une transaction avec l’autorité du compte ; elle doit rester secrète car elle donne accès au compte.
+  - term: Wif
+    def: |-
+      Wallet Import Format/clé privée ; elle doit rester secrète car elle donne accès au compte.
+  - term: Clé active (Active key)
+    def: |-
+      La clé active sert à effectuer des transferts et à passer des ordres sur le marché interne.
+  - term: Clé de publication (Posting key)
+    def: |-
+      La clé de publication sert à publier et à voter.
+  - term: Clé du propriétaire (Owner key)
+    def: |-
+      La clé du propriétaire est la clé maîtresse du compte ; elle est requise pour changer les autres clés.
+  - term: Post (publication)
+    def: |-
+      Un post est un commentaire (comment) de niveau racine, c’est-à-dire sans « parent ».
+  - term: Commentaire (Comment)
+    def: |-
+      Un commentaire est un contenu texte stocké sur la blockchain. Les commentaires peuvent être liés à d’autres commentaires comme « réponses » via des relations parent/enfant.
+  - term: Vote
+    def: |-
+      Un vote exprime l’approbation (upvote) ou la désapprobation (downvote) d’un post/commentaire. La blockchain Steem utilise les votes reçus par un post/commentaire pour déterminer sa part des récompenses.
+  - term: Réputation (Reputation)
+    def: |-
+      Réputation du compte sur la plateforme.
+  - term: Langage Markdown
+    def: |-
+      Langage en texte brut, facile à lire et à écrire, couramment utilisé pour créer des articles sur Steemit.
+  - term: Permlink (lien permanent)
+    def: |-
+      Identifiant unique de chaque commentaire ou post d’un auteur, dans le contexte de cet auteur. (Les combinaisons « @author/permlink » sont uniques à l’échelle mondiale.)
+  - term: Réseau principal (Mainnet)
+    def: |-
+      Réseau « de production » de la blockchain Steem, où sont détenus de vrais STEEM et où ont lieu de véritables transactions.
+  - term: Délégation (Delegation)
+    def: |-
+      Attribution de STEEM Power à un autre compte pour l’influence sur le contenu (ne peut pas être dépensée ; révocable par le délégant sous 5 jours).
+  - term: PowerUp
+    def: |-
+      Convertit du STEEM en STEEM Power, et inversement avec PowerDown.
+  - term: Pool de récompenses (Reward Pool)
+    def: |-
+      Chaque jour, une quantité fixe de tokens STEEM est allouée au fonds de récompenses (reward fund) du réseau, communément appelé « pool de récompenses » (reward pool). Ils sont distribués aux auteurs et aux curateurs pour la publication et le vote de contenu.
+  - term: AppBase
+    def: |-
+      Architecture de plugins offrant une base robuste pour le passage à l’échelle. Elle rend modulaires de nombreuses composantes de la blockchain Steem en créant des blockchains non consensuelles supplémentaires sous forme de plugins dédiés.
+  - term: RocksDB
+    def: |-
+      Magasin de données rapide sur disque doté d’une couche de cache avancée, qui minimise la latence des lectures/écritures sur disque.
+  - term: MIRA
+    def: |-
+      Multi Index Rocksdb Adapter, qui fait passer le backend de base de données de Steem de fichiers mappés en mémoire à un arbre merge-tree log-structuré sur disque implémenté au moyen de la bibliothèque RocksDB.
+  - term: Manabar
+    def: |-
+      <p>
+        Puissance de vote (voting power) suivie, qui se régénère
+        linéairement de 0 à 100 % du maximum en 5 jours. C’est une fonction
+        du STEEM Power, des délégations et des retraits de vesting (power
+        down) actifs, qui suit les parts non dépensées du fonds de
+        récompenses.
+      </p>
+
+      <p>
+        Chaque utilisateur dispose également d’une manabar spécifiquement
+        dédiée aux downvotes, égale à 25 % de la manabar d’upvote. Les
+        downvotes consomment d’abord ce mana avant de consommer le mana
+        ordinaire. Lors d’un vote, 1/50<sup>th</sup> du mana restant est
+        utilisé pour un vote à 100 %. Le même calcul s’applique au mana de
+        downvote, multiplié par 4 car la manabar de downvote vaut 25 % de la
+        manabar ordinaire. Le maximum de ces valeurs est utilisé. Lorsque
+        les deux manabar sont à 100 %, les valeurs sont identiques. Lorsque
+        le mana de downvote est épuisé, le mana ordinaire est alors utilisé.
+      </p>
+  - term: Enchère inversée (Reverse Auction)
+    def: |-
+      Fenêtre de 5 minutes pendant laquelle les récompenses de curation sont renvoyées au pool de récompenses.
+  - term: SPS
+    def: |-
+      Également connu sous le nom de Steem Proposal System. Organisation autonome décentralisée (DAO) on-chain qui permet aux utilisateurs de soumettre des propositions de financement et de voter avec le poids de leur stake pour sélectionner les propositions à financer.
+  - term: Blockchain
+    def: |-
+      Registre décentralisé et protocole de consensus.
+  - term: Steem (blockchain)
+    def: |-
+      Nom de la blockchain et de la plateforme.
+- name: Gouvernance
+  items:
+  - term: DPOS
+    def: |-
+      Preuve de participation déléguée (Delegated Proof of Stake).
+  - term: Proxy
+    def: |-
+      Attribution du STEEM Power à un autre compte pour la gouvernance DPOS et l’approbation de la SPS (ne peut pas être dépensé ; révocable instantanément).
+  - term: Nœud (Node)
+    def: |-
+      Un nœud est une instance de la blockchain Steem exécutée sur un serveur.
+  - term: Witness (témoin)
+    def: |-
+      Le witness est une position/un rôle occupé par des personnes choisies par la communauté (à qui la confiance est déléguée) pour soutenir la plateforme et exécuter le protocole de consensus, afin d’assurer la sécurité et la validité des transactions/blocs sur la blockchain. Un witness est chargé de signer et de valider les blocs de la blockchain Steem.
+  - term: Hard fork
+    def: |-
+      Processus de publication des mises à niveau de consensus du protocole/de la blockchain.
+  - term: Soft fork
+    def: |-
+      Processus de publication des améliorations logicielles du protocole/de la blockchain.
+  - term: Vote pour un witness (Witness Vote)
+    def: |-
+      Voter/élire des witness avec le stake du compte.
+  - term: DAO
+    def: |-
+      Organisation autonome décentralisée (voir : SPS).
+  - term: Décote SBD (SBD Haircut)
+    def: |-
+      Règles visant à arrêter l’émission de SBD lorsque l’offre est trop élevée. Remarque : l’émission de SBD pour la SPS (@steem.dao) ne suit pas ces règles et continue d’émettre des SBD quelle que soit l’offre.
+- name: Transactions
+  items:
+  - term: P2P
+    def: |-
+      Le réseau pair à pair (peer-to-peer) est le moyen par lequel les transactions sont diffusées vers le mempool jusqu’à leur inclusion dans un bloc.
+  - term: Mempool
+    def: |-
+      Endroit où une transaction en cours sur le réseau p2p est transmise et conservée jusqu’à ce qu’un witness la récupère et l’inclue dans le bloc suivant.
+  - term: Transaction en attente (Pending Transaction)
+    def: |-
+      Transaction en attente et devant être incluse dans la blockchain.
+  - term: Hex de la transaction (Transaction Hex)
+    def: |-
+      Hachage de la transaction.
+  - term: Signatures
+    def: |-
+      Signature de transaction signée par un compte avec une clé privée.
+  - term: Signatures canoniques (Canonical Signatures)
+    def: |-
+      Signatures à entropie réduite qui suivent la spécification BIP-0062 afin de prévenir la malléabilité des transactions. Toutes les signatures sur Steem sont des signatures canoniques depuis la version 0.20.2.
+  - term: Diffusion de la transaction (Broadcast Transaction)
+    def: |-
+      Événement où une transaction signée est diffusée sur le réseau p2p afin que les witness puissent la valider et l’inclure dans un bloc.
+  - term: Opération virtuelle (Virtual operation)
+    def: |-
+      Opérations dérivées de l’activité de la blockchain, mais qui ne sont pas réellement stockées comme opérations (ex. récompenses de curation et d’auteur). Elles se produisent sur la base du consensus de la blockchain, à la suite d’autres opérations ordinaires.
+- name: API
+  items:
+  - term: Tendance (trending)
+    def: |-
+      Posts/discussions (discussion) hautement valorisés par la communauté, avec un intervalle de mise à jour plus long.
+  - term: Popularité (hot)
+    def: |-
+      Posts/discussions (discussion) hautement valorisés, avec un intervalle de mise à jour plus court.
+  - term: Flux (feed)
+    def: |-
+      Posts/discussions (discussion) provenant des abonnés d’un compte donné.
+  - term: Activité (active)
+    def: |-
+      Posts/discussions (discussion) qui suscitent encore de l’activité.
+  - term: Nouveautés (new)
+    def: |-
+      Posts récemment créés.
+  - term: Paiement final (cashout)
+    def: |-
+      Posts qui ont été payés récemment.
+  - term: Promotion (promoted)
+    def: |-
+      Posts qui ont été promus en brûlant des SBD pour gagner en visibilité.
+  - term: Paiement en attente (Pending Payout)
+    def: |-
+      Paiement en attente estimé pour les posts/commentaires du blog.
+  - term: Tags
+    def: |-
+      Un tag est un descripteur utilisé pour identifier le type de contenu contenu dans un commentaire/post.
+  - term: Tags tendance (Trending Tags)
+    def: |-
+      Tags les plus utilisés.
+  - term: Abonnements (Following)
+    def: |-
+      Compte qui est suivi.
+  - term: Abonné (Follower)
+    def: |-
+      Compte qui suit l’utilisateur.
+  - term: État (State)
+    def: |-
+      État de la blockchain pour un chemin (path) — accounts/tags/filters/posts.
+  - term: Propriétés globales dynamiques (Dynamic Global Properties)
+    def: |-
+      Propriétés globales actuelles de la blockchain en vigueur pour chaque bloc.
+  - term: Prix médian (Median Price)
+    def: |-
+      Prix médian du flux fourni par l’ensemble des witness.
+  - term: Curateur (Curator)
+    def: |-
+      Utilisateur Steem qui upvote un post en utilisant sa puissance de vote quotidienne pour attribuer de la valeur à un post qu’il juge de bonne qualité, digne d’être vu, et dont l’auteur doit être récompensé.
+  - term: Récompense de curation (Curation reward)
+    def: |-
+      Récompense versée à un curateur, c’est-à-dire sa part des 50 % alloués à l’ensemble des curateurs ayant upvoté un post.
+  - term: Reblog (Resteem)
+    def: |-
+      (Reblog) republication du post d’un autre auteur dans le flux de votre blog, pour la liste de vos abonnés.
+- name: Marché
+  items:
+  - term: Demandes de conversion (Conversion Requests)
+    def: |-
+      Requête soumise pour convertir des SBD en STEEM.
+  - term: Carnet d'ordres (Order Book)
+    def: |-
+      Carnet d'ordres du marché interne pour échanger des SBD&lt;-&gt;STEEM.
+  - term: SMT (jetons médiatiques intelligents)
+    def: |-
+      Jetons médiatiques intelligents (Smart Media Tokens).
+  - term: Ordre à cours limité (Limit Order)
+    def: |-
+      Instruction donnée au DEX d’acheter ou de vendre un actif à un prix spécifié ou meilleur ; ces ordres expirent dans les 30 jours suivant leur création.
