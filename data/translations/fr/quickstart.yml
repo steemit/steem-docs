@@ -1,0 +1,44 @@
+# ---------------------------------------------------------------------------
+# fr translations of the quickstart page prose (T6-2). Consumed by
+# scripts/gen-nodes.mjs --locale fr -> docs/fr/quickstart/index.md.
+#
+# Traductions françaises des fragments de prose de la page. Les lignes du
+# tableau des bibliothèques, du tableau des nœuds et l'exemple curl proviennent
+# de la source anglaise et ne sont pas traduites ici (en-têtes de colonnes
+# exceptés) ; les cibles des liens restent identiques à la version anglaise,
+# seul le texte des liens est traduit. La terminologie suit la base gelée
+# docs/.vitepress/fr-glossary.json : « propriétés globales dynamiques (dynamic
+# global properties) » avec mention anglaise à la première occurrence ;
+# STEEM, JSON-RPC, steemd, steem-js, steemgosdk, steem-python et les autres
+# identifiants restent en anglais. {updated} et {example_url} sont des
+# espaces réservés du générateur — ne pas les supprimer.
+# ---------------------------------------------------------------------------
+schema: lc-quickstart/v1
+locale: fr
+strings:
+  title: Démarrage rapide
+  description: Choisissez une bibliothèque cliente Steem, connectez-vous à un nœud API public et effectuez votre premier appel JSON-RPC.
+  intro: |-
+    Se connecter à la blockchain Steem demande deux décisions : choisir une **bibliothèque cliente** (client library) pour votre stack, puis la pointer vers un **nœud API** (API node). Cette page parcourt les deux étapes, pour que vous puissiez émettre votre première requête en quelques minutes.
+  choose_library:
+    heading: Choisir une bibliothèque
+    lead: |-
+      Accéder aux données Steem est facile depuis les bibliothèques clientes officielles, selon votre infrastructure et vos objectifs :
+    table_headers: [Langage, Bibliothèque, Description]
+    note: |-
+      Toutes ces bibliothèques parlent JSON-RPC à un nœud `steemd` — la configuration de connexion de la section suivante s’applique à chacune d’elles.
+  connect_node:
+    heading: Se connecter à un nœud
+    lead: |-
+      Les applications qui dialoguent directement avec la blockchain Steem doivent se connecter à un nœud `steemd`. Vous pouvez exécuter votre propre instance ou démarrer avec l’un des nœuds API publics ci-dessous.
+    websocket_note: |-
+      Bien que `steemd` prenne totalement en charge les WebSockets (`wss://` et `ws://`), les nœuds publics ne le font généralement pas. Tous les nœuds listés ici utilisent HTTPS.
+    table_headers: [URL, Opérateur]
+    freshness_note: |-
+      Cette liste est maintenue par la communauté et peut changer à tout moment. Chaque nœud ci-dessus a été vérifié en direct par un appel JSON-RPC le {updated} ; les nœuds qui ont échoué au test ont été retirés. Si un nœud cesse de répondre, passez à une autre entrée du tableau.
+  test_curl:
+    heading: Tester un nœud avec curl
+    lead: |-
+      Chaque nœud public parle JSON-RPC sur HTTPS. L’exemple ci-dessous demande à {example_url} les propriétés globales dynamiques (dynamic global properties) de la chaîne — le champ `head_block_number` de la réponse est le sommet de la chaîne que ce nœud sert :
+  closing: |-
+    La même enveloppe de requête fonctionne pour chaque méthode de la [Référence API](/api/) — pointez-la vers n’importe quel nœud du tableau ci-dessus, ou remettez l’URL au réglage de nœud de votre bibliothèque cliente.

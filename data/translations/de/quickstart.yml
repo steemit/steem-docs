@@ -1,0 +1,44 @@
+# ---------------------------------------------------------------------------
+# de translations of the quickstart page prose (T6-2). Consumed by
+# scripts/gen-nodes.mjs --locale de -> docs/de/quickstart/index.md.
+#
+# Deutsche Übersetzungen der Prosatexte der Seite. Die Zeilen der
+# Bibliotheks- und Knotentabelle sowie das curl-Beispiel stammen aus der
+# englischen Quelle und werden hier nicht übersetzt (Spaltenüberschriften
+# ausgenommen); Linkziele bleiben unverändert wie in der englischen Version,
+# nur der Linktext wird übersetzt. Die Terminologie folgt der eingefrorenen
+# Basis docs/.vitepress/de-glossary.json: „dynamische globale Eigenschaften
+# (dynamic global properties)" mit englischer Klammer bei der ersten Nennung;
+# STEEM, JSON-RPC, steemd, steem-js, steemgosdk, steem-python und andere
+# Bezeichner bleiben englisch. {updated} und {example_url} sind
+# Generator-Platzhalter und dürfen nicht entfernt werden.
+# ---------------------------------------------------------------------------
+schema: lc-quickstart/v1
+locale: de
+strings:
+  title: Schnellstart
+  description: Wählen Sie eine Steem-Client-Bibliothek, verbinden Sie sich mit einem öffentlichen API-Knoten und führen Sie Ihren ersten JSON-RPC-Aufruf aus.
+  intro: |-
+    Die Verbindung zur Steem-Blockchain erfordert zwei Entscheidungen: Wählen Sie eine **Client-Bibliothek** (client library) für Ihren Stack und richten Sie sie auf einen **API-Knoten** (API node). Diese Seite führt durch beide Schritte, damit Sie in wenigen Minuten Ihre erste Anfrage stellen können.
+  choose_library:
+    heading: Eine Bibliothek wählen
+    lead: |-
+      Der Zugriff auf Steem-Daten ist über die offiziellen Client-Bibliotheken leicht — je nach Infrastruktur und Zielen:
+    table_headers: [Sprache, Bibliothek, Beschreibung]
+    note: |-
+      Alle diese Bibliotheken sprechen JSON-RPC mit einem `steemd`-Knoten — die Verbindungskonfiguration aus dem nächsten Abschnitt gilt für jede einzelne davon.
+  connect_node:
+    heading: Mit einem Knoten verbinden
+    lead: |-
+      Anwendungen, die direkt mit der Steem-Blockchain kommunizieren, müssen sich mit einem `steemd`-Knoten verbinden. Sie können Ihre eigene Instanz betreiben oder mit einem der unten aufgeführten öffentlichen API-Knoten beginnen.
+    websocket_note: |-
+      Obwohl `steemd` WebSockets vollständig unterstützt (`wss://` und `ws://`), tun öffentliche Knoten dies in der Regel nicht. Alle hier gelisteten Knoten verwenden HTTPS.
+    table_headers: [URL, Betreiber]
+    freshness_note: |-
+      Diese Liste wird von der Community gepflegt und kann sich jederzeit ändern. Jeder Knoten oben wurde am {updated} live mit einem direkten JSON-RPC-Aufruf überprüft; Knoten, die den Test nicht bestanden haben, wurden entfernt. Wenn ein Knoten nicht mehr antwortet, wechseln Sie zu einem anderen Eintrag aus der Tabelle.
+  test_curl:
+    heading: Einen Knoten mit curl testen
+    lead: |-
+      Jeder öffentliche Knoten spricht JSON-RPC über HTTPS. Das folgende Beispiel fragt {example_url} nach den dynamischen globalen Eigenschaften (dynamic global properties) der Chain — das Feld `head_block_number` in der Antwort ist die Spitze der Kette, die dieser Knoten bedient:
+  closing: |-
+    Derselbe Anfrage-Umschlag funktioniert für jede Methode in der [API-Referenz](/api/) — richten Sie ihn an einen beliebigen Knoten aus der Tabelle oben, oder übergeben Sie die URL an die Knoten-Einstellung Ihrer Client-Bibliothek.

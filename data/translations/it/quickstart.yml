@@ -1,0 +1,44 @@
+# ---------------------------------------------------------------------------
+# it translations of the quickstart page prose (T6-2). Consumed by
+# scripts/gen-nodes.mjs --locale it -> docs/it/quickstart/index.md.
+#
+# Traduzioni italiane dei frammenti di prosa della pagina. Le righe della
+# tabella delle librerie, della tabella dei nodi e l'esempio curl provengono
+# dalla fonte inglese e non vengono tradotte qui (intestazioni di colonna
+# escluse); le destinazioni dei link restano identiche alla versione inglese,
+# viene tradotto solo il testo dei link. La terminologia segue la base
+# congelata docs/.vitepress/it-glossary.json: «proprietà globali dinamiche
+# (dynamic global properties)» con la dicitura inglese alla prima occorrenza;
+# STEEM, JSON-RPC, steemd, steem-js, steemgosdk, steem-python e gli altri
+# identificatori restano in inglese. {updated} e {example_url} sono
+# segnaposto del generatore e non vanno rimossi.
+# ---------------------------------------------------------------------------
+schema: lc-quickstart/v1
+locale: it
+strings:
+  title: Avvio rapido
+  description: Scegli una libreria client Steem, connettiti a un nodo API pubblico ed esegui la tua prima chiamata JSON-RPC.
+  intro: |-
+    Connettersi alla blockchain Steem richiede due decisioni: scegliere una **libreria client** (client library) per il proprio stack e puntarla a un **nodo API** (API node). Questa pagina attraversa entrambi i passaggi, così puoi effettuare la tua prima richiesta in pochi minuti.
+  choose_library:
+    heading: Scegliere una libreria
+    lead: |-
+      Accedere ai dati Steem è facile dalle librerie client ufficiali, a seconda dell’infrastruttura e degli obiettivi:
+    table_headers: [Linguaggio, Libreria, Descrizione]
+    note: |-
+      Tutte queste librerie parlano JSON-RPC con un nodo `steemd` — la configurazione di connessione della sezione successiva vale per ognuna di esse.
+  connect_node:
+    heading: Connettersi a un nodo
+    lead: |-
+      Le applicazioni che interagiscono direttamente con la blockchain Steem devono connettersi a un nodo `steemd`. Puoi eseguire la tua istanza oppure iniziare con uno dei nodi API pubblici elencati di seguito.
+    websocket_note: |-
+      Sebbene `steemd` supporti pienamente i WebSocket (`wss://` e `ws://`), i nodi pubblici in genere no. Tutti i nodi elencati qui usano HTTPS.
+    table_headers: [URL, Operatore]
+    freshness_note: |-
+      Questo elenco è mantenuto dalla community e può cambiare in qualsiasi momento. Ogni nodo sopra è stato verificato dal vivo con una chiamata JSON-RPC diretta il {updated}; i nodi che non hanno superato il test sono stati rimossi. Se un nodo smette di rispondere, passa a un’altra voce della tabella.
+  test_curl:
+    heading: Testare un nodo con curl
+    lead: |-
+      Ogni nodo pubblico parla JSON-RPC su HTTPS. L’esempio sotto chiede a {example_url} le proprietà globali dinamiche (dynamic global properties) della catena — il campo `head_block_number` nella risposta è la punta della catena che quel nodo serve:
+  closing: |-
+    La stessa busta di richiesta funziona per ogni metodo del [Riferimento API](/api/) — puntala a qualsiasi nodo della tabella sopra, oppure passa l’URL all’impostazione del nodo della tua libreria client.
