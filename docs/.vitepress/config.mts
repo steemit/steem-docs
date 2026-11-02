@@ -511,6 +511,13 @@ export default defineConfig({
         // (see apiSidebar opts comment).
         sidebar: [
           {
+            // T6-1: generated zh glossary page (docs/zh/glossary/index.md).
+            text: '指南',
+            items: [
+              { text: '术语表', link: '/zh/glossary/' }
+            ]
+          },
+          {
             text: 'API 参考',
             items: apiSidebar({ indexPrefix: '/zh/api/', methodPrefix: '/zh/api/' })
           }
@@ -593,6 +600,13 @@ export default defineConfig({
         // (same shape as the zh sidebar since T12).
         sidebar: [
           {
+            // T6-1: generated ru glossary page (docs/ru/glossary/index.md).
+            text: 'Руководства',
+            items: [
+              { text: 'Глоссарий', link: '/ru/glossary/' }
+            ]
+          },
+          {
             text: 'Справочник API',
             items: apiSidebar({ indexPrefix: '/ru/api/', methodPrefix: '/ru/api/' })
           }
@@ -637,6 +651,13 @@ export default defineConfig({
         // (same shape as the zh/ru sidebars since T27).
         sidebar: [
           {
+            // T6-1: generated fr glossary page (docs/fr/glossary/index.md).
+            text: 'Guides',
+            items: [
+              { text: 'Glossaire', link: '/fr/glossary/' }
+            ]
+          },
+          {
             text: 'Référence API',
             items: apiSidebar({ indexPrefix: '/fr/api/', methodPrefix: '/fr/api/' })
           }
@@ -678,6 +699,13 @@ export default defineConfig({
         // (same shape as the zh sidebar since T12).
         sidebar: [
           {
+            // T6-1: generated de glossary page (docs/de/glossary/index.md).
+            text: 'Anleitungen',
+            items: [
+              { text: 'Glossar', link: '/de/glossary/' }
+            ]
+          },
+          {
             text: 'API-Referenz',
             items: apiSidebar({ indexPrefix: '/de/api/', methodPrefix: '/de/api/' })
           }
@@ -711,6 +739,13 @@ export default defineConfig({
           { text: 'API', link: '/it/api/' }
         ],
         sidebar: [
+          {
+            // T6-1: generated it glossary page (docs/it/glossary/index.md).
+            text: 'Guide',
+            items: [
+              { text: 'Glossario', link: '/it/glossary/' }
+            ]
+          },
           {
             text: 'Riferimento API',
             // T30 full locale: it index pages AND all 238 translated method
@@ -748,6 +783,13 @@ export default defineConfig({
           { text: 'API', link: '/es/api/' }
         ],
         sidebar: [
+          {
+            // T6-1: generated es glossary page (docs/es/glossary/index.md).
+            text: 'Guías',
+            items: [
+              { text: 'Glosario', link: '/es/glossary/' }
+            ]
+          },
           {
             text: 'Referencia de API',
             // T31 full locale: es index pages AND all 238 translated method
@@ -788,6 +830,13 @@ export default defineConfig({
         // pages are generated, so the sidebar children point into the ko
         // tree too (same shape as the zh/ru/fr/de/it/es sidebars since T27).
         sidebar: [
+          {
+            // T6-1: generated ko glossary page (docs/ko/glossary/index.md).
+            text: '가이드',
+            items: [
+              { text: '용어집', link: '/ko/glossary/' }
+            ]
+          },
           {
             text: 'API 레퍼런스',
             items: apiSidebar({ indexPrefix: '/ko/api/', methodPrefix: '/ko/api/' })

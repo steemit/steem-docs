@@ -1,0 +1,275 @@
+# ---------------------------------------------------------------------------
+# ko translations of the Steem glossary — mirror of data/glossary.yml
+# (5 sections / 79 terms, same order, same counts: 40/9/8/18/4).
+#
+# Consumed by `node scripts/gen-glossary.mjs --locale ko` ->
+# docs/ko/glossary/index.md. Terminology follows the frozen baseline
+# docs/.vitepress/ko-glossary.json (34 entries) entry by entry; corpus
+# reference: data/translations/ko/purposes.yml. Code names (STEEM, SBD, RC,
+# VESTS, SP, condenser_api, sort-order keys such as Trending/Hot/...) stay in
+# English. First occurrence uses the 『한국어 표기 (English)』 annotation.
+# Source defects are carried over verbatim (the duplicated Chain Basics tail
+# terms, the awkward source wording) — no fixes. No exclamation marks.
+# ---------------------------------------------------------------------------
+sections:
+- name: 체인 기초
+  items:
+  - term: 블록체인 (Blockchain)
+    def: |-
+      분산 원장과 합의 프로토콜입니다.
+  - term: Steem (블록체인)
+    def: |-
+      블록체인과 플랫폼의 이름입니다.
+  - term: 대역폭 (Bandwidth)
+    def: |-
+      계정이 전송/사용할 수 있던 데이터의 옛 한도입니다 (Resource Credits (RC)로 대체됨).
+  - term: Resource Credits (RC)
+    def: |-
+      계정이 블록체인의 리소스를 사용할 수 있는 한도입니다 (RC로도 알려져 있음).
+  - term: 베스팅 지분 (VESTS)
+    def: |-
+      STEEM Power (SP)가 파생되는 기본 회계 단위입니다.
+  - term: STEEM (통화)
+    def: |-
+      블록체인의 통화로, STEEM Power (SP)의 유동 형태입니다.
+  - term: 스팀 달러 (SBD)
+    def: |-
+      Steem Backed Dollar, 1달러 가치의 STEEM입니다.
+  - term: STEEM Power (SP)
+    def: |-
+      계정에 플랫폼상의 영향력을 부여하는 STEEM의 잠금(스테이킹) 형태입니다.
+  - term: 트랜잭션 (Transaction)
+    def: |-
+      블록체인으로 전송되는 오퍼레이션/활동/쓰기 요청입니다. 트랜잭션 (transaction)은 Steem 블록체인에 제출된 갱신입니다. 토큰 전송(transfer), 포스트/댓글, 투표 등이 포함될 수 있습니다.
+  - term: 블록 (Block)
+    def: |-
+      Steem 블록체인은 3초마다 새 블록을 생성합니다. 새 블록이 생성될 때마다 분산 네트워크는 해당 블록 안에서 발생한 모든 트랜잭션으로 갱신됩니다.
+  - term: 블록 헤더 (Block Header)
+    def: |-
+      블록, root, 서명한 위트니스 (witness) 등에 대한 정보입니다.
+  - term: 피드 가격 (Price feed)
+    def: |-
+      SBD/STEEM 가격 안정성을 보장하기 위해 위트니스가 유지하는 피드입니다.
+  - term: 계정 (Account)
+    def: |-
+      계정은 블록체인에서 특정 사용자의 지갑에 연관된 모든 활동을 담는 컨테이너입니다. 보유 토큰, 포스트, 댓글, 업보트 (upvote), 전송(transfer) 등이 모두 포함됩니다.
+  - term: 권한 (Authority)
+    def: |-
+      모든 계정은 플랫폼에서 서로 다른 권한을 관리하기 위한 여러 세트의 권한 (authority)과 키를 가집니다.
+  - term: 오너 (Owner)
+    def: |-
+      주어진 계정의 오너 (owner) 권한입니다.
+  - term: 키 (Key)
+    def: |-
+      키는 트랜잭션을 인증하는 데 사용됩니다. 각 키는 공개/개인 쌍을 포함합니다. 트랜잭션이 Steem 블록체인에 제출되면 계정 소유자가 자신의 개인 키로 서명합니다. 블록체인은 쌍을 이루는 공개 키로 서명을 검증하여 트랜잭션이 유효한지 판단할 수 있습니다.
+  - term: 공개 키 (Public Key)
+    def: |-
+      계정의 특정 권한 (authority)에 대한 공개 키입니다.
+  - term: 개인 키 (Private Key)
+    def: |-
+      계정 권한으로 트랜잭션에 서명하는 데 쓰이는 개인 키로, 계정 접근을 허용하므로 비밀로 유지해야 합니다.
+  - term: Wif
+    def: |-
+      Wallet Import Format/개인 키로, 계정 접근을 허용하므로 비밀로 유지해야 합니다.
+  - term: 액티브 키 (Active key)
+    def: |-
+      액티브 키는 전송과 내부 마켓 주문에 사용됩니다.
+  - term: 포스팅 키 (Posting key)
+    def: |-
+      포스팅 키는 게시와 투표에 사용됩니다.
+  - term: 오너 키 (Owner key)
+    def: |-
+      오너 키는 계정의 마스터 키이며, 다른 키들을 변경하는 데 필요합니다.
+  - term: 포스트 (Post)
+    def: |-
+      포스트는 루트 레벨의 댓글 (comment), 즉 「부모」가 없는 댓글입니다.
+  - term: 댓글 (Comment)
+    def: |-
+      댓글은 블록체인에 저장되는 텍스트 콘텐츠입니다. 댓글은 부모/자식 관계를 통해 다른 댓글과 「답글」로 연결될 수 있습니다.
+  - term: 투표 (Vote)
+    def: |-
+      투표는 포스트/댓글에 대한 찬성 (업보트 (upvote)) 또는 반대 (다운보트 (downvote)) 의사 표현입니다. Steem 블록체인은 포스트/댓글이 받은 투표로 보상에서의 몫을 결정합니다.
+  - term: 평판 (Reputation)
+    def: |-
+      플랫폼에서의 계정 평판입니다.
+  - term: Markdown 언어
+    def: |-
+      읽고 쓰기 쉬운 일반 텍스트 형식의 언어로, Steemit 글 작성에 널리 쓰입니다.
+  - term: 퍼머링크 (Permlink)
+    def: |-
+      저자의 모든 댓글 또는 포스트에 대한, 해당 저자 범위 안에서의 고유 식별자입니다. ('@author/permlink' 조합은 전역적으로 유일합니다.)
+  - term: 메인넷 (Mainnet)
+    def: |-
+      실제 STEEM이 보관되고 실제 트랜잭션이 일어나는 Steem 블록체인의 「프로덕션」 네트워크입니다.
+  - term: 위임 (Delegation)
+    def: |-
+      콘텐츠 영향력을 위해 STEEM Power (SP)를 다른 계정에 맡기는 것입니다 (사용할 수 없으며, 위임자가 5일 후 회수할 수 있습니다).
+  - term: PowerUp
+    def: |-
+      STEEM을 STEEM Power (SP)로 변환하며, 그 반대는 PowerDown으로 수행합니다.
+  - term: 보상 풀 (Reward Pool)
+    def: |-
+      매일 고정량의 STEEM 토큰이 네트워크 보상 펀드 (reward fund), 흔히 말하는 「보상 풀」(reward pool)에 할당됩니다. 이는 포스트 작성과 투표에 대해 저자와 큐레이터에게 분배됩니다.
+  - term: AppBase
+    def: |-
+      확장을 위한 튼튼한 기반을 제공하는 플러그인 아키텍처입니다. 추가적인 비합의(non-consensus) 블록체인을 전용 플러그인으로 만들어 Steem 블록체인의 많은 구성 요소를 모듈화할 수 있게 합니다.
+  - term: RocksDB
+    def: |-
+      고급 캐싱 계층을 갖춘 고속 디스크 데이터 스토어로, 디스크 읽기/쓰기 시 지연 시간을 최소화합니다.
+  - term: MIRA
+    def: |-
+      Multi Index Rocksdb Adapter로, Steem의 데이터베이스 백엔드를 메모리 매핑 파일에서 RocksDB 라이브러리로 구현한 디스크 기반 로그 구조 병합 트리(log-structured merge-tree)로 전환합니다.
+  - term: Manabar
+    def: |-
+      <p>
+        5일에 걸쳐 최대값의 0부터 100%까지 선형으로 재생되는 추적형 투표
+        력(voting power)입니다. STEEM Power (SP), 위임 (delegation), 진행 중인
+        파워 다운(power down)의 함수이며, 미사용 보상 펀드 지분을 추적합니다.
+      </p>
+
+      <p>
+        각 사용자는 다운보트 전용 manabar도 가지며, 이는 업보트 manabar의
+        25%입니다. 다운보트는 일반 마나를 소비하기 전에 이 마나를 먼저
+        소비합니다. 투표 시에는 남은 마나의 1/50<sup>th</sup>가 100% 투표에
+        소비됩니다. 다운보트 마나에도 같은 계산이 쓰이지만, 다운보트 manabar가
+        일반 manabar 크기의 25%이므로 4를 곱합니다. 두 값 중 최대값이
+        사용됩니다. 두 manabar가 모두 100%일 때는 값이 같습니다. 다운보트
+        마나가 소진되면 그때는 일반 마나가 사용됩니다.
+      </p>
+  - term: 역경매 (Reverse Auction)
+    def: |-
+      큐레이션 보상이 보상 풀로 되돌아가는 5분의 시간 창입니다.
+  - term: SPS
+    def: |-
+      Steem Proposal System으로도 알려져 있습니다. 사용자가 자금 조달 제안을 제출하고 스테이크 가중 투표로 어떤 제안을 지원할지 선택할 수 있게 하는 온체인 분산 자율 조직 (DAO)입니다.
+  - term: 블록체인 (Blockchain)
+    def: |-
+      분산 원장과 합의 프로토콜입니다.
+  - term: Steem (블록체인)
+    def: |-
+      블록체인과 플랫폼의 이름입니다.
+- name: 거버넌스
+  items:
+  - term: DPOS
+    def: |-
+      위임 지분 증명 (Delegated Proof of Stake)입니다.
+  - term: 프록시 (Proxy)
+    def: |-
+      DPOS 거버넌스와 SPS 승인을 위해 STEEM Power (SP)를 다른 계정에 맡기는 것입니다 (사용할 수 없으며, 즉시 회수할 수 있습니다).
+  - term: 노드 (Node)
+    def: |-
+      노드는 서버에서 실행 중인 Steem 블록체인의 인스턴스입니다.
+  - term: 위트니스 (Witness)
+    def: |-
+      위트니스는 커뮤니티가 선출한(신뢰를 위임받은) 사람들이 맡는 직위/역할로, 플랫폼을 지원하고 합의 프로토콜을 수행하여 블록체인상의 트랜잭션/블록의 보안과 유효성을 보장합니다. 위트니스는 Steem 블록체인의 블록에 서명하고 검증할 책임이 있습니다.
+  - term: 하드포크 (Hardfork)
+    def: |-
+      프로토콜/블록체인 합의 업그레이드를 출시하는 과정입니다.
+  - term: 소프트포크 (Softfork)
+    def: |-
+      프로토콜/블록체인 소프트웨어 개선을 출시하는 과정입니다.
+  - term: 위트니스 투표 (Witness Vote)
+    def: |-
+      계정의 스테이크로 위트니스를 투표/선출하는 것입니다.
+  - term: DAO
+    def: |-
+      분산 자율 조직 (참고: SPS)입니다.
+  - term: SBD 헤어컷 (SBD Haircut)
+    def: |-
+      공급량이 너무 높을 때 SBD 발행을 멈추는 규칙입니다. 참고: SPS (@steem.dao)를 위한 SBD 발행은 이 규칙을 따르지 않으며 공급량과 무관하게 계속 발행됩니다.
+- name: 트랜잭션
+  items:
+  - term: P2P
+    def: |-
+      P2P 네트워크는 트랜잭션이 블록에 포함될 때까지 멤풀로 브로드캐스트되는 경로입니다.
+  - term: 멤풀 (Mempool)
+    def: |-
+      P2P 네트워크로 진행 중인 트랜잭션이 전송되어 위트니스가 이를 가져가 다음 블록에 포함할 때까지 보관되는 곳입니다.
+  - term: 대기 트랜잭션 (Pending Transaction)
+    def: |-
+      대기 중이며 블록체인에 포함될 예정인 트랜잭션입니다.
+  - term: 트랜잭션 헥스 (Transaction Hex)
+    def: |-
+      트랜잭션의 해시입니다.
+  - term: 서명 (Signatures)
+    def: |-
+      계정이 개인 키로 서명한 트랜잭션 서명입니다.
+  - term: 정규 서명 (Canonical Signatures)
+    def: |-
+      트랜잭션 변조 가능성(malleability)을 막기 위해 BIP-0062 사양을 따르는 저엔트로피 서명입니다. 0.20.2부터 Steem의 모든 서명은 정규 서명입니다.
+  - term: 트랜잭션 브로드캐스트 (Broadcast Transaction)
+    def: |-
+      서명된 트랜잭션이 P2P 네트워크로 브로드캐스트되어 위트니스가 검증한 뒤 블록에 포함할 수 있게 되는 이벤트입니다.
+  - term: 가상 오퍼레이션 (Virtual operation)
+    def: |-
+      블록체인 활동에서 파생되지만 그 자체는 오퍼레이션으로 저장되지 않는 오퍼레이션입니다 (예: 큐레이션 및 저자 보상). 다른 일반 오퍼레이션을 기반으로 블록체인 합의에 따라 발생합니다.
+- name: API
+  items:
+  - term: Trending
+    def: |-
+      커뮤니티의 높은 평가를 받으며 갱신 간격이 긴 포스트/토론 (discussion)입니다.
+  - term: Hot
+    def: |-
+      높은 평가를 받으며 갱신 간격이 짧은 포스트/토론 (discussion)입니다.
+  - term: 피드 (Feed)
+    def: |-
+      특정 계정의 팔로워들이 받아보는 포스트/토론 (discussion)입니다.
+  - term: Active
+    def: |-
+      여전히 활발하게 상호작용되고 있는 포스트/토론 (discussion)입니다.
+  - term: New
+    def: |-
+      새로 생성된 포스트입니다.
+  - term: 정산 (Cashout)
+    def: |-
+      최근에 지급 (payout)이 완료된 포스트입니다.
+  - term: Promoted
+    def: |-
+      더 많은 노출을 얻기 위해 SBD를 태워서(burning) 홍보된 포스트입니다.
+  - term: 대기 지급액 (Pending Payout)
+    def: |-
+      블로그 포스트/댓글의 예상 대기 지급액입니다.
+  - term: 태그 (Tags)
+    def: |-
+      태그 (tag)는 댓글/포스트에 담긴 콘텐츠 유형을 식별하는 데 쓰이는 서술자입니다.
+  - term: 트렌딩 태그 (Trending Tags)
+    def: |-
+      가장 많이 쓰이는 태그입니다.
+  - term: 팔로잉 (Following)
+    def: |-
+      팔로우되고 있는 계정입니다.
+  - term: 팔로워 (Follower)
+    def: |-
+      사용자를 팔로우하는 계정입니다.
+  - term: 상태 (State)
+    def: |-
+      경로(accounts/tags/filters/posts)에 대한 블록체인 상태입니다.
+  - term: 동적 전역 속성 (Dynamic Global Properties)
+    def: |-
+      각 블록에서 유효한 현재 블록체인 전역 속성입니다.
+  - term: 중앙값 가격 (Median Price)
+    def: |-
+      모든 위트니스가 제공하는 피드 가격의 중앙값입니다.
+  - term: 큐레이터 (Curator)
+    def: |-
+      자신의 일일 투표 력으로 포스트에 업보트하여, 좋은 품질의 콘텐츠를 갖추고 볼 가치가 있으며 저자에게 보상이 돌아가야 한다고 판단한 포스트에 가치를 부여하는 Steem 사용자입니다.
+  - term: 큐레이션 보상 (Curation reward)
+    def: |-
+      큐레이터에게 주어지는 보상으로, 포스트에 업보트한 모든 큐레이터에게 할당된 50% 몫 중 해당 큐레이터의 몫입니다.
+  - term: 리블로그 (Resteem)
+    def: |-
+      (Reblog) 다른 저자의 포스트를 내 팔로워 목록이 볼 수 있도록 내 블로그 피드에 다시 게시하는 것입니다.
+- name: 마켓
+  items:
+  - term: 전환 요청 (Conversion Requests)
+    def: |-
+      SBD를 STEEM으로 전환하기 위해 제출된 요청입니다.
+  - term: 호가창 (Order Book)
+    def: |-
+      SBD&lt;-&gt;STEEM 교환을 위한 내부 마켓의 호가창입니다.
+  - term: SMT (스마트 미디어 토큰)
+    def: |-
+      스마트 미디어 토큰 (Smart Media Tokens)입니다.
+  - term: 지정가 주문 (Limit Order)
+    def: |-
+      DEX에 지정된 가격 또는 더 나은 가격으로 자산을 사거나 팔도록 내리는 지시로, 생성 후 30일 안에 만료됩니다.

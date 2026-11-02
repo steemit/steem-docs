@@ -1,0 +1,274 @@
+# ---------------------------------------------------------------------------
+# zh translations of the Steem glossary — mirror of data/glossary.yml
+# (5 sections / 79 terms, same order, same counts: 40/9/8/18/4).
+#
+# Consumed by `node scripts/gen-glossary.mjs --locale zh` ->
+# docs/zh/glossary/index.md. Terminology follows the frozen baseline
+# docs/.vitepress/zh-glossary.json (30 entries) entry by entry; corpus
+# reference: data/translations/zh/purposes.yml. Code names (STEEM, SBD, RC,
+# VESTS, SP, condenser_api, sort-order keys such as Trending/Hot/...) stay in
+# English. First occurrence uses the 『中文（English）』 annotation. Source
+# defects are carried over verbatim (the duplicated Chain Basics tail terms,
+# the awkward source wording) — no fixes. No exclamation marks.
+# ---------------------------------------------------------------------------
+sections:
+- name: 链基础
+  items:
+  - term: 区块链（Blockchain）
+    def: |-
+      去中心化账本与共识协议。
+  - term: Steem（区块链）
+    def: |-
+      区块链与平台的名字。
+  - term: 带宽（Bandwidth）
+    def: |-
+      旧时的账户可发送/使用数据量上限（已被资源信用（Resource Credits）取代）。
+  - term: 资源信用（Resource Credits）
+    def: |-
+      账户在区块链上可使用资源的额度限制（也称为 RC）。
+  - term: 权益份额（VESTS）
+    def: |-
+      STEEM 权益（SP）由此衍生的基本记账单位。
+  - term: STEEM（货币）
+    def: |-
+      区块链的货币，STEEM 权益的流动形态。
+  - term: STEEM 美元（SBD）
+    def: |-
+      Steem Backed Dollar，价值 1 美元的 STEEM。
+  - term: STEEM 权益（SP）
+    def: |-
+      STEEM 的锁定形态，赋予账户在平台上的影响力。
+  - term: 交易（Transaction）
+    def: |-
+      发往区块链的操作/活动/写入请求。交易（transaction）是提交给 Steem 区块链的一次更新，可以包括代币转账（transfer）、帖子/评论、投票等。
+  - term: 区块（Block）
+    def: |-
+      Steem 区块链每三秒生产一个新区块。每当新区块被生产，分布式网络就会更新该区块内发生的全部交易（transaction）。
+  - term: 区块头（Block Header）
+    def: |-
+      关于区块、root 以及签名见证人（witness）等的信息。
+  - term: 喂价（Price feed）
+    def: |-
+      由见证人维护、用于保障 SBD/STEEM 价格稳定的喂价。
+  - term: 账户（Account）
+    def: |-
+      账户是区块链上与特定用户钱包相关的全部活动的容器，包括其全部代币、帖子、评论、点赞（upvote）、转账（transfer）等。
+  - term: 权限（Authority）
+    def: |-
+      每个账户拥有多组权限（authority）与密钥，用于管理平台上的不同权限。
+  - term: 所有者（Owner）
+    def: |-
+      给定账户的所有者（owner）权限。
+  - term: 密钥（Key）
+    def: |-
+      密钥用于认证交易（transaction）。每把密钥包含公钥/私钥对。当交易被提交到 Steem 区块链时，账户所有者用自己的私钥对其签名；区块链通过用密钥对中的公钥验证签名，即可判定交易有效。
+  - term: 公钥（Public Key）
+    def: |-
+      账户某项权限（authority）的公钥。
+  - term: 私钥（Private Key）
+    def: |-
+      用于以账户权限签署交易（transaction）的私钥，必须保密，因为它能访问账户。
+  - term: Wif
+    def: |-
+      Wallet Import Format/私钥，必须保密，因为它能访问账户。
+  - term: 活动密钥（Active key）
+    def: |-
+      活动密钥用于转账以及在内部市场下单。
+  - term: 发布密钥（Posting key）
+    def: |-
+      发布密钥用于发帖和投票。
+  - term: 所有者密钥（Owner key）
+    def: |-
+      所有者密钥是账户的主密钥，更改其他密钥时必需。
+  - term: 帖子（Post）
+    def: |-
+      帖子是根级评论（comment）——没有「父级」的评论。
+  - term: 评论（Comment）
+    def: |-
+      评论是存储在区块链上的文本内容。评论可以通过父/子关系与其他评论以「回复」的形式相链。
+  - term: 投票（Vote）
+    def: |-
+      投票是对帖子/评论表达赞成（点赞（upvote））或反对（踩（downvote））的行为。Steem 区块链根据帖子/评论获得的投票来决定其在收益中的份额。
+  - term: 声誉（Reputation）
+    def: |-
+      账户在平台上的声誉。
+  - term: Markdown 语言
+    def: |-
+      易读易写的纯文本格式语言，常用于创作 Steemit 文章。
+  - term: 永久链接（Permlink）
+    def: |-
+      作者每条评论或帖子在该作者上下文内的唯一标识。（「@author/permlink」组合在全局唯一。）
+  - term: 主网（Mainnet）
+    def: |-
+      「生产」Steem 区块链网络，持有真实的 STEEM 并发生实际的交易（transaction）。
+  - term: 委托（Delegation）
+    def: |-
+      将 STEEM 权益（SP）出让给另一账户以用于内容影响力（不可花费，出让者可在 5 天后撤回）。
+  - term: PowerUp
+    def: |-
+      将 STEEM 转换为 STEEM 权益（SP），反向操作为解押（PowerDown）。
+  - term: 奖励池（Reward Pool）
+    def: |-
+      每天，固定数量的 STEEM 代币会被分配到网络奖励基金（reward fund）中，通常称为「奖励池」（reward pool）。这些代币会分配给发帖和投票的作者与策展人。
+  - term: AppBase
+    def: |-
+      为扩展提供坚实基础的插件化架构。它通过把额外的非共识区块链创建为专用插件，使 Steem 区块链的许多组件得以模块化。
+  - term: RocksDB
+    def: |-
+      一种带高级缓存层的快速磁盘数据存储，可将读写磁盘时的延迟降到最低。
+  - term: MIRA
+    def: |-
+      Multi Index Rocksdb Adapter，将 Steem 的数据库后端从内存映射文件更新为通过 RocksDB 库实现的磁盘日志结构合并树。
+  - term: Manabar
+    def: |-
+      <p>
+        追踪投票力（voting power），在 5 天内从 0 线性恢复到最大值的
+        100%。它是 STEEM 权益（SP）、委托（delegation）与进行中的
+        解押（power down）的函数，追踪未消耗的奖励基金份额。
+      </p>
+
+      <p>
+        每个用户还有一条专门用于踩（downvote）的 manabar，为点赞 manabar
+        的 25%。踩会先消耗这条 mana，再消耗普通 mana。投票时，100% 的投票
+        消耗剩余 mana 的 1/50<sup>th</sup>。踩的 mana 使用相同算法，但要乘以
+        4，因为踩 manabar 是普通 manabar 的 25%。两者取最大值。当两条
+        manabar 都在 100% 时，数值相同。当踩的 mana 耗尽后，再使用普通
+        mana。
+      </p>
+  - term: 逆向拍卖（Reverse Auction）
+    def: |-
+      5 分钟窗口期，此期间策展收益会被退回奖励池。
+  - term: SPS
+    def: |-
+      亦称 Steem 提案系统（Steem Proposal System）。一个链上去中心化自治组织（DAO），允许用户提交资金提案，并通过质押加权投票选出应获资助的提案。
+  - term: 区块链（Blockchain）
+    def: |-
+      去中心化账本与共识协议。
+  - term: Steem（区块链）
+    def: |-
+      区块链与平台的名字。
+- name: 治理
+  items:
+  - term: DPOS
+    def: |-
+      委托权益证明（Delegated Proof of Stake）。
+  - term: 代理（Proxy）
+    def: |-
+      将 STEEM 权益（SP）出让给另一账户，用于 DPOS 治理与 SPS 审批（不可花费，可即时撤回）。
+  - term: 节点（Node）
+    def: |-
+      节点是运行在服务器上的 Steem 区块链实例。
+  - term: 见证人（Witness）
+    def: |-
+      见证人是被社区选出（受托信任）以支持平台、运行共识协议，从而保障区块链上交易/区块安全性与有效性的人员所担任的职位/角色。见证人负责为 Steem 区块链签名并验证区块。
+  - term: 硬分叉（Hardfork）
+    def: |-
+      发布协议/区块链共识升级的过程。
+  - term: 软分叉（Softfork）
+    def: |-
+      发布协议/区块链软件改进的过程。
+  - term: 见证人投票（Witness Vote）
+    def: |-
+      用账户质押投票/选举见证人。
+  - term: DAO
+    def: |-
+      去中心化自治组织（Decentralized Autonomous Organization，参见：SPS）。
+  - term: SBD 折减（SBD Haircut）
+    def: |-
+      在 SBD 供应量过高时停止印刷 SBD 的规则。注意：SPS（@steem.dao）的 SBD 印刷不遵循这些规则，无论供应量如何都会继续印刷 SBD。
+- name: 交易
+  items:
+  - term: P2P
+    def: |-
+      点对点网络是交易（transaction）在被包含进区块之前向内存池（mempool）广播的方式。
+  - term: 内存池（Mempool）
+    def: |-
+      正在点对点网络中传输的交易被传送并持有的地方，直到见证人将其拾取并包含进下一个区块。
+  - term: 待处理交易（Pending Transaction）
+    def: |-
+      尚待处理并将被包含进区块链的交易。
+  - term: 交易十六进制（Transaction Hex）
+    def: |-
+      交易（transaction）的哈希。
+  - term: 签名（Signatures）
+    def: |-
+      账户用私钥签署的交易签名。
+  - term: 规范签名（Canonical Signatures）
+    def: |-
+      遵循 BIP-0062 规范以防止交易延展性的低熵签名。自 0.20.2 起，Steem 上的全部签名都是规范签名。
+  - term: 广播交易（Broadcast Transaction）
+    def: |-
+      已签名交易被广播到点对点网络、以便见证人验证并包含进区块的事件。
+  - term: 虚拟操作（Virtual operation）
+    def: |-
+      由区块链活动派生、但本身并不作为操作实际存储的操作（如策展与创作收益）。它们基于区块链共识、由其他普通操作引发而发生。
+- name: API
+  items:
+  - term: Trending
+    def: |-
+      受社区高度认可、以较长时间间隔更新的帖子/讨论（discussion）。
+  - term: Hot
+    def: |-
+      受社区高度认可、以较短时间间隔更新的帖子/讨论（discussion）。
+  - term: 动态（Feed）
+    def: |-
+      来自某账户关注者的帖子/讨论（discussion）。
+  - term: Active
+    def: |-
+      仍在被活跃互动的帖子/讨论（discussion）。
+  - term: New
+    def: |-
+      新创建的帖子。
+  - term: Cashout
+    def: |-
+      最近完成收益结算（payout）的帖子。
+  - term: Promoted
+    def: |-
+      通过销毁 SBD 获得更多曝光的帖子。
+  - term: 待结算收益（Pending Payout）
+    def: |-
+      博客帖子/评论的预计待结算收益。
+  - term: 标签（Tags）
+    def: |-
+      标签（tag）是用来标识评论/帖子所含内容类型的描述符。
+  - term: 趋势标签（Trending Tags）
+    def: |-
+      最常被使用的标签。
+  - term: 正在关注（Following）
+    def: |-
+      被关注的账户。
+  - term: 关注者（Follower）
+    def: |-
+      正在关注该用户的账户。
+  - term: 状态（State）
+    def: |-
+      路径（accounts/tags/filters/posts）的区块链状态。
+  - term: 动态全局属性（Dynamic Global Properties）
+    def: |-
+      每个区块生效的当前区块链全局属性。
+  - term: 中位价格（Median Price）
+    def: |-
+      全部见证人提供的中间喂价。
+  - term: 策展人（Curator）
+    def: |-
+      通过每日投票力为帖子点赞的 Steem 用户，认为该帖子内容优质、值得被看见并应奖励作者，从而为其赋予价值。
+  - term: 策展收益（Curation reward）
+    def: |-
+      给予策展人的收益，即在为帖子点赞的全部策展人之间分配的 50% 份额中属于其的部分。
+  - term: 转帖（Resteem）
+    def: |-
+      （Reblog）把另一位作者的帖子重新发布到自己的博客动态中，供自己的关注者列表查看。
+- name: 市场
+  items:
+  - term: 转换请求（Conversion Requests）
+    def: |-
+      为把 SBD 转换为 STEEM 而提交的请求。
+  - term: 订单簿（Order Book）
+    def: |-
+      用于兑换 SBD&lt;-&gt;STEEM 的内部市场订单簿。
+  - term: SMT（智能媒体代币）
+    def: |-
+      智能媒体代币（Smart Media Tokens）。
+  - term: 限价单（Limit Order）
+    def: |-
+      向 DEX 下达的、以指定价格或更优价格买入或卖出资产的指令，在创建后 30 天内过期。
