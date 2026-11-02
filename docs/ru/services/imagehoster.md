@@ -153,7 +153,7 @@ GET /p/:url
 | | `jpeg`, `png`, `webp` | Преобразовать в указанный формат |
 
 ```bash
-# Закодируйте URL-источник в Base58, затем запросите PNG-копию шириной 200 px:
+# Base58-encode the source URL, then request a 200px-wide PNG copy:
 curl -o out.png "https://steemitimages.com/p/<base58-url>?width=200&format=png"
 ```
 
@@ -194,9 +194,9 @@ GET /u/:username/avatar/:size
 Если у аккаунта не задана аватарка — или его `profile_image` указывает на внешний хост — вместо неё отдаётся аватарка по умолчанию. Ответы с аватарками всегда используют короткое время жизни кэша (`Cache-Control: public,max-age=600`), чтобы смена аватарки быстро распространялась.
 
 ```bash
-# Аватарка 64x64 для аккаунта @steemit
+# 64x64 avatar for the @steemit account
 curl -o avatar.png https://steemitimages.com/u/steemit/avatar/small
 
-# Аватарка шириной 128 px с естественными пропорциями
+# 128px-wide avatar with natural aspect ratio
 curl -o avatar.png https://steemitimages.com/u/steemit/avatar
 ```

@@ -153,7 +153,7 @@ GET /p/:url
 | | `jpeg`, `png`, `webp` | 지정된 형식으로 변환 |
 
 ```bash
-# 소스 URL을 Base58로 인코딩한 후 너비 200px PNG 사본을 요청합니다:
+# Base58-encode the source URL, then request a 200px-wide PNG copy:
 curl -o out.png "https://steemitimages.com/p/<base58-url>?width=200&format=png"
 ```
 
@@ -194,9 +194,9 @@ Steem 계정의 아바타를 제공하며, 계정의 온체인 프로필 메타�
 계정에 아바타가 설정되어 있지 않거나 — 그 `profile_image`가 외부 호스트를 가리키는 경우 — 기본 아바타가 대신 제공됩니다. 아바타 응답은 항상 짧은 캐시 수명(`Cache-Control: public,max-age=600`)을 사용하여 아바타 변경이 빠르게 전파되도록 합니다.
 
 ```bash
-# @steemit 계정의 64x64 아바타
+# 64x64 avatar for the @steemit account
 curl -o avatar.png https://steemitimages.com/u/steemit/avatar/small
 
-# 너비 128px, 원래 가로세로 비의 아바타
+# 128px-wide avatar with natural aspect ratio
 curl -o avatar.png https://steemitimages.com/u/steemit/avatar
 ```

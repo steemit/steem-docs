@@ -153,7 +153,7 @@ GET /p/:url
 | | `jpeg`、`png`、`webp` | 转换为指定格式 |
 
 ```bash
-# 对源 URL 做 Base58 编码，然后请求一张 200 像素宽的 PNG 副本：
+# Base58-encode the source URL, then request a 200px-wide PNG copy:
 curl -o out.png "https://steemitimages.com/p/<base58-url>?width=200&format=png"
 ```
 
@@ -194,9 +194,9 @@ GET /u/:username/avatar/:size
 如果账户未设置头像——或其 `profile_image` 指向外部主机——则改为提供默认头像。头像响应始终使用较短的缓存生存期（`Cache-Control: public,max-age=600`），以便头像变更快速生效。
 
 ```bash
-# @steemit 账户的 64x64 头像
+# 64x64 avatar for the @steemit account
 curl -o avatar.png https://steemitimages.com/u/steemit/avatar/small
 
-# 128 像素宽、保持原始纵横比的头像
+# 128px-wide avatar with natural aspect ratio
 curl -o avatar.png https://steemitimages.com/u/steemit/avatar
 ```

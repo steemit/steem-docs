@@ -153,7 +153,7 @@ Paramètres de requête facultatifs :
 | | `jpeg`, `png`, `webp` | Convertit vers le format indiqué |
 
 ```bash
-# Encodez l'URL source en Base58, puis demandez une copie PNG de 200 px de large :
+# Base58-encode the source URL, then request a 200px-wide PNG copy:
 curl -o out.png "https://steemitimages.com/p/<base58-url>?width=200&format=png"
 ```
 
@@ -194,9 +194,9 @@ Tailles :
 Si le compte n'a pas d'avatar défini — ou si son `profile_image` pointe vers un hôte externe — un avatar par défaut est servi à la place. Les réponses d'avatar utilisent toujours une durée de cache courte (`Cache-Control: public,max-age=600`) afin que les changements d'avatar se propagent rapidement.
 
 ```bash
-# Avatar 64x64 du compte @steemit
+# 64x64 avatar for the @steemit account
 curl -o avatar.png https://steemitimages.com/u/steemit/avatar/small
 
-# Avatar de 128 px de large avec rapport d'aspect naturel
+# 128px-wide avatar with natural aspect ratio
 curl -o avatar.png https://steemitimages.com/u/steemit/avatar
 ```
