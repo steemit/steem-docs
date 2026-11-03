@@ -553,6 +553,8 @@ export default defineConfig({
             text: '教程',
             items: [
               { text: '概览', link: '/zh/tutorials/' },
+              { text: 'steem-js：签名调用与验证', link: '/zh/tutorials/steem-js/signed-calls' },
+              { text: 'steem-js：RPC 认证测试迁移', link: '/zh/tutorials/steem-js/rpc-auth-migration' },
               { text: 'steemgosdk (Go)：快速开始', link: '/zh/tutorials/steemgosdk/' },
               { text: 'steemgosdk (Go)：广播操作', link: '/zh/tutorials/steemgosdk/broadcast' },
               { text: 'steemgosdk (Go)：SignedCall API', link: '/zh/tutorials/steemgosdk/signed-call' }
@@ -666,6 +668,8 @@ export default defineConfig({
             text: 'Обучающие материалы',
             items: [
               { text: 'Обзор', link: '/ru/tutorials/' },
+              { text: 'steem-js: подписанные вызовы и проверка подписи', link: '/ru/tutorials/steem-js/signed-calls' },
+              { text: 'steem-js: миграция тестов RPC-аутентификации', link: '/ru/tutorials/steem-js/rpc-auth-migration' },
               { text: 'steemgosdk (Go): Быстрый старт', link: '/ru/tutorials/steemgosdk/' },
               { text: 'steemgosdk (Go): Операции широковещания', link: '/ru/tutorials/steemgosdk/broadcast' },
               { text: 'steemgosdk (Go): SignedCall API', link: '/ru/tutorials/steemgosdk/signed-call' }
@@ -741,6 +745,8 @@ export default defineConfig({
             text: 'Tutoriels',
             items: [
               { text: "Vue d'ensemble", link: '/fr/tutorials/' },
+              { text: "steem-js : appels signés et vérification", link: '/fr/tutorials/steem-js/signed-calls' },
+              { text: "steem-js : migration des tests d'authentification RPC", link: '/fr/tutorials/steem-js/rpc-auth-migration' },
               { text: 'steemgosdk (Go) : Démarrage rapide', link: '/fr/tutorials/steemgosdk/' },
               { text: 'steemgosdk (Go) : Opérations de diffusion', link: '/fr/tutorials/steemgosdk/broadcast' },
               { text: 'steemgosdk (Go) : SignedCall API', link: '/fr/tutorials/steemgosdk/signed-call' }
@@ -813,6 +819,8 @@ export default defineConfig({
             text: 'Tutorials',
             items: [
               { text: 'Übersicht', link: '/de/tutorials/' },
+              { text: 'steem-js: Signierte Aufrufe & Signaturprüfung', link: '/de/tutorials/steem-js/signed-calls' },
+              { text: 'steem-js: Migration der RPC-Auth-Tests', link: '/de/tutorials/steem-js/rpc-auth-migration' },
               { text: 'steemgosdk (Go): Schnellstart', link: '/de/tutorials/steemgosdk/' },
               { text: 'steemgosdk (Go): Broadcast-Operationen', link: '/de/tutorials/steemgosdk/broadcast' },
               { text: 'steemgosdk (Go): SignedCall API', link: '/de/tutorials/steemgosdk/signed-call' }
@@ -878,6 +886,8 @@ export default defineConfig({
             text: 'Tutorial',
             items: [
               { text: 'Panoramica', link: '/it/tutorials/' },
+              { text: 'steem-js: chiamate firmate e verifica', link: '/it/tutorials/steem-js/signed-calls' },
+              { text: 'steem-js: migrazione dei test di autenticazione RPC', link: '/it/tutorials/steem-js/rpc-auth-migration' },
               { text: 'steemgosdk (Go): Avvio rapido', link: '/it/tutorials/steemgosdk/' },
               { text: 'steemgosdk (Go): Operazioni di broadcast', link: '/it/tutorials/steemgosdk/broadcast' },
               { text: 'steemgosdk (Go): SignedCall API', link: '/it/tutorials/steemgosdk/signed-call' }
@@ -946,6 +956,8 @@ export default defineConfig({
             text: 'Tutoriales',
             items: [
               { text: 'Visión general', link: '/es/tutorials/' },
+              { text: 'steem-js: llamadas firmadas y verificación', link: '/es/tutorials/steem-js/signed-calls' },
+              { text: 'steem-js: migración de las pruebas de autenticación RPC', link: '/es/tutorials/steem-js/rpc-auth-migration' },
               { text: 'steemgosdk (Go): Inicio rápido', link: '/es/tutorials/steemgosdk/' },
               { text: 'steemgosdk (Go): Operaciones de broadcast', link: '/es/tutorials/steemgosdk/broadcast' },
               { text: 'steemgosdk (Go): SignedCall API', link: '/es/tutorials/steemgosdk/signed-call' }
@@ -1017,6 +1029,8 @@ export default defineConfig({
             text: '튜토리얼',
             items: [
               { text: '개요', link: '/ko/tutorials/' },
+              { text: 'steem-js: 서명된 호출과 검증', link: '/ko/tutorials/steem-js/signed-calls' },
+              { text: 'steem-js: RPC 인증 테스트 마이그레이션', link: '/ko/tutorials/steem-js/rpc-auth-migration' },
               { text: 'steemgosdk (Go): 빠른 시작', link: '/ko/tutorials/steemgosdk/' },
               { text: 'steemgosdk (Go): 브로드캐스트 오퍼레이션', link: '/ko/tutorials/steemgosdk/broadcast' },
               { text: 'steemgosdk (Go): SignedCall API', link: '/ko/tutorials/steemgosdk/signed-call' }
