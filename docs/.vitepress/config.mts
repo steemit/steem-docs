@@ -208,13 +208,6 @@ export default defineConfig({
   title: 'Steem Developer Docs',
   description: 'JSON-RPC API reference for the Steem blockchain, rebuilt with VitePress.',
   base,
-  // Transitional (T7-2): the localized tutorial pages cross-link their sibling
-  // steem-js mirror pages (/<lc>/tutorials/steem-js/...), which land in a
-  // separate phase-7 PR. Until that branch merges, those 42 cross-links are
-  // expected to be "dead" on this branch alone; the pattern is scoped so any
-  // other dead link still fails the build. REMOVE this option once the
-  // steem-js mirror pages exist in every locale.
-  ignoreDeadLinks: [/^\/(zh|ru|fr|de|it|es|ko)\/tutorials\/steem-js\//],
   // Content pages carry no meaningful git timestamps (the YAML data files are
   // the source of truth), so the "Last updated" footer is disabled.
   lastUpdated: false,
@@ -266,11 +259,11 @@ export default defineConfig({
     // en tree is home + api tree only, so every page is now mirrored 1:1 and
     // the switcher can safely swap the current path (langs.js:
     // normalizeLink(link, i18nRouting !== false && correspondingLink, ...)).
-    // Phase 6 (T6-1..T6-3) mirrored the six guide chapters (glossary,
-    // introduction, quickstart, services x3, resources, testnet) into all
-    // seven locales, so the entire page set is mirrored 1:1. If future
-    // en-only pages are added (e.g. tutorials when rebuilt), they will swap
-    // to missing pages until they are mirrored per locale.
+    // Phases 6-7 mirrored the six guide chapters (glossary, introduction,
+    // quickstart, services x3, resources, testnet) and the tutorials chapter
+    // into all seven locales, so the entire page set is mirrored 1:1. If
+    // future en-only pages are added, they will swap to missing pages until
+    // they are mirrored per locale.
     // MUST live here at the TOP-level themeConfig: resolveSiteDataByRoute
     // merges `{...topLevel.themeConfig, ...locales[route].themeConfig}`
     // (shallow), so a locales.root copy would never reach a zh page.
@@ -479,9 +472,8 @@ export default defineConfig({
             ]
           },
           {
-            // Library tutorials (phase 7): steem-js + steemgosdk usage demos.
-            // En-only like the Guides chapters above - the locale sidebars
-            // below deliberately omit this group (a locale entry would 404).
+            // Library tutorials (phase 7): steem-js + steemgosdk usage demos,
+            // mirrored into every locale (T7-2..T7-4).
             text: 'Tutorials',
             items: [
               { text: 'Tutorial Overview', link: '/tutorials/' },
@@ -553,6 +545,9 @@ export default defineConfig({
             text: '教程',
             items: [
               { text: '概览', link: '/zh/tutorials/' },
+              { text: 'steem-js: 快速上手', link: '/zh/tutorials/steem-js/' },
+              { text: 'steem-js: 读取链上数据', link: '/zh/tutorials/steem-js/read-api' },
+              { text: 'steem-js: 广播操作', link: '/zh/tutorials/steem-js/broadcast' },
               { text: 'steem-js：签名调用与验证', link: '/zh/tutorials/steem-js/signed-calls' },
               { text: 'steem-js：RPC 认证测试迁移', link: '/zh/tutorials/steem-js/rpc-auth-migration' },
               { text: 'steemgosdk (Go)：快速开始', link: '/zh/tutorials/steemgosdk/' },
@@ -668,6 +663,9 @@ export default defineConfig({
             text: 'Обучающие материалы',
             items: [
               { text: 'Обзор', link: '/ru/tutorials/' },
+              { text: 'steem-js: Начало работы', link: '/ru/tutorials/steem-js/' },
+              { text: 'steem-js: Чтение данных цепочки', link: '/ru/tutorials/steem-js/read-api' },
+              { text: 'steem-js: Широковещательные операции', link: '/ru/tutorials/steem-js/broadcast' },
               { text: 'steem-js: подписанные вызовы и проверка подписи', link: '/ru/tutorials/steem-js/signed-calls' },
               { text: 'steem-js: миграция тестов RPC-аутентификации', link: '/ru/tutorials/steem-js/rpc-auth-migration' },
               { text: 'steemgosdk (Go): Быстрый старт', link: '/ru/tutorials/steemgosdk/' },
@@ -745,6 +743,9 @@ export default defineConfig({
             text: 'Tutoriels',
             items: [
               { text: "Vue d'ensemble", link: '/fr/tutorials/' },
+              { text: 'steem-js: Premiers pas', link: '/fr/tutorials/steem-js/' },
+              { text: 'steem-js: Lecture des données de la chaîne', link: '/fr/tutorials/steem-js/read-api' },
+              { text: 'steem-js: Diffusion des opérations', link: '/fr/tutorials/steem-js/broadcast' },
               { text: "steem-js : appels signés et vérification", link: '/fr/tutorials/steem-js/signed-calls' },
               { text: "steem-js : migration des tests d'authentification RPC", link: '/fr/tutorials/steem-js/rpc-auth-migration' },
               { text: 'steemgosdk (Go) : Démarrage rapide', link: '/fr/tutorials/steemgosdk/' },
@@ -819,6 +820,9 @@ export default defineConfig({
             text: 'Tutorials',
             items: [
               { text: 'Übersicht', link: '/de/tutorials/' },
+              { text: 'steem-js: Erste Schritte', link: '/de/tutorials/steem-js/' },
+              { text: 'steem-js: Chain-Daten lesen', link: '/de/tutorials/steem-js/read-api' },
+              { text: 'steem-js: Broadcast-Operationen senden', link: '/de/tutorials/steem-js/broadcast' },
               { text: 'steem-js: Signierte Aufrufe & Signaturprüfung', link: '/de/tutorials/steem-js/signed-calls' },
               { text: 'steem-js: Migration der RPC-Auth-Tests', link: '/de/tutorials/steem-js/rpc-auth-migration' },
               { text: 'steemgosdk (Go): Schnellstart', link: '/de/tutorials/steemgosdk/' },
@@ -886,6 +890,9 @@ export default defineConfig({
             text: 'Tutorial',
             items: [
               { text: 'Panoramica', link: '/it/tutorials/' },
+              { text: 'steem-js: Primi passi', link: '/it/tutorials/steem-js/' },
+              { text: 'steem-js: Leggere i dati della catena', link: '/it/tutorials/steem-js/read-api' },
+              { text: 'steem-js: Operazioni di broadcast', link: '/it/tutorials/steem-js/broadcast' },
               { text: 'steem-js: chiamate firmate e verifica', link: '/it/tutorials/steem-js/signed-calls' },
               { text: 'steem-js: migrazione dei test di autenticazione RPC', link: '/it/tutorials/steem-js/rpc-auth-migration' },
               { text: 'steemgosdk (Go): Avvio rapido', link: '/it/tutorials/steemgosdk/' },
@@ -956,6 +963,9 @@ export default defineConfig({
             text: 'Tutoriales',
             items: [
               { text: 'Visión general', link: '/es/tutorials/' },
+              { text: 'steem-js: Primeros pasos', link: '/es/tutorials/steem-js/' },
+              { text: 'steem-js: Lectura de datos de la cadena', link: '/es/tutorials/steem-js/read-api' },
+              { text: 'steem-js: Operaciones de broadcast', link: '/es/tutorials/steem-js/broadcast' },
               { text: 'steem-js: llamadas firmadas y verificación', link: '/es/tutorials/steem-js/signed-calls' },
               { text: 'steem-js: migración de las pruebas de autenticación RPC', link: '/es/tutorials/steem-js/rpc-auth-migration' },
               { text: 'steemgosdk (Go): Inicio rápido', link: '/es/tutorials/steemgosdk/' },
@@ -1029,6 +1039,9 @@ export default defineConfig({
             text: '튜토리얼',
             items: [
               { text: '개요', link: '/ko/tutorials/' },
+              { text: 'steem-js: 시작하기', link: '/ko/tutorials/steem-js/' },
+              { text: 'steem-js: 체인 데이터 읽기', link: '/ko/tutorials/steem-js/read-api' },
+              { text: 'steem-js: 브로드캐스트 오퍼레이션', link: '/ko/tutorials/steem-js/broadcast' },
               { text: 'steem-js: 서명된 호출과 검증', link: '/ko/tutorials/steem-js/signed-calls' },
               { text: 'steem-js: RPC 인증 테스트 마이그레이션', link: '/ko/tutorials/steem-js/rpc-auth-migration' },
               { text: 'steemgosdk (Go): 빠른 시작', link: '/ko/tutorials/steemgosdk/' },
