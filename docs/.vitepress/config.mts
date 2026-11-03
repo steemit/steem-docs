@@ -208,6 +208,13 @@ export default defineConfig({
   title: 'Steem Developer Docs',
   description: 'JSON-RPC API reference for the Steem blockchain, rebuilt with VitePress.',
   base,
+  // Transitional (T7-2): the localized tutorial pages cross-link their sibling
+  // steem-js mirror pages (/<lc>/tutorials/steem-js/...), which land in a
+  // separate phase-7 PR. Until that branch merges, those 42 cross-links are
+  // expected to be "dead" on this branch alone; the pattern is scoped so any
+  // other dead link still fails the build. REMOVE this option once the
+  // steem-js mirror pages exist in every locale.
+  ignoreDeadLinks: [/^\/(zh|ru|fr|de|it|es|ko)\/tutorials\/steem-js\//],
   // Content pages carry no meaningful git timestamps (the YAML data files are
   // the source of truth), so the "Last updated" footer is disabled.
   lastUpdated: false,
@@ -542,6 +549,16 @@ export default defineConfig({
             ]
           },
           {
+            // T7-2: tutorials chapter (overview + steemgosdk); steem-js pages land separately.
+            text: '教程',
+            items: [
+              { text: '概览', link: '/zh/tutorials/' },
+              { text: 'steemgosdk (Go)：快速开始', link: '/zh/tutorials/steemgosdk/' },
+              { text: 'steemgosdk (Go)：广播操作', link: '/zh/tutorials/steemgosdk/broadcast' },
+              { text: 'steemgosdk (Go)：SignedCall API', link: '/zh/tutorials/steemgosdk/signed-call' }
+            ]
+          },
+          {
             text: '服务',
             items: [
               { text: '概览', link: '/zh/services/' },
@@ -645,6 +662,16 @@ export default defineConfig({
             ]
           },
           {
+            // T7-2: tutorials chapter (overview + steemgosdk); steem-js pages land separately.
+            text: 'Обучающие материалы',
+            items: [
+              { text: 'Обзор', link: '/ru/tutorials/' },
+              { text: 'steemgosdk (Go): Быстрый старт', link: '/ru/tutorials/steemgosdk/' },
+              { text: 'steemgosdk (Go): Операции широковещания', link: '/ru/tutorials/steemgosdk/broadcast' },
+              { text: 'steemgosdk (Go): SignedCall API', link: '/ru/tutorials/steemgosdk/signed-call' }
+            ]
+          },
+          {
             text: 'Сервисы',
             items: [
               { text: 'Обзор', link: '/ru/services/' },
@@ -710,6 +737,16 @@ export default defineConfig({
             ]
           },
           {
+            // T7-2: tutorials chapter (overview + steemgosdk); steem-js pages land separately.
+            text: 'Tutoriels',
+            items: [
+              { text: "Vue d'ensemble", link: '/fr/tutorials/' },
+              { text: 'steemgosdk (Go) : Démarrage rapide', link: '/fr/tutorials/steemgosdk/' },
+              { text: 'steemgosdk (Go) : Opérations de diffusion', link: '/fr/tutorials/steemgosdk/broadcast' },
+              { text: 'steemgosdk (Go) : SignedCall API', link: '/fr/tutorials/steemgosdk/signed-call' }
+            ]
+          },
+          {
             text: 'Services',
             items: [
               { text: "Vue d'ensemble", link: '/fr/services/' },
@@ -772,6 +809,16 @@ export default defineConfig({
             ]
           },
           {
+            // T7-2: tutorials chapter (overview + steemgosdk); steem-js pages land separately.
+            text: 'Tutorials',
+            items: [
+              { text: 'Übersicht', link: '/de/tutorials/' },
+              { text: 'steemgosdk (Go): Schnellstart', link: '/de/tutorials/steemgosdk/' },
+              { text: 'steemgosdk (Go): Broadcast-Operationen', link: '/de/tutorials/steemgosdk/broadcast' },
+              { text: 'steemgosdk (Go): SignedCall API', link: '/de/tutorials/steemgosdk/signed-call' }
+            ]
+          },
+          {
             text: 'Dienste',
             items: [
               { text: 'Übersicht', link: '/de/services/' },
@@ -824,6 +871,16 @@ export default defineConfig({
               { text: 'Glossario', link: '/it/glossary/' },
               { text: 'Risorse', link: '/it/resources/' },
               { text: 'Testnet', link: '/it/testnet/' }
+            ]
+          },
+          {
+            // T7-2: tutorials chapter (overview + steemgosdk); steem-js pages land separately.
+            text: 'Tutorial',
+            items: [
+              { text: 'Panoramica', link: '/it/tutorials/' },
+              { text: 'steemgosdk (Go): Avvio rapido', link: '/it/tutorials/steemgosdk/' },
+              { text: 'steemgosdk (Go): Operazioni di broadcast', link: '/it/tutorials/steemgosdk/broadcast' },
+              { text: 'steemgosdk (Go): SignedCall API', link: '/it/tutorials/steemgosdk/signed-call' }
             ]
           },
           {
@@ -885,6 +942,16 @@ export default defineConfig({
             ]
           },
           {
+            // T7-2: tutorials chapter (overview + steemgosdk); steem-js pages land separately.
+            text: 'Tutoriales',
+            items: [
+              { text: 'Visión general', link: '/es/tutorials/' },
+              { text: 'steemgosdk (Go): Inicio rápido', link: '/es/tutorials/steemgosdk/' },
+              { text: 'steemgosdk (Go): Operaciones de broadcast', link: '/es/tutorials/steemgosdk/broadcast' },
+              { text: 'steemgosdk (Go): SignedCall API', link: '/es/tutorials/steemgosdk/signed-call' }
+            ]
+          },
+          {
             text: 'Servicios',
             items: [
               { text: 'Visión general', link: '/es/services/' },
@@ -943,6 +1010,16 @@ export default defineConfig({
               { text: '용어집', link: '/ko/glossary/' },
               { text: '리소스', link: '/ko/resources/' },
               { text: '테스트넷', link: '/ko/testnet/' }
+            ]
+          },
+          {
+            // T7-2: tutorials chapter (overview + steemgosdk); steem-js pages land separately.
+            text: '튜토리얼',
+            items: [
+              { text: '개요', link: '/ko/tutorials/' },
+              { text: 'steemgosdk (Go): 빠른 시작', link: '/ko/tutorials/steemgosdk/' },
+              { text: 'steemgosdk (Go): 브로드캐스트 오퍼레이션', link: '/ko/tutorials/steemgosdk/broadcast' },
+              { text: 'steemgosdk (Go): SignedCall API', link: '/ko/tutorials/steemgosdk/signed-call' }
             ]
           },
           {
