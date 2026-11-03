@@ -472,6 +472,23 @@ export default defineConfig({
             ]
           },
           {
+            // Library tutorials (phase 7): steem-js + steemgosdk usage demos.
+            // En-only like the Guides chapters above - the locale sidebars
+            // below deliberately omit this group (a locale entry would 404).
+            text: 'Tutorials',
+            items: [
+              { text: 'Tutorial Overview', link: '/tutorials/' },
+              { text: 'steem-js: Getting Started', link: '/tutorials/steem-js/' },
+              { text: 'steem-js: Reading Chain Data', link: '/tutorials/steem-js/read-api' },
+              { text: 'steem-js: Broadcasting Operations', link: '/tutorials/steem-js/broadcast' },
+              { text: 'steem-js: Signed Calls & Verification', link: '/tutorials/steem-js/signed-calls' },
+              { text: 'steem-js: RPC Auth Test Migration', link: '/tutorials/steem-js/rpc-auth-migration' },
+              { text: 'steemgosdk (Go): Getting Started', link: '/tutorials/steemgosdk/' },
+              { text: 'steemgosdk (Go): Broadcasting Operations', link: '/tutorials/steemgosdk/broadcast' },
+              { text: 'steemgosdk (Go): SignedCall API', link: '/tutorials/steemgosdk/signed-call' }
+            ]
+          },
+          {
             text: 'Services',
             items: [
               { text: 'Overview', link: '/services/' },
