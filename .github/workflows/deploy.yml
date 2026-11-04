@@ -38,8 +38,9 @@ jobs:
         run: pnpm validate:data
 
       - name: Build docs
-        # No VITEPRESS_BASE needed: config.mts defaults the base to
-        # /steem-docs/ — the github.io project-pages path.
+        # No VITEPRESS_BASE needed: config.mts defaults the base to '/' —
+        # production serves at the developers.steem.io domain root (CloudFront
+        # in front of these GitHub Pages).
         run: pnpm build
 
       - name: Configure Pages

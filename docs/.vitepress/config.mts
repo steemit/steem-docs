@@ -5,17 +5,18 @@ import { fileURLToPath } from 'node:url'
 
 // Normalize: VITEPRESS_BASE must start AND end with '/' — every downstream
 // consumer (links, hostname, sitemap, og tags) assumes the trailing slash.
-const _rawBase = process.env.VITEPRESS_BASE || '/steem-docs/'
+// Production deploys at the domain root (developers.steem.io via CloudFront
+// in front of GitHub Pages), so the default base is '/'; the env var remains
+// available for previews at a sub-path.
+const _rawBase = process.env.VITEPRESS_BASE || '/'
 const _clean = _rawBase.replace(/^\/+|\/+$/g, '')
 const base = _clean ? `/${_clean}/` : '/'
 
 // Canonical production origin + base. VitePress passes sitemap.hostname straight to the
 // `sitemap` package, which prepends it to page paths that do NOT include
 // `base`, so the base path must already be part of the hostname here. One
-// constant feeds sitemap, og:url, canonical and og:image. Moving to a custom
-// domain = change the origin in this constant AND set VITEPRESS_BASE to the
-// matching path.
-const hostname = `https://steemit.github.io${base}`
+// constant feeds sitemap, og:url, canonical and og:image.
+const hostname = `https://developers.steem.io${base}`
 
 // Convert a page's relativePath ('index.md', 'api/condenser_api/get_content.md')
 // to its public URL path (site-root relative, no base). cleanUrls is false, so
