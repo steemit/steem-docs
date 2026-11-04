@@ -1,5 +1,5 @@
 ---
-title: steem-js — начало работы
+title: steem-js - начало работы
 description: Установка и настройка библиотеки @steemit/steem-js — использование в браузере, config.set, api.setUrl, setOptions, несколько экземпляров API, маршрутизация JSON-RPC и сквозные примеры использования.
 ---
 
@@ -251,8 +251,8 @@ api1.getAccountsAsync(['ety001']).then(accounts => {
 
 api2.getAccountsAsync(['ety001']).then(accounts => {
   console.log('From instance 2:', accounts);
-```
 });
+```
 
 #### Полный пример: несколько экземпляров с разными конфигурациями
 

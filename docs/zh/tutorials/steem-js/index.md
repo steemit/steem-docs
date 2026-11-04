@@ -251,8 +251,8 @@ api1.getAccountsAsync(['ety001']).then(accounts => {
 
 api2.getAccountsAsync(['ety001']).then(accounts => {
   console.log('From instance 2:', accounts);
-```
 });
+```
 
 #### 完整示例：不同配置的多个实例
 

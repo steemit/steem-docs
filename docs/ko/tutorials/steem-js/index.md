@@ -1,5 +1,5 @@
 ---
-title: steem-js — 시작하기
+title: steem-js - 시작하기
 description: "@steemit/steem-js 라이브러리 설치와 설정 — 브라우저 사용, config.set, api.setUrl, setOptions, 여러 API 인스턴스, JSON-RPC 라우팅 및 엔드투엔드 사용 예시."
 ---
 
@@ -251,8 +251,8 @@ api1.getAccountsAsync(['ety001']).then(accounts => {
 
 api2.getAccountsAsync(['ety001']).then(accounts => {
   console.log('From instance 2:', accounts);
-```
 });
+```
 
 #### 전체 예제: 서로 다른 설정을 사용하는 다중 인스턴스
 

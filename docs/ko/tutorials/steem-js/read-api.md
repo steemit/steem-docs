@@ -1,5 +1,5 @@
 ---
-title: steem-js — 체인 데이터 읽기
+title: steem-js - 체인 데이터 읽기
 description: steem-js 읽기 API 전체 안내 — 태그, 블로그, 디스커션, 블록, 전역 속성, 계정, 마켓, 투표, 콘텐츠, 위트니스, 로그인, 팔로우, 인증, formatter 및 utils.
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: steem-js — Chain-Daten lesen
+title: steem-js - Chain-Daten lesen
 description: Kompletter Durchgang durch das Lese-API von steem-js — Tags, Blog, Diskussionen, Blöcke, globale Eigenschaften, Konten, Markt, Votes, Inhalte, Witness, Login, Follow, Authentifizierung, Formatter und Utils.
 ---
 

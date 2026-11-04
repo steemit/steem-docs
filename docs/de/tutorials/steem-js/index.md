@@ -1,5 +1,5 @@
 ---
-title: steem-js — Erste Schritte
+title: steem-js - Erste Schritte
 description: Die Bibliothek @steemit/steem-js installieren und konfigurieren — Browser-Nutzung, config.set, api.setUrl, setOptions, mehrere API-Instanzen, JSON-RPC-Routing und Ende-zu-Ende-Beispiele.
 ---
 
@@ -251,8 +251,8 @@ api1.getAccountsAsync(['ety001']).then(accounts => {
 
 api2.getAccountsAsync(['ety001']).then(accounts => {
   console.log('From instance 2:', accounts);
-```
 });
+```
 
 #### Vollständiges Beispiel: Mehrere Instanzen mit unterschiedlichen Konfigurationen
 

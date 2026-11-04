@@ -1,5 +1,5 @@
 ---
-title: steem-js — lectura de datos de la cadena
+title: steem-js - lectura de datos de la cadena
 description: Recorrido completo por la API de lectura de steem-js — etiquetas, blog, discusiones, bloques, propiedades globales, cuentas, mercado, votos, contenido, witnesses, login, follows, autenticación, formatter y utils.
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: steem-js — diffusion des opérations
+title: steem-js - diffusion des opérations
 description: Le catalogue complet de diffusion steem-js — patterns Promise et callback, toutes les opérations de diffusion, multisignature et sérialisation binaire des transactions.
 ---
 
