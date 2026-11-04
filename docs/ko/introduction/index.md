@@ -12,8 +12,8 @@ description: Steem 개발자 문서가 다루는 내용과 사이트의 구성 �
 사이드바는 사이트의 실제 구조를 반영합니다:
 
 - **API 레퍼런스** — [condenser_api](/api/condenser_api/)와 AppBase API 네임스페이스(account history, follow, market history, witness 등)의 JSON-RPC 레퍼런스로, 모든 메서드가 전용 페이지에 문서화되어 있습니다. 생성된 [API 인덱스](/api/)에 모든 API와 그 메서드가 정리되어 있습니다.
-- **가이드** — 작업 중심 문서: [소개](/introduction/)(이 페이지), 커뮤니티 [퍼블릭 노드](/quickstart/) 목록을 담은 [빠른 시작](/quickstart/) 가이드, Steem 용어 [용어집](/glossary/), 그리고 준비 중인 [리소스](/resources/)와 [테스트넷](/testnet/) 섹션.
-- **서비스** — 체인 주변 서비스의 문서: 이미지 서비스 [ImageHoster](/services/imagehoster.html), [Jussi](/services/jussi.html)(문서 준비 중), [Steem DAO](/services/steem-dao.html)(정리 예정).
+- **가이드** — 작업 중심 문서: [소개](/introduction/)(이 페이지), 커뮤니티 [퍼블릭 노드](/quickstart/) 목록을 담은 [빠른 시작](/quickstart/) 가이드, Steem 용어 [용어집](/glossary/), 그리고 [리소스](/resources/) 디렉터리([테스트넷](/testnet/) 섹션은 아직 준비 중).
+- **서비스** — 체인 주변 서비스의 문서: 이미지 서비스 [ImageHoster](/services/imagehoster.html), [Jussi](/services/jussi.html)(문서 준비 중), [Steem DAO](/services/steem-dao.html).
 
 ## 언어
 

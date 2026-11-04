@@ -12,8 +12,8 @@ description: Steem 开发者文档涵盖的内容与站点的组织方式。
 侧边栏与站点的实际结构一致：
 
 - **API 参考** —— [condenser_api](/api/condenser_api/) 与 appbase API 命名空间（account history、follow、market history、witness 等）的 JSON-RPC 参考，每个方法都有独立的文档页面。自动生成的 [API 索引](/api/) 列出全部 API 及其方法。
-- **指南** —— 面向任务的文档：[介绍](/introduction/)（本页）、附社区[公共节点](/quickstart/)列表的[快速开始](/quickstart/)指南、Steem 术语[术语表](/glossary/)，以及准备中的[资源](/resources/)与[测试网](/testnet/)部分。
-- **服务** —— 链周边服务的文档：[ImageHoster](/services/imagehoster.html) 图片服务、[Jussi](/services/jussi.html)（文档准备中）与 [Steem DAO](/services/steem-dao.html)（待整理）。
+- **指南** —— 面向任务的文档：[介绍](/introduction/)（本页）、附社区[公共节点](/quickstart/)列表的[快速开始](/quickstart/)指南、Steem 术语[术语表](/glossary/)，以及[资源](/resources/)目录（[测试网](/testnet/)部分仍在准备中）。
+- **服务** —— 链周边服务的文档：[ImageHoster](/services/imagehoster.html) 图片服务、[Jussi](/services/jussi.html)（文档准备中）与 [Steem DAO](/services/steem-dao.html)。
 
 ## 语言
 
