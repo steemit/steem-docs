@@ -19,7 +19,7 @@ Steem DAO 是 **Steem Proposal System（SPS，Steem 提案系统）** 背后的�
 
 ## 金库
 
-金库就是 `@steem.dao` 账户。它持有未支出的预算——每日通胀的一部分加上 Return Proposal 返还的部分——当利益相关者投票选择让支出低于新增积累时，金库会随时间增长。截至 2026 年 11 月，金库持有约 **259 万 SBD**。
+金库就是 `@steem.dao` 账户。它持有未支出的预算——每日通胀的一部分加上 Return Proposal 返还的部分——当利益相关者投票选择让支出低于新增积累时，金库会随时间增长。金库当前余额：<DaoTreasuryBalance fallback="约 259 万 SBD（2026 年 11 月）" />。
 
 实时查询金库：
 

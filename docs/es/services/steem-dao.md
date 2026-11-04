@@ -19,7 +19,7 @@ Las propuestas son la forma en que la cadena financia el trabajo de desarrollo e
 
 ## Tesorería
 
-La tesorería es la cuenta `@steem.dao`. Guarda el presupuesto no gastado — una parte de la inflación diaria más lo que devuelve la Return Proposal — y crece con el tiempo cuando los interesados votan gastar menos de lo que se acumula. En noviembre de 2026 la tesorería guarda alrededor de **2,59 millones de SBD**.
+La tesorería es la cuenta `@steem.dao`. Guarda el presupuesto no gastado — una parte de la inflación diaria más lo que devuelve la Return Proposal — y crece con el tiempo cuando los interesados votan gastar menos de lo que se acumula. Saldo actual de la tesorería: <DaoTreasuryBalance fallback="unos 2,59 millones de SBD (noviembre de 2026)" />.
 
 Consúltala en vivo:
 
