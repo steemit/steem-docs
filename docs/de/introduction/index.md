@@ -12,8 +12,8 @@ Diese Website ist die Entwicklerdokumentation für die Steem-Blockchain. Ihr Ker
 Die Seitenleiste spiegelt die tatsächliche Struktur der Website wider:
 
 - **API-Referenz** — die JSON-RPC-Referenz für [condenser_api](/api/condenser_api/) und die AppBase-API-Namespaces (account history, follow, market history, witness und mehr), wobei jede Methode auf ihrer eigenen Seite dokumentiert ist. Ein generierter [API-Index](/api/) listet alle APIs und ihre Methoden auf.
-- **Anleitung** — aufgabenorientierte Dokumentation: die [Einführung](/introduction/) (diese Seite), die [Schnellstart](/quickstart/)-Anleitung mit der Community-Liste der [öffentlichen Knoten](/quickstart/), das [Glossar](/glossary/) der Steem-Begriffe sowie die Bereiche [Ressourcen](/resources/) und [Testnet](/testnet/), die sich in Vorbereitung befinden.
-- **Dienste** — Dokumentation der Dienste rund um die Chain: der Image-Dienst [ImageHoster](/services/imagehoster.html), [Jussi](/services/jussi.html) (Dokumentation in Vorbereitung) und [Steem DAO](/services/steem-dao.html) (noch zu organisieren).
+- **Anleitung** — aufgabenorientierte Dokumentation: die [Einführung](/introduction/) (diese Seite), die [Schnellstart](/quickstart/)-Anleitung mit der Community-Liste der [öffentlichen Knoten](/quickstart/), das [Glossar](/glossary/) der Steem-Begriffe sowie das [Ressourcen](/resources/)-Verzeichnis (der Bereich [Testnet](/testnet/) befindet sich noch in Vorbereitung).
+- **Dienste** — Dokumentation der Dienste rund um die Chain: der Image-Dienst [ImageHoster](/services/imagehoster.html), [Jussi](/services/jussi.html) (Dokumentation in Vorbereitung) und [Steem DAO](/services/steem-dao.html).
 
 ## Sprachen
 

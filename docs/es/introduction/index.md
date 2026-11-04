@@ -12,8 +12,8 @@ Este sitio es la documentación para desarrolladores de la blockchain de Steem. 
 La barra lateral refleja la estructura real del sitio:
 
 - **Referencia de API** — la referencia JSON-RPC de [condenser_api](/api/condenser_api/) y de los espacios de nombres de las API de AppBase (account history, follow, market history, witness y más), con cada método documentado en su propia página. Un [índice de API](/api/) generado enumera todas las API y sus métodos.
-- **Guías** — documentación orientada a tareas: la [Introducción](/introduction/) (esta página), la guía de [Inicio rápido](/quickstart/) con la lista comunitaria de [nodos públicos](/quickstart/), el [Glosario](/glossary/) de términos de Steem, además de las secciones [Recursos](/resources/) y [Testnet](/testnet/) en preparación.
-- **Servicios** — documentación de los servicios en torno a la cadena: el servicio de imágenes [ImageHoster](/services/imagehoster.html), [Jussi](/services/jussi.html) (documentación en preparación) y [Steem DAO](/services/steem-dao.html) (por organizar).
+- **Guías** — documentación orientada a tareas: la [Introducción](/introduction/) (esta página), la guía de [Inicio rápido](/quickstart/) con la lista comunitaria de [nodos públicos](/quickstart/), el [Glosario](/glossary/) de términos de Steem, además del directorio [Recursos](/resources/) (la sección [Testnet](/testnet/) sigue en preparación).
+- **Servicios** — documentación de los servicios en torno a la cadena: el servicio de imágenes [ImageHoster](/services/imagehoster.html), [Jussi](/services/jussi.html) (documentación en preparación) y [Steem DAO](/services/steem-dao.html).
 
 ## Idiomas
 
