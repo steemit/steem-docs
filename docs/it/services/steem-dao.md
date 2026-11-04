@@ -19,7 +19,7 @@ Le proposte sono il modo in cui la catena finanzia il lavoro di sviluppo e delle
 
 ## Tesoreria
 
-La tesoreria è l'account `@steem.dao`. Contiene il budget non speso — una quota dell'inflazione giornaliera più ciò che il Return Proposal restituisce — e cresce nel tempo quando gli stakeholder votano per spendere meno di quanto matura. A novembre 2026 la tesoreria contiene circa **2,59 milioni di SBD**.
+La tesoreria è l'account `@steem.dao`. Contiene il budget non speso — una quota dell'inflazione giornaliera più ciò che il Return Proposal restituisce — e cresce nel tempo quando gli stakeholder votano per spendere meno di quanto matura. Saldo attuale della tesoreria: <DaoTreasuryBalance fallback="circa 2,59 milioni di SBD (novembre 2026)" />.
 
 Consultarla in tempo reale:
 

@@ -19,7 +19,7 @@ Proposals are how the chain funds development and infrastructure work: anyone ca
 
 ## Treasury
 
-The treasury is the `@steem.dao` account. It holds the unspent budget — a share of daily inflation plus whatever the Return Proposal returns — and grows over time when stakeholders vote to spend less than accrues. As of November 2026 the treasury holds roughly **2.59 million SBD**.
+The treasury is the `@steem.dao` account. It holds the unspent budget — a share of daily inflation plus whatever the Return Proposal returns — and grows over time when stakeholders vote to spend less than accrues. Current treasury balance: <DaoTreasuryBalance fallback="about 2.59 million SBD (November 2026)" />.
 
 Query it live:
 

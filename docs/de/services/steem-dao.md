@@ -19,7 +19,7 @@ Vorschläge sind der Weg, mit dem die Chain Entwicklungs- und Infrastrukturarbei
 
 ## Schatzkammer
 
-Die Schatzkammer ist das Konto `@steem.dao`. Sie hält das unverbrauchte Budget — einen Anteil der täglichen Inflation plus das, was der Return Proposal zurückführt — und wächst mit der Zeit, wenn Stakeholder dafür stimmen, weniger auszugeben als zufließt. Stand November 2026 hält die Schatzkammer rund **2,59 Millionen SBD**.
+Die Schatzkammer ist das Konto `@steem.dao`. Sie hält das unverbrauchte Budget — einen Anteil der täglichen Inflation plus das, was der Return Proposal zurückführt — und wächst mit der Zeit, wenn Stakeholder dafür stimmen, weniger auszugeben als zufließt. Aktueller Saldo der Schatzkammer: <DaoTreasuryBalance fallback="rund 2,59 Millionen SBD (November 2026)" />.
 
 Live abfragen:
 

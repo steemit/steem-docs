@@ -19,7 +19,7 @@ Les propositions sont la façon dont la chaîne finance le travail de développe
 
 ## Trésorerie
 
-La trésorerie est le compte `@steem.dao`. Elle détient le budget non dépensé — une part de l'inflation quotidienne plus ce que renvoie le Return Proposal — et grossit avec le temps lorsque les parties prenantes votent pour dépenser moins que ce qui s'accumule. En novembre 2026, la trésorerie détient environ **2,59 millions de SBD**.
+La trésorerie est le compte `@steem.dao`. Elle détient le budget non dépensé — une part de l'inflation quotidienne plus ce que renvoie le Return Proposal — et grossit avec le temps lorsque les parties prenantes votent pour dépenser moins que ce qui s'accumule. Solde actuel de la trésorerie : <DaoTreasuryBalance fallback="environ 2,59 millions de SBD (novembre 2026)" />.
 
 L'interroger en direct :
 
