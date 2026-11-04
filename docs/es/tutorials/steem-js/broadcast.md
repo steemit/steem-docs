@@ -1,5 +1,5 @@
 ---
-title: steem-js — operaciones de broadcast
+title: steem-js - operaciones de broadcast
 description: El catálogo completo de broadcast de steem-js — patrones de promesas y callbacks, todas las operaciones de broadcast, multisignatura y serialización binaria de transacciones.
 ---
 

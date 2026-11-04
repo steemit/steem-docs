@@ -1,5 +1,5 @@
 ---
-title: steem-js — Broadcast-Operationen senden
+title: steem-js - Broadcast-Operationen senden
 description: Der vollständige Broadcast-Katalog von steem-js — Promise- und Callback-Muster, jede Broadcast-Operation, Multisig und binäre Transaktionsserialisierung.
 ---
 
