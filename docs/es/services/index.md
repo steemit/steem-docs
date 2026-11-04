@@ -9,4 +9,4 @@ Los servicios de apoyo en torno a la blockchain Steem — qué hace cada uno y c
 
 - **[ImageHoster](/services/imagehoster)** — alojamiento de imágenes, proxy y avatares para aplicaciones Steem, con la referencia HTTP completa.
 - **[Jussi](/services/jussi)** — proxy inverso con caché frente a los nodos API de Steem (documentación en reorganización).
-- **[Steem DAO](/services/steem-dao)** — la financiación on-chain de propuestas detrás del Steem Proposal System (contenido en preparación).
+- **[Steem DAO](/services/steem-dao)** — la tesorería on-chain y la financiación de propuestas detrás del Steem Proposal System.

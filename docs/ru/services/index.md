@@ -9,4 +9,4 @@ description: Сервисы, поддерживающие блокчейн Steem
 
 - **[ImageHoster](/services/imagehoster)** — хостинг изображений, проксирование и аватарки для приложений Steem, с полным справочником по использованию HTTP.
 - **[Jussi](/services/jussi)** — кэширующий обратный прокси перед API-узлами Steem (документация реорганизуется).
-- **[Steem DAO](/services/steem-dao)** — ончейн-финансирование предложений, стоящее за Steem Proposal System (материалы готовятся).
+- **[Steem DAO](/services/steem-dao)** — ончейн-казначейство и финансирование предложений, стоящее за Steem Proposal System.
