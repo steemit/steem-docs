@@ -42,7 +42,12 @@ function pageUrl(relativePath: string): string {
 // `base` itself, and its isActive() comparison ignores .md/.html suffixes and
 // /index, so `/api/<stem>/<method>` matches the generated page exactly.
 function escapeHtml(text) {
-  return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 // opts.indexPrefix  — where the collapsible GROUP (API index) links point.
@@ -65,10 +70,10 @@ function apiSidebar(opts: { indexPrefix?: string; methodPrefix?: string } = {}) 
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
     return manifest.apis.map((api) => {
       const children = (api.methods ?? []).map((m) => ({
-        // v-html surface: default theme renders sidebar text as HTML, so
-        // every text we emit must be escaped (same as the group label).
-        text: escapeHtml(m.full),
-        link: `${methodPrefix}${api.stem}/${m.short}`
+        // v-html surface: escape both the visible label and tooltip attribute.
+        text: `<span class="api-method-label" title="${escapeHtml(m.full)}" data-full-name="${escapeHtml(m.full)}"><span aria-hidden="true">${escapeHtml(m.short)}</span><span class="visually-hidden">${escapeHtml(m.full)}</span></span>`,
+        link: `${methodPrefix}${api.stem}/${m.short}`,
+        apiMethod: { full: m.full, short: m.short, api: api.displayName }
       }))
       return {
         // Sidebar item text is rendered with v-html by the default theme.

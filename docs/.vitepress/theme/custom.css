@@ -7,6 +7,7 @@
  *   2. Overview card grid (/api/)
  *   3. Code cards (Parameters / Response / ops params & examples)
  *   4. Table polish (method index tables)
+ *   5. API sidebar (method labels + filter)
  * ------------------------------------------------------------------------- */
 
 /* --- 1. Shared palette (badge chips + code-card accents) ------------------
@@ -310,4 +311,209 @@ html:not(.dark) .VPNavBarTitle img.logo {
 
 .vp-doc tbody tr:last-child td {
   border-bottom: none;
+}
+
+/* --- 5. API sidebar (method labels + filter) ------------------------------ */
+
+@media (min-width: 960px) {
+  :root {
+    --vp-sidebar-width: 320px;
+  }
+}
+
+.VPSidebarItem .link,
+.VPSidebarItem .text {
+  min-width: 0;
+}
+
+.VPSidebarItem .text:has(.api-method-label) {
+  overflow: hidden;
+}
+
+.api-method-label {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.api-method-label::after {
+  content: attr(data-full-name);
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 20;
+  width: max-content;
+  max-width: calc(var(--vp-sidebar-width) - 64px);
+  padding: 6px 9px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  background: var(--vp-c-bg);
+  box-shadow: var(--vp-shadow-2);
+  color: var(--vp-c-text-1);
+  font-family: var(--vp-font-family-mono);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 120ms ease-out, visibility 120ms ease-out;
+}
+
+.VPSidebarItem .link:focus-visible .text:has(.api-method-label),
+.VPSidebarItem .link:focus-visible .api-method-label {
+  overflow: visible;
+}
+
+.VPSidebarItem .link:focus-visible .api-method-label::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.api-sidebar-filter {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.api-sidebar-filter-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.api-sidebar-filter-search {
+  position: absolute;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  fill: var(--vp-c-text-3);
+  pointer-events: none;
+}
+
+.api-sidebar-filter input {
+  width: 100%;
+  height: 40px;
+  padding: 0 40px 0 36px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  outline: none;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  font-size: 13px;
+  transition: border-color 150ms ease-out, background-color 150ms ease-out;
+}
+
+.api-sidebar-filter input:hover {
+  border-color: var(--vp-c-text-3);
+}
+
+.api-sidebar-filter input:focus {
+  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-bg);
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 1px;
+}
+
+.api-sidebar-filter-clear {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--vp-c-text-2);
+  cursor: pointer;
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+}
+
+.api-sidebar-filter-clear:hover {
+  background: var(--vp-c-default-soft);
+  color: var(--vp-c-text-1);
+}
+
+.api-sidebar-filter-clear:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: -3px;
+}
+
+.api-sidebar-filter-clear svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.api-sidebar-filter-results {
+  padding-top: 6px;
+}
+
+.api-sidebar-filter-result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-height: 48px;
+  margin: 2px 0;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: var(--vp-c-text-1);
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+}
+
+.api-sidebar-filter-result:hover {
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-brand-1);
+}
+
+.api-sidebar-filter-result:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 1px;
+}
+
+.api-sidebar-filter-result-api,
+.api-sidebar-filter-result-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.api-sidebar-filter-result-api {
+  color: var(--vp-c-text-3);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.api-sidebar-filter-result-name {
+  font-family: var(--vp-font-family-mono);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.api-sidebar-filter-empty {
+  margin: 12px 4px;
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.VPSidebar > .nav:has(> .api-sidebar-filter[data-active='true']) > .group {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .api-method-label::after,
+  .api-sidebar-filter input,
+  .api-sidebar-filter-clear,
+  .api-sidebar-filter-result {
+    transition: none;
+  }
 }
